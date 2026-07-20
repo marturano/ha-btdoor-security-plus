@@ -126,8 +126,7 @@
         "name": "Missed call count"
       },
       "message_count": {
-        "name": "Eingehende SIP-Nachrichten",
-        "description": "Anzahl der vom Türsprechgerät empfangenen SIP-MESSAGE-Anfragen. INVITE, CANCEL, SIP-Antworten und gesendete Torbefehle sind nicht enthalten."
+        "name": "Eingehende SIP-Nachrichten"
       },
       "last_message_time": {
         "name": "Last SIP message time"
@@ -136,8 +135,7 @@
         "name": "Last event time"
       },
       "reconnect_count": {
-        "name": "Tatsächliche SIP-Wiederverbindungen",
-        "description": "Anzahl erfolgreicher Wiederverbindungen nach einer echten Unterbrechung der SIP-Sitzung. Der Wert null bedeutet eine stabile Verbindung."
+        "name": "Tatsächliche SIP-Wiederverbindungen"
       },
       "last_error": {
         "name": "Last SIP error"
@@ -179,8 +177,7 @@
         "name": "Last support report"
       },
       "media_preparation": {
-        "name": "Medienvorbereitung",
-        "description": "SRTP-Kontext und SDP-Antwort wurden im Speicher vorbereitet; der Anruf wird noch nicht angenommen."
+        "name": "Medienvorbereitung"
       },
       "selected_audio_codec": {
         "name": "Ausgewählter Audio-Codec"

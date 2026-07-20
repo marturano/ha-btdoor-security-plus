@@ -126,8 +126,7 @@
         "name": "Conteggio chiamate perse"
       },
       "message_count": {
-        "name": "Messaggi SIP in ingresso",
-        "description": "Numero di richieste SIP MESSAGE ricevute dal videocitofono. Non include INVITE, CANCEL, risposte SIP o i comandi di apertura inviati."
+        "name": "Messaggi SIP in ingresso"
       },
       "last_message_time": {
         "name": "Ora ultimo messaggio SIP"
@@ -136,8 +135,7 @@
         "name": "Ora ultimo evento"
       },
       "reconnect_count": {
-        "name": "Riconnessioni SIP reali",
-        "description": "Numero di riconnessioni completate dopo una reale interruzione della sessione SIP. Un valore zero indica una connessione stabile."
+        "name": "Riconnessioni SIP reali"
       },
       "last_error": {
         "name": "Ultimo errore SIP"
@@ -179,8 +177,7 @@
         "name": "Last support report"
       },
       "media_preparation": {
-        "name": "Preparazione media",
-        "description": "Contesto SRTP e risposta SDP preparati in memoria; la chiamata non viene ancora accettata."
+        "name": "Preparazione media"
       },
       "selected_audio_codec": {
         "name": "Codec audio selezionato"

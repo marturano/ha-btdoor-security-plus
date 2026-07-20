@@ -16,7 +16,7 @@ from ..const import (
 )
 
 MANUFACTURER = "BTicino / Legrand"
-CONFIGURATION_URL = "https://github.com/robertomarturano/ha-btdoor-security-plus"
+CONFIGURATION_URL = "https://github.com/marturano/ha-btdoor-security-plus"
 
 
 class DeviceKind(StrEnum):

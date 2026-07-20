@@ -126,8 +126,7 @@
         "name": "Missed call count"
       },
       "message_count": {
-        "name": "Mensajes SIP entrantes",
-        "description": "Número de solicitudes SIP MESSAGE recibidas del videoportero. No incluye INVITE, CANCEL, respuestas SIP ni comandos de apertura enviados."
+        "name": "Mensajes SIP entrantes"
       },
       "last_message_time": {
         "name": "Last SIP message time"
@@ -136,8 +135,7 @@
         "name": "Last event time"
       },
       "reconnect_count": {
-        "name": "Reconexiones SIP reales",
-        "description": "Número de reconexiones completadas tras una interrupción real de la sesión SIP. Un valor cero indica una conexión estable."
+        "name": "Reconexiones SIP reales"
       },
       "last_error": {
         "name": "Last SIP error"
@@ -179,8 +177,7 @@
         "name": "Last support report"
       },
       "media_preparation": {
-        "name": "Preparación multimedia",
-        "description": "Contexto SRTP y respuesta SDP preparados en memoria; la llamada aún no se acepta."
+        "name": "Preparación multimedia"
       },
       "selected_audio_codec": {
         "name": "Códec de audio seleccionado"

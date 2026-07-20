@@ -126,8 +126,7 @@
         "name": "Missed call count"
       },
       "message_count": {
-        "name": "Incoming SIP messages",
-        "description": "Number of SIP MESSAGE requests received from the door entry unit. It does not include INVITE, CANCEL, SIP responses, or sent gate commands."
+        "name": "Incoming SIP messages"
       },
       "last_message_time": {
         "name": "Last SIP message time"
@@ -136,8 +135,7 @@
         "name": "Last event time"
       },
       "reconnect_count": {
-        "name": "Actual SIP reconnections",
-        "description": "Number of successful reconnections after a real SIP session interruption. A value of zero indicates a stable connection."
+        "name": "Actual SIP reconnections"
       },
       "last_error": {
         "name": "Last SIP error"
@@ -179,8 +177,7 @@
         "name": "Last support report"
       },
       "media_preparation": {
-        "name": "Media preparation",
-        "description": "SRTP context and SDP answer prepared in memory; the call is not accepted yet."
+        "name": "Media preparation"
       },
       "selected_audio_codec": {
         "name": "Selected audio codec"

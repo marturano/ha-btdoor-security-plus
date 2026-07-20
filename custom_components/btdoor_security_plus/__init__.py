@@ -25,6 +25,7 @@ from homeassistant.helpers.event import async_track_time_interval
 from .const import (
     ATTR_ENTRY_ID,
     CERTIFICATE_RENEW_BEFORE,
+    CONF_CA_CHAIN_PATH,
     CONF_CERTIFICATE_NOT_AFTER,
     CONF_CLIENT_CERT_PATH,
     CONF_CLIENT_KEY_PATH,

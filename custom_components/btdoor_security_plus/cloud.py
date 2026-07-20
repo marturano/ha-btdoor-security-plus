@@ -8,6 +8,7 @@ import base64
 import hashlib
 import io
 import json
+import logging
 import re
 import secrets
 import shutil
@@ -34,6 +35,8 @@ from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.serialization import pkcs7
+
+_LOGGER = logging.getLogger(__name__)
 
 BASE_URL = "https://www.myhomeweb.com"
 APP_VERSION = "legacy-215"
