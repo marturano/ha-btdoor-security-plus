@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import timedelta
 
 DOMAIN = "btdoor_security_plus"
-INTEGRATION_VERSION = "6.0.0"
+INTEGRATION_VERSION = "6.0.1"
 PLATFORMS = ["switch", "button", "binary_sensor", "sensor", "event"]
 
 CONF_EMAIL = "email"

@@ -2,7 +2,7 @@
 
 Custom integration for Home Assistant 2026.7 that connects a BTicino 300X door-entry gateway through MyHomeWeb cloud provisioning and a persistent SIP/TLS runtime.
 
-> Release: **6.0.0 Stable**. This release promotes the validated rc.3g code without runtime or feature changes.
+> Release: **6.0.1 Stable**. Maintenance release correcting SIP timeline classification in diagnostic Support Bundles; operational Cloud, SIP, TLS, media and gate-control behavior is unchanged.
 
 ## Main capabilities
 

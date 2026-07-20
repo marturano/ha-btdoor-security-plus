@@ -63,4 +63,4 @@ jobs:
           custom_components/btdoor_security_plus
           tests
       - name: Release regression tests
-        run: pytest -q tests/test_release_6_0_0.py tests/test_device_localization_rc3e.py tests/test_device_registry_support_rc3f.py tests/test_options_translations_rc3c.py
+        run: pytest -q tests/test_release_6_0_0.py tests/test_release_6_0_1.py tests/test_timeline_summary_6_0_1.py tests/test_device_localization_rc3e.py tests/test_device_registry_support_rc3f.py tests/test_options_translations_rc3c.py

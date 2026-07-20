@@ -1,3 +1,11 @@
+# 6.0.1
+
+- Fixed `sip/timeline-summary.json` classifying persisted SIP timeline entries as `unknown`.
+- Added classification for SIP request methods and response classes `1xx` through `6xx`.
+- Preserved compatibility with timeline records that already expose `event` or `type`.
+- Added regression coverage using the timeline schema emitted by the 6.0.0 runtime.
+- No changes to SIP transport, registration, calls, media, gate control, entities, services, or device identifiers.
+
 # 6.0.0
 
 - Promoted the validated 6.0.0-rc.3g code to the first stable 6.0 release.

@@ -2,7 +2,7 @@
 
 ## Release status
 
-`6.0.0` is the validated Stable release promoted from rc.3g without runtime or feature changes. It preserves the tested Cloud, SIP/TLS, Event Bus, Support Bundle, Call Journal and Device Registry behavior while adding repository automation and release controls.
+`6.0.1` is a diagnostics-only maintenance release based on the validated 6.0.0 Stable runtime. It corrects SIP timeline summary classification while preserving Cloud, SIP/TLS, Event Bus, Support Bundle, Call Journal, gate control and Device Registry behavior.
 
 ## Quality matrix
 

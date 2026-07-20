@@ -459,13 +459,20 @@ class DeveloperTools:
         })
 
     @staticmethod
-    def _timeline_summary(events: list[dict[str, Any]]) -> dict[str, Any]:
-        """Aggregate a compact call and SIP-event summary."""
+    def _classify_timeline_event(event: dict[str, Any]) -> str:
+        """Return a stable category for a persisted SIP timeline entry."""
+        from .sip_timeline import classify_timeline_event
+
+        return classify_timeline_event(event)
+
+    @classmethod
+    def _timeline_summary(cls, events: list[dict[str, Any]]) -> dict[str, Any]:
+        """Aggregate a compact call and classified SIP-event summary."""
         counts: dict[str, int] = {}
         durations: list[float] = []
         last_event: dict[str, Any] | None = None
         for event in events:
-            name = str(event.get("event") or event.get("type") or "unknown")
+            name = cls._classify_timeline_event(event)
             counts[name] = counts.get(name, 0) + 1
             value = event.get("duration") or event.get("duration_seconds")
             if isinstance(value, (int, float)):

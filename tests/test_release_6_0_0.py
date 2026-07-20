@@ -1,4 +1,4 @@
-"""Stable release regression checks for 6.0.0."""
+"""Stable release regression checks for the current 6.0.x release."""
 from __future__ import annotations
 
 import ast
@@ -22,7 +22,7 @@ def _integration_version() -> str:
 
 def test_manifest_and_device_software_version_match() -> None:
     manifest = json.loads((PKG / "manifest.json").read_text(encoding="utf-8"))
-    assert manifest["version"] == "6.0.0"
+    assert manifest["version"] == "6.0.1"
     assert _integration_version() == manifest["version"]
 
 
