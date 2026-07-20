@@ -1,0 +1,132 @@
+open_gate:
+  name: Open gate
+  description: Open the BTicino gate using the validated C300X SIP command.
+  fields:
+    entry_id:
+      name: Configuration entry
+      description: Optional Home Assistant configuration entry ID. If omitted, all configured gateways are triggered.
+      required: false
+      selector:
+        text:
+
+reset_statistics:
+  name: Reset statistics
+  description: Reset received call, missed call and SIP message counters and historical diagnostics.
+  fields:
+    entry_id:
+      name: Configuration entry
+      description: Optional Home Assistant configuration entry ID. If omitted, all configured gateways are reset.
+      required: false
+      selector:
+        text:
+
+
+test_connection:
+  name: Test connection
+  description: Validate the BTicino TLS client certificate and SIP registration without opening the gate.
+  fields:
+    entry_id:
+      name: Configuration entry
+      description: Optional Home Assistant configuration entry ID. If omitted, all configured gateways are tested.
+      required: false
+      selector:
+        text:
+
+reject_call:
+  name: Reject call
+  description: Reject the currently ringing BTicino call with SIP 486 Busy Here.
+  fields:
+    entry_id:
+      name: Configuration entry
+      description: Optional Home Assistant configuration entry ID. If omitted, all ringing gateways are rejected.
+      required: false
+      selector:
+        text:
+
+developer_test:
+  name: Developer test
+  description: Run safe Cloud, TLS, SIP, certificate, SDP and dialog diagnostics. Developer mode must be enabled.
+  fields:
+    entry_id:
+      name: Configuration entry
+      required: false
+      selector:
+        text:
+    test:
+      name: Test
+      required: false
+      default: all
+      selector:
+        select:
+          options: [all, cloud, tls, sip, certificates, sdp, dialog]
+
+generate_support_report:
+  name: Generate support report
+  description: Generate a redacted Markdown report and ZIP support bundle. Developer mode must be enabled.
+  fields:
+    entry_id:
+      name: Configuration entry
+      required: false
+      selector:
+        text:
+    include_logs:
+      name: Include redacted logs
+      default: true
+      selector:
+        boolean:
+
+export_debug_bundle:
+  name: Export debug bundle
+  description: Alias for Generate support report, intended for developer workflows.
+  fields:
+    entry_id:
+      name: Configuration entry
+      required: false
+      selector:
+        text:
+    include_logs:
+      name: Include redacted logs
+      default: true
+      selector:
+        boolean:
+
+clean_debug_environment:
+  name: Pulisci ambiente di debug
+  description: Elimina log e report di supporto mantenendo configurazione e certificati. Richiede Developer mode.
+  fields:
+    entry_id:
+      name: Config entry ID
+      description: Config entry opzionale. Se omesso, agisce su tutte le configurazioni.
+      required: false
+      selector:
+        text:
+
+clear_call_journal:
+  name: Clear call journal
+  description: Permanently clear completed and active call journal records.
+  fields:
+    entry_id:
+      name: Configuration entry
+      required: false
+      selector:
+        text:
+
+export_call_journal:
+  name: Export call journal
+  description: Export the call journal as JSON under www/btdoor_security_plus.
+  fields:
+    entry_id:
+      name: Configuration entry
+      required: false
+      selector:
+        text:
+
+rebuild_call_journal:
+  name: Rebuild call journal
+  description: Rebuild the call journal from retained normalized runtime events.
+  fields:
+    entry_id:
+      name: Configuration entry
+      required: false
+      selector:
+        text:

@@ -1,0 +1,36 @@
+{
+  "entity": {
+    "button": {
+      "open_gate": {
+        "default": "mdi:gate-open"
+      },
+      "run_developer_test": {
+        "default": "mdi:flask-outline"
+      },
+      "generate_support_report": {
+        "default": "mdi:file-document-arrow-right-outline"
+      }
+    },
+    "switch": {
+      "open_gate_alexa": {
+        "default": "mdi:gate-open"
+      }
+    },
+    "binary_sensor": {
+      "sip_registered": {
+        "default": "mdi:phone-check"
+      }
+    },
+    "sensor": {
+      "last_developer_test": {
+        "default": "mdi:flask-outline"
+      },
+      "last_support_report": {
+        "default": "mdi:file-document-check-outline"
+      }
+    }
+  },
+  "services": {
+    "open_gate": "mdi:gate-open"
+  }
+}

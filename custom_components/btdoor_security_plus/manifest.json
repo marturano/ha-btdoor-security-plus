@@ -1,0 +1,16 @@
+{
+  "domain": "btdoor_security_plus",
+  "name": "BTDoor Security+",
+  "codeowners": [
+    "@robertomarturano"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/robertomarturano/ha-btdoor-security-plus",
+  "integration_type": "device",
+  "iot_class": "cloud_push",
+  "issue_tracker": "https://github.com/robertomarturano/ha-btdoor-security-plus/issues",
+  "requirements": [
+    "asn1crypto==1.5.1"
+  ],
+  "version": "6.0.0"
+}

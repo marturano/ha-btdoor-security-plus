@@ -1,0 +1,46 @@
+title: BTDoor Security+ Operations
+views:
+  - title: Operations
+    path: btdoor-operations
+    icon: mdi:doorbell-video
+    cards:
+      - type: markdown
+        title: BTDoor Security+
+        content: >-
+          Dashboard operativa. Sostituisci gli entity_id solo se Home Assistant
+          ha assegnato nomi differenti.
+      - type: entities
+        title: Stato sistema
+        entities:
+          - binary_sensor.sip_registrato
+          - binary_sensor.cloud_connesso
+          - binary_sensor.media_pronto
+          - binary_sensor.runtime_integro
+          - sensor.punteggio_runtime
+          - sensor.riepilogo_operativo
+      - type: entities
+        title: Ultima chiamata
+        entities:
+          - sensor.ultimo_chiamante
+          - sensor.riepilogo_ultima_chiamata
+          - sensor.durata_ultima_chiamata
+          - binary_sensor.ultima_chiamata_persa
+          - sensor.codec_audio_selezionato
+          - sensor.codec_video_selezionato
+          - sensor.suite_srtp
+      - type: entities
+        title: Runtime
+        entities:
+          - sensor.stato_cloud
+          - sensor.stato_runtime
+          - sensor.stato_dialogo
+          - binary_sensor.chiamata_attiva
+          - sensor.id_chiamata_dialogo
+      - type: button
+        name: Genera Support Bundle
+        icon: mdi:file-zip-outline
+        tap_action:
+          action: perform-action
+          perform_action: btdoor_security_plus.generate_support_report
+          data:
+            include_logs: true

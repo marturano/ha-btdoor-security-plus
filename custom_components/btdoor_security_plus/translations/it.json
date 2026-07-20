@@ -1,0 +1,340 @@
+{
+  "title": "BTDoor Security+",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Collega BTDoor Security+",
+        "description": "Inserisci le stesse credenziali MyHomeWeb usate nell'app ufficiale Door Entry. Credenziali SIP e certificato client vengono generati automaticamente.",
+        "data": {
+          "email": "E-mail MyHomeWeb",
+          "password": "Password MyHomeWeb",
+          "device_name": "Nome dispositivo registrato (DeviceName)",
+          "server": "Server SIP",
+          "verify_server": "Verifica certificato del server SIP"
+        },
+        "data_description": {
+          "device_name": "Nome registrato nel cloud BTicino per il client SIP di Home Assistant.",
+          "verify_server": "Se attiva, Home Assistant verifica il certificato del server SIP usando le autorità di certificazione considerate attendibili. Su alcuni impianti BTicino il server usa una catena privata: attivando questa opzione la connessione SIP potrebbe non riuscire. L’autenticazione tramite certificato client resta attiva anche quando questa verifica è disabilitata."
+        }
+      },
+      "select_gateway": {
+        "title": "Seleziona il gateway Door Entry",
+        "description": "Scegli l'impianto e il gateway BTicino da collegare.",
+        "data": {
+          "gateway_id": "Gateway"
+        }
+      },
+      "reconfigure": {
+        "title": "Riconfigura BTDoor Security+",
+        "description": "Aggiorna credenziali MyHomeWeb, DeviceName e parametri SIP. Il certificato SIP viene rigenerato.",
+        "data": {
+          "email": "E-mail MyHomeWeb",
+          "password": "Password MyHomeWeb",
+          "device_name": "Nome dispositivo registrato (DeviceName)",
+          "server": "Server SIP",
+          "verify_server": "Verifica certificato del server SIP"
+        },
+        "data_description": {
+          "verify_server": "Se attiva, Home Assistant verifica il certificato del server SIP usando le autorità di certificazione considerate attendibili. Su alcuni impianti BTicino il server usa una catena privata: attivando questa opzione la connessione SIP potrebbe non riuscire. L’autenticazione tramite certificato client resta attiva anche quando questa verifica è disabilitata."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Ricollega BTDoor Security+",
+        "description": "Il cloud BTicino ha rifiutato le credenziali salvate. Inseriscile nuovamente.",
+        "data": {
+          "email": "E-mail MyHomeWeb",
+          "password": "Password MyHomeWeb"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect_cloud": "Impossibile collegarsi a MyHomeWeb.",
+      "invalid_cloud_auth": "E-mail o password MyHomeWeb errate. Verifica le credenziali usate nell’app BTicino Door Entry.",
+      "cloud_error": "Il cloud BTicino ha restituito una risposta inattesa.",
+      "no_gateways": "Non è stato trovato alcun gateway Door Entry compatibile.",
+      "cannot_connect": "Impossibile collegarsi al server SIP BTicino.",
+      "invalid_auth": "Credenziali SIP o certificato generato rifiutati.",
+      "provisioning_error": "Impossibile registrare o verificare il dispositivo SIP BTicino.",
+      "unknown": "Errore imprevisto. Controlla il log di Home Assistant."
+    },
+    "abort": {
+      "already_configured": "Questo gateway è già configurato.",
+      "wrong_gateway": "L'account selezionato non contiene il gateway configurato."
+    }
+  },
+  "entity": {
+    "switch": {
+      "open_gate": {
+        "name": "Apri cancello"
+      }
+    },
+    "binary_sensor": {
+      "sip_registered": {
+        "name": "SIP registrato"
+      },
+      "ringing": {
+        "name": "Chiamata in arrivo"
+      },
+      "media_ready": {
+        "name": "Media pronto"
+      },
+      "last_call_missed": {
+        "name": "Ultima chiamata persa"
+      },
+      "runtime_healthy": {
+        "name": "Runtime integro"
+      },
+      "cloud_connected": {
+        "name": "Cloud connesso"
+      },
+      "dialog_call_active": {
+        "name": "Chiamata attiva"
+      }
+    },
+    "sensor": {
+      "last_caller": {
+        "name": "Ultimo chiamante"
+      },
+      "last_message": {
+        "name": "Ultimo messaggio SIP"
+      },
+      "last_sip_status": {
+        "name": "Ultimo stato SIP"
+      },
+      "last_gate_open": {
+        "name": "Ultima apertura cancello"
+      },
+      "last_event": {
+        "name": "Ultimo evento"
+      },
+      "call_state": {
+        "name": "Stato chiamata"
+      },
+      "last_call_duration": {
+        "name": "Durata ultima chiamata"
+      },
+      "call_count": {
+        "name": "Conteggio chiamate ricevute"
+      },
+      "last_call_started": {
+        "name": "Inizio ultima chiamata"
+      },
+      "last_call_ended": {
+        "name": "Fine ultima chiamata"
+      },
+      "missed_call_count": {
+        "name": "Conteggio chiamate perse"
+      },
+      "message_count": {
+        "name": "Messaggi SIP in ingresso",
+        "description": "Numero di richieste SIP MESSAGE ricevute dal videocitofono. Non include INVITE, CANCEL, risposte SIP o i comandi di apertura inviati."
+      },
+      "last_message_time": {
+        "name": "Ora ultimo messaggio SIP"
+      },
+      "last_event_time": {
+        "name": "Ora ultimo evento"
+      },
+      "reconnect_count": {
+        "name": "Riconnessioni SIP reali",
+        "description": "Numero di riconnessioni completate dopo una reale interruzione della sessione SIP. Un valore zero indica una connessione stabile."
+      },
+      "last_error": {
+        "name": "Ultimo errore SIP"
+      },
+      "connection_uptime": {
+        "name": "Durata connessione SIP"
+      },
+      "last_command_duration": {
+        "name": "Durata ultimo comando"
+      },
+      "last_command_time": {
+        "name": "Ora ultimo comando"
+      },
+      "connection_quality": {
+        "name": "Qualità connessione SIP"
+      },
+      "dialog_state": {
+        "name": "SIP dialog state"
+      },
+      "last_sip_method": {
+        "name": "Last SIP method"
+      },
+      "last_sdp_offer": {
+        "name": "Last SDP offer"
+      },
+      "sdp_summary": {
+        "name": "Riepilogo media SDP"
+      },
+      "audio_offer": {
+        "name": "Offerta RTP audio"
+      },
+      "video_offer": {
+        "name": "Offerta RTP video"
+      },
+      "last_developer_test": {
+        "name": "Last developer test"
+      },
+      "last_support_report": {
+        "name": "Last support report"
+      },
+      "media_preparation": {
+        "name": "Preparazione media",
+        "description": "Contesto SRTP e risposta SDP preparati in memoria; la chiamata non viene ancora accettata."
+      },
+      "selected_audio_codec": {
+        "name": "Codec audio selezionato"
+      },
+      "selected_video_codec": {
+        "name": "Codec video selezionato"
+      },
+      "srtp_suite": {
+        "name": "Suite SRTP"
+      },
+      "last_call_summary": {
+        "name": "Riepilogo ultima chiamata"
+      },
+      "last_media_close_reason": {
+        "name": "Motivo chiusura ultimo media"
+      },
+      "runtime_health": {
+        "name": "Stato runtime"
+      },
+      "runtime_score": {
+        "name": "Punteggio runtime"
+      },
+      "retained_media_sessions": {
+        "name": "Sessioni media conservate"
+      },
+      "cloud_state": {
+        "name": "Stato cloud"
+      },
+      "cloud_endpoint": {
+        "name": "Endpoint cloud"
+      },
+      "cloud_last_error": {
+        "name": "Ultimo errore cloud"
+      },
+      "dialog_call_id": {
+        "name": "ID chiamata dialogo"
+      },
+      "operations_summary": {
+        "name": "Riepilogo operativo"
+      },
+      "call_journal_last_call": {
+        "name": "Ultima chiamata registro"
+      },
+      "call_journal_count": {
+        "name": "Chiamate nel registro"
+      },
+      "call_journal_missed_count": {
+        "name": "Chiamate perse nel registro"
+      },
+      "call_journal_average_duration": {
+        "name": "Call journal average duration"
+      },
+      "call_journal_answered_today": {
+        "name": "Call journal answered today"
+      },
+      "call_journal_missed_today": {
+        "name": "Call journal missed today"
+      },
+      "developer_runtime_inspector": {
+        "name": "Ispettore runtime sviluppatore"
+      },
+      "developer_event_monitor": {
+        "name": "Monitor eventi sviluppatore"
+      },
+      "developer_event_metrics": {
+        "name": "Metriche eventi sviluppatore"
+      }
+    },
+    "event": {
+      "door_entry_event": {
+        "name": "Eventi Door Entry"
+      }
+    },
+    "button": {
+      "run_developer_test": {
+        "name": "Run developer test"
+      },
+      "generate_support_report": {
+        "name": "Generate support report"
+      },
+      "clean_debug_environment": {
+        "name": "Pulisci ambiente di debug"
+      }
+    }
+  },
+  "services": {
+    "reset_statistics": {
+      "name": "Azzera statistiche",
+      "description": "Azzera i contatori memorizzati di chiamate ed eventi SIP."
+    },
+    "test_connection": {
+      "name": "Verifica connessione",
+      "description": "Verifica TLS e registrazione SIP senza aprire il cancello."
+    },
+    "reject_call": {
+      "name": "Reject call",
+      "description": "Reject the currently ringing BTicino call with SIP 486 Busy Here."
+    },
+    "developer_test": {
+      "name": "Developer test",
+      "description": "Run advanced diagnostics without opening the gate."
+    },
+    "generate_support_report": {
+      "name": "Generate support report",
+      "description": "Create a redacted Markdown report and ZIP bundle for technical support."
+    },
+    "export_debug_bundle": {
+      "name": "Export debug bundle",
+      "description": "Export the same redacted support bundle for developer workflows."
+    },
+    "clean_debug_environment": {
+      "name": "Pulisci ambiente di debug",
+      "description": "Elimina log e report di supporto mantenendo configurazione e certificati."
+    }
+  },
+  "issues": {
+    "missing_certificate": {
+      "title": "Certificato BTicino mancante",
+      "description": "Il certificato o la chiave privata di {entry_title} non è disponibile. Apri Riconfigura e completa il provisioning MyHomeWeb."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Interfaccia e moduli diagnostici",
+        "description": "Personalizza i moduli di monitoraggio visibili in Home Assistant. Nascondere un modulo rimuove il relativo dispositivo e le sue entità dall’interfaccia senza influire sul funzionamento interno dell’integrazione. Diagnostica Avanzata viene mostrata solo quando sono attive sia la relativa opzione di visibilità sia la Developer mode.",
+        "data": {
+          "show_cloud_status": "Visualizza stato Cloud",
+          "show_sip_monitor": "Visualizza monitor SIP",
+          "show_call_monitor": "Visualizza Monitor Chiamate",
+          "show_media_monitor": "Visualizza Monitor Multimediale",
+          "show_advanced_diagnostics": "Visualizza Diagnostica Avanzata",
+          "developer_mode": "Abilita Developer mode",
+          "debug_mode": "Modalità Support Debug"
+        },
+        "data_description": {
+          "show_cloud_status": "Visualizza le entità relative alla connessione cloud, alla sincronizzazione del gateway e all’autenticazione.",
+          "show_sip_monitor": "Visualizza le entità relative alla registrazione SIP, allo stato della linea e alle comunicazioni.",
+          "show_call_monitor": "Visualizza lo stato e lo storico delle chiamate, le statistiche e il riepilogo dell’ultima chiamata.",
+          "show_media_monitor": "Visualizza lo stato delle sessioni multimediali, i codec negoziati e le informazioni RTP/SRTP.",
+          "show_advanced_diagnostics": "Consente di visualizzare il dispositivo Diagnostica Avanzata e le relative entità di supporto. Deve essere attiva anche la Developer mode.",
+          "developer_mode": "Abilita gli strumenti avanzati: Event Monitor, Runtime Inspector, metriche di salute, self-test e report di supporto.",
+          "debug_mode": "Lascia disattivato durante l’uso normale. Abilita Supporto o Debug approfondito solo mentre riproduci un problema, quindi scarica la diagnostica dell’integrazione."
+        }
+      }
+    }
+  },
+  "selector": {
+    "debug_mode": {
+      "options": {
+        "off": "Disattivato",
+        "support": "Supporto",
+        "deep": "Debug approfondito"
+      }
+    }
+  }
+}

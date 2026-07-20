@@ -1,0 +1,60 @@
+name: Release package
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Verify tag and manifest versions
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          manifest = json.loads(Path("custom_components/btdoor_security_plus/manifest.json").read_text())
+          manifest_version = manifest["version"]
+          ref = os.environ.get("GITHUB_REF_NAME", "")
+          if ref and ref.startswith("v") and ref[1:] != manifest_version:
+              raise SystemExit(f"Tag {ref} does not match manifest version {manifest_version}")
+          const = Path("custom_components/btdoor_security_plus/const.py").read_text()
+          match = re.search(r'^INTEGRATION_VERSION\s*=\s*["\']([^"\']+)["\']', const, re.MULTILINE)
+          if not match or match.group(1) != manifest_version:
+              raise SystemExit("INTEGRATION_VERSION does not match manifest version")
+          print(manifest_version)
+          PY
+      - name: Build release archive
+        shell: bash
+        run: |
+          version=$(python -c 'import json; print(json.load(open("custom_components/btdoor_security_plus/manifest.json"))["version"])')
+          archive="ha-btdoor-security-plus-${version}.zip"
+          zip -r "$archive" custom_components/btdoor_security_plus README.md LICENSE CHANGELOG.md RELEASE_NOTES_6.0.0.md hacs.json
+          sha256sum "$archive" > "$archive.sha256"
+          echo "archive=$archive" >> "$GITHUB_ENV"
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: btdoor-security-plus-release
+          path: |
+            ${{ env.archive }}
+            ${{ env.archive }}.sha256
+      - name: Attach assets to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ env.archive }}
+            ${{ env.archive }}.sha256
+          body_path: RELEASE_NOTES_6.0.0.md
