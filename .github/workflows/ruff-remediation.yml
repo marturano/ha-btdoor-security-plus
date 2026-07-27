@@ -1,0 +1,41 @@
+name: Ruff Remediation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  remediate:
+    name: Apply latest stable Ruff fixes
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Apply Ruff remediation and validate
+        run: tools/validation/github_sandbox_validate.sh fix
+      - name: Commit compliant remediation
+        run: |
+          if git diff --quiet; then
+            echo "No Ruff changes required"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add custom_components tests tools
+          git commit -m "Fix Ruff compliance in GitHub sandbox"
+          git push
+      - name: Upload remediation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ruff-remediation-evidence
+          path: artifacts/github-sandbox-validation
+          if-no-files-found: warn

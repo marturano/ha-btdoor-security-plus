@@ -2,8 +2,10 @@
   "schema_version": 1,
   "generated": "2026-07-27",
   "nodes": [
+    ".github/workflows/github-sandbox-validation.yml",
     ".github/workflows/governance.yml",
     ".github/workflows/release.yml",
+    ".github/workflows/ruff-remediation.yml",
     ".github/workflows/validate.yml",
     ".gitignore",
     "ARCHITECTURE_PRINCIPLES.md",
@@ -213,6 +215,7 @@
     "docs/adr/ADR-0088-quality-scale-qs20-silver-achievement.md",
     "docs/adr/ADR-0089-quality-scale-qs21-gold-exception-translations.md",
     "docs/adr/ADR-0090-quality-scale-gold-project-policy.md",
+    "docs/adr/ADR-0091-github-sandbox-validation-gate.md",
     "docs/adr/README.md",
     "docs/ai/AI_OVERVIEW.md",
     "docs/ai/AI_PLATFORM.md",
@@ -575,6 +578,7 @@
     "docs/target-validation/runs/README.md",
     "docs/target-validation/schema/target_validation_result.schema.json",
     "docs/target-validation/target_validation_plan.json",
+    "docs/validation/GITHUB_SANDBOX_VALIDATION.md",
     "docs/validation/README.md",
     "docs/validation/VALIDATION_MAINTENANCE_POLICY.md",
     "docs/validation/VALIDATION_REGISTER.md",
@@ -799,9 +803,14 @@
     "tools/update_project_health.py",
     "tools/validate.py",
     "tools/validate_support_bundle.py",
+    "tools/validation/github_sandbox_validate.sh",
     "tools/watch.py"
   ],
   "edges": [
+    {
+      "source": ".github/workflows/github-sandbox-validation.yml",
+      "target": "tools/validation/github_sandbox_validate.sh"
+    },
     {
       "source": ".github/workflows/governance.yml",
       "target": "docs/project/CANONICAL_DOCUMENTS.md"
@@ -843,6 +852,10 @@
       "target": "custom_components/btdoor_security_plus/manifest.json"
     },
     {
+      "source": ".github/workflows/ruff-remediation.yml",
+      "target": "tools/validation/github_sandbox_validate.sh"
+    },
+    {
       "source": ".github/workflows/validate.yml",
       "target": "tools/check_ha_compatibility.py"
     },
@@ -852,7 +865,19 @@
     },
     {
       "source": "CHANGELOG.md",
+      "target": ".github/workflows/github-sandbox-validation.yml"
+    },
+    {
+      "source": "CHANGELOG.md",
+      "target": ".github/workflows/ruff-remediation.yml"
+    },
+    {
+      "source": "CHANGELOG.md",
       "target": "docs/release/HISTORICAL_PROVENANCE.md"
+    },
+    {
+      "source": "CHANGELOG.md",
+      "target": "tools/validation/github_sandbox_validate.sh"
     },
     {
       "source": "PROJECT_MANIFEST.md",
@@ -2057,6 +2082,14 @@
     {
       "source": "docs/de/index.md",
       "target": "docs/de/release/1.1.0-rc.14.md"
+    },
+    {
+      "source": "docs/developer/QUALITY_GATES.md",
+      "target": ".github/workflows/github-sandbox-validation.yml"
+    },
+    {
+      "source": "docs/developer/QUALITY_GATES.md",
+      "target": ".github/workflows/ruff-remediation.yml"
     },
     {
       "source": "docs/document_manifest.yaml",
@@ -3376,11 +3409,19 @@
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": ".github/workflows/github-sandbox-validation.yml"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": ".github/workflows/governance.yml"
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": ".github/workflows/release.yml"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": ".github/workflows/ruff-remediation.yml"
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
@@ -4173,6 +4214,10 @@
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "docs/adr/ADR-0090-quality-scale-gold-project-policy.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "docs/adr/ADR-0091-github-sandbox-validation-gate.md"
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
@@ -5616,6 +5661,10 @@
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "docs/validation/GITHUB_SANDBOX_VALIDATION.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "docs/validation/README.md"
     },
     {
@@ -6501,6 +6550,10 @@
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "tools/validate_support_bundle.py"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "tools/validation/github_sandbox_validate.sh"
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
@@ -7168,11 +7221,19 @@
     },
     {
       "source": "docs/project/repository_dependency_map.json",
+      "target": ".github/workflows/github-sandbox-validation.yml"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
       "target": ".github/workflows/governance.yml"
     },
     {
       "source": "docs/project/repository_dependency_map.json",
       "target": ".github/workflows/release.yml"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
+      "target": ".github/workflows/ruff-remediation.yml"
     },
     {
       "source": "docs/project/repository_dependency_map.json",
@@ -7965,6 +8026,10 @@
     {
       "source": "docs/project/repository_dependency_map.json",
       "target": "docs/adr/ADR-0090-quality-scale-gold-project-policy.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
+      "target": "docs/adr/ADR-0091-github-sandbox-validation-gate.md"
     },
     {
       "source": "docs/project/repository_dependency_map.json",
@@ -9408,6 +9473,10 @@
     },
     {
       "source": "docs/project/repository_dependency_map.json",
+      "target": "docs/validation/GITHUB_SANDBOX_VALIDATION.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
       "target": "docs/validation/README.md"
     },
     {
@@ -10293,6 +10362,10 @@
     {
       "source": "docs/project/repository_dependency_map.json",
       "target": "tools/validate_support_bundle.py"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
+      "target": "tools/validation/github_sandbox_validate.sh"
     },
     {
       "source": "docs/project/repository_dependency_map.json",
@@ -11153,6 +11226,10 @@
     {
       "source": "docs/target-validation/TARGET_VALIDATION_GUIDE.md",
       "target": "tools/target_validation/target_validation.py"
+    },
+    {
+      "source": "docs/validation/GITHUB_SANDBOX_VALIDATION.md",
+      "target": "tools/validation/github_sandbox_validate.sh"
     },
     {
       "source": "docs/validation/README.md",

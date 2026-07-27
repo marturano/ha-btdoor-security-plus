@@ -33,3 +33,7 @@ The Project Impact Analysis Framework is mandatory before implementation and is 
 ## Automatic handoff control
 
 Handoff is a generated operational view, not a normative authority. Every completed iteration must synchronize the handoff index, current state, build information, resume point and numbered iteration record. The `handoff_synchronization` gate blocks package generation when those artifacts are missing, stale or inconsistent.
+
+## Permanent GitHub validation rule
+
+The release governance system includes the GitHub Sandbox Validation Gate defined by ADR-0091. Every RC and Final release decision requires evidence from a clean GitHub-hosted sandbox running the latest stable official Ruff release and the complete validation toolchain. Any error blocks release and must be corrected. Validation configuration may not be weakened and the required Home Assistant Integration Quality Scale level may not be reduced as a workaround.

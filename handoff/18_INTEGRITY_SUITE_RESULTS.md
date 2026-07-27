@@ -47,3 +47,13 @@ Repository Integrity Suite now contains 16 blocking gates. The `api` gate valida
 - Orphan/Hygiene Check: PASS.
 - Repository Integrity Suite: 16/16 PASS.
 - Project Health Dashboard structural tests: PASS.
+
+## 2026-07-27 GitHub sandbox gate implementation
+- Publication preflight: PASS
+- Repository integrity: PASS
+- Document consistency: PASS
+- Repository hygiene: PASS
+- Governance suite: PASS
+- Certification framework: PASS
+- Final certification: BLOCKED pending external GitHub latest-Ruff remediation and validation evidence
+- Quality Scale requirement: GOLD preserved

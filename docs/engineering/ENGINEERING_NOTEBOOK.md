@@ -93,3 +93,9 @@ Implemented portable target evidence collection and immutable import. The framew
 - Confirmed repository-local checks pass and Quality Scale remains Gold.
 - Recorded the Release Decision Engine result as BLOCKED by target-runtime, benchmark, UX/accessibility, publication and external Quality Scale evidence.
 - Did not start Phase 7D and introduced no runtime change.
+
+## 2026-07-27 — GitHub Sandbox Validation Gate and Ruff remediation path
+
+GitHub Ruff validation exposed a large set of formatting, import and modernisation findings that were not reproduced locally because the execution environment could not retrieve the official Ruff binary. The project adopted ADR-0091: GitHub-hosted validation is now mandatory evidence for every RC and Final release, while local validation remains a prerequisite where available.
+
+Two workflows were introduced. The read-only workflow validates the exact commit and blocks release. The manual remediation workflow installs the latest stable Ruff, applies supported fixes and formatting, runs the complete validation suite, and commits only after success. No lint rule or Quality Scale requirement was relaxed; the GOLD threshold remains mandatory. RC15 remains blocked until the remediation workflow and subsequent read-only workflow both pass on GitHub.

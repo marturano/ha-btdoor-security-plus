@@ -33,3 +33,6 @@ Permanent requirements: Engineering Notebook; Translation Review; documented Qua
 - The user previously confirmed the Alexa path operates; Google Assistant real-account validation remains pending unless newer evidence supersedes this statement.
 
 - The Home Assistant Integration Quality Scale is a permanent workflow gate. Report current, release-minimum and desired tiers; generate remediation plans; apply only safe proven improvements; never auto-promote unproven rules.
+
+## Permanent rule — GitHub Sandbox Validation
+Before every RC or Final release, validate the exact commit in a clean GitHub-hosted sandbox with Python 3.13, the latest stable official Ruff release and all mandatory release tools. Correct every failure until the full suite passes. Never weaken lint/validation rules or reduce the required Home Assistant Integration Quality Scale level. The current minimum remains GOLD. Preserve versioned evidence and update documentation, handoff, governance, dashboards and release decision records.

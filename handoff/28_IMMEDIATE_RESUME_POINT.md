@@ -76,3 +76,6 @@ Use `docs/release/RELEASE_CANDIDATE_DOSSIER.md` as the authoritative Phase 7C su
 ## GitHub publication checkpoint
 
 Push the exact `phase7c-github-publication-ready` package, capture its commit SHA, require all remote checks, then create the matching prerelease and perform the HACS lifecycle. Do not treat workflow presence as workflow success.
+
+## Immediate resume point — Ruff compliance
+Push this repository to the publication branch, manually dispatch `Ruff Remediation`, review the resulting automated commit, then require `GitHub Sandbox Validation` and all existing workflows to pass. Import the evidence artifacts before changing the Release Decision Engine from BLOCKED. Do not create a new RC from an unvalidated commit.

@@ -4,12 +4,14 @@
 **Package:** `1.1.0-rc.15-phase7c-github-publication-ready`  
 **Purpose:** canonical inventory of every active file in the exact package during Phase 7C assessment.
 
-**Active file count:** 798
+**Active file count:** 804
 
 ## Active files
 
+- `.github/workflows/github-sandbox-validation.yml`
 - `.github/workflows/governance.yml`
 - `.github/workflows/release.yml`
+- `.github/workflows/ruff-remediation.yml`
 - `.github/workflows/validate.yml`
 - `.gitignore`
 - `ARCHITECTURE_PRINCIPLES.md`
@@ -219,6 +221,7 @@
 - `docs/adr/ADR-0088-quality-scale-qs20-silver-achievement.md`
 - `docs/adr/ADR-0089-quality-scale-qs21-gold-exception-translations.md`
 - `docs/adr/ADR-0090-quality-scale-gold-project-policy.md`
+- `docs/adr/ADR-0091-github-sandbox-validation-gate.md`
 - `docs/adr/README.md`
 - `docs/ai/AI_OVERVIEW.md`
 - `docs/ai/AI_PLATFORM.md`
@@ -581,6 +584,8 @@
 - `docs/target-validation/runs/README.md`
 - `docs/target-validation/schema/target_validation_result.schema.json`
 - `docs/target-validation/target_validation_plan.json`
+- `docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md`
+- `docs/validation/GITHUB_SANDBOX_VALIDATION.md`
 - `docs/validation/README.md`
 - `docs/validation/VALIDATION_MAINTENANCE_POLICY.md`
 - `docs/validation/VALIDATION_REGISTER.md`
@@ -805,6 +810,7 @@
 - `tools/update_project_health.py`
 - `tools/validate.py`
 - `tools/validate_support_bundle.py`
+- `tools/validation/github_sandbox_validate.sh`
 - `tools/watch.py`
 
 ## Maintenance contract

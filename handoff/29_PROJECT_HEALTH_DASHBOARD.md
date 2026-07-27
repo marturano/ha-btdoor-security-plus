@@ -11,3 +11,10 @@ Before Release Readiness, run the affected checks, update canonical registers an
 ## Automated indicators
 
 Run `python tools/health/calculate_health.py` before rendering the dashboard. The calculated artifact is `docs/project/project_health_calculated.json` and reports both evidence-adjusted Health Score and Governance Compliance Score. These indicators do not override blocked gates.
+
+## GitHub sandbox validation
+- Gate implementation: PASS
+- Latest Ruff remediation execution: PENDING
+- Clean read-only GitHub validation: PENDING
+- Quality Scale threshold: GOLD (preserved)
+- Release readiness impact: BLOCKED pending external GitHub evidence

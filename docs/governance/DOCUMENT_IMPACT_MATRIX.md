@@ -47,3 +47,17 @@ Every row also requires explicit review of registries, matrices, certificates, r
 - `Handoff` synchronization includes the index, current state, build information, resume point and one numbered iteration handoff.
 - `R` invalidates prior evidence until exact-package revalidation succeeds.
 - The matrix is a minimum. Dependency propagation defined by PIAF may only expand the impact set.
+
+## Phase 7C — GitHub Sandbox Validation Gate
+
+| Artifact | Impact | Action |
+|---|---|---|
+| ADR registry | New permanent architectural/governance decision | Added ADR-0091 |
+| Quality gates | New blocking RC/Final gate | Updated |
+| Governance system and registry | New permanent rule | Updated |
+| GitHub workflows | New validation and remediation workflows | Added |
+| Validation tooling | Canonical sandbox runner and evidence output | Added |
+| Engineering notebook | Decision and implementation trace | Updated |
+| Handoff memory/status | Continuity and resume instructions | Updated |
+| CHANGELOG | Governance, CI and documentation changes | Updated |
+| Quality Scale policy | GOLD threshold preserved; downgrade prohibited | Confirmed |

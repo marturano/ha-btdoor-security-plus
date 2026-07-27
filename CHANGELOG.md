@@ -478,3 +478,19 @@ Detailed mappings from experimental labels such as `4.0.0-alpha.*`, `5.0.0-beta.
 - moved the nested RC15 release ZIP and checksum to a separate companion archive;
 - retained the structured release JSON and historical Platinum audit trail without treating Platinum as an active governed tier;
 - documented that GOLD and Release Readiness pass while the Release Decision Engine remains BLOCKED.
+
+## Unreleased — Phase 7C GitHub sandbox validation remediation
+
+### Governance
+- Added the permanent GitHub Sandbox Validation Gate for every RC and Final release.
+- Required a clean GitHub-hosted sandbox using Python 3.13, the latest stable official Ruff release, and all repository release validators.
+- Prohibited weakening Ruff rules or reducing the required Home Assistant Integration Quality Scale level to obtain release approval.
+
+### CI and validation
+- Added `.github/workflows/github-sandbox-validation.yml` as the read-only mandatory validation workflow.
+- Added `.github/workflows/ruff-remediation.yml` as a manually dispatched remediation workflow that applies Ruff fixes and commits only after the complete validation suite passes.
+- Added `tools/validation/github_sandbox_validate.sh` to provide the canonical sandbox validation sequence and versioned evidence.
+
+### Documentation
+- Added ADR-0091 and the GitHub Sandbox Validation operational guide.
+- Updated governance, quality gates, document impact, engineering notebook and handoff continuity records.

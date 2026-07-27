@@ -91,3 +91,11 @@ Any change to governance, workflow, frameworks, matrices, registries, rules, val
 ## Enforcement
 
 The canonical workflow, Project Impact Analysis Framework, Document Impact Matrix and Workflow Compliance Matrix determine when each rule applies. Exceptions require an accepted ADR and must be represented in evidence, risk and decision traceability records.
+
+### GR-GITHUB-SANDBOX-001 — Mandatory latest-Ruff release validation
+- **Scope:** every RC and Final release.
+- **Requirement:** validate the exact release commit in a clean GitHub-hosted sandbox with Python 3.13, latest stable official Ruff and every mandatory repository validator.
+- **Failure handling:** correct all errors and rerun the complete suite.
+- **Forbidden workarounds:** disabling checks, broad ignores, lowering Quality Scale or accepting incomplete evidence.
+- **Minimum Quality Scale:** GOLD until explicitly changed through governance.
+- **Evidence:** Python/Ruff versions, lint, test, publication, integrity, documentation, hygiene, governance and certification reports.

@@ -1,0 +1,35 @@
+name: GitHub Sandbox Validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Latest Ruff and release gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Run isolated validation
+        run: tools/validation/github_sandbox_validate.sh check
+      - name: Verify clean repository
+        run: git diff --exit-code
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-sandbox-validation
+          path: artifacts/github-sandbox-validation
+          if-no-files-found: warn
