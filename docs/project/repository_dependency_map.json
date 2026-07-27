@@ -578,7 +578,9 @@
     "docs/target-validation/runs/README.md",
     "docs/target-validation/schema/target_validation_result.schema.json",
     "docs/target-validation/target_validation_plan.json",
+    "docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md",
     "docs/validation/GITHUB_SANDBOX_VALIDATION.md",
+    "docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md",
     "docs/validation/README.md",
     "docs/validation/VALIDATION_MAINTENANCE_POLICY.md",
     "docs/validation/VALIDATION_REGISTER.md",
@@ -666,6 +668,7 @@
     "handoff/78_PHASE_7C_GITHUB_PUBLICATION_AUDIT.md",
     "handoff/CONTINUITY_CHECKLIST.md",
     "handoff/HANDOFF_INDEX.md",
+    "handoff/README.md",
     "pyproject.toml",
     "tests/test_alpha1a_regressions.py",
     "tests/test_alpha3_documentation_qa.py",
@@ -850,10 +853,6 @@
     {
       "source": ".github/workflows/release.yml",
       "target": "custom_components/btdoor_security_plus/manifest.json"
-    },
-    {
-      "source": ".github/workflows/ruff-remediation.yml",
-      "target": "tools/validation/github_sandbox_validate.sh"
     },
     {
       "source": ".github/workflows/validate.yml",
@@ -2054,6 +2053,14 @@
     {
       "source": "docs/certification/reports/RUNTIME_CERTIFICATION_REPORT.md",
       "target": "tests/test_repository_rationalization.py"
+    },
+    {
+      "source": "docs/certification/runtime_certification.json",
+      "target": "docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md"
+    },
+    {
+      "source": "docs/certification/runtime_certification.json",
+      "target": "handoff/README.md"
     },
     {
       "source": "docs/certification/runtime_certification.json",
@@ -5661,7 +5668,15 @@
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "docs/validation/GITHUB_SANDBOX_VALIDATION.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md"
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
@@ -6006,6 +6021,10 @@
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "handoff/HANDOFF_INDEX.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "handoff/README.md"
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
@@ -9473,7 +9492,15 @@
     },
     {
       "source": "docs/project/repository_dependency_map.json",
+      "target": "docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
       "target": "docs/validation/GITHUB_SANDBOX_VALIDATION.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
+      "target": "docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md"
     },
     {
       "source": "docs/project/repository_dependency_map.json",
@@ -9818,6 +9845,10 @@
     {
       "source": "docs/project/repository_dependency_map.json",
       "target": "handoff/HANDOFF_INDEX.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
+      "target": "handoff/README.md"
     },
     {
       "source": "docs/project/repository_dependency_map.json",
@@ -11389,6 +11420,10 @@
     },
     {
       "source": "docs/validation/governance-automation-report.json",
+      "target": "docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md"
+    },
+    {
+      "source": "docs/validation/governance-automation-report.json",
       "target": "docs/validation/VALIDATION_MAINTENANCE_POLICY.md"
     },
     {
@@ -11418,6 +11453,10 @@
     {
       "source": "docs/validation/governance-automation-report.json",
       "target": "handoff/HANDOFF_INDEX.md"
+    },
+    {
+      "source": "docs/validation/governance-automation-report.json",
+      "target": "handoff/README.md"
     },
     {
       "source": "docs/validation/governance-automation-report.json",

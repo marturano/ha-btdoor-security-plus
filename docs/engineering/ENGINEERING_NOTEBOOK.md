@@ -99,3 +99,7 @@ Implemented portable target evidence collection and immutable import. The framew
 GitHub Ruff validation exposed a large set of formatting, import and modernisation findings that were not reproduced locally because the execution environment could not retrieve the official Ruff binary. The project adopted ADR-0091: GitHub-hosted validation is now mandatory evidence for every RC and Final release, while local validation remains a prerequisite where available.
 
 Two workflows were introduced. The read-only workflow validates the exact commit and blocks release. The manual remediation workflow installs the latest stable Ruff, applies supported fixes and formatting, runs the complete validation suite, and commits only after success. No lint rule or Quality Scale requirement was relaxed; the GOLD threshold remains mandatory. RC15 remains blocked until the remediation workflow and subsequent read-only workflow both pass on GitHub.
+
+## 2026-07-27 - GitHub validation failure triage
+
+Reviewed the GitHub validation log and identified 882 Ruff findings across 121 files plus an invalid Python/Home Assistant compatibility matrix. Updated the sandbox/remediation workflows and compatibility runtime mapping. Mechanical Ruff remediation is now persisted before semantic residual failures are reported, preventing the previous all-or-nothing workflow from discarding valid safe fixes. Release remains blocked pending a fully green read-only validation run with GOLD retained.

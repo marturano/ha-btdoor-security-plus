@@ -494,3 +494,11 @@ Detailed mappings from experimental labels such as `4.0.0-alpha.*`, `5.0.0-beta.
 ### Documentation
 - Added ADR-0091 and the GitHub Sandbox Validation operational guide.
 - Updated governance, quality gates, document impact, engineering notebook and handoff continuity records.
+
+### GitHub validation remediation update - 2026-07-27
+
+- Corrected the GitHub Home Assistant compatibility matrix so Home Assistant 2026.3-2026.7 runs on Python 3.14.2 while 2026.1 retains Python 3.13.
+- Updated the GitHub sandbox and Ruff remediation workflows to use Python 3.14.2 and current GitHub Actions.
+- Reworked Ruff remediation so safe mechanical fixes are committed even when semantic residual findings remain; residual reports are preserved as mandatory evidence and still block compliance.
+- Added optional explicit unsafe-fix execution without weakening the read-only release validation gate.
+- Release status remains blocked until the follow-up GitHub validation run is fully green and GOLD evidence is preserved.

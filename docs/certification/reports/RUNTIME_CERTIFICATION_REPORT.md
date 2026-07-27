@@ -12,7 +12,7 @@ Home Assistant target runtime: **PENDING**
 
 Command: `/opt/pyvenv/bin/python -m pytest -q -p no:cacheprovider tests/test_governance_automation.py tests/test_project_health_dashboard.py tests/test_quality_release_intelligence.py tests/test_repository_rationalization.py tests/test_rc15_repository_integrity.py`
 
-Duration: 9.562 s
+Duration: 8.93 s
 
 Exit code: 0
 

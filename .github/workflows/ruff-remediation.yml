@@ -2,6 +2,12 @@ name: Ruff Remediation
 
 on:
   workflow_dispatch:
+    inputs:
+      use_unsafe_fixes:
+        description: Apply Ruff unsafe fixes after safe fixes
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -12,25 +18,54 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: "3.13"
+          python-version: "3.14.2"
           cache: pip
-      - name: Apply Ruff remediation and validate
-        run: tools/validation/github_sandbox_validate.sh fix
-      - name: Commit compliant remediation
+      - name: Install latest validation tools
         run: |
-          if git diff --quiet; then
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade ruff pytest pytest-cov
+          mkdir -p artifacts/github-sandbox-validation
+          python --version | tee artifacts/github-sandbox-validation/python-version.txt
+          ruff --version | tee artifacts/github-sandbox-validation/ruff-version.txt
+      - name: Apply safe Ruff remediation
+        run: |
+          ruff check custom_components/btdoor_security_plus tests tools --fix
+          ruff format custom_components/btdoor_security_plus tests tools
+          ruff check custom_components/btdoor_security_plus tests tools --fix
+      - name: Apply requested unsafe Ruff remediation
+        if: ${{ inputs.use_unsafe_fixes }}
+        run: |
+          ruff check custom_components/btdoor_security_plus tests tools --fix --unsafe-fixes
+          ruff format custom_components/btdoor_security_plus tests tools
+      - name: Capture residual Ruff findings
+        id: residual
+        shell: bash
+        run: |
+          set +e
+          ruff format --check custom_components/btdoor_security_plus tests tools \
+            2>&1 | tee artifacts/github-sandbox-validation/ruff-format.txt
+          format_status=${PIPESTATUS[0]}
+          ruff check custom_components/btdoor_security_plus tests tools \
+            2>&1 | tee artifacts/github-sandbox-validation/ruff-check.txt
+          check_status=${PIPESTATUS[0]}
+          echo "format_status=$format_status" >> "$GITHUB_OUTPUT"
+          echo "check_status=$check_status" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Commit mechanical remediation
+        run: |
+          if git diff --quiet -- custom_components tests tools; then
             echo "No Ruff changes required"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add custom_components tests tools
-          git commit -m "Fix Ruff compliance in GitHub sandbox"
+          git commit -m "Apply Ruff remediation in GitHub sandbox"
           git push
       - name: Upload remediation evidence
         if: always()
@@ -38,4 +73,10 @@ jobs:
         with:
           name: ruff-remediation-evidence
           path: artifacts/github-sandbox-validation
-          if-no-files-found: warn
+          if-no-files-found: error
+      - name: Require a clean residual Ruff report
+        if: ${{ steps.residual.outputs.format_status != '0' || steps.residual.outputs.check_status != '0' }}
+        run: |
+          echo "Mechanical fixes were committed, but residual Ruff findings remain."
+          echo "Download the ruff-remediation-evidence artifact and remediate the remaining semantic findings."
+          exit 1

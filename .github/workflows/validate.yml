@@ -40,7 +40,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.13"
+          python-version: "3.14.2"
           cache: pip
       - name: Install validation dependencies
         run: python -m pip install --upgrade pip pytest ruff mypy
@@ -73,14 +73,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        homeassistant: ["2026.1.0", "2026.3.4", "2026.5.4", "2026.6.4", "2026.7.2"]
+        include:
+          - homeassistant: "2026.1.0"
+            python: "3.13"
+          - homeassistant: "2026.3.4"
+            python: "3.14.2"
+          - homeassistant: "2026.5.4"
+            python: "3.14.2"
+          - homeassistant: "2026.6.4"
+            python: "3.14.2"
+          - homeassistant: "2026.7.2"
+            python: "3.14.2"
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.13"
+          python-version: "${{ matrix.python }}"
           cache: pip
       - name: Install Home Assistant and integration requirement
         run: |

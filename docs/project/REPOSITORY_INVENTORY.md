@@ -4,7 +4,7 @@
 **Package:** `1.1.0-rc.15-phase7c-github-publication-ready`  
 **Purpose:** canonical inventory of every active file in the exact package during Phase 7C assessment.
 
-**Active file count:** 804
+**Active file count:** 806
 
 ## Active files
 
@@ -586,6 +586,7 @@
 - `docs/target-validation/target_validation_plan.json`
 - `docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md`
 - `docs/validation/GITHUB_SANDBOX_VALIDATION.md`
+- `docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md`
 - `docs/validation/README.md`
 - `docs/validation/VALIDATION_MAINTENANCE_POLICY.md`
 - `docs/validation/VALIDATION_REGISTER.md`
@@ -673,6 +674,7 @@
 - `handoff/78_PHASE_7C_GITHUB_PUBLICATION_AUDIT.md`
 - `handoff/CONTINUITY_CHECKLIST.md`
 - `handoff/HANDOFF_INDEX.md`
+- `handoff/README.md`
 - `pyproject.toml`
 - `tests/test_alpha1a_regressions.py`
 - `tests/test_alpha3_documentation_qa.py`
