@@ -34,6 +34,9 @@ jobs:
   python:
     name: Python checks
     runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/btdoor-pycache
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -68,6 +71,9 @@ jobs:
         run: pytest -q -p no:cacheprovider -p pytest_asyncio.plugin
 
   ha-compatibility:
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/btdoor-pycache
     name: HA ${{ matrix.homeassistant }} import compatibility
     runs-on: ubuntu-latest
     strategy:

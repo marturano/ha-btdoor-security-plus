@@ -1,3 +1,19 @@
+## Phase 7C — Governance and CI audit remediation
+
+- Prevented Python bytecode caches from being written inside the checked-out repository during GitHub validation, governance and compatibility jobs.
+- Removed packaged runtime logs and local cache directories that violated repository integrity and hygiene gates.
+- Regenerated repository rationalization metadata after cleanup.
+- Verified repository integrity and hygiene gates locally; the full pytest suite reached a clean pass under the isolated GitHub-style plugin configuration during the audit.
+- Kept Ruff formatting and mypy as mandatory remote GitHub checks.
+
+
+## Phase 7C — GitHub sandbox execution fix
+
+- Made the isolated validation workflow invoke `github_sandbox_validate.sh` explicitly through Bash.
+- Removed the GitHub Actions dependency on the executable bit, preventing exit code 126 on repositories prepared from Windows or ZIP archives.
+- Verified the workflow YAML and shell syntax locally.
+
+
 ## Phase 7C — GitHub publication readiness
 
 - Added a deterministic repository publication preflight.

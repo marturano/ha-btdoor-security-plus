@@ -2056,14 +2056,6 @@
     },
     {
       "source": "docs/certification/runtime_certification.json",
-      "target": "docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md"
-    },
-    {
-      "source": "docs/certification/runtime_certification.json",
-      "target": "handoff/README.md"
-    },
-    {
-      "source": "docs/certification/runtime_certification.json",
       "target": "tests/test_governance_automation.py"
     },
     {
@@ -11420,10 +11412,6 @@
     },
     {
       "source": "docs/validation/governance-automation-report.json",
-      "target": "docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md"
-    },
-    {
-      "source": "docs/validation/governance-automation-report.json",
       "target": "docs/validation/VALIDATION_MAINTENANCE_POLICY.md"
     },
     {
@@ -11453,10 +11441,6 @@
     {
       "source": "docs/validation/governance-automation-report.json",
       "target": "handoff/HANDOFF_INDEX.md"
-    },
-    {
-      "source": "docs/validation/governance-automation-report.json",
-      "target": "handoff/README.md"
     },
     {
       "source": "docs/validation/governance-automation-report.json",
