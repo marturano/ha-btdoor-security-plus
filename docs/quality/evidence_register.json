@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "project": "BTDoor Security+",
+  "package": "1.1.0-rc.15-phase7c-github-publication-ready",
+  "updated": "2026-07-27",
+  "evidence": [
+    {
+      "id": "EV-GOV-001",
+      "title": "Official workflow and gates",
+      "type": "governance",
+      "gate": "Definition of Ready Gate",
+      "source": "docs/project/WORKFLOW.md",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Project governance"
+    },
+    {
+      "id": "EV-ARCH-001",
+      "title": "Architecture and ADR index",
+      "type": "architecture",
+      "gate": "Architecture Gate",
+      "source": "docs/architecture/README.md",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Architecture"
+    },
+    {
+      "id": "EV-QUAL-001",
+      "title": "RC.15 validation report",
+      "type": "quality",
+      "gate": "Quality Gate",
+      "source": "docs/validation/VALIDATION_REPORT_1.1.0-rc.15.md",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Quality"
+    },
+    {
+      "id": "EV-SEC-001",
+      "title": "Security policy baseline",
+      "type": "security",
+      "gate": "Security Gate",
+      "source": "docs/security/SECURITY_POLICY.md",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Security"
+    },
+    {
+      "id": "EV-SEC-002",
+      "title": "Target runtime security certification",
+      "type": "security",
+      "gate": "Security Gate",
+      "source": "docs/certification/reports/SECURITY_CERTIFICATION_REPORT.md",
+      "status": "PENDING",
+      "blocking": true,
+      "owner": "Security"
+    },
+    {
+      "id": "EV-PERF-001",
+      "title": "Benchmark policy",
+      "type": "benchmark",
+      "gate": "Performance Gate",
+      "source": "docs/benchmarks/BENCHMARK_POLICY.md",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Performance"
+    },
+    {
+      "id": "EV-PERF-002",
+      "title": "Measured Home Assistant runtime baseline",
+      "type": "benchmark",
+      "gate": "Performance Gate",
+      "source": "docs/certification/reports/RUNTIME_CERTIFICATION_REPORT.md",
+      "status": "PENDING",
+      "blocking": true,
+      "owner": "Performance"
+    },
+    {
+      "id": "EV-UX-001",
+      "title": "Interactive UX and accessibility certification",
+      "type": "ux_accessibility",
+      "gate": "Documentation Gate",
+      "source": "docs/certification/reports/UX_ACCESSIBILITY_CERTIFICATION_REPORT.md",
+      "status": "PENDING",
+      "blocking": true,
+      "owner": "UX"
+    },
+    {
+      "id": "EV-I18N-001",
+      "title": "Translation review",
+      "type": "translation",
+      "gate": "Documentation Gate",
+      "source": "docs/i18n/TRANSLATION_REVIEW.md",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Localization"
+    },
+    {
+      "id": "EV-COMP-001",
+      "title": "Home Assistant and HACS runtime compatibility certification",
+      "type": "compatibility",
+      "gate": "Validation Gate",
+      "source": "docs/certification/reports/COMPATIBILITY_CERTIFICATION_REPORT.md",
+      "status": "PENDING",
+      "blocking": true,
+      "owner": "Compatibility"
+    },
+    {
+      "id": "EV-DOC-001",
+      "title": "Canonical document registry",
+      "type": "documentation",
+      "gate": "Documentation Gate",
+      "source": "docs/project/canonical_documents.json",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Documentation"
+    },
+    {
+      "id": "EV-VAL-001",
+      "title": "Validation register",
+      "type": "validation",
+      "gate": "Validation Gate",
+      "source": "docs/validation/VALIDATION_REGISTER.md",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Validation"
+    },
+    {
+      "id": "EV-REL-001",
+      "title": "Release checklist",
+      "type": "release",
+      "gate": "Release Readiness Gate",
+      "source": "docs/release/RELEASE_CHECKLIST.md",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Release management"
+    },
+    {
+      "id": "EV-PUB-001",
+      "title": "Final GitHub and HACS publication validation",
+      "type": "publication",
+      "gate": "Publication Gate",
+      "source": "docs/repository/validations/1.1.0-final.md",
+      "status": "PENDING",
+      "blocking": true,
+      "owner": "Repository maintenance"
+    },
+    {
+      "id": "EV-HAND-001",
+      "title": "Continuation package",
+      "type": "continuity",
+      "gate": "Release Readiness Gate",
+      "source": "handoff/HANDOFF_INDEX.md",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Project continuity"
+    },
+    {
+      "id": "EV-CERT-001",
+      "title": "Repository-local runtime certification",
+      "type": "certification",
+      "gate": "Quality Gate",
+      "source": "docs/certification/runtime_certification.json",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Release certification"
+    },
+    {
+      "id": "EV-CERT-002",
+      "title": "Repository compatibility certification",
+      "type": "certification",
+      "gate": "Validation Gate",
+      "source": "docs/certification/compatibility_certification.json",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Release certification"
+    },
+    {
+      "id": "EV-CERT-003",
+      "title": "Repository security certification",
+      "type": "certification",
+      "gate": "Security Gate",
+      "source": "docs/certification/security_certification.json",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Release certification"
+    },
+    {
+      "id": "EV-CERT-004",
+      "title": "Structural UX and accessibility certification",
+      "type": "certification",
+      "gate": "Documentation Gate",
+      "source": "docs/certification/ux_accessibility_certification.json",
+      "status": "VALIDATED",
+      "blocking": true,
+      "owner": "Release certification"
+    },
+    {
+      "id": "EV-TARGET-001",
+      "title": "Target validation pack framework",
+      "type": "certification",
+      "gate": "Validation Gate",
+      "source": "docs/target-validation/TARGET_VALIDATION_POLICY.md",
+      "status": "VALIDATED",
+      "blocking": false,
+      "owner": "Release certification"
+    },
+    {
+      "id": "EV-HAQS-001",
+      "title": "Home Assistant Integration Quality Scale Bronze alignment",
+      "type": "quality_scale",
+      "gate": "Home Assistant Quality Scale Gate",
+      "source": "docs/quality-scale/QUALITY_SCALE_REPORT.md",
+      "status": "PENDING",
+      "blocking": true,
+      "owner": "Integration quality"
+    },
+    {
+      "id": "EV-TARGET-002",
+      "title": "Operator runtime support evidence 2026-07-27",
+      "type": "target_runtime_support",
+      "gate": "Validation Gate",
+      "source": "docs/release/PHASE_7C_RUNTIME_EVIDENCE_INTAKE_20260727.md",
+      "status": "VALIDATED",
+      "blocking": false,
+      "owner": "Release certification"
+    }
+  ]
+}

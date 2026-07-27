@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "project": "BTDoor Security+",
+  "updated": "2026-07-22",
+  "links": [
+    {
+      "decision": "ADR-0057",
+      "adr": "docs/adr/ADR-0057-gate-workflow-and-project-health-dashboard.md",
+      "roadmap": "docs/roadmap/ROADMAP.md",
+      "changelog": "CHANGELOG.md",
+      "notebook": "docs/engineering/ENGINEERING_NOTEBOOK.md",
+      "release": "docs/release/RELEASE_CHECKLIST.md"
+    },
+    {
+      "decision": "ADR-0058",
+      "adr": "docs/adr/ADR-0058-repository-rationalization-and-canonical-registry.md",
+      "roadmap": "docs/roadmap/ROADMAP.md",
+      "changelog": "CHANGELOG.md",
+      "notebook": "docs/engineering/ENGINEERING_NOTEBOOK.md",
+      "release": "docs/project/REPOSITORY_RATIONALIZATION.md"
+    },
+    {
+      "decision": "ADR-0059",
+      "adr": "docs/adr/ADR-0059-quality-and-release-intelligence.md",
+      "roadmap": "docs/roadmap/ROADMAP.md",
+      "changelog": "CHANGELOG.md",
+      "notebook": "docs/engineering/ENGINEERING_NOTEBOOK.md",
+      "release": "docs/quality/RELEASE_DECISION_REPORT.md"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+blueprint:
+  name: BTDoor - Missed call notification
+  description: Run configurable actions when the last call is marked as missed.
+  domain: automation
+  author: BTDoor Security+ Project
+  homeassistant:
+    min_version: 2026.7.0
+  input:
+    missed_call_entity:
+      name: Last call missed sensor
+      selector:
+        entity:
+          domain: binary_sensor
+    notification_actions:
+      name: Notification actions
+      selector:
+        action: {}
+trigger:
+  - platform: state
+    entity_id: !input missed_call_entity
+    from: "off"
+    to: "on"
+action: !input notification_actions
+mode: queued
+max: 10

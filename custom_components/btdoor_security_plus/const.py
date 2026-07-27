@@ -5,8 +5,8 @@ from __future__ import annotations
 from datetime import timedelta
 
 DOMAIN = "btdoor_security_plus"
-INTEGRATION_VERSION = "6.0.0"
-PLATFORMS = ["switch", "button", "binary_sensor", "sensor", "event"]
+INTEGRATION_VERSION = "1.1.0-rc.15"
+PLATFORMS = ["button", "switch", "binary_sensor", "sensor", "event"]
 
 CONF_EMAIL = "email"
 CONF_PASSWORD = "password"
@@ -25,12 +25,14 @@ CONF_CLIENT_KEY_PATH = "client_key_path"
 CONF_SERVER = "server"
 CONF_PORT = "port"
 CONF_VERIFY_SERVER = "verify_server"
+CONF_QUICK_VOICE_GATE = "quick_voice_gate"
 
 DEFAULT_DEVICE_NAME = "HomeAssistant-BTicino-DoorEntry"
 DEFAULT_SERVER = "sipserver.bs.iotleg.com"
 DEFAULT_PORT = 5228
 DEFAULT_EXPIRES = 5_184_000
 DEFAULT_VERIFY_SERVER = False
+DEFAULT_QUICK_VOICE_GATE = False
 DEFAULT_OPEN_COMMAND = "*8*19*20##"
 USER_AGENT = "VctLinphoneService/1.17.3"
 CERTIFICATE_RENEW_BEFORE = timedelta(days=30)
@@ -40,6 +42,8 @@ SERVICE_RESET_STATISTICS = "reset_statistics"
 SERVICE_TEST_CONNECTION = "test_connection"
 SERVICE_REJECT_CALL = "reject_call"
 ATTR_ENTRY_ID = "entry_id"
+ATTR_REASON = "reason"
+ATTR_SOURCE = "source"
 
 EVENT_BUS = "btdoor_security_plus_event"
 

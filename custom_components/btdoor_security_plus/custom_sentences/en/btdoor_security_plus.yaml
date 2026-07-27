@@ -1,0 +1,9 @@
+language: en
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "open [the] gate"
+          - "open [the] outside gate"
+          - "can you open [the] gate"
+          - "please open [the] gate"

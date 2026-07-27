@@ -1,0 +1,9 @@
+language: nl
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "open [de] poort"
+          - "open [de] buitenpoort"
+          - "kun je [de] poort openen"
+          - "open [de] poort alstublieft"

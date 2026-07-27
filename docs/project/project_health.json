@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "project": "BTDoor Security+",
+  "package": "1.1.0-rc.15-phase7c-github-publication-ready",
+  "updated": "2026-07-23",
+  "target": "1.1.0 Final",
+  "status_model": {
+    "healthy": 90,
+    "watch": 70,
+    "blocked": 0
+  },
+  "domains": [
+    {
+      "id": "governance",
+      "name": "Governance",
+      "weight": 8,
+      "score": 96,
+      "status": "PASS",
+      "evidence": [
+        "docs/project/PROJECT_CONSTITUTION.md",
+        "docs/project/WORKFLOW.md",
+        "docs/project/WORKFLOW_GATES.md",
+        "docs/project/REPOSITORY_RATIONALIZATION.md"
+      ],
+      "next_action": "Maintain gate evidence during Final preparation."
+    },
+    {
+      "id": "architecture",
+      "name": "Architecture",
+      "weight": 10,
+      "score": 90,
+      "status": "PASS WITH CONDITIONS",
+      "evidence": [
+        "docs/architecture/README.md",
+        "docs/adr/README.md"
+      ],
+      "next_action": "Re-run Architecture Gate for any Final implementation change."
+    },
+    {
+      "id": "quality",
+      "name": "Quality",
+      "weight": 12,
+      "score": 82,
+      "status": "PASS WITH CONDITIONS",
+      "evidence": [
+        "docs/quality/QUALITY_REVIEW_REGISTER.md",
+        "docs/validation/VALIDATION_REPORT_1.1.0-rc.15.md",
+        "docs/quality/evidence_register.json",
+        "docs/quality/risk_register.json",
+        "docs/quality/release_decision.json"
+      ],
+      "next_action": "Close blocking Final evidence and severe risks recorded by the release decision engine."
+    },
+    {
+      "id": "security",
+      "name": "Security",
+      "weight": 12,
+      "score": 68,
+      "status": "NOT STARTED",
+      "evidence": [
+        "docs/security/SECURITY_POLICY.md"
+      ],
+      "next_action": "Execute and document the Final security review."
+    },
+    {
+      "id": "performance",
+      "name": "Performance and Benchmark",
+      "weight": 9,
+      "score": 45,
+      "status": "BLOCKED",
+      "evidence": [
+        "docs/benchmarks/BASELINES.md",
+        "docs/benchmarks/reports/1.1.0-rc.15-governance.md"
+      ],
+      "next_action": "Establish measured reproducible baselines before Final readiness."
+    },
+    {
+      "id": "ux_accessibility",
+      "name": "UX and Accessibility",
+      "weight": 6,
+      "score": 65,
+      "status": "NOT STARTED",
+      "evidence": [
+        "docs/automation-assets/LOVELACE_GUIDE.md"
+      ],
+      "next_action": "Create UX and accessibility evidence for dashboards and exposed controls."
+    },
+    {
+      "id": "translation",
+      "name": "Translation",
+      "weight": 7,
+      "score": 82,
+      "status": "PASS WITH CONDITIONS",
+      "evidence": [
+        "docs/i18n/TRANSLATION_REVIEW.md"
+      ],
+      "next_action": "Complete Final translation verification and update the review."
+    },
+    {
+      "id": "compatibility",
+      "name": "Compatibility",
+      "weight": 9,
+      "score": 62,
+      "status": "NOT STARTED",
+      "evidence": [
+        "docs/validation/VALIDATION_REGISTER.md"
+      ],
+      "next_action": "Execute the Final runtime compatibility matrix."
+    },
+    {
+      "id": "documentation",
+      "name": "Documentation and Assets",
+      "weight": 8,
+      "score": 94,
+      "status": "PASS",
+      "evidence": [
+        "docs/project/REPOSITORY_INVENTORY.md",
+        "docs/automation-assets/AUTOMATION_ASSETS_POLICY.md",
+        "docs/project/CANONICAL_DOCUMENTS.md",
+        "docs/project/REPOSITORY_DEPENDENCY_MAP.md",
+        "docs/project/repository_metrics.json"
+      ],
+      "next_action": "Maintain canonical registry and dependency metrics during Final preparation."
+    },
+    {
+      "id": "validation",
+      "name": "Validation",
+      "weight": 8,
+      "score": 94,
+      "status": "PASS",
+      "evidence": [
+        "docs/validation/VALIDATION_REGISTER.md",
+        "docs/validation/VALIDATION_REPORT_1.1.0-rc.15.md"
+      ],
+      "next_action": "Regenerate evidence after every package change."
+    },
+    {
+      "id": "publication",
+      "name": "GitHub and HACS Publication",
+      "weight": 7,
+      "score": 30,
+      "status": "NOT STARTED",
+      "evidence": [
+        "docs/repository/validations/1.1.0-final.md"
+      ],
+      "next_action": "Run complete HACS and GitHub publication validation before Final."
+    },
+    {
+      "id": "continuity",
+      "name": "Handoff and Continuity",
+      "weight": 4,
+      "score": 95,
+      "status": "PASS",
+      "evidence": [
+        "handoff/HANDOFF_INDEX.md",
+        "handoff/28_IMMEDIATE_RESUME_POINT.md"
+      ],
+      "next_action": "Replace the handoff after the next meaningful milestone."
+    }
+  ]
+}

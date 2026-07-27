@@ -7,6 +7,10 @@ from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+
+# Push-driven platform; entity updates do not perform parallel device I/O.
+PARALLEL_UPDATES = 0
+
 from . import BticinoConfigEntry
 from .entity import BticinoDoorEntryEntity, BticinoSipClientEntity
 from .device_model import DeviceKind

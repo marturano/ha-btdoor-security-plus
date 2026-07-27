@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "duration_ms": 471.9,
+  "connected": true,
+  "tls_version": "TLSv1.3",
+  "cipher": [
+    "TLS_AES_256_GCM_SHA384",
+    "TLSv1.3",
+    256
+  ],
+  "peername": [
+    "172.211.xxx.xxx",
+    5228
+  ],
+  "verify_server": false
+}

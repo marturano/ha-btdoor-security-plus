@@ -54,6 +54,31 @@ def sanitize_support_data(value: Any, key: str | None = None) -> Any:
     return sanitize_export_data(value, key, policy=ExportPolicy.STANDARD)
 
 
+
+
+def build_timeline_summary(events: list[dict[str, Any]]) -> dict[str, Any]:
+    """Aggregate a compact, sanitized SIP timeline summary."""
+    from .sip_timeline import classify_timeline_event
+
+    counts: dict[str, int] = {}
+    durations: list[float] = []
+    last_event: dict[str, Any] | None = None
+    for event in events:
+        name = classify_timeline_event(event)
+        counts[name] = counts.get(name, 0) + 1
+        value = event.get("duration") or event.get("duration_seconds")
+        if isinstance(value, (int, float)):
+            durations.append(float(value))
+        last_event = event
+    return {
+        "event_count": len(events),
+        "events_by_type": counts,
+        "average_duration_seconds": (
+            round(sum(durations) / len(durations), 2) if durations else None
+        ),
+        "last_event": sanitize_support_data(last_event),
+    }
+
 def sanitize_json_text(value: Any, *, indent: int | None = 2) -> str:
     """Serialize a sanitized structured value to guaranteed-valid JSON."""
     return json_dumps(sanitize_support_data(value), indent=indent)

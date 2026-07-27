@@ -1,0 +1,9 @@
+language: fr
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "ouvre [le] portail"
+          - "ouvre [le] portail extérieur"
+          - "peux-tu ouvrir [le] portail"
+          - "ouvre [le] portail s’il te plaît"

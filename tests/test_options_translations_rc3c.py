@@ -14,6 +14,7 @@ OPTION_KEYS = {
     "show_advanced_diagnostics",
     "developer_mode",
     "debug_mode",
+    "quick_voice_gate",
 }
 DEBUG_OPTIONS = {"off", "support", "deep"}
 

@@ -33,6 +33,9 @@ _SECRET_KEYS = frozenset(
         "set-cookie",
         "certificate",
         "client_certificate",
+        "client_cert_path",
+        "client_key_path",
+        "ca_chain_path",
     }
 )
 _HASHED_IDENTIFIER_KEYS = frozenset(
@@ -40,6 +43,11 @@ _HASHED_IDENTIFIER_KEYS = frozenset(
         "entry_id",
         "config_entry_id",
         "device_id",
+        "via_device_id",
+        "unique_id",
+        "entity_id",
+        "plant_id",
+        "id_device",
         "call_id",
         "branch",
         "tag",

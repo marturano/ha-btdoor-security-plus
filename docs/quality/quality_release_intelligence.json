@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "evidence_total": 22,
+  "evidence_validated": 16,
+  "evidence_coverage_percent": 72.7,
+  "blocking_evidence_open": [
+    "EV-SEC-002",
+    "EV-PERF-002",
+    "EV-UX-001",
+    "EV-COMP-001",
+    "EV-PUB-001",
+    "EV-HAQS-001"
+  ],
+  "open_risks": 5,
+  "critical_high_risks": [
+    "RISK-001",
+    "RISK-002",
+    "RISK-003",
+    "RISK-004"
+  ],
+  "technical_debt_open": 3,
+  "duplicate_evidence_ids": [],
+  "inconsistent_evidence": [],
+  "invalid_risk_references": [],
+  "traceability_missing_paths": [],
+  "status": "PASS"
+}

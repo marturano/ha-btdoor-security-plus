@@ -1,0 +1,64 @@
+schema_version: 3
+source_locale: en
+supported_locales:
+- en
+- it
+- fr
+- de
+- es
+- nl
+release_gate: required_user_documents_complete_and_current
+required_user_documents:
+- index.md
+- glossary.md
+- user/getting-started.md
+- user/dashboards-and-blueprints.md
+- voice_assistants.md
+- developer_console.md
+- release/compatibility.md
+required_engineering_documents:
+- docs/FOUNDATION.md
+- docs/architecture/README.md
+- docs/adr/README.md
+- docs/engineering/ENGINEERING_NOTEBOOK.md
+- docs/engineering/REPOSITORY_CLEANUP_AUDIT_2026-07-22.md
+- docs/compatibility/COMPATIBILITY_MATRIX.md
+forbidden_active_markers:
+- Alpha.3 foundation
+- expanded before 6.1.0 Stable
+- 'target baseline: Home Assistant 2026.7'
+adr_policy:
+  normative_locale: en
+  full_translation_required: false
+  source_directory: docs/adr
+release: 1.1.0-rc.14
+canonical_index: docs/index.md
+roadmap_index: docs/roadmap/ROADMAP.md
+strategic_documents:
+- PROJECT_VISION.md
+- ARCHITECTURE_PRINCIPLES.md
+- docs/architecture/ECOSYSTEM_MODEL.md
+- docs/architecture/AI_PIPELINE.md
+- docs/ai/VISION.md
+- docs/sdk/SDK_STRATEGY.md
+- docs/security/SECURITY_BASELINE.md
+- docs/benchmarks/BASELINES.md
+continuity_index: handoff/HANDOFF_INDEX.md
+required_governance_documents:
+- PROJECT_MANIFEST.md
+- docs/repository/REPOSITORY_POLICY.md
+- handoff/00_PROJECT_EXECUTION_CONTRACT.md
+- handoff/01_PROJECT_MEMORY.md
+- docs/release/RELEASE_CHECKLIST.md
+- docs/release/DOCUMENTATION_CHANGELOG.md
+- docs/governance/DOCUMENT_LIFECYCLE.md
+required_localized_release_document: release/1.1.0-rc.14.md
+required_documents:
+- index.md
+- glossary.md
+- user/getting-started.md
+- user/dashboards-and-blueprints.md
+- voice_assistants.md
+- developer_console.md
+- release/compatibility.md
+- release/1.1.0-rc.14.md

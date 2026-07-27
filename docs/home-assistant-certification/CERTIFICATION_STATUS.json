@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "phase": "7B",
+  "status": "READY_FOR_TARGET_EXECUTION",
+  "supported_target": "Home Assistant 2026.x",
+  "live_target_executed": false,
+  "release_approval": "NOT_GRANTED",
+  "blocking_reason": "No accepted certification run from a real Home Assistant instance is stored in the repository."
+}

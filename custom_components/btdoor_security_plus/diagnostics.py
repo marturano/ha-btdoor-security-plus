@@ -4,13 +4,10 @@ from __future__ import annotations
 
 from typing import Any
 
-from homeassistant.components.diagnostics import async_redact_data
 from homeassistant.core import HomeAssistant
 
 from . import BticinoConfigEntry
-from .const import CONF_PASSWORD, CONF_SIP_PASSWORD
-
-TO_REDACT = {CONF_PASSWORD, CONF_SIP_PASSWORD, "auth_token"}
+from .support_models import sanitize_support_data
 
 
 async def async_get_config_entry_diagnostics(
@@ -18,8 +15,8 @@ async def async_get_config_entry_diagnostics(
 ) -> dict[str, Any]:
     """Return redacted config-entry diagnostics."""
     client = entry.runtime_data.client
-    return {
-        "entry": async_redact_data(dict(entry.data), TO_REDACT),
+    return sanitize_support_data({
+        "entry": dict(entry.data),
         "support_debug": {
             "mode": entry.options.get("debug_mode", "off"),
             "log_path": str(entry.runtime_data.debug.log_path) if entry.runtime_data.debug else None,
@@ -71,4 +68,4 @@ async def async_get_config_entry_diagnostics(
             "media_instrumentation": client.media_instrumentation,
             "sip_dispatcher": client.sip_dispatcher_diagnostics,
         },
-    }
+    })

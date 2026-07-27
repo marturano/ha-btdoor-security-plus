@@ -1,0 +1,49 @@
+title: BTDoor Security+
+views:
+  - title: Home
+    path: home
+    icon: mdi:doorbell-video
+    cards:
+      - type: glance
+        title: Stato generale
+        entities:
+          - entity: binary_sensor.btdoor_template_cloud_connected
+            name: Cloud
+          - entity: binary_sensor.btdoor_template_sip_registered
+            name: SIP
+          - entity: binary_sensor.btdoor_template_runtime_healthy
+            name: Salute
+      - type: button
+        entity: button.apri_cancello
+        name: Apri cancello
+        icon: mdi:gate-open
+        show_state: false
+        tap_action:
+          action: perform-action
+          perform_action: button.press
+          target:
+            entity_id: button.apri_cancello
+          confirmation:
+            text: Confermi l'apertura del cancello?
+        hold_action:
+          action: more-info
+      - type: entities
+        title: Citofono
+        entities:
+          - entity: binary_sensor.btdoor_template_ringing
+            name: Chiamata in corso
+          - entity: sensor.btdoor_template_call_state
+            name: Stato chiamata
+          - entity: sensor.btdoor_template_last_caller
+            name: Ultimo chiamante
+          - entity: sensor.btdoor_template_last_gate_open
+            name: Ultima apertura
+      - type: gauge
+        entity: sensor.btdoor_template_runtime_score
+        name: Health Score
+        min: 0
+        max: 100
+        severity:
+          red: 0
+          yellow: 60
+          green: 85

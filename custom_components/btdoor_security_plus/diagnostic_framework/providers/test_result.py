@@ -18,6 +18,7 @@ class TestResultProvider:
         self.name = name
         self.weight = weight
         self._collector = collector
+        self.timeout_seconds = 10.0
 
     async def async_collect(self) -> DiagnosticResult:
         details = await self._collector()
@@ -32,6 +33,12 @@ class TestResultProvider:
             weight=self.weight,
             details=details,
             issues=issues,
+            severity="info" if score >= 95 else "warning" if score >= 70 else "critical",
+            explanation=(
+                "Provider passed without deductions."
+                if score == 100
+                else f"Provider returned score {score}/100."
+            ),
         )
 
 
@@ -42,6 +49,7 @@ class StaticResultProvider:
         self.name = name
         self.weight = weight
         self._result = result
+        self.timeout_seconds = 10.0
 
     async def async_collect(self) -> DiagnosticResult:
         payload = dict(self._result)
@@ -56,4 +64,10 @@ class StaticResultProvider:
             weight=self.weight,
             details=payload,
             issues=issues,
+            severity="info" if score >= 95 else "warning" if score >= 70 else "critical",
+            explanation=(
+                "Provider passed without deductions."
+                if score == 100
+                else f"Provider returned score {score}/100."
+            ),
         )

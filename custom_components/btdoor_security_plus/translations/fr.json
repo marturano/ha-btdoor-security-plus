@@ -3,30 +3,30 @@
   "config": {
     "step": {
       "user": {
-        "title": "Connect BTDoor Security+",
-        "description": "Enter the same MyHomeWeb credentials used by the official Door Entry app. SIP credentials and client certificates are provisioned automatically.",
+        "title": "Connecter BTDoor Security+",
+        "description": "Saisissez les mêmes identifiants MyHomeWeb que dans l’application Door Entry officielle. Les identifiants SIP et les certificats client sont provisionnés automatiquement.",
         "data": {
-          "email": "MyHomeWeb email",
-          "password": "MyHomeWeb password",
-          "device_name": "Registered device name (DeviceName)",
-          "server": "SIP server",
-          "verify_server": "Verify SIP server certificate"
+          "email": "E-mail MyHomeWeb",
+          "password": "Mot de passe MyHomeWeb",
+          "device_name": "Nom d’appareil enregistré (DeviceName)",
+          "server": "Serveur SIP",
+          "verify_server": "Vérifier le certificat du serveur SIP"
         },
         "data_description": {
-          "device_name": "Name registered in the BTicino cloud for this Home Assistant SIP client.",
-          "verify_server": "When enabled, Home Assistant validates the SIP server certificate against the trusted CA store. BTicino uses a private certificate chain on some systems, so enabling this option may prevent the SIP connection. Client-certificate authentication remains active even when this check is disabled."
+          "device_name": "Nom enregistré dans le cloud BTicino pour ce client SIP Home Assistant.",
+          "verify_server": "Si cette option est activée, Home Assistant valide le certificat du serveur SIP avec le magasin d’autorités de confiance. Certains systèmes BTicino utilisent une chaîne privée, ce qui peut empêcher la connexion SIP. L’authentification par certificat client reste active même si ce contrôle est désactivé."
         }
       },
       "select_gateway": {
-        "title": "Select Door Entry gateway",
-        "description": "Choose the BTicino plant/gateway to connect.",
+        "title": "Sélectionner la passerelle Door Entry",
+        "description": "Choisissez l’installation ou la passerelle BTicino à connecter.",
         "data": {
           "gateway_id": "Gateway"
         }
       },
       "reconfigure": {
-        "title": "Reconfigure BTDoor Security+",
-        "description": "Update MyHomeWeb credentials, DeviceName and SIP connection settings. The SIP certificate is provisioned again.",
+        "title": "Reconfigurer BTDoor Security+",
+        "description": "Mettez à jour les identifiants MyHomeWeb, DeviceName et les paramètres SIP. Le certificat SIP est provisionné de nouveau.",
         "data": {
           "email": "MyHomeWeb email",
           "password": "MyHomeWeb password",
@@ -39,8 +39,8 @@
         }
       },
       "reauth_confirm": {
-        "title": "Reconnect BTDoor Security+",
-        "description": "The BTicino cloud rejected the saved credentials. Enter them again.",
+        "title": "Reconnecter BTDoor Security+",
+        "description": "Le cloud BTicino a refusé les identifiants enregistrés. Saisissez-les de nouveau.",
         "data": {
           "email": "MyHomeWeb email",
           "password": "MyHomeWeb password"
@@ -48,32 +48,27 @@
       }
     },
     "error": {
-      "cannot_connect_cloud": "Unable to connect to MyHomeWeb.",
+      "cannot_connect_cloud": "Impossible de se connecter à MyHomeWeb.",
       "invalid_cloud_auth": "Adresse e-mail ou mot de passe MyHomeWeb incorrect. Vérifiez les identifiants utilisés dans l’application BTicino Door Entry.",
-      "cloud_error": "The BTicino cloud returned an unexpected response.",
-      "no_gateways": "No compatible Door Entry gateway was found.",
-      "cannot_connect": "Unable to connect to the BTicino SIP server.",
-      "invalid_auth": "The provisioned SIP credentials or certificate were rejected.",
-      "provisioning_error": "Unable to provision or validate the BTicino SIP device.",
-      "unknown": "Unexpected error. Review the Home Assistant log."
+      "cloud_error": "Le cloud BTicino a renvoyé une réponse inattendue.",
+      "no_gateways": "Aucune passerelle Door Entry compatible n’a été trouvée.",
+      "cannot_connect": "Impossible de se connecter au serveur SIP BTicino.",
+      "invalid_auth": "Les identifiants ou le certificat SIP provisionnés ont été refusés.",
+      "provisioning_error": "Impossible de provisionner ou valider l’appareil SIP BTicino.",
+      "unknown": "Erreur inattendue. Consultez le journal Home Assistant."
     },
     "abort": {
-      "already_configured": "This gateway is already configured.",
-      "wrong_gateway": "The selected account does not contain the configured gateway."
+      "already_configured": "Cette passerelle est déjà configurée.",
+      "wrong_gateway": "Le compte sélectionné ne contient pas la passerelle configurée."
     }
   },
   "entity": {
-    "switch": {
-      "open_gate": {
-        "name": "Open gate"
-      }
-    },
     "binary_sensor": {
       "sip_registered": {
-        "name": "SIP registered"
+        "name": "SIP enregistré"
       },
       "ringing": {
-        "name": "Incoming call"
+        "name": "Appel entrant"
       },
       "media_ready": {
         "name": "Média prêt"
@@ -93,61 +88,61 @@
     },
     "sensor": {
       "last_sip_status": {
-        "name": "Last SIP status"
+        "name": "Dernier SIP status"
       },
       "last_gate_open": {
-        "name": "Last gate opening"
+        "name": "Dernier gate opening"
       },
       "last_event": {
-        "name": "Last event"
+        "name": "Dernier event"
       },
       "last_caller": {
-        "name": "Last caller"
+        "name": "Dernier caller"
       },
       "last_message": {
-        "name": "Last SIP message"
+        "name": "Contenu du dernier SIP MESSAGE entrant"
       },
       "call_state": {
-        "name": "Call state"
+        "name": "État de l’appel"
       },
       "last_call_duration": {
-        "name": "Last call duration"
+        "name": "Dernier call duration"
       },
       "call_count": {
-        "name": "Received call count"
+        "name": "Nombre d’appels reçus"
       },
       "last_call_started": {
-        "name": "Last call started"
+        "name": "Dernier call started"
       },
       "last_call_ended": {
-        "name": "Last call ended"
+        "name": "Dernier call ended"
       },
       "missed_call_count": {
-        "name": "Missed call count"
+        "name": "Nombre d’appels manqués"
       },
       "message_count": {
-        "name": "Messages SIP entrants"
+        "name": "Requêtes SIP MESSAGE entrantes"
       },
       "last_message_time": {
-        "name": "Last SIP message time"
+        "name": "Heure du dernier SIP MESSAGE entrant"
       },
       "last_event_time": {
-        "name": "Last event time"
+        "name": "Dernier event time"
       },
       "reconnect_count": {
         "name": "Reconnexions SIP réelles"
       },
       "last_error": {
-        "name": "Last SIP error"
+        "name": "Dernier SIP error"
       },
       "connection_uptime": {
         "name": "SIP connection uptime"
       },
       "last_command_duration": {
-        "name": "Last command duration"
+        "name": "Dernier command duration"
       },
       "last_command_time": {
-        "name": "Last command time"
+        "name": "Dernier command time"
       },
       "connection_quality": {
         "name": "SIP connection quality"
@@ -156,10 +151,10 @@
         "name": "SIP dialog state"
       },
       "last_sip_method": {
-        "name": "Last SIP method"
+        "name": "Dernier SIP method"
       },
       "last_sdp_offer": {
-        "name": "Last SDP offer"
+        "name": "Dernier SDP offer"
       },
       "sdp_summary": {
         "name": "SDP media summary"
@@ -171,10 +166,10 @@
         "name": "Video RTP offer"
       },
       "last_developer_test": {
-        "name": "Last developer test"
+        "name": "Dernier developer test"
       },
       "last_support_report": {
-        "name": "Last support report"
+        "name": "Dernier support report"
       },
       "media_preparation": {
         "name": "Préparation multimédia"
@@ -256,57 +251,74 @@
         "name": "Run developer test"
       },
       "generate_support_report": {
-        "name": "Generate support report"
+        "name": "Générer le rapport de support"
       },
       "clean_debug_environment": {
-        "name": "Pulisci ambiente di debug"
+        "name": "Nettoyer l’environnement de débogage"
+      },
+      "open_gate": {
+        "name": "Portail"
+      }
+    },
+    "cover": {
+      "gate": {
+        "name": "Portail"
+      }
+    },
+    "switch": {
+      "open_gate_voice_bridge": {
+        "name": "Ouvrir le portail — assistants vocaux"
       }
     }
   },
   "services": {
     "open_gate": {
-      "name": "Open gate",
+      "name": "Ouvrir le portail",
       "description": "Open the BTicino gate using SIP."
     },
     "reset_statistics": {
-      "name": "Reset statistics",
+      "name": "Réinitialiser les statistiques",
       "description": "Reset stored call and SIP event counters."
     },
     "test_connection": {
-      "name": "Test connection",
+      "name": "Tester la connexion",
       "description": "Validate TLS and SIP registration without opening the gate."
     },
     "reject_call": {
-      "name": "Reject call",
+      "name": "Rejeter l’appel",
       "description": "Reject the currently ringing BTicino call with SIP 486 Busy Here."
     },
     "developer_test": {
-      "name": "Developer test",
+      "name": "Test développeur",
       "description": "Run advanced diagnostics without opening the gate."
     },
     "generate_support_report": {
-      "name": "Generate support report",
+      "name": "Générer le rapport de support",
       "description": "Create a redacted Markdown report and ZIP bundle for technical support."
     },
     "export_debug_bundle": {
-      "name": "Export debug bundle",
+      "name": "Exporter le bundle de débogage",
       "description": "Export the same redacted support bundle for developer workflows."
     },
     "clean_debug_environment": {
-      "name": "Pulisci ambiente di debug",
+      "name": "Nettoyer l’environnement de débogage",
       "description": "Elimina log e report di supporto mantenendo configurazione e certificati."
     }
   },
   "issues": {
     "missing_certificate": {
-      "title": "BTicino certificate missing",
-      "description": "The certificate or private key for {entry_title} is missing. Open Reconfigure and complete MyHomeWeb provisioning."
+      "title": "Certificat BTicino manquant",
+      "description": "Le certificat ou la clé privée de {entry_title} est manquant. Ouvrez Reconfigurer et terminez le provisionnement MyHomeWeb."
+    },
+    "assist_sentences_restart_required": {
+      "title": "Redémarrage requis pour les phrases BTDoor Assist",
+      "description": "BTDoor Security+ a installé ou mis à jour ses phrases Assist locales. Redémarrez Home Assistant une fois afin que Conversation charge les nouveaux fichiers."
     }
   },
   "options": {
     "step": {
       "init": {
-        "title": "Interface and diagnostic modules",
+        "title": "Interface et modules de diagnostic",
         "description": "Customize which monitoring modules are visible in Home Assistant. Hiding a module removes its device and entities from the interface without affecting the internal operation of the integration. Diagnostic avancé is shown only when both its visibility option and Developer mode are enabled.",
         "data": {
           "show_cloud_status": "Afficher État du Cloud",
@@ -314,8 +326,9 @@
           "show_call_monitor": "Afficher Gestionnaire d’appels",
           "show_media_monitor": "Afficher Moniteur multimédia",
           "show_advanced_diagnostics": "Afficher Diagnostic avancé",
-          "developer_mode": "Enable Developer mode",
-          "debug_mode": "Support Debug mode"
+          "developer_mode": "Activer le mode développeur",
+          "debug_mode": "Mode de débogage du support",
+          "quick_voice_gate": "Activer la commande vocale rapide du portail"
         },
         "data_description": {
           "show_cloud_status": "Shows cloud connectivity, gateway synchronization and authentication entities.",
@@ -324,9 +337,17 @@
           "show_media_monitor": "Shows media-session state, negotiated codecs and RTP/SRTP information.",
           "show_advanced_diagnostics": "Allows the Diagnostic avancé device and its troubleshooting entities to be displayed. Developer mode must also be enabled.",
           "developer_mode": "Enables advanced developer tools such as Event Monitor, Runtime Inspector, health metrics, self-test controls and support reports.",
-          "debug_mode": "Keep disabled during normal use. Enable Support or Deep Debug only while reproducing a problem, then download integration diagnostics."
+          "debug_mode": "Keep disabled during normal use. Enable Support or Deep Debug only while reproducing a problem, then download integration diagnostics.",
+          "quick_voice_gate": "Creates a momentary switch device visible in the Alexa app and Google Assistant. Turning it on opens the gate immediately and the control returns to off."
         }
+      },
+      "confirm_quick_voice": {
+        "title": "Confirmer la commande vocale rapide",
+        "description": "Cette fonction peut permettre à un assistant vocal d’ouvrir le portail sans code. Toute personne pouvant commander un appareil autorisé pourrait l’ouvrir. Activez-la uniquement dans un environnement contrôlé et si vous acceptez ce risque."
       }
+    },
+    "error": {
+      "advanced_diagnostics_requires_developer_mode": "Le mode développeur doit être activé pour afficher le diagnostic avancé."
     }
   },
   "selector": {
@@ -336,6 +357,26 @@
         "support": "Assistance",
         "deep": "Débogage approfondi"
       }
+    }
+  },
+  "exceptions": {
+    "no_matching_config": {
+      "message": "Aucune configuration BTDoor Security+ chargée correspondante n’a été trouvée."
+    },
+    "multiple_gates": {
+      "message": "Plusieurs portails BTDoor sont configurés. Indiquez un identifiant d’entrée ou d’entité."
+    },
+    "sip_connection_test_failed": {
+      "message": "Le test de connexion SIP BTicino a échoué : {error}"
+    },
+    "call_rejection_failed": {
+      "message": "L’appel BTicino n’a pas pu être rejeté : {error}"
+    },
+    "developer_mode_disabled": {
+      "message": "L’opération développeur n’est pas disponible : {error}"
+    },
+    "gate_open_failed": {
+      "message": "Le portail BTicino n’a pas pu être ouvert : {error}"
     }
   }
 }

@@ -1,5 +1,5 @@
 """Tests for Support Bundle v2 pure aggregation helpers."""
-from custom_components.btdoor_security_plus.developer import DeveloperTools
+from custom_components.btdoor_security_plus.support_models import build_timeline_summary
 
 
 def test_timeline_summary_aggregates_events() -> None:
@@ -8,7 +8,7 @@ def test_timeline_summary_aggregates_events() -> None:
         {"event": "invite", "duration_seconds": 4},
         {"event": "bye"},
     ]
-    result = DeveloperTools._timeline_summary(events)
+    result = build_timeline_summary(events)
     assert result["event_count"] == 3
     assert result["events_by_type"] == {"invite": 2, "bye": 1}
     assert result["average_duration_seconds"] == 3.0

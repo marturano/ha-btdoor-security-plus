@@ -1,0 +1,39 @@
+blueprint:
+  name: BTDoor - Incoming call notification
+  description: Send a configurable notification when the intercom starts ringing.
+  domain: automation
+  author: BTDoor Security+ Project
+  homeassistant:
+    min_version: 2026.7.0
+  input:
+    ringing_entity:
+      name: Ringing binary sensor
+      selector:
+        entity:
+          domain: binary_sensor
+    notification_actions:
+      name: Notification actions
+      description: Actions to run when a call arrives.
+      selector:
+        action: {}
+    cooldown:
+      name: Cooldown
+      default: 30
+      selector:
+        number:
+          min: 0
+          max: 600
+          unit_of_measurement: seconds
+          mode: box
+trigger:
+  - platform: state
+    entity_id: !input ringing_entity
+    from: "off"
+    to: "on"
+action:
+  - choose: []
+    default: !input notification_actions
+  - delay:
+      seconds: !input cooldown
+mode: single
+max_exceeded: silent

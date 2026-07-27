@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BTDoor Security+ target validation result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "created_at",
+    "environment",
+    "sections",
+    "evidence_files",
+    "operator_attestation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]{3,80}$"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "environment": {
+      "type": "object",
+      "required": [
+        "home_assistant_version",
+        "installation_type",
+        "host",
+        "integration_version"
+      ],
+      "properties": {
+        "home_assistant_version": {
+          "type": "string"
+        },
+        "installation_type": {
+          "type": "string"
+        },
+        "host": {
+          "type": "string"
+        },
+        "integration_version": {
+          "type": "string"
+        }
+      }
+    },
+    "sections": {
+      "type": "object",
+      "required": [
+        "runtime",
+        "compatibility",
+        "hacs_lifecycle",
+        "security",
+        "ux_accessibility"
+      ],
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "evidence_id",
+          "status",
+          "checks"
+        ],
+        "properties": {
+          "evidence_id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "VALIDATED"
+            ]
+          },
+          "checks": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "evidence_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "operator_attestation": {
+      "type": "object",
+      "required": [
+        "name",
+        "date",
+        "statement"
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+language: fi
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "avaa portti"
+          - "avaa ulkoportti"
+          - "voitko avata portin"
+          - "avaa portti kiitos"

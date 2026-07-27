@@ -4,8 +4,30 @@ open_gate:
   fields:
     entry_id:
       name: Configuration entry
-      description: Optional Home Assistant configuration entry ID. If omitted, all configured gateways are triggered.
+      description: Optional configuration entry ID. Required when more than one gateway is configured unless entity_id is supplied.
       required: false
+      selector:
+        text:
+    entity_id:
+      name: Gate entity
+      description: Optional BTDoor gate entity used to resolve the exact configuration entry.
+      required: false
+      selector:
+        entity:
+          integration: btdoor_security_plus
+          domain: button
+    reason:
+      name: Reason
+      description: Human-readable audit reason stored with the gate-open request.
+      required: false
+      default: Home Assistant service action
+      selector:
+        text:
+    source:
+      name: Source
+      description: Origin of the request, for example service, assist, automation, Alexa or Google Assistant.
+      required: false
+      default: service
       selector:
         text:
 
@@ -113,7 +135,7 @@ clear_call_journal:
 
 export_call_journal:
   name: Export call journal
-  description: Export the call journal as JSON under www/btdoor_security_plus.
+  description: Export the call journal as private JSON under /config/btdoor_security_plus/exports. No public /local URL is created.
   fields:
     entry_id:
       name: Configuration entry

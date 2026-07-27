@@ -1,0 +1,9 @@
+language: zh-Hans
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "打开大门"
+          - "打开外面的大门"
+          - "请打开大门"
+          - "帮我打开大门"

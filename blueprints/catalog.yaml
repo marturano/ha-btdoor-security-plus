@@ -1,0 +1,34 @@
+schema_version: 1
+minimum_home_assistant: 2026.7.0
+blueprints:
+  - id: incoming_call_notification
+    domain: automation
+    path: automation/btdoor_security_plus/incoming_call_notification.yaml
+    maturity: alpha
+    capabilities: [ringing]
+  - id: missed_call_notification
+    domain: automation
+    path: automation/btdoor_security_plus/missed_call_notification.yaml
+    maturity: alpha
+    capabilities: [call_journal]
+  - id: sip_offline_alert
+    domain: automation
+    path: automation/btdoor_security_plus/sip_offline_alert.yaml
+    maturity: alpha
+    capabilities: [sip]
+  - id: certificate_expiry_alert
+    domain: automation
+    path: automation/btdoor_security_plus/certificate_expiry_alert.yaml
+    maturity: alpha
+    capabilities: [certificates]
+  - id: health_score_alert
+    domain: automation
+    path: automation/btdoor_security_plus/health_score_alert.yaml
+    maturity: alpha
+    capabilities: [health_score]
+  - id: open_gate_with_confirmation
+    domain: script
+    path: script/btdoor_security_plus/open_gate_with_confirmation.yaml
+    maturity: alpha
+    capabilities: [gate_control]
+    safety_notes: The calling dashboard or voice flow must require explicit confirmation.

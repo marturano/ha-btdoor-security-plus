@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "integration_locales": [
+    "cs",
+    "da",
+    "de",
+    "en",
+    "es",
+    "fi",
+    "fr",
+    "it",
+    "ja",
+    "ko",
+    "nb",
+    "nl",
+    "pl",
+    "pt",
+    "sv",
+    "zh-Hans",
+    "zh-Hant"
+  ],
+  "localized_documentation_locales": [
+    "de",
+    "en",
+    "es",
+    "fr",
+    "it",
+    "nl"
+  ],
+  "base_translation": "custom_components/btdoor_security_plus/strings.json",
+  "translation_directory": "custom_components/btdoor_security_plus/translations",
+  "support_levels": {
+    "runtime_ui_and_custom_sentences": "All integration_locales must maintain complete key and placeholder parity.",
+    "full_user_documentation": "Only localized_documentation_locales are required to maintain the complete localized document set.",
+    "release_notes": "Required for localized_documentation_locales.",
+    "fallback": "Locales outside localized_documentation_locales use the canonical English documentation."
+  }
+}

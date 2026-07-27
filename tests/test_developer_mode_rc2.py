@@ -9,7 +9,7 @@ def test_developer_mode_entities_are_packaged():
         "BTDoorDeveloperEventMetricsSensor",
     ):
         assert name in text
-    assert "bus.history[-20:]" in text
+    assert "bus.compact_history(20)" in text
     assert 'item.get("payload")' not in text
 
 

@@ -1,0 +1,23 @@
+schema_version: 1
+terms:
+  integration_hub:
+    en: Integration Hub
+    it: Hub dell'integrazione
+    fr: Hub d'intégration
+    de: Integrations-Hub
+    es: Hub de integración
+    nl: Integratiehub
+  cloud_status:
+    en: Cloud Status
+    it: Stato Cloud
+    fr: État du cloud
+    de: Cloud-Status
+    es: Estado de la nube
+    nl: Cloudstatus
+  sip_monitor:
+    en: SIP Monitor
+    it: Monitor SIP
+    fr: Moniteur SIP
+    de: SIP-Monitor
+    es: Monitor SIP
+    nl: SIP-monitor

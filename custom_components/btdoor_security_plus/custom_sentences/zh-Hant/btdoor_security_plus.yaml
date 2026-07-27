@@ -1,0 +1,9 @@
+language: zh-Hant
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "打開大門"
+          - "打開外面的大門"
+          - "請打開大門"
+          - "幫我打開大門"

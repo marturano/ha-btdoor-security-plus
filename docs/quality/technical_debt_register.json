@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "project": "BTDoor Security+",
+  "updated": "2026-07-22",
+  "items": [
+    {"id":"TD-001","title":"Health score still combines governed and automated assessment models","priority":"MEDIUM","status":"OPEN","target":"1.2","owner":"Project governance","rationale":"Preserve explainability while converging toward fully evidence-derived domain scores.","related":["docs/project/project_health.json","tools/health/calculate_health.py"]},
+    {"id":"TD-002","title":"Runtime benchmark collection is not yet automated against a live Home Assistant test environment","priority":"HIGH","status":"OPEN","target":"1.1 Final","owner":"Performance","rationale":"The repository can validate reports but cannot create trustworthy runtime measurements without an execution environment.","related":["docs/benchmarks/BENCHMARK_POLICY.md"]},
+    {"id":"TD-003","title":"Publication validation requires external GitHub and HACS lifecycle execution","priority":"HIGH","status":"OPEN","target":"1.1 Final","owner":"Release management","rationale":"Static repository checks cannot prove external install, update and rollback behavior.","related":["docs/repository/RELEASE_PUBLICATION_RUNBOOK.md"]}
+  ]
+}

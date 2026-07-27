@@ -1,0 +1,5438 @@
+{
+  "ok": true,
+  "duration_ms": 0.4,
+  "available": true,
+  "runtime": {
+    "state": "closed",
+    "call_id": "[HASH:5dddee387f89]",
+    "started_at": "2026-07-27T08:13:12.134082+00:00",
+    "prepared_at": "2026-07-27T08:13:12.192029+00:00",
+    "closed_at": "2026-07-27T08:13:38.039193+00:00",
+    "ready_for_answer": true,
+    "plan": {
+      "state": "released",
+      "audio": {
+        "payload_type": 96,
+        "codec": "SPEEX/8000",
+        "local_rtp_port": 32980,
+        "local_rtcp_port": 32981,
+        "remote_address": "172.211.xxx.xxx",
+        "remote_port": 51494,
+        "protocol": "RTP/SAVP"
+      },
+      "video": {
+        "payload_type": 96,
+        "codec": "H264/90000",
+        "local_rtp_port": 24436,
+        "local_rtcp_port": 24437,
+        "remote_address": "172.211.xxx.xxx",
+        "remote_port": 23414,
+        "protocol": "RTP/SAVP"
+      },
+      "srtp": {
+        "suite": "AES_CM_128_HMAC_SHA1_80",
+        "remote_crypto_tag": 1,
+        "local_crypto_tag": 1,
+        "remote_key_fingerprint": "f94cefab8cdc1ea4",
+        "local_key_fingerprint": "b8358f67fe5218c4",
+        "remote_key_length": 30,
+        "local_key_length": 30
+      },
+      "local_media_address": "192.168.xxx.xxx",
+      "answer_sdp_fingerprint": "dda35628ac93b6a9",
+      "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 1740254608647257133 1740254608647257133 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 32980 RTP/SAVP 96\r\na=rtcp:32981\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 24436 RTP/SAVP 96\r\na=rtcp:24437\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+      "prepared_at": 1785139992.1907372,
+      "issues": []
+    },
+    "remote_sdp_available": true,
+    "local_sdp_available": true,
+    "sdp_diff_available": true,
+    "trace_id": "MT-000021",
+    "trace_state": "media_session_closed",
+    "trace_error": null,
+    "trace_step_count": 11
+  },
+  "last_completed": {
+    "state": "closed",
+    "call_id": "[HASH:5dddee387f89]",
+    "started_at": "2026-07-27T08:13:12.134082+00:00",
+    "prepared_at": "2026-07-27T08:13:12.192029+00:00",
+    "closed_at": "2026-07-27T08:13:38.039193+00:00",
+    "ready_for_answer": true,
+    "plan": {
+      "state": "released",
+      "audio": {
+        "payload_type": 96,
+        "codec": "SPEEX/8000",
+        "local_rtp_port": 32980,
+        "local_rtcp_port": 32981,
+        "remote_address": "172.211.xxx.xxx",
+        "remote_port": 51494,
+        "protocol": "RTP/SAVP"
+      },
+      "video": {
+        "payload_type": 96,
+        "codec": "H264/90000",
+        "local_rtp_port": 24436,
+        "local_rtcp_port": 24437,
+        "remote_address": "172.211.xxx.xxx",
+        "remote_port": 23414,
+        "protocol": "RTP/SAVP"
+      },
+      "srtp": {
+        "suite": "AES_CM_128_HMAC_SHA1_80",
+        "remote_crypto_tag": 1,
+        "local_crypto_tag": 1,
+        "remote_key_fingerprint": "f94cefab8cdc1ea4",
+        "local_key_fingerprint": "b8358f67fe5218c4",
+        "remote_key_length": 30,
+        "local_key_length": 30
+      },
+      "local_media_address": "192.168.xxx.xxx",
+      "answer_sdp_fingerprint": "dda35628ac93b6a9",
+      "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 1740254608647257133 1740254608647257133 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 32980 RTP/SAVP 96\r\na=rtcp:32981\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 24436 RTP/SAVP 96\r\na=rtcp:24437\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+      "prepared_at": 1785139992.1907372,
+      "issues": []
+    },
+    "remote_sdp_available": true,
+    "local_sdp_available": true,
+    "sdp_diff_available": true,
+    "trace_id": "MT-000021",
+    "trace_state": "media_session_closed",
+    "trace_error": null,
+    "trace_step_count": 11,
+    "closed_reason": "cancel",
+    "duration_seconds": 25.905111,
+    "trace": [
+      {
+        "timestamp": "2026-07-27T08:13:12.127700+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "invite_received",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "call_id": "[HASH:5dddee387f89]"
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.128017+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "invite_content_inspected",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "content_type": "application/sdp",
+          "body_length": 1406,
+          "has_sdp": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.128454+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "sdp_extracted",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "sdp_length": 1406
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.129089+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "sdp_parsed",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "media_sections": 2,
+          "session_address": "172.211.xxx.xxx"
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.129457+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "apply_sdp_entered",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "media_sections": 2
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.129728+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "sdp_fields_stored",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "summary": "audio 172.211.xxx.xxx:51494 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:23414 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+          "audio_port": 51494,
+          "video_port": 23414
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.174499+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "prepare_media_offer_called",
+        "status": "ok",
+        "call_id": "[HASH:5dddee387f89]",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.190775+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "media_preparation_created",
+        "status": "ok",
+        "call_id": "[HASH:5dddee387f89]",
+        "details": {
+          "preparation_state": "prepared",
+          "issue_count": 0
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.191349+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "runtime_snapshot_stored",
+        "status": "ok",
+        "call_id": "[HASH:5dddee387f89]",
+        "details": {
+          "snapshot_available": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.192100+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "runtime_updated",
+        "status": "ok",
+        "call_id": "[HASH:5dddee387f89]",
+        "details": {
+          "runtime_state": "prepared",
+          "ready_for_answer": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:38.039216+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "media_session_closed",
+        "status": "ok",
+        "call_id": "[HASH:5dddee387f89]",
+        "details": {
+          "snapshot_available": true
+        }
+      }
+    ]
+  },
+  "history": [
+    {
+      "state": "closed",
+      "call_id": "[HASH:ac28b7cf306e]",
+      "started_at": "2026-07-21T06:55:29.235450+00:00",
+      "prepared_at": "2026-07-21T06:55:29.343129+00:00",
+      "closed_at": "2026-07-21T06:55:55.022354+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 39178,
+          "local_rtcp_port": 39179,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 26550,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 46178,
+          "local_rtcp_port": 46179,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 41642,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "435ae2cf81817ca5",
+          "local_key_fingerprint": "927cdeccbc741e30",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "0c60896d0f552477",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 5963416417408244839 5963416417408244839 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 39178 RTP/SAVP 96\r\na=rtcp:39179\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 46178 RTP/SAVP 96\r\na=rtcp:46179\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1784616929.3417654,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000012",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 25.786904,
+      "trace": [
+        {
+          "timestamp": "2026-07-21T06:55:29.233014+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:af1a2ecceacf]",
+          "details": {
+            "call_id": "[HASH:ac28b7cf306e]"
+          }
+        },
+        {
+          "timestamp": "2026-07-21T06:55:29.233341+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:af1a2ecceacf]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1404,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-21T06:55:29.233892+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:af1a2ecceacf]",
+          "details": {
+            "sdp_length": 1404
+          }
+        },
+        {
+          "timestamp": "2026-07-21T06:55:29.234462+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:af1a2ecceacf]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-21T06:55:29.234908+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:af1a2ecceacf]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-21T06:55:29.235120+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:af1a2ecceacf]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:26550 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:41642 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 26550,
+            "video_port": 41642
+          }
+        },
+        {
+          "timestamp": "2026-07-21T06:55:29.293363+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-21T06:55:29.341799+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-21T06:55:29.342396+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-21T06:55:29.343206+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-21T06:55:55.022372+00:00",
+          "runtime_session_id": "6f157c4a33dc",
+          "trace_id": "MT-000012",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    },
+    {
+      "state": "closed",
+      "call_id": "[HASH:c726777e1d10]",
+      "started_at": "2026-07-21T13:29:15.541727+00:00",
+      "prepared_at": "2026-07-21T13:29:15.627041+00:00",
+      "closed_at": "2026-07-21T13:29:41.156140+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 43378,
+          "local_rtcp_port": 43379,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 46902,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 25478,
+          "local_rtcp_port": 25479,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 44004,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "784ea02743cbf06d",
+          "local_key_fingerprint": "cb43c51bbfb3c71a",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "b181cd1c41414ab2",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 1036749373958138756 1036749373958138756 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 43378 RTP/SAVP 96\r\na=rtcp:43379\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 25478 RTP/SAVP 96\r\na=rtcp:25479\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1784640555.625722,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000013",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 25.614413,
+      "trace": [
+        {
+          "timestamp": "2026-07-21T13:29:15.539194+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {
+            "call_id": "[HASH:c726777e1d10]"
+          }
+        },
+        {
+          "timestamp": "2026-07-21T13:29:15.539502+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1406,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-21T13:29:15.539994+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {
+            "sdp_length": 1406
+          }
+        },
+        {
+          "timestamp": "2026-07-21T13:29:15.540715+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-21T13:29:15.541127+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-21T13:29:15.541364+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:ac28b7cf306e]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:46902 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:44004 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 46902,
+            "video_port": 44004
+          }
+        },
+        {
+          "timestamp": "2026-07-21T13:29:15.594198+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-21T13:29:15.625756+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-21T13:29:15.626282+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-21T13:29:15.627120+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-21T13:29:41.156162+00:00",
+          "runtime_session_id": "893329d305cf",
+          "trace_id": "MT-000013",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    },
+    {
+      "state": "closed",
+      "call_id": "[HASH:c84da34a03d1]",
+      "started_at": "2026-07-21T19:18:30.872012+00:00",
+      "prepared_at": "2026-07-21T19:18:30.916678+00:00",
+      "closed_at": "2026-07-21T19:18:56.070506+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 58956,
+          "local_rtcp_port": 58957,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 1130,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 37444,
+          "local_rtcp_port": 37445,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 30944,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "29b16418b55d99be",
+          "local_key_fingerprint": "c19fbb16535d3df2",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "85a2e57d06bc445b",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 6927440328554001971 6927440328554001971 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 58956 RTP/SAVP 96\r\na=rtcp:58957\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 37444 RTP/SAVP 96\r\na=rtcp:37445\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1784661510.9150474,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000014",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 25.198494,
+      "trace": [
+        {
+          "timestamp": "2026-07-21T19:18:30.869072+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {
+            "call_id": "[HASH:c84da34a03d1]"
+          }
+        },
+        {
+          "timestamp": "2026-07-21T19:18:30.869384+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1405,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-21T19:18:30.869941+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {
+            "sdp_length": 1405
+          }
+        },
+        {
+          "timestamp": "2026-07-21T19:18:30.870786+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-21T19:18:30.871346+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-21T19:18:30.871667+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:c726777e1d10]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:1130 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:30944 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 1130,
+            "video_port": 30944
+          }
+        },
+        {
+          "timestamp": "2026-07-21T19:18:30.904828+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-21T19:18:30.915080+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-21T19:18:30.915837+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-21T19:18:30.916774+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-21T19:18:56.070607+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000014",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    },
+    {
+      "state": "closed",
+      "call_id": "[HASH:26e420b8f1bd]",
+      "started_at": "2026-07-24T18:33:31.782315+00:00",
+      "prepared_at": "2026-07-24T18:33:31.854959+00:00",
+      "closed_at": "2026-07-24T18:33:57.150970+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 44438,
+          "local_rtcp_port": 44439,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 43218,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 24386,
+          "local_rtcp_port": 24387,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 5222,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "c90e3f7f62fd6a3d",
+          "local_key_fingerprint": "54d56dc9cc0292b2",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "0329078ac6ff6b1c",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 6562506139791634750 6562506139791634750 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 44438 RTP/SAVP 96\r\na=rtcp:44439\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 24386 RTP/SAVP 96\r\na=rtcp:24387\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1784918011.8527327,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000015",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 25.368655,
+      "trace": [
+        {
+          "timestamp": "2026-07-24T18:33:31.779816+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {
+            "call_id": "[HASH:26e420b8f1bd]"
+          }
+        },
+        {
+          "timestamp": "2026-07-24T18:33:31.780175+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1404,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-24T18:33:31.780699+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {
+            "sdp_length": 1404
+          }
+        },
+        {
+          "timestamp": "2026-07-24T18:33:31.781253+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-24T18:33:31.781743+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-24T18:33:31.781983+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:c84da34a03d1]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:43218 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:5222 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 43218,
+            "video_port": 5222
+          }
+        },
+        {
+          "timestamp": "2026-07-24T18:33:31.831918+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-24T18:33:31.852773+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-24T18:33:31.854118+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-24T18:33:31.855075+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-24T18:33:57.150991+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000015",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    },
+    {
+      "state": "closed",
+      "call_id": "[HASH:49017690c75e]",
+      "started_at": "2026-07-25T09:06:04.043088+00:00",
+      "prepared_at": "2026-07-25T09:06:04.104983+00:00",
+      "closed_at": "2026-07-25T09:06:12.850782+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 42856,
+          "local_rtcp_port": 42857,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 19078,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 26100,
+          "local_rtcp_port": 26101,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 25462,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "1aebf4c7a4457270",
+          "local_key_fingerprint": "426f0a12a2c86991",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "e2988d653c4b6739",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 7243175886972642569 7243175886972642569 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 42856 RTP/SAVP 96\r\na=rtcp:42857\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 26100 RTP/SAVP 96\r\na=rtcp:26101\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1784970364.103647,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000016",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 8.807694,
+      "trace": [
+        {
+          "timestamp": "2026-07-25T09:06:04.040741+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {
+            "call_id": "[HASH:49017690c75e]"
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:06:04.041070+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1405,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:06:04.041483+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {
+            "sdp_length": 1405
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:06:04.042121+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:06:04.042507+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:06:04.042780+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:26e420b8f1bd]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:19078 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:25462 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 19078,
+            "video_port": 25462
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:06:04.101315+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-25T09:06:04.103696+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:06:04.104268+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:06:04.105069+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:06:12.850811+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000016",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    },
+    {
+      "state": "closed",
+      "call_id": "[HASH:0dc7a1acd3cf]",
+      "started_at": "2026-07-25T09:55:23.327416+00:00",
+      "prepared_at": "2026-07-25T09:55:23.401650+00:00",
+      "closed_at": "2026-07-25T09:55:29.574102+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 24476,
+          "local_rtcp_port": 24477,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 49846,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 42334,
+          "local_rtcp_port": 42335,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 35532,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "e5a1cf42b11750cf",
+          "local_key_fingerprint": "72b682931e309cd1",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "b81ae0d8ce33465c",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 6965783206932793270 6965783206932793270 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 24476 RTP/SAVP 96\r\na=rtcp:24477\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 42334 RTP/SAVP 96\r\na=rtcp:42335\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1784973323.4002717,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000017",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 6.246686,
+      "trace": [
+        {
+          "timestamp": "2026-07-25T09:55:23.324863+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {
+            "call_id": "[HASH:0dc7a1acd3cf]"
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:55:23.325213+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1405,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:55:23.325723+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {
+            "sdp_length": 1405
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:55:23.326252+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:55:23.326850+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:55:23.327099+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:49017690c75e]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:49846 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:35532 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 49846,
+            "video_port": 35532
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:55:23.383064+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-25T09:55:23.400303+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:55:23.400998+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:55:23.401724+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T09:55:29.574121+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000017",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    },
+    {
+      "state": "closed",
+      "call_id": "[HASH:d8c352fa93c7]",
+      "started_at": "2026-07-25T10:40:12.915860+00:00",
+      "prepared_at": "2026-07-25T10:40:12.959164+00:00",
+      "closed_at": "2026-07-25T10:40:19.747945+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 43074,
+          "local_rtcp_port": 43075,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 29798,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 49408,
+          "local_rtcp_port": 49409,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 16914,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "756874e1095291c6",
+          "local_key_fingerprint": "f7184abf8b5513a1",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "b6e17f8a7b9a52b6",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 6384711575360515662 6384711575360515662 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 43074 RTP/SAVP 96\r\na=rtcp:43075\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 49408 RTP/SAVP 96\r\na=rtcp:49409\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1784976012.9578671,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000018",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 6.832085,
+      "trace": [
+        {
+          "timestamp": "2026-07-25T10:40:12.913429+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {
+            "call_id": "[HASH:d8c352fa93c7]"
+          }
+        },
+        {
+          "timestamp": "2026-07-25T10:40:12.913821+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1407,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T10:40:12.914267+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {
+            "sdp_length": 1407
+          }
+        },
+        {
+          "timestamp": "2026-07-25T10:40:12.914852+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-25T10:40:12.915295+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-25T10:40:12.915498+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:29798 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:16914 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 29798,
+            "video_port": 16914
+          }
+        },
+        {
+          "timestamp": "2026-07-25T10:40:12.946424+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-25T10:40:12.957901+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-25T10:40:12.958481+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T10:40:12.959244+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T10:40:19.747964+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000018",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    },
+    {
+      "state": "closed",
+      "call_id": "[HASH:a4ac4d4fc7af]",
+      "started_at": "2026-07-25T16:26:39.664657+00:00",
+      "prepared_at": "2026-07-25T16:26:39.714600+00:00",
+      "closed_at": "2026-07-25T16:27:05.100129+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 54538,
+          "local_rtcp_port": 54539,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 26538,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 59530,
+          "local_rtcp_port": 59531,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 39196,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "1211ca32ab9d2b36",
+          "local_key_fingerprint": "2062321846834af1",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "6cd0f5c2d7c88ddd",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 4947249840344255934 4947249840344255934 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 54538 RTP/SAVP 96\r\na=rtcp:54539\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 59530 RTP/SAVP 96\r\na=rtcp:59531\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1784996799.7133358,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000019",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 25.435472,
+      "trace": [
+        {
+          "timestamp": "2026-07-25T16:26:39.661624+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {
+            "call_id": "[HASH:a4ac4d4fc7af]"
+          }
+        },
+        {
+          "timestamp": "2026-07-25T16:26:39.661984+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1407,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T16:26:39.662403+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {
+            "sdp_length": 1407
+          }
+        },
+        {
+          "timestamp": "2026-07-25T16:26:39.663013+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-25T16:26:39.663413+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-25T16:26:39.663672+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:d8c352fa93c7]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:26538 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:39196 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 26538,
+            "video_port": 39196
+          }
+        },
+        {
+          "timestamp": "2026-07-25T16:26:39.689973+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-25T16:26:39.713364+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-25T16:26:39.714005+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T16:26:39.714682+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-25T16:27:05.100148+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000019",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    },
+    {
+      "state": "closed",
+      "call_id": "[HASH:4882f407c37b]",
+      "started_at": "2026-07-26T15:12:55.462651+00:00",
+      "prepared_at": "2026-07-26T15:12:55.562239+00:00",
+      "closed_at": "2026-07-26T15:13:21.068623+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 34564,
+          "local_rtcp_port": 34565,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 27466,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 49066,
+          "local_rtcp_port": 49067,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 13106,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "27385550bb3d8fff",
+          "local_key_fingerprint": "6944f12825514257",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "9964c25def52a66f",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 6802726257948375221 6802726257948375221 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 34564 RTP/SAVP 96\r\na=rtcp:34565\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 49066 RTP/SAVP 96\r\na=rtcp:49067\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1785078775.5600028,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000020",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 25.605972,
+      "trace": [
+        {
+          "timestamp": "2026-07-26T15:12:55.459646+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {
+            "call_id": "[HASH:4882f407c37b]"
+          }
+        },
+        {
+          "timestamp": "2026-07-26T15:12:55.459961+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1407,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-26T15:12:55.460402+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {
+            "sdp_length": 1407
+          }
+        },
+        {
+          "timestamp": "2026-07-26T15:12:55.460993+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-26T15:12:55.461755+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-26T15:12:55.462244+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:27466 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:13106 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 27466,
+            "video_port": 13106
+          }
+        },
+        {
+          "timestamp": "2026-07-26T15:12:55.532325+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-26T15:12:55.560037+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-26T15:12:55.561461+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-26T15:12:55.562320+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-26T15:13:21.068694+00:00",
+          "runtime_session_id": "d3b86d93a873",
+          "trace_id": "MT-000020",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    },
+    {
+      "state": "closed",
+      "call_id": "[HASH:5dddee387f89]",
+      "started_at": "2026-07-27T08:13:12.134082+00:00",
+      "prepared_at": "2026-07-27T08:13:12.192029+00:00",
+      "closed_at": "2026-07-27T08:13:38.039193+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 32980,
+          "local_rtcp_port": 32981,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 51494,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 24436,
+          "local_rtcp_port": 24437,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 23414,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "f94cefab8cdc1ea4",
+          "local_key_fingerprint": "b8358f67fe5218c4",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "dda35628ac93b6a9",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 1740254608647257133 1740254608647257133 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 32980 RTP/SAVP 96\r\na=rtcp:32981\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 24436 RTP/SAVP 96\r\na=rtcp:24437\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1785139992.1907372,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000021",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 25.905111,
+      "trace": [
+        {
+          "timestamp": "2026-07-27T08:13:12.127700+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "call_id": "[HASH:5dddee387f89]"
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.128017+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1406,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.128454+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "sdp_length": 1406
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.129089+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.129457+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.129728+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:51494 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:23414 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 51494,
+            "video_port": 23414
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.174499+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:5dddee387f89]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.190775+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:5dddee387f89]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.191349+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:5dddee387f89]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.192100+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:5dddee387f89]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:38.039216+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:5dddee387f89]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "retained_sessions": 10,
+    "history_limit": 10,
+    "average_duration_seconds": 20.08,
+    "codec_usage": {
+      "SPEEX/8000": 10,
+      "H264/90000": 10
+    },
+    "close_reasons": {
+      "cancel": 10
+    },
+    "last_closed_at": "2026-07-27T08:13:38.039193+00:00"
+  },
+  "instrumentation": {
+    "trace_id": "MT-000021",
+    "state": "media_session_closed",
+    "error": null,
+    "steps": [
+      {
+        "timestamp": "2026-07-27T08:13:12.127700+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "invite_received",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "call_id": "[HASH:5dddee387f89]"
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.128017+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "invite_content_inspected",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "content_type": "application/sdp",
+          "body_length": 1406,
+          "has_sdp": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.128454+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "sdp_extracted",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "sdp_length": 1406
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.129089+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "sdp_parsed",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "media_sections": 2,
+          "session_address": "172.211.xxx.xxx"
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.129457+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "apply_sdp_entered",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "media_sections": 2
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.129728+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "sdp_fields_stored",
+        "status": "ok",
+        "call_id": "[HASH:4882f407c37b]",
+        "details": {
+          "summary": "audio 172.211.xxx.xxx:51494 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:23414 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+          "audio_port": 51494,
+          "video_port": 23414
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.174499+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "prepare_media_offer_called",
+        "status": "ok",
+        "call_id": "[HASH:5dddee387f89]",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.190775+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "media_preparation_created",
+        "status": "ok",
+        "call_id": "[HASH:5dddee387f89]",
+        "details": {
+          "preparation_state": "prepared",
+          "issue_count": 0
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.191349+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "runtime_snapshot_stored",
+        "status": "ok",
+        "call_id": "[HASH:5dddee387f89]",
+        "details": {
+          "snapshot_available": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.192100+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "runtime_updated",
+        "status": "ok",
+        "call_id": "[HASH:5dddee387f89]",
+        "details": {
+          "runtime_state": "prepared",
+          "ready_for_answer": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:38.039216+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "trace_id": "MT-000021",
+        "stage": "media_session_closed",
+        "status": "ok",
+        "call_id": "[HASH:5dddee387f89]",
+        "details": {
+          "snapshot_available": true
+        }
+      }
+    ],
+    "step_count": 11,
+    "media_plan_available": true,
+    "remote_sdp_available": true,
+    "local_sdp_available": true,
+    "runtime": {
+      "state": "closed",
+      "call_id": "[HASH:5dddee387f89]",
+      "started_at": "2026-07-27T08:13:12.134082+00:00",
+      "prepared_at": "2026-07-27T08:13:12.192029+00:00",
+      "closed_at": "2026-07-27T08:13:38.039193+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 32980,
+          "local_rtcp_port": 32981,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 51494,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 24436,
+          "local_rtcp_port": 24437,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 23414,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "f94cefab8cdc1ea4",
+          "local_key_fingerprint": "b8358f67fe5218c4",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "dda35628ac93b6a9",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 1740254608647257133 1740254608647257133 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 32980 RTP/SAVP 96\r\na=rtcp:32981\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 24436 RTP/SAVP 96\r\na=rtcp:24437\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1785139992.1907372,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000021",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11
+    },
+    "last_completed": {
+      "state": "closed",
+      "call_id": "[HASH:5dddee387f89]",
+      "started_at": "2026-07-27T08:13:12.134082+00:00",
+      "prepared_at": "2026-07-27T08:13:12.192029+00:00",
+      "closed_at": "2026-07-27T08:13:38.039193+00:00",
+      "ready_for_answer": true,
+      "plan": {
+        "state": "released",
+        "audio": {
+          "payload_type": 96,
+          "codec": "SPEEX/8000",
+          "local_rtp_port": 32980,
+          "local_rtcp_port": 32981,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 51494,
+          "protocol": "RTP/SAVP"
+        },
+        "video": {
+          "payload_type": 96,
+          "codec": "H264/90000",
+          "local_rtp_port": 24436,
+          "local_rtcp_port": 24437,
+          "remote_address": "172.211.xxx.xxx",
+          "remote_port": 23414,
+          "protocol": "RTP/SAVP"
+        },
+        "srtp": {
+          "suite": "AES_CM_128_HMAC_SHA1_80",
+          "remote_crypto_tag": 1,
+          "local_crypto_tag": 1,
+          "remote_key_fingerprint": "f94cefab8cdc1ea4",
+          "local_key_fingerprint": "b8358f67fe5218c4",
+          "remote_key_length": 30,
+          "local_key_length": 30
+        },
+        "local_media_address": "192.168.xxx.xxx",
+        "answer_sdp_fingerprint": "dda35628ac93b6a9",
+        "answer_sdp_redacted": "v=0\r\no=BTDoorSecurityPlus 1740254608647257133 1740254608647257133 IN IP4 192.168.xxx.xxx\r\ns=BTDoor Security+\r\nc=IN IP4 192.168.xxx.xxx\r\nt=0 0\r\nm=audio 32980 RTP/SAVP 96\r\na=rtcp:32981\r\na=rtpmap:96 SPEEX/8000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=sendrecv\r\nm=video 24436 RTP/SAVP 96\r\na=rtcp:24437\r\na=rtpmap:96 H264/90000\r\na=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:[REDACTED]\r\na=recvonly\r\n",
+        "prepared_at": 1785139992.1907372,
+        "issues": []
+      },
+      "remote_sdp_available": true,
+      "local_sdp_available": true,
+      "sdp_diff_available": true,
+      "trace_id": "MT-000021",
+      "trace_state": "media_session_closed",
+      "trace_error": null,
+      "trace_step_count": 11,
+      "closed_reason": "cancel",
+      "duration_seconds": 25.905111,
+      "trace": [
+        {
+          "timestamp": "2026-07-27T08:13:12.127700+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "invite_received",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "call_id": "[HASH:5dddee387f89]"
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.128017+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "invite_content_inspected",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "content_type": "application/sdp",
+            "body_length": 1406,
+            "has_sdp": true
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.128454+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "sdp_extracted",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "sdp_length": 1406
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.129089+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "sdp_parsed",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "media_sections": 2,
+            "session_address": "172.211.xxx.xxx"
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.129457+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "apply_sdp_entered",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "media_sections": 2
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.129728+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "sdp_fields_stored",
+          "status": "ok",
+          "call_id": "[HASH:4882f407c37b]",
+          "details": {
+            "summary": "audio 172.211.xxx.xxx:51494 sendrecv [96:speex/8000, 18:G729/8000, 101:telephone-event/8000]; video 172.211.xxx.xxx:23414 sendrecv [96:H264/90000, 97:MP4V-ES/90000]",
+            "audio_port": 51494,
+            "video_port": 23414
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.174499+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "prepare_media_offer_called",
+          "status": "ok",
+          "call_id": "[HASH:5dddee387f89]",
+          "details": {}
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.190775+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "media_preparation_created",
+          "status": "ok",
+          "call_id": "[HASH:5dddee387f89]",
+          "details": {
+            "preparation_state": "prepared",
+            "issue_count": 0
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.191349+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "runtime_snapshot_stored",
+          "status": "ok",
+          "call_id": "[HASH:5dddee387f89]",
+          "details": {
+            "snapshot_available": true
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:12.192100+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "runtime_updated",
+          "status": "ok",
+          "call_id": "[HASH:5dddee387f89]",
+          "details": {
+            "runtime_state": "prepared",
+            "ready_for_answer": true
+          }
+        },
+        {
+          "timestamp": "2026-07-27T08:13:38.039216+00:00",
+          "runtime_session_id": "1eb108c166f6",
+          "trace_id": "MT-000021",
+          "stage": "media_session_closed",
+          "status": "ok",
+          "call_id": "[HASH:5dddee387f89]",
+          "details": {
+            "snapshot_available": true
+          }
+        }
+      ]
+    },
+    "metrics": {
+      "retained_sessions": 10,
+      "history_limit": 10,
+      "average_duration_seconds": 20.08,
+      "codec_usage": {
+        "SPEEX/8000": 10,
+        "H264/90000": 10
+      },
+      "close_reasons": {
+        "cancel": 10
+      },
+      "last_closed_at": "2026-07-27T08:13:38.039193+00:00"
+    }
+  },
+  "sip_dispatcher": {
+    "packet_count": 310,
+    "invite_received_count": 21,
+    "invite_dispatched_count": 21,
+    "invite_with_sdp_count": 21,
+    "invite_media_runtime_count": 21,
+    "last_method": "CANCEL",
+    "trace_count": 250,
+    "trace": [
+      {
+        "timestamp": "2026-07-21T14:56:37.604861+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 230,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:a8ea80991a0f]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:56:37.605362+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 230,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:56:48.233080+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 231,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:654eb2288899]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:56:48.233479+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 231,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:56:48.476317+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 232,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:654eb2288899]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:56:48.477953+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 232,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:01.564239+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 233,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:28c15d0d7220]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:01.564733+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 233,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:01.791600+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 234,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:28c15d0d7220]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:01.792011+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 234,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:14.383812+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 235,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:f01623d63668]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:14.384185+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 235,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:14.614626+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 236,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:f01623d63668]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:14.615041+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 236,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:30.731722+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 237,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:b1e303102fda]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:30.732120+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 237,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:30.915240+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 238,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:b1e303102fda]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:57:30.915691+00:00",
+        "runtime_session_id": "e2da6420463c",
+        "packet_id": 238,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:58:35.024088+00:00",
+        "runtime_session_id": "4bcf5e0dbd03",
+        "packet_id": 239,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:6f642ca297ea]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:58:35.024448+00:00",
+        "runtime_session_id": "4bcf5e0dbd03",
+        "packet_id": 239,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:58:35.127835+00:00",
+        "runtime_session_id": "4bcf5e0dbd03",
+        "packet_id": 240,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:6f642ca297ea]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:58:35.128267+00:00",
+        "runtime_session_id": "4bcf5e0dbd03",
+        "packet_id": 240,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:58:35.160027+00:00",
+        "runtime_session_id": "4bcf5e0dbd03",
+        "packet_id": 241,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:6f642ca297ea]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:58:35.160383+00:00",
+        "runtime_session_id": "4bcf5e0dbd03",
+        "packet_id": 241,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:58:35.435728+00:00",
+        "runtime_session_id": "4bcf5e0dbd03",
+        "packet_id": 242,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:6f642ca297ea]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:58:35.436291+00:00",
+        "runtime_session_id": "4bcf5e0dbd03",
+        "packet_id": 242,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:22.798079+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 243,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:18d9c64ced4b]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:22.798484+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 243,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:22.950657+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 244,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:18d9c64ced4b]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:22.951082+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 244,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:23.001081+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 245,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:18d9c64ced4b]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:23.001454+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 245,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:23.156745+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 246,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:18d9c64ced4b]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:23.157145+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 246,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:28.963327+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 247,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:07b6b328b3e3]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:28.963889+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 247,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:29.220799+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 248,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:07b6b328b3e3]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T14:59:29.221187+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 248,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T19:18:30.839894+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 249,
+        "stage": "frame_parsed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "first_line": "INVITE sip:rob***@31.190.xxx.xxx:65061;transport=tls SIP/2.0",
+          "body_length": 1405,
+          "call_id": "[HASH:c84da34a03d1]",
+          "content_type": "application/sdp"
+        }
+      },
+      {
+        "timestamp": "2026-07-21T19:18:30.840344+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 249,
+        "stage": "request_dispatch_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-21T19:18:30.840630+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 249,
+        "stage": "handler_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@31.190.xxx.xxx:65061;transport=tls",
+          "body_length": 1405
+        }
+      },
+      {
+        "timestamp": "2026-07-21T19:18:30.840858+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 249,
+        "stage": "invite_branch_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_received_count": 14
+        }
+      },
+      {
+        "timestamp": "2026-07-21T19:18:30.841260+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 249,
+        "stage": "invite_state_initialized",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_dispatched_count": 14,
+          "is_new_call": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T19:18:30.869692+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 249,
+        "stage": "invite_sdp_detected",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_with_sdp_count": 14,
+          "body_length": 1405
+        }
+      },
+      {
+        "timestamp": "2026-07-21T19:18:30.871098+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 249,
+        "stage": "media_runtime_call_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-21T19:18:31.139712+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 249,
+        "stage": "media_runtime_call_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "runtime_state": "prepared",
+          "media_plan_available": true,
+          "invite_media_runtime_count": 14
+        }
+      },
+      {
+        "timestamp": "2026-07-21T19:18:31.238868+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 249,
+        "stage": "invite_branch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "has_sdp": true,
+          "runtime_state": "prepared",
+          "media_plan_available": true
+        }
+      },
+      {
+        "timestamp": "2026-07-21T19:18:31.239215+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 249,
+        "stage": "request_dispatch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-21T19:18:56.018680+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 250,
+        "stage": "frame_parsed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "first_line": "CANCEL sip:rob***@31.190.xxx.xxx:65061;transport=tls SIP/2.0",
+          "body_length": 0,
+          "call_id": "[HASH:c84da34a03d1]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-21T19:18:56.019073+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 250,
+        "stage": "request_dispatch_started",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-21T19:18:56.019279+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 250,
+        "stage": "handler_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@31.190.xxx.xxx:65061;transport=tls",
+          "body_length": 0
+        }
+      },
+      {
+        "timestamp": "2026-07-21T19:18:56.019493+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 250,
+        "stage": "dialog_termination_branch_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-21T19:18:56.197632+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 250,
+        "stage": "request_dispatch_completed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-22T09:38:02.954401+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 251,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:31cd8921f759]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-22T09:38:02.954929+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 251,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-22T09:38:03.087948+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 252,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:31cd8921f759]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-22T09:38:03.088414+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 252,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-22T09:38:03.129744+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 253,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:31cd8921f759]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-22T09:38:03.130124+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 253,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-22T09:38:03.384373+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 254,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:31cd8921f759]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-22T09:38:03.384883+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 254,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-23T06:35:32.563453+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 255,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:454d724380ce]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T06:35:32.564019+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 255,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-23T06:35:32.638223+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 256,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:454d724380ce]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T06:35:32.638727+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 256,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-23T06:35:32.674424+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 257,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:454d724380ce]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T06:35:32.674891+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 257,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-23T06:35:32.941508+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 258,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:454d724380ce]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T06:35:32.942065+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 258,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-23T12:40:30.750278+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 259,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:8f2aebd203ac]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T12:40:30.750756+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 259,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-23T12:40:30.857989+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 260,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:8f2aebd203ac]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T12:40:30.858442+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 260,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-23T12:40:30.901359+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 261,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:8f2aebd203ac]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T12:40:30.901929+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 261,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-23T12:40:31.232203+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 262,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:8f2aebd203ac]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T12:40:31.233300+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 262,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-23T16:18:56.140384+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 263,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:4db52687eeba]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T16:18:56.140948+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 263,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-23T16:18:56.234060+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 264,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:4db52687eeba]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T16:18:56.234495+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 264,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-23T16:18:56.293299+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 265,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:4db52687eeba]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T16:18:56.293781+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 265,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-23T16:18:56.512213+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 266,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:4db52687eeba]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-23T16:18:56.515230+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 266,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-24T04:58:54.684439+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 267,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:3cc875b6e1e7]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T04:58:54.685105+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 267,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-24T04:58:54.742501+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 268,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:3cc875b6e1e7]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T04:58:54.743676+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 268,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-24T04:58:54.784146+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 269,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:3cc875b6e1e7]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T04:58:54.784864+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 269,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-24T04:58:55.032884+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 270,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:3cc875b6e1e7]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T04:58:55.033293+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 270,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:36:12.591322+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 271,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:e71d6ad9844a]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:36:12.591858+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 271,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:36:12.717322+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 272,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:e71d6ad9844a]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:36:12.717868+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 272,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:36:12.762085+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 273,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:e71d6ad9844a]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:36:12.762463+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 273,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:36:12.986936+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 274,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:e71d6ad9844a]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:36:12.987329+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 274,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:52:24.394163+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 275,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:dad05c6e7dc8]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:52:24.394704+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 275,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:52:24.701128+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 276,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:dad05c6e7dc8]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:52:24.701678+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 276,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:58:33.018989+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 277,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:b773ae5de14c]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:58:33.019456+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 277,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:58:33.288429+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 278,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:b773ae5de14c]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T10:58:33.289010+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 278,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-24T18:33:31.734234+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 279,
+        "stage": "frame_parsed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "first_line": "INVITE sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 1404,
+          "call_id": "[HASH:26e420b8f1bd]",
+          "content_type": "application/sdp"
+        }
+      },
+      {
+        "timestamp": "2026-07-24T18:33:31.734730+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 279,
+        "stage": "request_dispatch_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-24T18:33:31.734921+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 279,
+        "stage": "handler_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 1404
+        }
+      },
+      {
+        "timestamp": "2026-07-24T18:33:31.735152+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 279,
+        "stage": "invite_branch_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_received_count": 15
+        }
+      },
+      {
+        "timestamp": "2026-07-24T18:33:31.735419+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 279,
+        "stage": "invite_state_initialized",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_dispatched_count": 15,
+          "is_new_call": true
+        }
+      },
+      {
+        "timestamp": "2026-07-24T18:33:31.780407+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 279,
+        "stage": "invite_sdp_detected",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_with_sdp_count": 15,
+          "body_length": 1404
+        }
+      },
+      {
+        "timestamp": "2026-07-24T18:33:31.781468+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 279,
+        "stage": "media_runtime_call_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-24T18:33:32.019708+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 279,
+        "stage": "media_runtime_call_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "runtime_state": "prepared",
+          "media_plan_available": true,
+          "invite_media_runtime_count": 15
+        }
+      },
+      {
+        "timestamp": "2026-07-24T18:33:32.130599+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 279,
+        "stage": "invite_branch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "has_sdp": true,
+          "runtime_state": "prepared",
+          "media_plan_available": true
+        }
+      },
+      {
+        "timestamp": "2026-07-24T18:33:32.130954+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 279,
+        "stage": "request_dispatch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-24T18:33:57.052654+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 280,
+        "stage": "frame_parsed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "first_line": "CANCEL sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 0,
+          "call_id": "[HASH:26e420b8f1bd]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-24T18:33:57.053094+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 280,
+        "stage": "request_dispatch_started",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-24T18:33:57.053317+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 280,
+        "stage": "handler_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 0
+        }
+      },
+      {
+        "timestamp": "2026-07-24T18:33:57.055972+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 280,
+        "stage": "dialog_termination_branch_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-24T18:33:57.271636+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 280,
+        "stage": "request_dispatch_completed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:06:03.968083+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 281,
+        "stage": "frame_parsed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "first_line": "INVITE sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 1405,
+          "call_id": "[HASH:49017690c75e]",
+          "content_type": "application/sdp"
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:03.968485+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 281,
+        "stage": "request_dispatch_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:06:03.968823+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 281,
+        "stage": "handler_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 1405
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:03.969041+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 281,
+        "stage": "invite_branch_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_received_count": 16
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:03.969297+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 281,
+        "stage": "invite_state_initialized",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_dispatched_count": 16,
+          "is_new_call": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:04.041294+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 281,
+        "stage": "invite_sdp_detected",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_with_sdp_count": 16,
+          "body_length": 1405
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:04.042320+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 281,
+        "stage": "media_runtime_call_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:06:04.299984+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 281,
+        "stage": "media_runtime_call_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "runtime_state": "prepared",
+          "media_plan_available": true,
+          "invite_media_runtime_count": 16
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:04.456110+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 281,
+        "stage": "invite_branch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "has_sdp": true,
+          "runtime_state": "prepared",
+          "media_plan_available": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:04.456446+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 281,
+        "stage": "request_dispatch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:06:12.794470+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 282,
+        "stage": "frame_parsed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "first_line": "CANCEL sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 0,
+          "call_id": "[HASH:49017690c75e]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:12.795018+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 282,
+        "stage": "request_dispatch_started",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:06:12.795219+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 282,
+        "stage": "handler_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 0
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:12.795436+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 282,
+        "stage": "dialog_termination_branch_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:06:12.928681+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 282,
+        "stage": "request_dispatch_completed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:06:22.884457+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 283,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:3d4e20ad7546]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:22.885065+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 283,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:22.999833+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 284,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:3d4e20ad7546]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:23.000411+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 284,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:23.045713+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 285,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:3d4e20ad7546]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:23.046094+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 285,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:23.274218+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 286,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:3d4e20ad7546]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:06:23.274753+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 286,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:55:23.271888+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 287,
+        "stage": "frame_parsed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "first_line": "INVITE sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 1405,
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "content_type": "application/sdp"
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:55:23.272336+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 287,
+        "stage": "request_dispatch_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:55:23.272655+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 287,
+        "stage": "handler_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 1405
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:55:23.272895+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 287,
+        "stage": "invite_branch_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_received_count": 17
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:55:23.273178+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 287,
+        "stage": "invite_state_initialized",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_dispatched_count": 17,
+          "is_new_call": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:55:23.325444+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 287,
+        "stage": "invite_sdp_detected",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_with_sdp_count": 17,
+          "body_length": 1405
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:55:23.326459+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 287,
+        "stage": "media_runtime_call_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:55:23.615200+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 287,
+        "stage": "media_runtime_call_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "runtime_state": "prepared",
+          "media_plan_available": true,
+          "invite_media_runtime_count": 17
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:55:23.755885+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 287,
+        "stage": "invite_branch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "has_sdp": true,
+          "runtime_state": "prepared",
+          "media_plan_available": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:55:23.756250+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 287,
+        "stage": "request_dispatch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:55:29.511311+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 288,
+        "stage": "frame_parsed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "first_line": "CANCEL sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 0,
+          "call_id": "[HASH:0dc7a1acd3cf]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:55:29.511830+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 288,
+        "stage": "request_dispatch_started",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:55:29.512047+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 288,
+        "stage": "handler_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 0
+        }
+      },
+      {
+        "timestamp": "2026-07-25T09:55:29.512255+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 288,
+        "stage": "dialog_termination_branch_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T09:55:29.666901+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 288,
+        "stage": "request_dispatch_completed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T10:40:12.868837+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 289,
+        "stage": "frame_parsed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "first_line": "INVITE sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 1407,
+          "call_id": "[HASH:d8c352fa93c7]",
+          "content_type": "application/sdp"
+        }
+      },
+      {
+        "timestamp": "2026-07-25T10:40:12.869277+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 289,
+        "stage": "request_dispatch_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T10:40:12.869473+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 289,
+        "stage": "handler_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 1407
+        }
+      },
+      {
+        "timestamp": "2026-07-25T10:40:12.869792+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 289,
+        "stage": "invite_branch_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_received_count": 18
+        }
+      },
+      {
+        "timestamp": "2026-07-25T10:40:12.870093+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 289,
+        "stage": "invite_state_initialized",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_dispatched_count": 18,
+          "is_new_call": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T10:40:12.914078+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 289,
+        "stage": "invite_sdp_detected",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_with_sdp_count": 18,
+          "body_length": 1407
+        }
+      },
+      {
+        "timestamp": "2026-07-25T10:40:12.915100+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 289,
+        "stage": "media_runtime_call_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T10:40:13.086833+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 289,
+        "stage": "media_runtime_call_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "runtime_state": "prepared",
+          "media_plan_available": true,
+          "invite_media_runtime_count": 18
+        }
+      },
+      {
+        "timestamp": "2026-07-25T10:40:13.158622+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 289,
+        "stage": "invite_branch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "has_sdp": true,
+          "runtime_state": "prepared",
+          "media_plan_available": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T10:40:13.158964+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 289,
+        "stage": "request_dispatch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T10:40:19.668870+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 290,
+        "stage": "frame_parsed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "first_line": "CANCEL sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 0,
+          "call_id": "[HASH:d8c352fa93c7]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T10:40:19.669285+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 290,
+        "stage": "request_dispatch_started",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T10:40:19.669472+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 290,
+        "stage": "handler_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 0
+        }
+      },
+      {
+        "timestamp": "2026-07-25T10:40:19.669745+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 290,
+        "stage": "dialog_termination_branch_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T10:40:19.912054+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 290,
+        "stage": "request_dispatch_completed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T16:21:10.578610+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 291,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:87a8477702de]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:21:10.578996+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 291,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:21:10.653344+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 292,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:87a8477702de]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:21:10.653868+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 292,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:21:10.702488+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 293,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:87a8477702de]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:21:10.703967+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 293,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:21:10.865479+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 294,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:87a8477702de]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:21:10.865986+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 294,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:26:39.615263+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 295,
+        "stage": "frame_parsed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "first_line": "INVITE sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 1407,
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "content_type": "application/sdp"
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:26:39.615992+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 295,
+        "stage": "request_dispatch_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T16:26:39.616228+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 295,
+        "stage": "handler_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 1407
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:26:39.616455+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 295,
+        "stage": "invite_branch_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_received_count": 19
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:26:39.616894+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 295,
+        "stage": "invite_state_initialized",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_dispatched_count": 19,
+          "is_new_call": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:26:39.662212+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 295,
+        "stage": "invite_sdp_detected",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_with_sdp_count": 19,
+          "body_length": 1407
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:26:39.663220+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 295,
+        "stage": "media_runtime_call_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T16:26:39.913687+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 295,
+        "stage": "media_runtime_call_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "runtime_state": "prepared",
+          "media_plan_available": true,
+          "invite_media_runtime_count": 19
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:26:40.012107+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 295,
+        "stage": "invite_branch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "has_sdp": true,
+          "runtime_state": "prepared",
+          "media_plan_available": true
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:26:40.012454+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 295,
+        "stage": "request_dispatch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T16:27:05.055027+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 296,
+        "stage": "frame_parsed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "first_line": "CANCEL sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 0,
+          "call_id": "[HASH:a4ac4d4fc7af]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:27:05.055462+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 296,
+        "stage": "request_dispatch_started",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T16:27:05.055754+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 296,
+        "stage": "handler_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 0
+        }
+      },
+      {
+        "timestamp": "2026-07-25T16:27:05.055973+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 296,
+        "stage": "dialog_termination_branch_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-25T16:27:05.190790+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 296,
+        "stage": "request_dispatch_completed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-26T15:12:55.409809+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 297,
+        "stage": "frame_parsed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "first_line": "INVITE sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 1407,
+          "call_id": "[HASH:4882f407c37b]",
+          "content_type": "application/sdp"
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:12:55.410244+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 297,
+        "stage": "request_dispatch_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-26T15:12:55.410462+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 297,
+        "stage": "handler_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 1407
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:12:55.410757+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 297,
+        "stage": "invite_branch_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_received_count": 20
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:12:55.411020+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 297,
+        "stage": "invite_state_initialized",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_dispatched_count": 20,
+          "is_new_call": true
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:12:55.460191+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 297,
+        "stage": "invite_sdp_detected",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_with_sdp_count": 20,
+          "body_length": 1407
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:12:55.461234+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 297,
+        "stage": "media_runtime_call_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-26T15:12:55.745138+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 297,
+        "stage": "media_runtime_call_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "runtime_state": "prepared",
+          "media_plan_available": true,
+          "invite_media_runtime_count": 20
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:12:55.840609+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 297,
+        "stage": "invite_branch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "has_sdp": true,
+          "runtime_state": "prepared",
+          "media_plan_available": true
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:12:55.840962+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 297,
+        "stage": "request_dispatch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-26T15:13:20.961951+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 298,
+        "stage": "frame_parsed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "first_line": "CANCEL sip:rob***@151.48.xxx.xxx:50357;transport=tls SIP/2.0",
+          "body_length": 0,
+          "call_id": "[HASH:4882f407c37b]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:13:20.962362+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 298,
+        "stage": "request_dispatch_started",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-26T15:13:20.962690+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 298,
+        "stage": "handler_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:50357;transport=tls",
+          "body_length": 0
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:13:20.962914+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 298,
+        "stage": "dialog_termination_branch_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-26T15:13:21.169214+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 298,
+        "stage": "request_dispatch_completed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-26T15:49:26.474141+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 299,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:96076e02eeee]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:49:26.474629+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 299,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:49:26.534369+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 300,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:96076e02eeee]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:49:26.534930+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 300,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:49:26.568250+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 301,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:96076e02eeee]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:49:26.568702+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 301,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:49:26.749894+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 302,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:96076e02eeee]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-26T15:49:26.750326+00:00",
+        "runtime_session_id": "d3b86d93a873",
+        "packet_id": 302,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:11:55.550360+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 303,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:3e930371a67e]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:11:55.550867+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 303,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:11:55.685174+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 304,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 407 Proxy Authentication Required",
+          "body_length": 0,
+          "call_id": "[HASH:3e930371a67e]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:11:55.685653+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 304,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 407,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:11:55.729908+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 305,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:3e930371a67e]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:11:55.730295+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 305,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:11:55.921335+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 306,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:3e930371a67e]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:11:55.921836+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 306,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:12:09.794791+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 307,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 100 Trying",
+          "body_length": 0,
+          "call_id": "[HASH:a52c6b3211dd]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:12:09.795159+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 307,
+        "stage": "response_provisional",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 100
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:12:09.965209+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 308,
+        "stage": "frame_parsed",
+        "method": "SIP/2.0",
+        "status": "ok",
+        "details": {
+          "first_line": "SIP/2.0 200 Ok",
+          "body_length": 0,
+          "call_id": "[HASH:a52c6b3211dd]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:12:09.965696+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 308,
+        "stage": "response_dispatched",
+        "method": "MESSAGE",
+        "status": "ok",
+        "details": {
+          "status_code": 200,
+          "matched": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.071599+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 309,
+        "stage": "frame_parsed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "first_line": "INVITE sip:rob***@151.48.xxx.xxx:22064;transport=tls SIP/2.0",
+          "body_length": 1406,
+          "call_id": "[HASH:5dddee387f89]",
+          "content_type": "application/sdp"
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.072048+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 309,
+        "stage": "request_dispatch_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.072240+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 309,
+        "stage": "handler_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:22064;transport=tls",
+          "body_length": 1406
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.072445+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 309,
+        "stage": "invite_branch_entered",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_received_count": 21
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.072783+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 309,
+        "stage": "invite_state_initialized",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_dispatched_count": 21,
+          "is_new_call": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.128279+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 309,
+        "stage": "invite_sdp_detected",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "invite_with_sdp_count": 21,
+          "body_length": 1406
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.129282+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 309,
+        "stage": "media_runtime_call_started",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.353884+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 309,
+        "stage": "media_runtime_call_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "runtime_state": "prepared",
+          "media_plan_available": true,
+          "invite_media_runtime_count": 21
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.461849+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 309,
+        "stage": "invite_branch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {
+          "has_sdp": true,
+          "runtime_state": "prepared",
+          "media_plan_available": true
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:12.462219+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 309,
+        "stage": "request_dispatch_completed",
+        "method": "INVITE",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-27T08:13:37.980254+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 310,
+        "stage": "frame_parsed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "first_line": "CANCEL sip:rob***@151.48.xxx.xxx:22064;transport=tls SIP/2.0",
+          "body_length": 0,
+          "call_id": "[HASH:5dddee387f89]",
+          "content_type": ""
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:37.980740+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 310,
+        "stage": "request_dispatch_started",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-27T08:13:37.980940+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 310,
+        "stage": "handler_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {
+          "request_uri": "sip:rob***@151.48.xxx.xxx:22064;transport=tls",
+          "body_length": 0
+        }
+      },
+      {
+        "timestamp": "2026-07-27T08:13:37.981167+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 310,
+        "stage": "dialog_termination_branch_entered",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      },
+      {
+        "timestamp": "2026-07-27T08:13:38.145234+00:00",
+        "runtime_session_id": "1eb108c166f6",
+        "packet_id": 310,
+        "stage": "request_dispatch_completed",
+        "method": "CANCEL",
+        "status": "ok",
+        "details": {}
+      }
+    ]
+  },
+  "remote_sdp_available": true,
+  "local_sdp_available": true,
+  "sdp_diff_available": true
+}

@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "duration_ms": 0.1,
+  "status": "SIP/2.0 200 Ok",
+  "code": 200,
+  "server": "sipserver.bs.iotleg.com",
+  "port": 5228
+}

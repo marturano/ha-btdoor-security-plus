@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "repository_status": "VALIDATED",
+  "home_assistant_2026x_status": "PENDING",
+  "hacs_lifecycle_status": "PENDING",
+  "checks": [
+    {
+      "check": "manifest:domain",
+      "pass": true
+    },
+    {
+      "check": "manifest:name",
+      "pass": true
+    },
+    {
+      "check": "manifest:version",
+      "pass": true
+    },
+    {
+      "check": "manifest:config_flow",
+      "pass": true
+    },
+    {
+      "check": "manifest:iot_class",
+      "pass": true
+    },
+    {
+      "check": "manifest:requirements",
+      "pass": true
+    },
+    {
+      "check": "domain_directory_match",
+      "pass": true
+    },
+    {
+      "check": "version_is_rc15",
+      "pass": true
+    },
+    {
+      "check": "requirements_pinned",
+      "pass": true
+    },
+    {
+      "check": "config_flow_present",
+      "pass": true
+    },
+    {
+      "check": "translations_present",
+      "pass": true
+    },
+    {
+      "check": "hacs_name_present",
+      "pass": true
+    }
+  ],
+  "limitations": [
+    "Clean install, upgrade, rollback and device/entity continuity require a real Home Assistant/HACS environment."
+  ]
+}

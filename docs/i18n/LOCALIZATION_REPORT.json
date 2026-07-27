@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-23",
+  "base_keys": 150,
+  "locales": [
+    {
+      "locale": "cs",
+      "file": "custom_components/btdoor_security_plus/translations/cs.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "da",
+      "file": "custom_components/btdoor_security_plus/translations/da.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "de",
+      "file": "custom_components/btdoor_security_plus/translations/de.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "en",
+      "file": "custom_components/btdoor_security_plus/translations/en.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "es",
+      "file": "custom_components/btdoor_security_plus/translations/es.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "fi",
+      "file": "custom_components/btdoor_security_plus/translations/fi.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "fr",
+      "file": "custom_components/btdoor_security_plus/translations/fr.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "it",
+      "file": "custom_components/btdoor_security_plus/translations/it.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "ja",
+      "file": "custom_components/btdoor_security_plus/translations/ja.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "ko",
+      "file": "custom_components/btdoor_security_plus/translations/ko.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "nb",
+      "file": "custom_components/btdoor_security_plus/translations/nb.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "nl",
+      "file": "custom_components/btdoor_security_plus/translations/nl.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "pl",
+      "file": "custom_components/btdoor_security_plus/translations/pl.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "pt",
+      "file": "custom_components/btdoor_security_plus/translations/pt.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "sv",
+      "file": "custom_components/btdoor_security_plus/translations/sv.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "zh-Hans",
+      "file": "custom_components/btdoor_security_plus/translations/zh-Hans.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    },
+    {
+      "locale": "zh-Hant",
+      "file": "custom_components/btdoor_security_plus/translations/zh-Hant.json",
+      "status": "PASS",
+      "missing": [],
+      "extra": [],
+      "placeholder_errors": [],
+      "empty": []
+    }
+  ],
+  "status": "PASS",
+  "errors": []
+}

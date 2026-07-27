@@ -1,0 +1,32 @@
+blueprint:
+  name: BTDoor - Certificate expiry alert
+  description: Run actions when a certificate-days-remaining sensor falls below the selected threshold.
+  domain: automation
+  author: BTDoor Security+ Project
+  homeassistant:
+    min_version: 2026.7.0
+  input:
+    certificate_days_entity:
+      name: Certificate days remaining sensor
+      selector:
+        entity:
+          domain: sensor
+    warning_days:
+      name: Warning threshold
+      default: 30
+      selector:
+        number:
+          min: 1
+          max: 365
+          unit_of_measurement: days
+          mode: box
+    alert_actions:
+      name: Alert actions
+      selector:
+        action: {}
+trigger:
+  - platform: numeric_state
+    entity_id: !input certificate_days_entity
+    below: !input warning_days
+action: !input alert_actions
+mode: single

@@ -1,0 +1,9 @@
+language: ja
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "ゲートを開けて"
+          - "門を開けて"
+          - "外のゲートを開けて"
+          - "ゲートを開いてください"

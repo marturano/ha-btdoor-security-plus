@@ -1,0 +1,35 @@
+title: BTDoor Security+ Runtime
+views:
+  - title: Runtime
+    path: btdoor-runtime
+    icon: mdi:monitor-dashboard
+    cards:
+      - type: markdown
+        title: BTDoor Security+
+        content: >-
+          Runtime Dashboard generated from stable entity unique IDs. Developer
+          controls are available only when Developer Mode and Advanced Diagnostics
+          are enabled.
+      - type: gauge
+        entity: sensor.btdoor_template_runtime_score
+        name: Health Score
+        min: 0
+        max: 100
+        severity:
+          green: 95
+          yellow: 70
+          red: 0
+      - type: entities
+        title: Runtime status
+        entities:
+          - binary_sensor.btdoor_template_runtime_healthy
+          - binary_sensor.btdoor_template_cloud_connected
+          - binary_sensor.btdoor_template_sip_registered
+          - sensor.btdoor_template_call_state
+          - binary_sensor.btdoor_template_ringing
+      - type: entities
+        title: Recent activity
+        entities:
+          - sensor.btdoor_template_last_caller
+          - sensor.btdoor_template_last_gate_open
+          - event.btdoor_template_door_entry_event

@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "duration_ms": 2.6,
+  "certificate_exists": true,
+  "private_key_exists": true,
+  "not_before": "2026-07-26T08:10:17+00:00",
+  "not_after": "2028-07-16T08:10:17+00:00",
+  "serial": "0x265",
+  "sha256": "d3b482b973291000",
+  "subject": "countryName=IT, stateOrProvinceName=Italy, localityName=Varese, organizationName=Bticino spa, organizationalUnitName=DSI-PQS, commonName=rob***@2621300.bs.iotleg.com",
+  "issuer": "countryName=IT, stateOrProvinceName=Italy, localityName=Varese, organizationName=Bticino spa, organizationalUnitName=DSI-BSCLOUD, commonName=BsCloud Intermediate CA, emailAddress=fra***@bticino.com"
+}

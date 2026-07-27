@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "current_tier": "gold",
+  "release_minimum_tier": "gold",
+  "desired_tier": "gold",
+  "maximum_governed_tier": "gold",
+  "platinum_policy": "out_of_scope_unless_explicitly_reopened_by_project_decision",
+  "gold_policy_verified": true,
+  "release_gate_status": "PASS",
+  "desired_tier_status": "ACHIEVED",
+  "open_remediations": 0,
+  "automatic_remediations_applied": [],
+  "workflow_status": "PASS",
+  "advancement_status": "ALLOWED"
+}

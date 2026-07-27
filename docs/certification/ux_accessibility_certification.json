@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "structural_status": "VALIDATED",
+  "interactive_review_status": "PENDING",
+  "checks": [
+    {
+      "check": "dashboard_assets",
+      "pass": true
+    },
+    {
+      "check": "translations",
+      "pass": true
+    },
+    {
+      "check": "translation_review",
+      "pass": true
+    },
+    {
+      "check": "lovelace_guide",
+      "pass": true
+    },
+    {
+      "check": "accessibility_policy",
+      "pass": true
+    }
+  ],
+  "limitations": [
+    "Contrast, keyboard navigation and screen-reader behavior were not exercised in a browser or Home Assistant frontend."
+  ]
+}

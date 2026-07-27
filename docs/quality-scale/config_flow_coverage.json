@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "rule": "config-flow-test-coverage",
+  "status": "VALIDATED",
+  "test_file": "tests/test_config_flow_full_coverage.py",
+  "coverage_model": "behavioural branch and outcome coverage using the real integration config_flow.py with a contract-compatible isolated Home Assistant harness",
+  "required_scenarios": [
+    "initial_form",
+    "authentication_error",
+    "connection_error",
+    "unexpected_error",
+    "no_gateways",
+    "single_gateway_success",
+    "multiple_gateway_selection",
+    "duplicate_prevention",
+    "provisioning_errors",
+    "create_entry_success",
+    "reauth_success_and_failure",
+    "reconfigure_success_and_wrong_gateway",
+    "options_validation_and_confirmation"
+  ],
+  "limitations": "This is repository-level behavioural evidence. Target runtime certification remains independently required before final release."
+}

@@ -63,11 +63,6 @@
     }
   },
   "entity": {
-    "switch": {
-      "open_gate": {
-        "name": "Open gate"
-      }
-    },
     "binary_sensor": {
       "sip_registered": {
         "name": "SIP registered"
@@ -105,7 +100,7 @@
         "name": "Last caller"
       },
       "last_message": {
-        "name": "Last SIP message"
+        "name": "Last incoming SIP MESSAGE payload"
       },
       "call_state": {
         "name": "Call state"
@@ -126,10 +121,10 @@
         "name": "Missed call count"
       },
       "message_count": {
-        "name": "Incoming SIP messages"
+        "name": "Incoming SIP MESSAGE requests"
       },
       "last_message_time": {
-        "name": "Last SIP message time"
+        "name": "Last incoming SIP MESSAGE time"
       },
       "last_event_time": {
         "name": "Last event time"
@@ -260,6 +255,19 @@
       },
       "clean_debug_environment": {
         "name": "Pulisci ambiente di debug"
+      },
+      "open_gate": {
+        "name": "Gate"
+      }
+    },
+    "cover": {
+      "gate": {
+        "name": "Gate"
+      }
+    },
+    "switch": {
+      "open_gate_voice_bridge": {
+        "name": "Open gate - voice assistants"
       }
     }
   },
@@ -301,6 +309,10 @@
     "missing_certificate": {
       "title": "BTicino certificate missing",
       "description": "The certificate or private key for {entry_title} is missing. Open Reconfigure and complete MyHomeWeb provisioning."
+    },
+    "assist_sentences_restart_required": {
+      "title": "Restart required for BTDoor Assist sentences",
+      "description": "BTDoor Security+ installed or updated its local Assist sentences. Restart Home Assistant once so Conversation loads the new sentence files."
     }
   },
   "options": {
@@ -315,7 +327,8 @@
           "show_media_monitor": "Show Multimedia Monitor",
           "show_advanced_diagnostics": "Show Advanced Diagnostics",
           "developer_mode": "Enable Developer mode",
-          "debug_mode": "Support Debug mode"
+          "debug_mode": "Support Debug mode",
+          "quick_voice_gate": "Enable quick voice command for assistants"
         },
         "data_description": {
           "show_cloud_status": "Shows cloud connectivity, gateway synchronization and authentication entities.",
@@ -324,9 +337,17 @@
           "show_media_monitor": "Shows media-session state, negotiated codecs and RTP/SRTP information.",
           "show_advanced_diagnostics": "Allows the Advanced Diagnostics device and its troubleshooting entities to be displayed. Developer mode must also be enabled.",
           "developer_mode": "Enables advanced developer tools such as Event Monitor, Runtime Inspector, health metrics, self-test controls and support reports.",
-          "debug_mode": "Keep disabled during normal use. Enable Support or Deep Debug only while reproducing a problem, then download integration diagnostics."
+          "debug_mode": "Keep disabled during normal use. Enable Support or Deep Debug only while reproducing a problem, then download integration diagnostics.",
+          "quick_voice_gate": "Creates a momentary switch device visible in the Alexa app and Google Assistant. Turning it on opens the gate immediately and the control returns to off."
         }
+      },
+      "confirm_quick_voice": {
+        "title": "Confirm quick voice command",
+        "description": "Enabling this feature may allow a voice assistant to open the gate without requiring a code. Anyone able to command an authorized device could open the gate. Enable it only in controlled environments and if you accept this risk."
       }
+    },
+    "error": {
+      "advanced_diagnostics_requires_developer_mode": "Advanced Diagnostics requires Developer mode to be enabled."
     }
   },
   "selector": {
@@ -336,6 +357,26 @@
         "support": "Support",
         "deep": "Deep debug"
       }
+    }
+  },
+  "exceptions": {
+    "no_matching_config": {
+      "message": "No matching loaded BTDoor Security+ configuration was found."
+    },
+    "multiple_gates": {
+      "message": "Multiple BTDoor gates are configured. Specify an entry ID or entity ID."
+    },
+    "sip_connection_test_failed": {
+      "message": "The BTicino SIP connection test failed: {error}"
+    },
+    "call_rejection_failed": {
+      "message": "The BTicino call could not be rejected: {error}"
+    },
+    "developer_mode_disabled": {
+      "message": "The developer operation is unavailable: {error}"
+    },
+    "gate_open_failed": {
+      "message": "The BTicino gate could not be opened: {error}"
     }
   }
 }

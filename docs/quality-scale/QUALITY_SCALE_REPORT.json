@@ -1,0 +1,531 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "standard": "Home Assistant Integration Quality Scale",
+  "assessment_type": "self-assessment for a custom integration; not an official Home Assistant grade",
+  "achieved_tier": "gold",
+  "target_tier": "gold",
+  "maximum_governed_tier": "gold",
+  "platinum_policy": "out_of_scope_unless_explicitly_reopened_by_project_decision",
+  "release_gate_required_tier": "gold",
+  "release_gate_status": "PASS",
+  "summaries": {
+    "bronze": {
+      "total": 20,
+      "done": 17,
+      "exempt": 3,
+      "todo": 0,
+      "level_complete": true,
+      "cumulative_complete": true
+    },
+    "silver": {
+      "total": 10,
+      "done": 10,
+      "exempt": 0,
+      "todo": 0,
+      "level_complete": true,
+      "cumulative_complete": true
+    },
+    "gold": {
+      "total": 21,
+      "done": 19,
+      "exempt": 2,
+      "todo": 0,
+      "level_complete": true,
+      "cumulative_complete": true
+    },
+    "platinum": {
+      "total": 3,
+      "done": 0,
+      "exempt": 0,
+      "todo": 3,
+      "level_complete": false,
+      "cumulative_complete": false
+    }
+  },
+  "rules": [
+    {
+      "id": "action-setup",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Service actions are present and integration setup is asynchronous.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/services.py",
+        "custom_components/btdoor_security_plus/__init__.py"
+      ]
+    },
+    {
+      "id": "appropriate-polling",
+      "tier": "bronze",
+      "status": "exempt",
+      "reason": "Manifest declares cloud_push; no fixed polling interval is required.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/manifest.json"
+      ]
+    },
+    {
+      "id": "brands",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Brand assets are present.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/brand/icon.png"
+      ]
+    },
+    {
+      "id": "common-modules",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Shared entity and constants modules are present.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/entity.py",
+        "custom_components/btdoor_security_plus/const.py"
+      ]
+    },
+    {
+      "id": "config-flow-test-coverage",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Dedicated behavioural coverage proves all config-flow outcomes.",
+      "evidence": [
+        "tests/test_config_flow_full_coverage.py",
+        "docs/quality-scale/config_flow_coverage.json"
+      ]
+    },
+    {
+      "id": "config-flow",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "UI config flow is enabled.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/config_flow.py",
+        "custom_components/btdoor_security_plus/manifest.json"
+      ]
+    },
+    {
+      "id": "dependency-transparency",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "All manifest dependencies are pinned.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/manifest.json"
+      ]
+    },
+    {
+      "id": "docs-actions",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Action/service documentation detected.",
+      "evidence": [
+        "README.md",
+        "custom_components/btdoor_security_plus/services.yaml"
+      ]
+    },
+    {
+      "id": "docs-triggers",
+      "tier": "bronze",
+      "status": "exempt",
+      "reason": "No custom device trigger module is registered.",
+      "evidence": []
+    },
+    {
+      "id": "docs-conditions",
+      "tier": "bronze",
+      "status": "exempt",
+      "reason": "No custom device condition module is registered.",
+      "evidence": []
+    },
+    {
+      "id": "docs-high-level-description",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "High-level integration description is present.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "docs-installation-instructions",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Installation instructions are present.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "docs-removal-instructions",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Removal instructions detected.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "entity-event-setup",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Entity event lifecycle cleanup detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "entity-unique-id",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Unique IDs are assigned by entities/config flow.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "has-entity-name",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Entity naming opt-in detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/entity.py"
+      ]
+    },
+    {
+      "id": "runtime-data",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "ConfigEntry.runtime_data usage detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "test-before-configure",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Connection validation logic detected in config flow.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/config_flow.py"
+      ]
+    },
+    {
+      "id": "test-before-setup",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Setup entry performs runtime initialization and failure handling.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/__init__.py"
+      ]
+    },
+    {
+      "id": "unique-config-entry",
+      "tier": "bronze",
+      "status": "done",
+      "reason": "Duplicate-entry prevention detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/config_flow.py"
+      ]
+    },
+    {
+      "id": "action-exceptions",
+      "tier": "silver",
+      "status": "done",
+      "reason": "Home Assistant service/action exceptions detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "config-entry-unloading",
+      "tier": "silver",
+      "status": "done",
+      "reason": "Config entry unloading is implemented.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/__init__.py"
+      ]
+    },
+    {
+      "id": "docs-configuration-parameters",
+      "tier": "silver",
+      "status": "done",
+      "reason": "Configuration/options documentation detected.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "docs-installation-parameters",
+      "tier": "silver",
+      "status": "done",
+      "reason": "Installation parameters are described.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "entity-unavailable",
+      "tier": "silver",
+      "status": "done",
+      "reason": "Entity availability handling detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "integration-owner",
+      "tier": "silver",
+      "status": "done",
+      "reason": "Integration owner is declared.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/manifest.json"
+      ]
+    },
+    {
+      "id": "log-when-unavailable",
+      "tier": "silver",
+      "status": "done",
+      "reason": "Availability transition logging detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "parallel-updates",
+      "tier": "silver",
+      "status": "done",
+      "reason": "Platform parallel update limits are declared.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "reauthentication-flow",
+      "tier": "silver",
+      "status": "done",
+      "reason": "Reauthentication flow detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/config_flow.py"
+      ]
+    },
+    {
+      "id": "test-coverage",
+      "tier": "silver",
+      "status": "done",
+      "reason": "Measured integration coverage is 95.08%; above 95% is required.",
+      "evidence": [
+        "docs/quality-scale/integration_coverage.json",
+        "docs/quality-scale/INTEGRATION_COVERAGE_REPORT.md"
+      ]
+    },
+    {
+      "id": "devices",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Device registry integration detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "diagnostics",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Diagnostics are implemented.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/diagnostics.py"
+      ]
+    },
+    {
+      "id": "discovery-update-info",
+      "tier": "gold",
+      "status": "exempt",
+      "reason": "No supported network discovery mechanism is currently declared.",
+      "evidence": []
+    },
+    {
+      "id": "discovery",
+      "tier": "gold",
+      "status": "exempt",
+      "reason": "The integration is configured explicitly and declares no discovery matcher.",
+      "evidence": []
+    },
+    {
+      "id": "docs-data-update",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Data update behavior is documented.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "docs-examples",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Automation blueprints/examples are present.",
+      "evidence": [
+        "blueprints"
+      ]
+    },
+    {
+      "id": "docs-known-limitations",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Known limitations are documented.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "docs-supported-devices",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Supported devices are documented.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "docs-supported-functions",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Supported functionality/entities are documented.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "docs-troubleshooting",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Troubleshooting documentation is present.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "docs-use-cases",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Use cases are documented.",
+      "evidence": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "dynamic-devices",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Dynamic entity/device handling detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "entity-category",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Entity categories are used.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "entity-device-class",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Device classes are used where available.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "entity-disabled-by-default",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Noisy/advanced entities can be disabled by default.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "entity-translations",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Entity translations detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/translations",
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "exception-translations",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Translatable exception support detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "icon-translations",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Icon translations are provided.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/icons.json"
+      ]
+    },
+    {
+      "id": "reconfiguration-flow",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Reconfigure flow detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus/config_flow.py"
+      ]
+    },
+    {
+      "id": "repair-issues",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Repairs integration usage detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "stale-devices",
+      "tier": "gold",
+      "status": "done",
+      "reason": "Stale-device removal support detected.",
+      "evidence": [
+        "custom_components/btdoor_security_plus"
+      ]
+    },
+    {
+      "id": "async-dependency",
+      "tier": "platinum",
+      "status": "todo",
+      "reason": "The external dependency must be formally verified as fully asynchronous.",
+      "evidence": []
+    },
+    {
+      "id": "inject-websession",
+      "tier": "platinum",
+      "status": "todo",
+      "reason": "The external dependency must support injection of Home Assistant web sessions.",
+      "evidence": []
+    },
+    {
+      "id": "strict-typing",
+      "tier": "platinum",
+      "status": "todo",
+      "reason": "Strict typing must be proven with a repository-wide type checker gate.",
+      "evidence": []
+    }
+  ],
+  "official_sources": [
+    "https://developers.home-assistant.io/docs/core/integration-quality-scale/",
+    "https://developers.home-assistant.io/docs/core/integration-quality-scale/rules/"
+  ]
+}

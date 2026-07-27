@@ -1,0 +1,9 @@
+language: sv
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "öppna grinden"
+          - "öppna den yttre grinden"
+          - "kan du öppna grinden"
+          - "öppna grinden tack"

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "target": "1.1.0 Final",
+  "required_sections": {
+    "runtime": [
+      "startup_seconds",
+      "reload_seconds",
+      "memory_delta_mb",
+      "sustained_observation_minutes"
+    ],
+    "compatibility": [
+      "clean_setup",
+      "restart_recovery",
+      "entity_continuity",
+      "diagnostics_export"
+    ],
+    "hacs_lifecycle": [
+      "clean_install",
+      "upgrade",
+      "rollback"
+    ],
+    "security": [
+      "secret_handling",
+      "log_redaction",
+      "permissions",
+      "dependency_review"
+    ],
+    "ux_accessibility": [
+      "dashboard_review",
+      "keyboard_review",
+      "contrast_review",
+      "localization_review"
+    ]
+  },
+  "accepted_status": "VALIDATED"
+}

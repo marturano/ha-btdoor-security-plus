@@ -1,0 +1,31 @@
+blueprint:
+  name: BTDoor - SIP offline alert
+  description: Run actions when SIP remains unregistered for a configurable duration.
+  domain: automation
+  author: BTDoor Security+ Project
+  homeassistant:
+    min_version: 2026.7.0
+  input:
+    sip_registered_entity:
+      name: SIP registered binary sensor
+      selector:
+        entity:
+          domain: binary_sensor
+    offline_duration:
+      name: Offline duration
+      default:
+        minutes: 5
+      selector:
+        duration: {}
+    alert_actions:
+      name: Alert actions
+      selector:
+        action: {}
+trigger:
+  - platform: state
+    entity_id: !input sip_registered_entity
+    from: "on"
+    to: "off"
+    for: !input offline_duration
+action: !input alert_actions
+mode: single

@@ -14,4 +14,4 @@ def test_toolkit_files_are_present_and_parse():
 
 def test_manifest_current_release():
     manifest=json.loads((ROOT/"custom_components"/"btdoor_security_plus"/"manifest.json").read_text())
-    assert manifest["version"] == "6.0.0"
+    assert manifest["version"] == "1.1.0-rc.15"

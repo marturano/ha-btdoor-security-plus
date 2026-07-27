@@ -41,3 +41,4 @@ class BTDoorRuntimeData:
     event_bus: RuntimeEventBus | None = None
     call_journal: CallJournal | None = None
     language: str = "en"
+    availability_state: bool | None = None

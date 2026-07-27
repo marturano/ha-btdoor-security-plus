@@ -1,0 +1,9 @@
+language: da
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "åbn porten"
+          - "åbn den udvendige port"
+          - "kan du åbne porten"
+          - "åbn venligst porten"

@@ -8,7 +8,16 @@ from custom_components.btdoor_security_plus.sip_client import BticinoSipClient
 
 
 def _bare_client() -> BticinoSipClient:
-    client = object.__new__(BticinoSipClient)
+    client = BticinoSipClient(
+        sip_account="test",
+        sip_password="test",
+        gateway_id="gateway",
+        client_cert_path="cert.pem",
+        client_key_path="key.pem",
+        server="localhost",
+        port=5061,
+        verify_server=False,
+    )
     client.media_preparation = None
     client.last_media_preparation = {
         "state": "released",

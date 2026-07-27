@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "target": "1.1.0 Final",
+  "framework_status": "PASS",
+  "decision": "BLOCKED",
+  "blockers": [
+    "Home Assistant target runtime benchmark",
+    "Home Assistant 2026.x compatibility lifecycle",
+    "HACS install/update/rollback lifecycle",
+    "Target runtime security review",
+    "Interactive UX/accessibility review"
+  ],
+  "target_evidence": null,
+  "artifacts": [
+    "docs/certification/runtime_certification.json",
+    "docs/certification/compatibility_certification.json",
+    "docs/certification/security_certification.json",
+    "docs/certification/ux_accessibility_certification.json"
+  ]
+}

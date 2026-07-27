@@ -1,0 +1,382 @@
+{
+  "title": "BTDoor Security+",
+  "config": {
+    "step": {
+      "user": {
+        "title": "BTDoor Security+ verbinden",
+        "description": "Voer dezelfde MyHomeWeb-aanmeldgegevens in als in de officiële Door Entry-app. SIP-gegevens en clientcertificaten worden automatisch ingericht.",
+        "data": {
+          "email": "MyHomeWeb-e-mail",
+          "password": "MyHomeWeb-wachtwoord",
+          "device_name": "Geregistreerde apparaatnaam (DeviceName)",
+          "server": "SIP-server",
+          "verify_server": "SIP-servercertificaat verifiëren"
+        },
+        "data_description": {
+          "device_name": "Naam die in de BTicino-cloud is geregistreerd voor deze Home Assistant SIP-client.",
+          "verify_server": "Wanneer ingeschakeld valideert Home Assistant het SIP-servercertificaat met vertrouwde certificeringsinstanties. Sommige BTicino-systemen gebruiken een private keten, waardoor de SIP-verbinding kan mislukken. Clientcertificaatauthenticatie blijft actief als deze controle is uitgeschakeld."
+        }
+      },
+      "select_gateway": {
+        "title": "Door Entry-gateway selecteren",
+        "description": "Kies de BTicino-installatie of gateway om te verbinden.",
+        "data": {
+          "gateway_id": "Gateway"
+        }
+      },
+      "reconfigure": {
+        "title": "BTDoor Security+ opnieuw configureren",
+        "description": "Werk MyHomeWeb-gegevens, DeviceName en SIP-instellingen bij. Het SIP-certificaat wordt opnieuw ingericht.",
+        "data": {
+          "email": "MyHomeWeb email",
+          "password": "MyHomeWeb password",
+          "device_name": "Registered device name (DeviceName)",
+          "server": "SIP server",
+          "verify_server": "Verify SIP server certificate"
+        },
+        "data_description": {
+          "verify_server": "When enabled, Home Assistant validates the SIP server certificate against the trusted CA store. BTicino uses a private certificate chain on some systems, so enabling this option may prevent the SIP connection. Client-certificate authentication remains active even when this check is disabled."
+        }
+      },
+      "reauth_confirm": {
+        "title": "BTDoor Security+ opnieuw verbinden",
+        "description": "De BTicino-cloud heeft de opgeslagen gegevens geweigerd. Voer ze opnieuw in.",
+        "data": {
+          "email": "MyHomeWeb email",
+          "password": "MyHomeWeb password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect_cloud": "Kan geen verbinding maken met MyHomeWeb.",
+      "invalid_cloud_auth": "Onjuist MyHomeWeb-e-mailadres of wachtwoord.",
+      "cloud_error": "De BTicino-cloud gaf een onverwacht antwoord.",
+      "no_gateways": "Geen compatibele Door Entry-gateway gevonden.",
+      "cannot_connect": "Kan geen verbinding maken met de BTicino SIP-server.",
+      "invalid_auth": "De ingerichte SIP-gegevens of het certificaat zijn geweigerd.",
+      "provisioning_error": "Het BTicino SIP-apparaat kon niet worden ingericht of gevalideerd.",
+      "unknown": "Onverwachte fout. Controleer het Home Assistant-logboek."
+    },
+    "abort": {
+      "already_configured": "Deze gateway is al geconfigureerd.",
+      "wrong_gateway": "Het geselecteerde account bevat de geconfigureerde gateway niet."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "sip_registered": {
+        "name": "SIP geregistreerd"
+      },
+      "ringing": {
+        "name": "Inkomende oproep"
+      },
+      "media_ready": {
+        "name": "Media gereed"
+      },
+      "last_call_missed": {
+        "name": "Laatste call missed"
+      },
+      "runtime_healthy": {
+        "name": "Runtime gezond"
+      },
+      "cloud_connected": {
+        "name": "Cloud verbonden"
+      },
+      "dialog_call_active": {
+        "name": "Oproep actief"
+      }
+    },
+    "sensor": {
+      "last_sip_status": {
+        "name": "Laatste SIP status"
+      },
+      "last_gate_open": {
+        "name": "Laatste gate opening"
+      },
+      "last_event": {
+        "name": "Laatste event"
+      },
+      "last_caller": {
+        "name": "Laatste caller"
+      },
+      "last_message": {
+        "name": "Inhoud laatste inkomende SIP MESSAGE"
+      },
+      "call_state": {
+        "name": "Oproepstatus"
+      },
+      "last_call_duration": {
+        "name": "Laatste call duration"
+      },
+      "call_count": {
+        "name": "Aantal ontvangen oproepen"
+      },
+      "last_call_started": {
+        "name": "Laatste call started"
+      },
+      "last_call_ended": {
+        "name": "Laatste call ended"
+      },
+      "missed_call_count": {
+        "name": "Aantal gemiste oproepen"
+      },
+      "message_count": {
+        "name": "Inkomende SIP MESSAGE-verzoeken"
+      },
+      "last_message_time": {
+        "name": "Tijd laatste inkomende SIP MESSAGE"
+      },
+      "last_event_time": {
+        "name": "Laatste event time"
+      },
+      "reconnect_count": {
+        "name": "Actual SIP reconnections"
+      },
+      "last_error": {
+        "name": "Laatste SIP error"
+      },
+      "connection_uptime": {
+        "name": "SIP connection uptime"
+      },
+      "last_command_duration": {
+        "name": "Laatste command duration"
+      },
+      "last_command_time": {
+        "name": "Laatste command time"
+      },
+      "connection_quality": {
+        "name": "SIP connection quality"
+      },
+      "dialog_state": {
+        "name": "SIP dialog state"
+      },
+      "last_sip_method": {
+        "name": "Laatste SIP method"
+      },
+      "last_sdp_offer": {
+        "name": "Laatste SDP offer"
+      },
+      "sdp_summary": {
+        "name": "SDP media summary"
+      },
+      "audio_offer": {
+        "name": "Audio RTP offer"
+      },
+      "video_offer": {
+        "name": "Video RTP offer"
+      },
+      "last_developer_test": {
+        "name": "Laatste developer test"
+      },
+      "last_support_report": {
+        "name": "Laatste support report"
+      },
+      "media_preparation": {
+        "name": "Media preparation"
+      },
+      "selected_audio_codec": {
+        "name": "Selected audio codec"
+      },
+      "selected_video_codec": {
+        "name": "Selected video codec"
+      },
+      "srtp_suite": {
+        "name": "SRTP suite"
+      },
+      "last_call_summary": {
+        "name": "Laatste call summary"
+      },
+      "last_media_close_reason": {
+        "name": "Laatste media close reason"
+      },
+      "runtime_health": {
+        "name": "Runtime health"
+      },
+      "runtime_score": {
+        "name": "Runtime score"
+      },
+      "retained_media_sessions": {
+        "name": "Retained media sessions"
+      },
+      "cloud_state": {
+        "name": "Cloud state"
+      },
+      "cloud_endpoint": {
+        "name": "Cloud endpoint"
+      },
+      "cloud_last_error": {
+        "name": "Laatste cloud error"
+      },
+      "dialog_call_id": {
+        "name": "Dialog call ID"
+      },
+      "operations_summary": {
+        "name": "Operations summary"
+      },
+      "call_journal_last_call": {
+        "name": "Laatste journal call"
+      },
+      "call_journal_count": {
+        "name": "Journal call count"
+      },
+      "call_journal_missed_count": {
+        "name": "Missed journal calls"
+      },
+      "call_journal_average_duration": {
+        "name": "Call journal average duration"
+      },
+      "call_journal_answered_today": {
+        "name": "Call journal answered today"
+      },
+      "call_journal_missed_today": {
+        "name": "Call journal missed today"
+      },
+      "developer_runtime_inspector": {
+        "name": "Developer runtime inspector"
+      },
+      "developer_event_monitor": {
+        "name": "Developer event monitor"
+      },
+      "developer_event_metrics": {
+        "name": "Developer event metrics"
+      }
+    },
+    "event": {
+      "door_entry_event": {
+        "name": "Door Entry events"
+      }
+    },
+    "button": {
+      "run_developer_test": {
+        "name": "Run developer test"
+      },
+      "generate_support_report": {
+        "name": "Supportrapport genereren"
+      },
+      "clean_debug_environment": {
+        "name": "Debugomgeving opschonen"
+      },
+      "open_gate": {
+        "name": "Poort"
+      }
+    },
+    "cover": {
+      "gate": {
+        "name": "Poort"
+      }
+    },
+    "switch": {
+      "open_gate_voice_bridge": {
+        "name": "Poort openen — spraakassistenten"
+      }
+    }
+  },
+  "services": {
+    "open_gate": {
+      "name": "Poort openen",
+      "description": "Open the BTicino gate using SIP."
+    },
+    "reset_statistics": {
+      "name": "Statistieken resetten",
+      "description": "Reset stored call and SIP event counters."
+    },
+    "test_connection": {
+      "name": "Verbinding testen",
+      "description": "Validate TLS and SIP registration without opening the gate."
+    },
+    "reject_call": {
+      "name": "Oproep weigeren",
+      "description": "Reject the currently ringing BTicino call with SIP 486 Busy Here."
+    },
+    "developer_test": {
+      "name": "Ontwikkelaarstest",
+      "description": "Run advanced diagnostics without opening the gate."
+    },
+    "generate_support_report": {
+      "name": "Supportrapport genereren",
+      "description": "Create a redacted Markdown report and ZIP bundle for technical support."
+    },
+    "export_debug_bundle": {
+      "name": "Debugbundel exporteren",
+      "description": "Export the same redacted support bundle for developer workflows."
+    },
+    "clean_debug_environment": {
+      "name": "Debugomgeving opschonen",
+      "description": "Delete logs and support reports while preserving configuration and certificates."
+    }
+  },
+  "issues": {
+    "missing_certificate": {
+      "title": "BTicino-certificaat ontbreekt",
+      "description": "Het certificaat of de privésleutel voor {entry_title} ontbreekt. Open Opnieuw configureren en voltooi de MyHomeWeb-inrichting."
+    },
+    "assist_sentences_restart_required": {
+      "title": "Herstart vereist voor BTDoor Assist-zinnen",
+      "description": "BTDoor Security+ heeft lokale Assist-zinnen geïnstalleerd of bijgewerkt. Herstart Home Assistant eenmaal zodat Conversation de nieuwe bestanden laadt."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Interface- en diagnosemodules",
+        "description": "Kies welke bewakingsmodules zichtbaar zijn in Home Assistant. Geavanceerde diagnostiek wordt alleen getoond wanneer zowel deze optie als de ontwikkelaarsmodus is ingeschakeld.",
+        "data": {
+          "show_cloud_status": "Cloudstatus tonen",
+          "show_sip_monitor": "SIP-monitor tonen",
+          "show_call_monitor": "Oproepbeheer tonen",
+          "show_media_monitor": "Multimediamonitor tonen",
+          "show_advanced_diagnostics": "Geavanceerde diagnostiek tonen",
+          "developer_mode": "Ontwikkelaarsmodus inschakelen",
+          "debug_mode": "Support-debugmodus",
+          "quick_voice_gate": "Snelle spraakopdracht voor de poort inschakelen"
+        },
+        "data_description": {
+          "show_cloud_status": "Shows cloud connectivity, gateway synchronization and authentication entities.",
+          "show_sip_monitor": "Shows SIP registration, line status and communication entities.",
+          "show_call_monitor": "Shows call state, call history, statistics and the latest call summary.",
+          "show_media_monitor": "Shows media-session state, negotiated codecs and RTP/SRTP information.",
+          "show_advanced_diagnostics": "Allows the Advanced Diagnostics device and its troubleshooting entities to be displayed. Developer mode must also be enabled.",
+          "developer_mode": "Enables advanced developer tools such as Event Monitor, Runtime Inspector, health metrics, self-test controls and support reports.",
+          "debug_mode": "Keep disabled during normal use. Enable Support or Deep Debug only while reproducing a problem, then download integration diagnostics.",
+          "quick_voice_gate": "Creates a momentary switch device visible in the Alexa app and Google Assistant. Turning it on opens the gate immediately and the control returns to off."
+        }
+      },
+      "confirm_quick_voice": {
+        "title": "Snelle spraakopdracht bevestigen",
+        "description": "Deze functie kan een spraakassistent toestaan de poort zonder code te openen. Iedereen die een geautoriseerd apparaat kan bedienen, zou de poort kunnen openen. Schakel dit alleen in een gecontroleerde omgeving in als u het risico accepteert."
+      }
+    },
+    "error": {
+      "advanced_diagnostics_requires_developer_mode": "Voor geavanceerde diagnostiek moet de ontwikkelaarsmodus zijn ingeschakeld."
+    }
+  },
+  "selector": {
+    "debug_mode": {
+      "options": {
+        "off": "Uitgeschakeld",
+        "support": "Ondersteuning",
+        "deep": "Diepe debug"
+      }
+    }
+  },
+  "exceptions": {
+    "no_matching_config": {
+      "message": "Er is geen overeenkomende geladen BTDoor Security+-configuratie gevonden."
+    },
+    "multiple_gates": {
+      "message": "Er zijn meerdere BTDoor-poorten geconfigureerd. Geef een invoer-ID of entiteits-ID op."
+    },
+    "sip_connection_test_failed": {
+      "message": "De BTicino SIP-verbindingstest is mislukt: {error}"
+    },
+    "call_rejection_failed": {
+      "message": "De BTicino-oproep kon niet worden geweigerd: {error}"
+    },
+    "developer_mode_disabled": {
+      "message": "De ontwikkelaarsbewerking is niet beschikbaar: {error}"
+    },
+    "gate_open_failed": {
+      "message": "De BTicino-poort kon niet worden geopend: {error}"
+    }
+  }
+}

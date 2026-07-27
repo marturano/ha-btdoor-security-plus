@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-23",
+  "markdown_files": 449,
+  "exact_markdown_duplicate_groups": [],
+  "required_architecture_files": [
+    "docs/project/WORKFLOW.md",
+    "docs/governance/PROJECT_GOVERNANCE_SYSTEM.md",
+    "docs/governance/GOVERNANCE_RULE_REGISTRY.md",
+    "docs/governance/FRAMEWORK_REGISTRY.md",
+    "docs/governance/DOCUMENT_IMPACT_MATRIX.md",
+    "docs/governance/WORKFLOW_COMPLIANCE_MATRIX.md",
+    "docs/i18n/LOCALIZATION_FRAMEWORK.md",
+    "docs/i18n/language_registry.json"
+  ],
+  "missing_required_files": [],
+  "status": "PASS"
+}

@@ -5,9 +5,9 @@ from dataclasses import dataclass
 from typing import Any
 
 from ..const import (
-    CONF_DEVELOPER_MODE, CONF_SHOW_ADVANCED_DIAGNOSTICS, CONF_SHOW_CALL_MONITOR,
+    CONF_DEVELOPER_MODE, CONF_QUICK_VOICE_GATE, CONF_SHOW_ADVANCED_DIAGNOSTICS, CONF_SHOW_CALL_MONITOR,
     CONF_SHOW_CLOUD_STATUS, CONF_SHOW_MEDIA_MONITOR, CONF_SHOW_SIP_MONITOR,
-    DEFAULT_DEVELOPER_MODE, DEFAULT_SHOW_ADVANCED_DIAGNOSTICS,
+    DEFAULT_DEVELOPER_MODE, DEFAULT_QUICK_VOICE_GATE, DEFAULT_SHOW_ADVANCED_DIAGNOSTICS,
     DEFAULT_SHOW_CALL_MONITOR, DEFAULT_SHOW_CLOUD_STATUS,
     DEFAULT_SHOW_MEDIA_MONITOR, DEFAULT_SHOW_SIP_MONITOR,
 )
@@ -23,6 +23,7 @@ class DeviceVisibilityManager:
     calls: bool = DEFAULT_SHOW_CALL_MONITOR
     media: bool = DEFAULT_SHOW_MEDIA_MONITOR
     diagnostics: bool = False
+    voice_bridge: bool = DEFAULT_QUICK_VOICE_GATE
 
     @classmethod
     def from_entry(cls, entry: Any) -> "DeviceVisibilityManager":
@@ -34,6 +35,7 @@ class DeviceVisibilityManager:
             calls=bool(options.get(CONF_SHOW_CALL_MONITOR, DEFAULT_SHOW_CALL_MONITOR)),
             media=bool(options.get(CONF_SHOW_MEDIA_MONITOR, DEFAULT_SHOW_MEDIA_MONITOR)),
             diagnostics=(developer_mode and bool(options.get(CONF_SHOW_ADVANCED_DIAGNOSTICS, DEFAULT_SHOW_ADVANCED_DIAGNOSTICS))),
+            voice_bridge=bool(options.get(CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE)),
         )
 
     def is_visible(self, kind: DeviceKind) -> bool:
@@ -43,6 +45,7 @@ class DeviceVisibilityManager:
             DeviceKind.CLOUD: self.cloud, DeviceKind.SIP: self.sip,
             DeviceKind.DIALOG: self.calls, DeviceKind.MEDIA: self.media,
             DeviceKind.DIAGNOSTICS: self.diagnostics,
+            DeviceKind.VOICE_BRIDGE: self.voice_bridge,
         }[kind]
 
     def filter_entities(self, entities: list[Any]) -> list[Any]:
@@ -53,6 +56,7 @@ class DeviceVisibilityManager:
             "cloud_status": self.cloud, "sip_monitor": self.sip,
             "call_monitor": self.calls, "media_monitor": self.media,
             "advanced_diagnostics": self.diagnostics,
+            "voice_bridge": self.voice_bridge,
         }
 
 

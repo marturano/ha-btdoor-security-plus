@@ -8,22 +8,23 @@ from datetime import UTC, datetime, timedelta
 import logging
 from pathlib import Path
 import shutil
-import json
 from typing import TYPE_CHECKING, Any
 
-import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant, ServiceCall, SupportsResponse
-from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady, HomeAssistantError
-from homeassistant.helpers import config_validation as cv
+from homeassistant.core import CoreState, HomeAssistant
+from homeassistant.helpers.typing import ConfigType
+from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import issue_registry as ir
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.storage import Store
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.event import async_track_time_interval
 
 from .const import (
     ATTR_ENTRY_ID,
+    ATTR_REASON,
+    ATTR_SOURCE,
     CERTIFICATE_RENEW_BEFORE,
     CONF_CA_CHAIN_PATH,
     CONF_CERTIFICATE_NOT_AFTER,
@@ -78,17 +79,20 @@ _LOGGER = logging.getLogger(__name__)
 
 type BticinoConfigEntry = ConfigEntry[Any]
 
-SERVICE_SCHEMA = vol.Schema({vol.Optional(ATTR_ENTRY_ID): cv.string})
 
-DEVELOPER_TEST_SCHEMA = vol.Schema({
-    vol.Optional(ATTR_ENTRY_ID): cv.string,
-    vol.Optional(ATTR_TEST, default="all"): vol.In(["all", "cloud", "tls", "sip", "certificates", "sdp", "dialog"]),
-})
-SUPPORT_REPORT_SCHEMA = vol.Schema({
-    vol.Optional(ATTR_ENTRY_ID): cv.string,
-    vol.Optional(ATTR_INCLUDE_LOGS, default=True): cv.boolean,
-})
-
+def _log_availability_transition(
+    runtime: "BTDoorRuntimeData", available: bool, entry_title: str
+) -> None:
+    """Log an availability transition once per actual state change."""
+    previous = runtime.availability_state
+    if previous is available:
+        return
+    runtime.availability_state = available
+    if available:
+        if previous is False:
+            _LOGGER.info("BTDoor Security+ %s recovered and is available again", entry_title)
+        return
+    _LOGGER.warning("BTDoor Security+ %s became unavailable", entry_title)
 
 def _client_from_entry(entry: ConfigEntry, debug=None):
     from .sip_client import BticinoSipClient
@@ -108,14 +112,35 @@ def _client_from_entry(entry: ConfigEntry, debug=None):
 
 
 
-def _service_entries(hass: HomeAssistant, call: ServiceCall):
-    requested_entry = call.data.get(ATTR_ENTRY_ID)
-    entries = hass.config_entries.async_entries(DOMAIN)
-    if requested_entry:
-        entries = [item for item in entries if item.entry_id == requested_entry]
-    if not entries:
-        raise HomeAssistantError("No matching BTDoor Security+ configuration")
-    return entries
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Set up integration-wide services, intents, and Assist sentences."""
+    from .sentence_manager import async_install_sentences
+    from .services import async_register_services
+    from .voice import async_register_voice_intents
+
+    sentence_result = await async_install_sentences(hass)
+    _LOGGER.info("Assist sentences synchronized: %s", sentence_result)
+    sentence_issue_id = "assist_sentences_restart_required"
+    sentences_changed = bool(sentence_result["installed"] or sentence_result["updated"])
+    # During a normal Home Assistant startup Conversation can load the files in
+    # the same boot, so requesting an additional restart is misleading. Only
+    # raise the repair when sentences change while HA is already running (for
+    # example after a config-entry reload or a manual integration reload).
+    if sentences_changed and hass.state is CoreState.running:
+        ir.async_create_issue(
+            hass,
+            DOMAIN,
+            sentence_issue_id,
+            is_fixable=False,
+            severity=ir.IssueSeverity.WARNING,
+            translation_key="assist_sentences_restart_required",
+        )
+    else:
+        ir.async_delete_issue(hass, DOMAIN, sentence_issue_id)
+    async_register_voice_intents(hass)
+    await async_register_services(hass)
+    return True
+
 
 async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> bool:
     """Set up BTDoor Security+ from a config entry."""
@@ -125,13 +150,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> b
     from .call_journal import CallJournal
     from .cloud import BticinoCloudAuthenticationError, BticinoCloudConnectionError, BticinoCloudError
     from .developer import DeveloperModeDisabledError, DeveloperTools
-    from .device_model import async_register_devices
+    from .managers import async_register_devices
     from .event_bus import RuntimeEvent, RuntimeEventBus, RuntimeEventType, RuntimeSource, map_client_event
     from .runtime import BTDoorRuntimeData
     from .runtime_state import BTDoorRuntimeAPI
     from .sip_client import BticinoSipError
     from .support_debug import SupportDebugRecorder
-
     if entry.title != "Bticino DS+ Suite":
         hass.config_entries.async_update_entry(entry, title="Bticino DS+ Suite")
 
@@ -143,7 +167,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> b
     )
     await debug.async_start()
     debug.record("integration", "setup_entry", version=INTEGRATION_VERSION, entry_title=entry.title)
-    await _async_renew_certificate_if_needed(hass, entry)
+    try:
+        await _async_renew_certificate_if_needed(hass, entry)
+    except BaseException:
+        await debug.async_stop()
+        raise
     client = _client_from_entry(entry, debug)
     store: Store[dict[str, object]] = Store(
         hass, STORAGE_VERSION, f"{DOMAIN}.{entry.entry_id}"
@@ -161,6 +189,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> b
         try:
             await client.async_start()
         except BticinoSipError as err:
+            await client.async_stop()
+            await debug.async_stop()
             raise ConfigEntryNotReady(
                 f"Unable to establish BTicino SIP session: {err}"
             ) from err
@@ -206,11 +236,22 @@ async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> b
         bool(entry.options.get(CONF_DEVELOPER_MODE, DEFAULT_DEVELOPER_MODE)),
     )
     entry.runtime_data.api = BTDoorRuntimeAPI(entry, entry.runtime_data)
-    await async_register_devices(hass, entry)
+    _log_availability_transition(entry.runtime_data, client.registered, entry.title)
+    try:
+        await async_register_devices(hass, entry)
+        _async_remove_legacy_gate_entities(hass, entry)
+    except BaseException:
+        await _async_cleanup_runtime(entry.runtime_data)
+        raise
 
     def _handle_client_event(event_type: str, data: dict[str, object]) -> None:
         debug.record("home_assistant", "event", event_type=event_type, data=data)
-        runtime_event_bus.publish(map_client_event(event_type, data))
+        mapped_event = map_client_event(event_type, data)
+        runtime_event_bus.publish(mapped_event)
+        if mapped_event.event_type is RuntimeEventType.SIP_REGISTERED:
+            _log_availability_transition(entry.runtime_data, True, entry.title)
+        elif mapped_event.event_type is RuntimeEventType.SIP_UNREGISTERED:
+            _log_availability_transition(entry.runtime_data, False, entry.title)
         if event_type == "gate_opened":
             entry.runtime_data.last_open = datetime.now(UTC)
         entry.runtime_data.last_result = str(data.get("status", event_type))
@@ -271,182 +312,45 @@ async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> b
     entry.runtime_data.renewal_unsub = async_track_time_interval(
         hass, _scheduled_renewal, timedelta(days=1)
     )
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-
-    async def handle_open_gate(call: ServiceCall) -> None:
-        requested_entry = call.data.get(ATTR_ENTRY_ID)
-        entries = hass.config_entries.async_entries(DOMAIN)
-        if requested_entry:
-            entries = [item for item in entries if item.entry_id == requested_entry]
-        if not entries:
-            raise HomeAssistantError("No matching BTDoor Security+ configuration")
-
-        for config_entry in entries:
-            runtime = config_entry.runtime_data
-            try:
-                result = await runtime.client.async_open_gate()
-            except BticinoSipError as err:
-                runtime.last_result = str(err)
-                raise HomeAssistantError(
-                    f"BTicino gate opening failed: {err}"
-                ) from err
-            runtime.last_open = datetime.now(UTC)
-            runtime.last_result = result.status
-
-    async def handle_reset_statistics(call: ServiceCall) -> None:
-        requested_entry = call.data.get(ATTR_ENTRY_ID)
-        entries = hass.config_entries.async_entries(DOMAIN)
-        if requested_entry:
-            entries = [item for item in entries if item.entry_id == requested_entry]
-        if not entries:
-            raise HomeAssistantError("No matching BTDoor Security+ configuration")
-        for config_entry in entries:
-            config_entry.runtime_data.client.reset_statistics()
-            await config_entry.runtime_data.store.async_save(
-                config_entry.runtime_data.client.export_state()
-            )
-
-
-    async def handle_test_connection(call: ServiceCall) -> None:
-        requested_entry = call.data.get(ATTR_ENTRY_ID)
-        entries = hass.config_entries.async_entries(DOMAIN)
-        if requested_entry:
-            entries = [item for item in entries if item.entry_id == requested_entry]
-        if not entries:
-            raise HomeAssistantError("No matching BTDoor Security+ configuration")
-        for config_entry in entries:
-            runtime = config_entry.runtime_data
-            started = asyncio.get_running_loop().time()
-            try:
-                result = await runtime.client.async_test_connection()
-            except BticinoSipError as err:
-                runtime.last_result = str(err)
-                runtime.client._notify("connection_test_failed", error=str(err))
-                raise HomeAssistantError(f"BTicino SIP connection test failed: {err}") from err
-            duration = max(0.0, asyncio.get_running_loop().time() - started)
-            runtime.last_result = result.status
-            runtime.client._notify(
-                "connection_test_succeeded",
-                status=result.status,
-                code=result.code,
-                duration_seconds=duration,
-            )
-
-
-    async def handle_reject_call(call: ServiceCall) -> None:
-        requested_entry = call.data.get(ATTR_ENTRY_ID)
-        entries = hass.config_entries.async_entries(DOMAIN)
-        if requested_entry:
-            entries = [item for item in entries if item.entry_id == requested_entry]
-        if not entries:
-            raise HomeAssistantError("No matching BTDoor Security+ configuration")
-        for config_entry in entries:
-            try:
-                await config_entry.runtime_data.client.async_reject_call()
-            except BticinoSipError as err:
-                raise HomeAssistantError(f"BTicino call rejection failed: {err}") from err
-
-    async def handle_developer_test(call: ServiceCall):
-        entries = _service_entries(hass, call)
-        output = {}
-        for config_entry in entries:
-            try:
-                output[config_entry.entry_id] = await config_entry.runtime_data.developer.async_run_tests(str(call.data.get(ATTR_TEST, "all")))
-            except DeveloperModeDisabledError as err:
-                raise HomeAssistantError(str(err)) from err
-        return output
-
-    async def handle_generate_support_report(call: ServiceCall):
-        entries = _service_entries(hass, call)
-        output = {}
-        for config_entry in entries:
-            try:
-                output[config_entry.entry_id] = await config_entry.runtime_data.developer.async_generate_support_report(bool(call.data.get(ATTR_INCLUDE_LOGS, True)))
-            except DeveloperModeDisabledError as err:
-                raise HomeAssistantError(str(err)) from err
-        return output
-
-    async def handle_clear_call_journal(call: ServiceCall):
-        output = {}
-        for config_entry in _service_entries(hass, call):
-            await config_entry.runtime_data.call_journal.async_clear()
-            output[config_entry.entry_id] = {"cleared": True}
-        return output
-
-    async def handle_export_call_journal(call: ServiceCall):
-        output = {}
-        export_dir = Path(hass.config.path("www", DOMAIN))
-        await hass.async_add_executor_job(export_dir.mkdir, parents=True, exist_ok=True)
-        for config_entry in _service_entries(hass, call):
-            path = export_dir / f"call-journal-{config_entry.entry_id}.json"
-            payload = json.dumps(config_entry.runtime_data.call_journal.export_state(), indent=2, ensure_ascii=False)
-            await hass.async_add_executor_job(path.write_text, payload, "utf-8")
-            output[config_entry.entry_id] = {"path": str(path), "url": f"/local/{DOMAIN}/{path.name}"}
-        return output
-
-    async def handle_rebuild_call_journal(call: ServiceCall):
-        output = {}
-        for config_entry in _service_entries(hass, call):
-            events = [RuntimeEvent.from_dict(item) for item in config_entry.runtime_data.event_bus.history]
-            await config_entry.runtime_data.call_journal.async_rebuild(events)
-            output[config_entry.entry_id] = config_entry.runtime_data.call_journal.metrics
-        return output
-
-    if not hass.services.has_service(DOMAIN, SERVICE_OPEN_GATE):
-        hass.services.async_register(
-            DOMAIN,
-            SERVICE_OPEN_GATE,
-            handle_open_gate,
-            schema=SERVICE_SCHEMA,
-        )
-    if not hass.services.has_service(DOMAIN, SERVICE_RESET_STATISTICS):
-        hass.services.async_register(
-            DOMAIN,
-            SERVICE_RESET_STATISTICS,
-            handle_reset_statistics,
-            schema=SERVICE_SCHEMA,
-        )
-    if not hass.services.has_service(DOMAIN, SERVICE_TEST_CONNECTION):
-        hass.services.async_register(
-            DOMAIN,
-            SERVICE_TEST_CONNECTION,
-            handle_test_connection,
-            schema=SERVICE_SCHEMA,
-        )
-    if not hass.services.has_service(DOMAIN, SERVICE_REJECT_CALL):
-        hass.services.async_register(
-            DOMAIN,
-            SERVICE_REJECT_CALL,
-            handle_reject_call,
-            schema=SERVICE_SCHEMA,
-        )
-
-    async def handle_clean_debug_environment(call: ServiceCall):
-        output = {}
-        for config_entry in _service_entries(hass, call):
-            developer = config_entry.runtime_data.developer
-            if developer is None:
-                raise HomeAssistantError("Developer tools are unavailable")
-            output[config_entry.entry_id] = await developer.async_clean_debug_environment()
-        return output
-
-    if not hass.services.has_service(DOMAIN, SERVICE_DEVELOPER_TEST):
-        hass.services.async_register(DOMAIN, SERVICE_DEVELOPER_TEST, handle_developer_test, schema=DEVELOPER_TEST_SCHEMA, supports_response=SupportsResponse.OPTIONAL)
-    if not hass.services.has_service(DOMAIN, SERVICE_GENERATE_SUPPORT_REPORT):
-        hass.services.async_register(DOMAIN, SERVICE_GENERATE_SUPPORT_REPORT, handle_generate_support_report, schema=SUPPORT_REPORT_SCHEMA, supports_response=SupportsResponse.OPTIONAL)
-    if not hass.services.has_service(DOMAIN, SERVICE_EXPORT_DEBUG_BUNDLE):
-        hass.services.async_register(DOMAIN, SERVICE_EXPORT_DEBUG_BUNDLE, handle_generate_support_report, schema=SUPPORT_REPORT_SCHEMA, supports_response=SupportsResponse.OPTIONAL)
-    if not hass.services.has_service(DOMAIN, SERVICE_CLEAN_DEBUG_ENVIRONMENT):
-        hass.services.async_register(DOMAIN, SERVICE_CLEAN_DEBUG_ENVIRONMENT, handle_clean_debug_environment, schema=SERVICE_SCHEMA, supports_response=SupportsResponse.OPTIONAL)
-    if not hass.services.has_service(DOMAIN, SERVICE_CLEAR_CALL_JOURNAL):
-        hass.services.async_register(DOMAIN, SERVICE_CLEAR_CALL_JOURNAL, handle_clear_call_journal, schema=SERVICE_SCHEMA, supports_response=SupportsResponse.OPTIONAL)
-    if not hass.services.has_service(DOMAIN, SERVICE_EXPORT_CALL_JOURNAL):
-        hass.services.async_register(DOMAIN, SERVICE_EXPORT_CALL_JOURNAL, handle_export_call_journal, schema=SERVICE_SCHEMA, supports_response=SupportsResponse.OPTIONAL)
-    if not hass.services.has_service(DOMAIN, SERVICE_REBUILD_CALL_JOURNAL):
-        hass.services.async_register(DOMAIN, SERVICE_REBUILD_CALL_JOURNAL, handle_rebuild_call_journal, schema=SERVICE_SCHEMA, supports_response=SupportsResponse.OPTIONAL)
+    try:
+        await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    except BaseException:
+        await _async_cleanup_runtime(entry.runtime_data)
+        raise
 
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
     return True
+
+
+def _async_remove_legacy_gate_entities(
+    hass: HomeAssistant, entry: BticinoConfigEntry
+) -> None:
+    """Remove retired gate entities from the entity registry."""
+    if not entry.unique_id:
+        return
+    registry = er.async_get(hass)
+    legacy = (
+        ("switch", f"{entry.unique_id}_open_gate_switch"),
+        ("cover", f"{entry.unique_id}_gate_cover"),
+    )
+    for platform, unique_id in legacy:
+        entity_id = registry.async_get_entity_id(platform, DOMAIN, unique_id)
+        if entity_id is not None:
+            registry.async_remove(entity_id)
+            _LOGGER.info("Removed retired BTDoor gate entity: %s", entity_id)
+
+
+async def _async_cleanup_runtime(runtime: "BTDoorRuntimeData") -> None:
+    """Release resources allocated during setup or normal unload."""
+    if runtime.renewal_unsub is not None:
+        runtime.renewal_unsub()
+        runtime.renewal_unsub = None
+    if runtime.event_unsub is not None:
+        runtime.event_unsub()
+        runtime.event_unsub = None
+    await runtime.client.async_stop()
+    if runtime.debug is not None:
+        await runtime.debug.async_stop()
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> bool:
@@ -463,25 +367,10 @@ async def async_unload_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> 
                     payload={"entry_id": entry.entry_id},
                 )
             )
-        if entry.runtime_data.renewal_unsub is not None:
-            entry.runtime_data.renewal_unsub()
-        if entry.runtime_data.event_unsub is not None:
-            entry.runtime_data.event_unsub()
         await entry.runtime_data.store.async_save(
             entry.runtime_data.client.export_state()
         )
-        await entry.runtime_data.client.async_stop()
-        if entry.runtime_data.debug is not None:
-            await entry.runtime_data.debug.async_stop()
-    if unloaded and len(hass.config_entries.async_entries(DOMAIN)) <= 1:
-        hass.services.async_remove(DOMAIN, SERVICE_OPEN_GATE)
-        hass.services.async_remove(DOMAIN, SERVICE_RESET_STATISTICS)
-        hass.services.async_remove(DOMAIN, SERVICE_TEST_CONNECTION)
-        hass.services.async_remove(DOMAIN, SERVICE_REJECT_CALL)
-        hass.services.async_remove(DOMAIN, SERVICE_DEVELOPER_TEST)
-        hass.services.async_remove(DOMAIN, SERVICE_GENERATE_SUPPORT_REPORT)
-        hass.services.async_remove(DOMAIN, SERVICE_EXPORT_DEBUG_BUNDLE)
-        hass.services.async_remove(DOMAIN, SERVICE_CLEAN_DEBUG_ENVIRONMENT)
+        await _async_cleanup_runtime(entry.runtime_data)
     return unloaded
 
 

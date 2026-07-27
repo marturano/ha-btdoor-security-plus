@@ -1,432 +1,480 @@
-# 6.0.0
+## Phase 7C — GitHub publication readiness
 
-- Promoted the validated 6.0.0-rc.3g code to the first stable 6.0 release.
-- Preserved all device identifiers, entity identifiers, user-assigned names, areas, and device associations.
-- Confirmed localized Italian Device Registry names for Cloud and SIP logical devices.
-- Aligned package and device software metadata to 6.0.0.
-- No runtime, configuration, service, entity, or feature changes from 6.0.0-rc.3g.
+- Added a deterministic repository publication preflight.
+- Expanded CI from a small regression subset to the complete pytest suite.
+- Made Ruff and mypy explicit blocking CI checks.
+- Documented exact-commit GitHub, release and HACS traceability requirements.
+- Kept remote HACS/hassfest/GitHub results pending until executed on GitHub.
 
-# 6.0.0-rc.3g
 
-- Corrected the Italian Device Registry names for Cloud and SIP logical devices.
-- Aligned the device `sw_version` metadata with the package version.
-- Preserved all existing device identifiers, entity identifiers, user-assigned names, areas, and device associations.
-- No new features; the 6.0 feature freeze remains in effect.
+## 1.1.0-rc.15 — Phase 7C Release Candidate Dossier
 
-# 6.0.0-rc.3f
+- Added the authoritative human-readable and machine-readable Release Candidate Dossier.
+- Consolidated gate, evidence, risk, compatibility and Quality Scale status for the exact package.
+- Preserved `BLOCKED` until all external and target evidence is validated.
 
-- Added an explicit Device Registry migration that updates integration-managed logical-device names while preserving user-defined names.
-- Added `registry/devices.json` to Support Bundles with expected and effective device names.
-- Added `translations/report.json` with Home Assistant language, resolved language, fallback state, and localized logical-device names.
-- Standardized registry manufacturer, model, and software version metadata during migration.
 
-# 6.0.0-rc.3d
+## 1.1.0-rc.15 — Phase 7C runtime evidence intake
 
-- Fixed Support Bundle generation after the DeveloperTools entry attribute refactor.
-- Standardized English device terminology: Cloud Status, SIP Monitor, Call Manager, Multimedia Monitor, and Advanced Diagnostics.
-- Aligned Italian, French, German, and Spanish option labels with the canonical English glossary.
-- Corrected remaining untranslated English service text.
+- accepted the 2026-07-27 operator support bundle as partial supporting evidence;
+- retained only selected redacted JSON evidence and generated SHA256 inventory;
+- registered `EV-TARGET-002` as validated, non-blocking evidence;
+- documented healthy cloud, certificate, SIP, TLS and media runtime findings;
+- kept all external blocking evidence pending because lifecycle, metrics, HACS, UX and exact Home Assistant version are not demonstrated;
+- recorded `verify_server: false` for explicit security disposition without changing runtime behavior.
+## Phase 7C local certification — 2026-07-23
 
-# 6.0.0-rc.3b — Circular import hotfix
+- Certified the exact package with 332/332 tests passing.
+- Passed repository integrity, hygiene, governance, handoff, localization, architecture, Quality Scale, certification and production-audit gates.
+- Recorded Ruff and mypy as not executed locally because the configured package service was unavailable; CI execution remains mandatory.
+- Preserved the `BLOCKED` Release Decision pending target and external evidence.
 
-- Eliminated the circular import between `visibility` and `device_model`.
-- Made `device_model.async_register_devices` a lazy wrapper so importing the package no longer imports the registry lifecycle manager.
-- Preserved the existing device visibility behavior and registry cleanup logic.
-- Added regression coverage for importing `visibility`, `device_model`, and `developer` in the same process.
+#
+## Phase 7C Runtime Lifecycle Hardening
 
-# 6.0.0-rc.3a — Import optimization hotfix
+- cleaned up support-debug and SIP resources when config-entry setup fails before Home Assistant can unload the entry;
+- centralized runtime cleanup for setup rollback and normal unload;
+- awaited SIP call-timeout task cancellation during shutdown;
+- added lifecycle regression tests and verified 332 passing tests with an isolated pytest runner;
+- added no feature and kept the release decision blocked pending target evidence.
 
-- Reduced package-level imports in `__init__.py` to lightweight constants and Home Assistant interfaces.
-- Deferred SIP, cloud, cryptography, media, diagnostics, event-bus and journal imports until config-entry setup or unload.
-- Moved the initial certificate file existence check to `asyncio.to_thread`.
-- Added a regression test that prevents expensive integration subsystems from being imported at package load time.
-- No entity, service, device-visibility or runtime behavior changes.
+#
+## Pre-Phase 7C Documentation & Governance Final Consolidation
 
-# 6.0.0-rc.3
+- synchronized the canonical package identity across active handoffs, Project Health sources and generated documentation;
+- regenerated the full repository inventory and separated current operational handoffs from historical snapshots;
+- marked Bronze, Silver and Platinum-readiness records as non-normative historical evidence;
+- clarified GOLD as the permanent governed maximum and clarified Release Readiness versus final Release Decision semantics;
+- completed localized RC15 release-note paragraphs for all six full-documentation locales;
+- formalized runtime-locale versus full-documentation-locale support levels;
+- added blocking documentation consistency checks for package identity, inventory completeness, historical metadata and localized release-note contamination;
+- changed no runtime integration behavior.
 
-- Renamed logical devices to Cloud Status, SIP Monitor, Monitor Chiamate, Media Monitor and Diagnostica Avanzata.
-- Added per-module visibility options with a clear description beneath every option.
-- Added the central Device Visibility Manager used by platforms and the Device Registry lifecycle.
-- Hidden modules now remove their entities and logical device while the internal runtime continues operating.
-- Diagnostica Avanzata requires both its visibility option and Developer mode.
-- Added effective visibility settings to `configuration/options.json` in Support Bundles.
+#
+### QS-21 — Gold Exception Translation Completion
 
-## 6.0.0-rc.3e
+- replaced user-facing positional service/entity errors with translated Home Assistant exceptions;
+- added six stable exception keys with placeholder support across all 17 supported locales;
+- added behavioural translation-key and locale-parity tests;
+- regenerated measured coverage at 95.08% with 328 coverage-gate tests passing;
+- promoted the repository Quality Scale self-assessment from Silver to Gold.
 
-- Localized logical device names using the active Home Assistant language.
-- Added automatic English fallback for unsupported locales.
-- Added Dutch device-name terminology in preparation for the 6.1 language framework.
-- Added an in-place Device Registry migration that preserves device IDs, entities, areas, history, and user-assigned names.
-- Added regression tests for Italian names, locale normalization, and fallback behavior.
+## QS-20 Silver Achievement
 
-## 6.0.0-rc.3 — Central export sanitizer
+- Added behavioural coverage for complete setup-entry orchestration, event bridging, scheduled renewal and Support Bundle generation.
+- Added residual SIP SDP, media application and Digest authentication coverage.
+- Increased measured integration coverage from 92.55% to 95.08% with 325 passing tests.
+- Completed all 10 Silver rules and advanced the repository Quality Scale self-assessment from Bronze to Silver.
+- Added ADR-0088, QS-20 Silver report and handoff 61.
 
-- Added a single export sanitization policy in `support_sanitizer.py`.
-- Standard Support Bundles now hash `entry_id`, `config_entry_id`, `device_id`, SIP correlation identifiers and partially mask `gateway_id`.
-- Credentials, tokens, private keys, certificates and cryptographic material are always removed.
-- All structured Support Bundle payloads continue to pass through `sanitize_support_data`, which now delegates to the central sanitizer.
-- Added regression coverage for recursive sanitization, deterministic correlation hashes and gateway masking.
+### QS-19 Lifecycle and SIP Residual Coverage
 
-## 6.0.0-rc.2c — Call summary device assignment
+- Added behavioural coverage for integration setup, schema migration, certificate storage edge cases and optional-resource unload.
+- Added SIP stream framing, provisional response filtering and incomplete-body error coverage.
+- Increased measured integration coverage from 91.49% to 92.55%.
+- Increased `sip_client.py` coverage to 87.09%.
+- Added ADR-0087, QS-19 coverage report and handoff 60.
 
-- Moved the `Last call summary` (`Riepilogo ultima chiamata`) sensor from `Media Monitor` to `Monitor Chiamate`.
-- Preserved the sensor unique ID and entity ID so existing dashboards, automations, history, and statistics continue to work.
-- Kept media-specific codec and close-reason attributes available on the call summary while assigning the entity to the call-management device.
-- Updated the device-topology and Operations Dashboard documentation.
 
-## 6.0.0-rc.2b — Naming and Developer Mode lifecycle
+### QS-18 Media Residual Coverage
 
-- Renamed the configuration entry to `Bticino DS+ Suite`.
-- Renamed logical runtime devices to `Cloud Status`, `Diagnostica Avanzata`, `Monitor Chiamate`, `Media Monitor`, and `SIP Monitor`.
-- Developer Mode now exclusively controls the `Diagnostica Avanzata` device and all of its entities. Disabling Developer Mode removes the diagnostic entities and device from the Home Assistant registries; enabling it recreates them on reload.
-- Updated user and engineering documentation for the new naming and Developer Mode lifecycle.
+- Added behavioural coverage for SRTP metadata edge cases, media socket lifecycle, allocation failures and partial-preparation cleanup.
+- Increased measured integration coverage from 91.06% to 91.49%.
+- Increased `media.py` coverage to 99.16%.
+- Added ADR-0086, QS-18 coverage report and handoff 59.
 
-- Fixed `Developer Runtime Inspector` startup by serializing the complete `RuntimeSnapshot` through its supported `as_dict()` method.
-- Removed invalid calls to `as_dict()` on nested state dataclasses such as `GatewayState`.
-- Added a regression check that forbids nested runtime state `.as_dict()` calls in the Developer sensor.
-- Preserved all entity unique IDs, options and runtime storage.
+## QS-17 — Developer and Lifecycle Residual Coverage
 
-## 6.0.0-rc.2
+- Added behavioural coverage for Developer Tools cloud, SIP, TLS, certificate inspection and the complete diagnostic runner.
+- Added strict module-state restoration for isolated Home Assistant test doubles.
+- Raised measured integration coverage from 90.50% to 91.06%.
+- Raised `developer.py` coverage to 84.67%.
+- Added ADR-0085, QS-17 report and handoff 58.
 
-- Expanded Developer Mode with three diagnostic entities: Runtime Inspector, Event Monitor, and Event Metrics.
-- Developer Event Monitor exposes a sanitized 20-event timeline without raw SIP payloads.
-- Developer Runtime Inspector uses immutable RuntimeStateProvider snapshots.
-- Developer Mode remains disabled by default and is applied through the Config Entry options reload.
+## QS-16 — Config Flow Residual Coverage
 
+- Added behavioural coverage for cloud discovery, provisioning data construction, SIP validation, reauthentication error mapping and options normalization.
+- Raised measured integration coverage from 90.13% to 90.50%.
+- Raised `config_flow.py` coverage to 95.40%.
+- Added ADR-0084, QS-16 report and handoff 57.
+
+
+### Quality Scale QS-14
+
+## QS-15 — Cloud Certificate Residual Coverage
+
+- Added behavioural coverage for cloud CSR generation, certificate decoding, PEM/DER/ZIP parsing, key matching, chain handling and provisioning failures.
+- Raised measured integration coverage from 88.42% to 90.13%.
+- Raised `cloud.py` coverage to 95.57%.
+- Added ADR-0083, QS-15 report and handoff 56.
+
+
+- Added behavioural coverage for core runtime lifecycle, rollback, Event Bus persistence, eviction, subscriptions and dispatcher behavior.
+- Raised measured integration coverage from 87.63% to 88.42%.
+- Raised `core/runtime.py` coverage to approximately 96%.
+- Kept Silver blocked until measured coverage strictly exceeds 95%.
+
+
+### Quality Scale QS-13
+
+- Added behavioural coverage for SIP INVITE, CANCEL, BYE, timeout, REGISTER Digest authentication, proxy-auth priming and keepalive.
+- Raised measured integration coverage from 83.22% to 87.63%.
+- Raised `sip_client.py` coverage to approximately 82%.
+- Kept Silver blocked until measured coverage strictly exceeds 95%.
+
+## Quality Scale QS-8
+
+- Added core lifecycle and certificate renewal behavioural tests.
+- Increased cumulative integration coverage from 71.57% to 73.49%.
+- Increased `__init__.py` coverage to 67.84%.
+- Documented isolated-process validation for nested certification tests.
+
+
+### Quality Scale QS-11
+
+- Added behavioural coverage for adapter foundations, runtime-state API/provider and diagnostic result/bundle contracts.
+- Raised measured integration coverage from 79.23% to 80.49%.
+- Kept Silver blocked until measured coverage strictly exceeds 95%.
+
+## Quality Scale QS-2 — Platform coverage
+
+### Quality Scale QS-5
+- Added behavioural coverage for core certificate helpers, media negotiation and SIP parsing/authentication.
+- Raised measured integration coverage from 59.24% to 64.62% with 258 passing tests.
+- Kept the Quality Scale tier at Bronze because the Silver coverage threshold remains unmet.
+
+- Added behavioural contract coverage for binary sensors, buttons, events, switches, diagnostics, entity base classes, and device-info construction.
+- Increased measured integration coverage from 35.54% to 40.59%.
+- Added ADR-0070, QS-2 coverage report, and handoff 43.
+- Kept Silver blocked because measured coverage remains below the greater-than-95% requirement.
+
+
+## Legacy internal Quality Scale work package 7C — Silver progress
+
+- Added deduplicated unavailable/recovered transition logging for SIP connectivity.
+- Declared explicit push-platform parallel update limits.
+- Added measured pytest-cov evidence and a strict Silver coverage gate.
+- Kept the achieved tier at Bronze because measured integration coverage remains below 95%.
+
+## Workflow integration - Home Assistant Quality Scale
+
+- Made Quality Scale assessment mandatory at phase start and phase end.
+- Added configurable release-minimum and desired tiers.
+- Added remediation planning and conservative safe-remediation execution.
+- Added a formal Quality Scale Gate to workflow governance and handoff.
 # Changelog
 
-## 6.0.0-rc.1a — Service registration hotfix
-
-- Fixed integration startup on Home Assistant 2026.7 by removing the accidental extra positional `INTEGRATION_VERSION` argument from four `ServiceRegistry.async_register()` calls.
-- Ensured each service schema is passed exactly once.
-- Reused the central integration version constant in the Device Model instead of the stale `5.0.0-beta.4` marker.
-- Preserved entity unique IDs, storage keys, Config Entries, Event Bus and Call Journal data.
-
-## 6.0.0-rc.1 — Production-readiness foundation
-
-- Promoted the validated 5.1 runtime architecture to the first 6.0 release candidate.
-- Added a single `INTEGRATION_VERSION` runtime constant and removed stale hard-coded beta version markers.
-- Hardened structured SIP diagnostic redaction for standalone tag, instance, Call-ID and branch fields.
-- Added HACS and Hassfest validation workflows.
-- Added automated Python compile, JSON validation and pytest workflow steps.
-- Added a deterministic GitHub release-package workflow.
-- Added Ruff, mypy and pytest project configuration.
-- Added repository contribution, security, issue-template and pull-request documentation.
-- Added an explicit quality/readiness matrix without claiming unverified Home Assistant Quality Scale status.
-- Reworked the README for HACS installation, operations, voice-assistant exposure and release-candidate expectations.
-- Preserved all entity unique IDs, storage keys and configuration-entry behavior.
-
-## 5.1.0-beta.2
-
-- Fixed stale active-call accounting through deterministic journal rebuild/clear support.
-- Added canonical SDP and media allocation event types to reduce generic runtime events.
-- Added clear, export and rebuild Call Journal services.
-- Added average duration, answered today and missed today sensors.
-
-
-## 5.1.0-beta.2.1
-
-- Fixed `active_calls` inflation caused by late duplicate terminal events after `media_closed`.
-- Added storage self-healing for completed records incorrectly persisted in the active map.
-- Prevented terminal and auxiliary events from creating phantom active calls.
-- Normalized `media_srtp_selected`, `media_local_sdp_generated`, and `sdp_offer_parsed`.
-- Added regression coverage for duplicate `missed_call` events and persisted-state migration.
-
-## 5.1.0-beta.2
-
-- Added a persistent Call Journal derived exclusively from normalized Runtime Event Bus events.
-- Retains the latest 250 completed calls with result, caller, duration, codecs, SRTP suite and close reason.
-- Added journal metrics and three Home Assistant sensors for latest call, retained calls and missed calls.
-- Added `calls/journal.json`, `calls/metrics.json` and `calls/schema.json` to Support Bundles.
-- Preserved all existing entity unique IDs and runtime behavior.
-
-## 5.0.0-beta.4 - Runtime Event Framework
-
-- Added a per-config-entry, versioned Runtime Event Bus.
-- Added immutable RuntimeEvent models with stable schema version 1.
-- Normalized existing SIP, dialog, media, cloud and gate notifications.
-- Added bounded persistent history for the latest 500 runtime events.
-- Added event metrics grouped by event type and logical source.
-- Exported event history, metrics and schema metadata in Support Bundles.
-- Preserved the public Home Assistant event bus for backward compatibility.
-
-## 5.0.0-beta.3
-
-- Added the Operations Center foundation.
-- Added `sensor.operations_summary` backed by the stable Runtime State Provider.
-- Added a provider-neutral `RuntimeSummary` model for future dashboard, Repairs and AI consumers.
-- Added a native Lovelace dashboard template in `dashboards/btdoor_operations.yaml`.
-- Preserved all existing entity unique IDs.
-
-
-## 5.0.0-beta.1 — Runtime State Provider
-
-- Added immutable gateway, cloud, SIP, dialog, media and diagnostics state models.
-- Added `RuntimeStateProvider` as the single normalized read path for runtime data.
-- Added the stable internal `BTDoorRuntimeAPI` facade for entities, diagnostics, services and future AI consumers.
-- Migrated alpha.30 observability entities to the new facade while preserving entity unique IDs and compatibility fallbacks.
-- Added structured snapshot serialization and Beta.1 regression tests.
-- Added ADR-0018 and updated architecture documentation.
-
-## 4.0.0-alpha.29
-
-- Fixed Media Runtime snapshots disappearing after an integration reload or Home Assistant restart.
-- Persisted the last completed media session, the bounded 10-session history and aggregate metrics.
-- Persisted redacted SDP diagnostics, media trace metadata and SIP dispatcher counters.
-- Restored integration state before starting the SIP transport.
-- Made media finalization idempotent so an already closed session is not added twice.
-- Added ADR-0016 and regression coverage for close, export and restore lifecycle behavior.
-
-## 4.0.0-alpha.26 — Persistent Runtime Snapshot
-
-- Added a bounded history of the last 10 completed media sessions.
-- Preserved the last completed media plan, trace, SDP availability, duration, and close reason after the live runtime returns to an inactive state.
-- Added aggregate media metrics for codec usage, close reasons, retained sessions, and average duration.
-- Added dedicated Support Bundle exports for the last completed session, session history, and metrics.
-- Added regression tests for persistent media diagnostics.
-
-## 4.0.0-alpha.24 — Certificate Migration & Diagnostic Health
-
-- Added certificate migration from the former `btdoor_entry_plus` storage paths after the domain rename.
-- Aligned Developer certificate diagnostics with the exact paths used by the live SIP client.
-- Made the aggregate Health test non-raising and independent, preventing certificate failures from cascading into false TLS/health failures.
-- Added explicit `tls_runtime` and certificate status details to health diagnostics.
-- Updated the setup debug version marker to `4.0.0-alpha.24`.
-- Added ADR-0011 and regression coverage for legacy certificate-path migration and health isolation.
-
-## 4.0.0-alpha.22 — Support Identity Migration
-
-- Renamed generated support artifacts to `BTDoorSecurityPlus_Support_<timestamp>.md/.zip`.
-- Updated support retention to manage both the new prefix and legacy `BTDoorPlus_Support` / `BTDoorEntryPlus_Support` files safely.
-- Kept cleanup backward compatible so existing reports do not cause errors after the rename.
-- Added centralized support-artifact naming helpers and regression tests.
-- Updated the SDP origin label from `BTDoorPlus` to `BTDoorSecurityPlus`.
-- Added ADR-0009 documenting support artifact naming and legacy compatibility.
+- Added a gate-based official workflow with Project Scope, Architecture, static analysis, layered tests, accessibility, compatibility verification, repository documentation, publication readiness and continuous-improvement steps.
+- Added the governed Project Health Dashboard, structured health source, renderer and handoff integration.
+### Phase 6B — Repository Rationalization
+
+### Phase 7A — Repository Production Audit
+
+- Added a reproducible production audit covering repository essentials, HACS/Home Assistant metadata, pinned dependencies, accidental secrets, temporary artifacts, and production duplicate files.
+- Integrated the audit into governance automation without allowing it to override target certification or release approval.
+- Added ADR-0063, canonical audit policy, generated reports, regression tests, and handoff status.
+
+- Added a machine-readable canonical-document registry and generated human-readable registry.
+- Added repository dependency graph, reference integrity, duplicate detection and repository metrics.
+- Integrated repository rationalization into governance automation and Project Health evidence.
+- Added ADR-0058 and a dedicated handoff status.
+
+## Phase 6E — Target Validation Pack
+
+- Added schema-governed collection, validation and immutable import of Home Assistant 2026.x target evidence.
+- Integrated accepted target runs with runtime, compatibility, HACS, security and UX/accessibility certification statuses.
+- Added tests preventing incomplete target runs from self-certifying a release.
+
+## [Unreleased]
+
+### Quality Scale QS-6
+- Added behavioural coverage for developer/support tooling, including health checks, retention, support bundles and debug cleanup.
+- Raised measured integration coverage from 64.62% to 68.62% with 261 passing tests.
+- Raised `developer.py` coverage from 0% to 74%.
+- Kept the Quality Scale tier at Bronze because the Silver coverage threshold remains unmet.
+
+### Quality Scale Bronze
+- Added executable behavioural coverage for all config-flow outcomes, including setup success, error mapping, duplicate prevention, gateway selection, reauthentication, reconfiguration, and options safety.
+- Strengthened the Quality Scale engine so Bronze requires the dedicated tests and structured coverage evidence rather than keyword detection.
+- Promoted the self-assessed Quality Scale level from Legacy to Bronze while preserving all independent target and release gates.
+
+### Pending before 1.1.0 Stable
+- Complete clean-install and supported-upgrade validation.
+- Validate setup, reload, unload and restart on the declared Home Assistant 2026.x matrix.
+- Confirm no duplicate devices or entities and no accidental gate execution.
+- Retain the verified Alexa bridge behavior.
+- Validate Google Assistant on a real account/device or mark it explicitly unverified.
+- Complete HACS, hassfest, Python, JSON and regression gates.
+
+## [1.1.0-rc.15] - 2026-07-22
+
+### Phase 1 — Repository Governance and Integrity Foundation
+- Added the Project Governance Charter, Repository Integrity Suite, Roadmap Integrity Check, Definition of Ready/Done, and Zero Knowledge Loss continuity controls.
+- Corrected the duplicate roadmap identifier: Documentation Platform moved from 4.3 to 4.4.
+- Added ADR-0042 through ADR-0045 and expanded release continuity evidence.
+
+### Phase 2 — Architecture Foundation
+- Established the canonical architecture documentation set.
+- Added configuration-entry, device, event, data-flow, notification, and module-boundary contracts.
+- Added ADR-0046 and ADR-0047.
+- Added blocking Architecture Integrity and Mermaid Validation gates.
+
+### Phase 3 — Ecosystem Foundation
+- Replaced ecosystem placeholders with canonical product-family contracts.
+- Added the normative ecosystem support matrix and capability, adapter, discovery, and identity models.
+- Added ADR-0048 and ADR-0049.
+- Added the blocking Ecosystem Integrity gate and regression tests.
+
+### Phase 4 — AI Platform Foundation
+- Replaced the minimal AI overview with a canonical provider-neutral documentation set.
+- Added capability routing, provider interface, policy, privacy, vision, voice, OCR, recognition, automation, and observability contracts.
+- Added ADR-0050 through ADR-0053.
+- Added the release-blocking `ai_documentation` and `provider_capability` integrity gates.
+- No provider adapter or new AI runtime service is claimed as implemented.
+
+### Phase 5 — API Foundation
+- Expanded the canonical API reference for entities, registered actions, events, errors, versioning, and security.
+- Documented Alexa, Alexa+, and Google Assistant exposure boundaries and automation examples.
+- Added ADR-0054 through ADR-0056.
+- Strengthened API integrity and added the voice-assistant API gate.
+- REST and WebSocket remain contract-only and are not claimed as implemented.
+
+### Governance
+- Replaced the placeholder `PROJECT_GOVERNANCE.md` with the canonical governance model covering roles, decision authority, acceptance criteria, release promotion, compatibility, deprecation, document precedence and governance changes.
+- Linked governance to the Foundation, official roadmap, ADR register, repository policy, contribution workflow, security policy and release checklist without duplicating their specialist rules.
+
+### Runtime
+- Applied the central support-data sanitization policy to native Home Assistant diagnostics. SIP URIs, private IP addresses, persistent identifiers, certificate paths and credentials are now masked or redacted before export.
+- Added regression coverage for native diagnostics privacy.
+- No other intentional production runtime behavior change beyond release metadata.
+
+## 1.1.0-rc.14 — Documentation Foundation & Repository Refactoring
+
+- Added DRP 2.0 and PCP 2.0 with a binding Project Execution Contract and complete Recovery Prompt.
+- Added repository/document lifecycle policy, release checklist, documentation changelog, architecture/API/install/security/performance references, and compatibility matrices.
+- Added multilingual RC.14 release summaries for all six supported locales.
+- Added ADR-0037 through ADR-0041.
+- Added Documentation Platform as roadmap milestone 4.3.
+- Archived superseded monolithic handoff, old roadmap, and old documentation index with compatibility pointers.
+- Runtime behavior intentionally unchanged except release version metadata.
+
+
+## [1.1.0-rc.13] - 2026-07-21
+
+### Added
+- BTDoor Platform umbrella vision and module naming.
+- Complete 1.x–5.x roadmap with AI Vision 1.9, BTicino/Netatmo 2.x and SDK 3.x.
+- Ecosystem, AI, SDK, security, performance and developer documentation.
+- ADR-0032 through ADR-0036.
+
+### Changed
+- Replaced the superseded 1.1-to-2.0 roadmap with a canonical roadmap index.
+- Moved Core Consolidation from 1.9 to 1.10.
+- Clarified that 1.9 implements interoperable AI Vision while public provider SDKs arrive in 3.x.
+
+## [1.1.0-rc.12] - 2026-07-21
+
+### Documentation
+- Completed monthly Home Assistant 2026.x compatibility exposure.
+- Added feature recovery and future evolution audit.
+- Corrected roadmap treatment of limited call rejection and Call Journal maintenance.
+- Archived superseded and provisional-version documents.
+- Consolidated historical Foundation ADRs under ADR-0031.
+- Expanded and reviewed EN/IT/FR/DE/ES/NL documentation.
+- Audited translation key and placeholder parity.
+- Added an explicit archive policy and current-document index.
 
-## 4.0.0-alpha.21 — Async Compliance
-
-- Fixed the Home Assistant blocking-call warning raised while generating a support report on Python 3.14.
-- Moved `platform.platform()` collection to a worker thread before building the in-memory support snapshot.
-- Moved SIP certificate existence checks off the event loop.
-- Moved certificate migration and renewal fallback filesystem checks off the event loop.
-- Added ADR-0008 documenting the async-compliance policy.
+### Runtime
+- No functional runtime changes.
 
-## 4.0.0-alpha.20 — Foundation
+This changelog presents BTDoor Security+ as one continuous product line. Early internal packages used experimental 3.x–6.x numbers; those labels are retained only in the provenance register and Git history. They are not separate products and are not supported as a parallel release line.
 
-- Renamed the project to **BTDoor Security+**.
-- Changed the Home Assistant domain to `btdoor_security_plus` (breaking alpha migration).
-- Added the device-neutral Platform Core and lifecycle orchestration.
-- Added the `DeviceAdapter` capability contract.
-- Added the first deterministic SIP Dialog Engine and tests.
-- Added architecture, ADR-0007, migration guide, and Engineering Notebook.
+## [1.1.0-rc.10] - 2026-07-21
 
-## 4.0.0-alpha.20 — SIP Dispatcher Instrumentation
+### Documentation and engineering governance
+- Reconstructed the project history as a single 1.0 Foundation → 1.1 Core Stable product line.
+- Added a provenance register mapping historical build labels to current milestones without rewriting Git history.
+- Replaced the fragmented changelog with a consolidated product changelog.
+- Expanded the architecture, compatibility, quality, release, ADR and engineering-notebook documentation.
+- Added a software-archaeology audit identifying implemented, partial, undocumented and deferred capabilities.
+- Defined Home Assistant 2026.x compatibility evidence levels.
+- Replaced placeholder documentation gates with content and stale-marker checks.
 
-- Added bounded packet-by-packet SIP dispatcher tracing.
-- Added INVITE counters: received, dispatched, with SDP, and with Media Runtime.
-- Added dispatcher stage records around request parsing, branch selection, SDP detection, and Media Runtime invocation.
-- Added `sip/dispatcher_trace.json` to Support Bundles.
-- Added dispatcher diagnostics to Home Assistant diagnostics and Developer Tests.
-- No call acceptance, RTP, RTCP, or SRTP transmission is enabled.
-
-## 4.0.0-alpha.18 — Media Runtime Instrumentation
-
-- Added per-INVITE Media Trace IDs (`MT-xxxxxx`).
-- Added step-by-step instrumentation from INVITE reception to runtime storage.
-- Added explicit trace records for SDP extraction, parsing, media preparation and snapshot storage.
-- Added `media/instrumentation.json` to Support Bundles.
-- Added Media Runtime instrumentation to diagnostics and Developer Tests.
-- No SIP call acceptance or RTP/SRTP transmission is enabled.
-
-## 4.0.0-alpha.17
-
-- Added persistent Media Runtime lifecycle (`idle`, `preparing`, `prepared`, `failed`, `closed`).
-- Preserves an export-safe media snapshot after RTP sockets and SRTP keys are released.
-- Added media timeline events and Media Engine health check.
-- Added remote SDP, redacted local SDP, SDP diff and media runtime files to support bundles.
-- Media diagnostic entities now retain the last session state after CANCEL/BYE.
-- Calls are still not accepted and no RTP/SRTP traffic is transmitted.
-
-## 4.0.0-alpha.16
-
-- Added strict SDES-SRTP inline key parsing and 30-byte master key validation.
-- Added local media address discovery.
-- Added in-memory SDP answer generation with export-safe redacted preview.
-- Added SRTP key lengths, local crypto tag, SDP fingerprint and preparation timestamp to diagnostics.
-- The SIP call is still not accepted and no RTP/SRTP packets are transmitted.
-
-## 4.0.0-alpha.15
-
-- Fixed the remaining X.509 long Common Name warning by filtering it while reading certificate subject and issuer.
-- Confirmed Developer Test and Support Report remain operational.
-
-## 4.0.0-alpha.14
-
-- Fixed the X.509 long Common Name warning in Developer Test.
-- Clarified that the SIP message counter includes only incoming SIP MESSAGE requests.
-- Clarified that the reconnection counter includes only real successful SIP reconnections.
-- Added counter scope metadata to diagnostics.
-- Updated IT/EN/FR/ES/DE counter names and descriptions.
-
-## 4.0.0-alpha.13
-
-- Added non-invasive Media Engine preparation.
-- Added SDES-SRTP crypto parsing without exporting key material.
-- Added local RTP/RTCP port reservation during an incoming offer.
-- Added preferred codec selection and diagnostic sensors.
-- No SIP 200/SDP answer or media transmission is enabled yet.
-
-## 4.0.0-alpha.12
-
-- Refactored support diagnostics around structured, typed Python data.
-- Support JSON is now sanitized before serialization; regex is never applied to a serialized JSON document.
-- SIP From, To and Contact headers are normalized into structured objects for support exports.
-- Fixed quote corruption around SIP tags and `+sip.instance` values.
-- JSONL logs are parsed and sanitized record by record.
-- Added regression tests and a standalone support-bundle JSON validator.
-
-## 4.0.0-alpha.11
-
-- Fixed Developer Mode button entity category for Home Assistant 2026.7.
-- Replaced the remaining string value `"diagnostic"` with `EntityCategory.DIAGNOSTIC`.
-- Audited the integration for other invalid entity category assignments.
-
-## 4.0.0-alpha.10
-
-- Fixed Developer Mode button entities for Home Assistant 2026.7 by using `EntityCategory.DIAGNOSTIC`.
-- Fixed support report generation: redaction now operates recursively on structured data before JSON serialization.
-- Prevented `JSONDecodeError` while generating Markdown and debug bundles.
-
-## 4.0.0-alpha.9
-
-- Support report Markdown now uses the fully support-sanitized dataset.
-- SIP Call-ID, branch, tags, sip.instance and IPv4 addresses are masked in exported reports.
-- Statistics reset now clears reconnect count, command timestamps and persisted SIP timeline.
-- Added current runtime session identifiers and separate current/historical SIP timelines.
-- Added non-invasive Health Check with weighted score and issue list.
-- Support bundle now exports separate current-session and historical timelines.
-
-# Changelog
-
-## 4.0.0-alpha.9
-
-- Spostati log e report sotto `custom_components/btdoor_security_plus`.
-- Migrazione automatica dei dati diagnostici legacy.
-- Rotazione log 5 x 5 MB e retention massima di 20 report.
-- Sanitizzazione obbligatoria delle chiavi SRTP SDES e anonimizzazione IP nei bundle esportati.
-- Corretto il falso reconnect della sessione SIP inattiva.
-- Gestione SIP CANCEL completa: `200 OK` al CANCEL e `487 Request Terminated` all'INVITE con lo stesso To-tag.
-- Aggiunti pulsante e servizio `clean_debug_environment`.
-- Roadmap aggiornata con Developer Platform, Self Diagnostic Engine, SRTP e BTDoor AI.
-
-## 4.0.0-alpha.7
-
-- Added visible Developer Mode buttons and status sensors.
-- Fixed diagnostic SIP tests changing `registered` to false.
-- Fixed idle reader timeout causing artificial reconnects.
-- Report version now comes from the installed integration manifest.
-- Added detailed SDP fmtp/protocol/payload data, dialog headers and SIP timeline.
-- Added sanitized SDP/dialog/timeline files to support bundles.
-
-## 4.0.0-alpha.6
-
-- Fixed malformed Home Assistant service registration that prevented config entry setup.
-- Registered reject_call, developer_test, generate_support_report and export_debug_bundle as separate services with the correct schemas.
-
-## 4.0.0-alpha.6
-
-- Added retries for transient MyHomeWeb disconnections during binary certificate provisioning.
-- Existing valid certificate files no longer block integration startup when cloud renewal temporarily fails.
-- Missing certificate material still triggers Home Assistant retry behavior.
-
-# 4.0.0-alpha.4
-
-- Complete Developer Mode with safe Cloud/TLS/SIP/certificate/SDP/dialog tests.
-- Generate Support Report action producing redacted Markdown and ZIP bundles.
-- Developer mode option separated from Support Debug.
-
-## 4.0.0-alpha.3
-
-- Added Support Debug options flow (Off, Support, Deep Debug).
-- Added redacted asynchronous rotating JSONL diagnostics.
-- Added sanitized SIP protocol frame logging in Deep Debug.
-- Added recent support records to Home Assistant diagnostics.
-- Logs are stored under `/config/btdoor_security_plus/logs/<entry_id>/`.
-
-## 4.0.0-alpha.2
-
-- Added SDP parser for session/media connection data.
-- Added dynamic and static RTP codec mapping.
-- Added audio/video RTP offer diagnostic sensors.
-- Added `sdp_offer_parsed` Home Assistant event.
-- Calls are still not accepted and RTP is not started.
-
-# Changelog
-
-## 4.0.0-alpha.1
-- Avvio Milestone 4 / Fase 4.1.
-- Tracciamento stato dialogo SIP e offerta SDP.
-- Gestione ACK, INFO, NOTIFY, REFER, SUBSCRIBE, PRACK e UPDATE.
-- Nuova azione `btdoor_security_plus.reject_call`.
-- Nuovi sensori diagnostici per dialogo, metodo SIP e SDP.
-
-## 3.0.0-alpha.19
-- Ultima build funzionante e baseline stabile della Milestone 3.
-
-## 4.0.0-alpha.25 - Diagnostic Framework
-
-- Added a modular asynchronous `DiagnosticProvider` contract.
-- Added isolated provider orchestration and weighted, non-cascading health aggregation.
-- Added Support Bundle schema 3 with `diagnostics/providers/*.json` and `diagnostics/framework-health.json`.
-- Preserved all schema 2 diagnostic files for backward compatibility.
-- Removed absolute certificate and private-key paths from exported certificate status.
-- Added ADR-0012 and framework unit tests.
-
-## 4.0.0-alpha.27 — Developer Toolkit
-
-- Added dependency-free `validate.py`, `deploy.py`, `reload.py`, `restart.py`, `watch.py`, `logs.py` and `support_bundle.py` tools.
-- Added atomic-style component replacement while preserving certificate, log and support data.
-- Added REST API automation for config-entry reload, controlled Core restart and support-bundle generation.
-- Added change classification in watch mode: metadata reload versus Python/manifest restart.
-- Added ADR-0014 and developer workflow documentation.
-
-## 4.0.0-alpha.30 — Home Assistant Observability Entities
-
-- Added a compact **Last call summary** sensor backed by the persisted media session.
-- Added last media close reason, runtime health, runtime score and retained media session sensors.
-- Added Media ready, Last call missed and Runtime healthy binary sensors.
-- Added structured call attributes including caller, Call-ID, duration, codecs and close reason.
-- Added pure entity metric helpers and regression tests.
-- Added ADR-0017 and multilingual entity names.
-- Avoided exposing a synthetic cloud-connected state until a persistent cloud runtime exists.
-
-## 5.0.0-beta.2
-
-- Added a six-device Home Assistant model: Gateway, Cloud, SIP, Dialog, Media, and Diagnostics.
-- Added stable central identifiers and a `DeviceInfo` factory.
-- Added `via_device` relationships from all logical runtime devices to the physical gateway.
-- Preserved the legacy gateway identifier to avoid an orphaned pre-Beta.2 device.
-- Reassigned existing entities to their correct logical device without changing entity `unique_id` values.
-- Added Device Registry bootstrap during config-entry setup.
-- Added ADR-0019 and Beta.2 regression tests.
-
-## 5.0.0-beta.2.1
-
-- Added Cloud Runtime entities: connection, state, endpoint and last error.
-- Added Dialog Runtime entities: active call and dialog call ID.
-- Extended the runtime state provider with richer cloud state and `devices()`.
-- Preserved all existing entity unique IDs.
-
-## 5.0.0-beta.4.1
-
-- Connected the SIP call lifecycle to the Runtime Event Bus with an explicit `invite_received` event.
-- Added mappings for the actual media notifications emitted by the runtime: `media_session_prepared` and `media_session_failed`.
-- Added setup-time SIP and Cloud synchronization events so registration/authentication state is present even when it completed before the Home Assistant listener was attached.
-- Updated event payloads with call identifiers, caller, SDP availability and synchronization metadata.
-
-## 6.0.0-rc.3c
-
-- Added the mandatory complete `translations/en.json` catalog required by current Home Assistant custom-integration localization.
-- Restored translated names and per-field descriptions in the options flow.
-- Localized Support Debug selector values in English, Italian, German, Spanish, and French.
-- Added translation-regression tests for options-flow keys and selector values.
+### Runtime
+- No intentional runtime or entity-contract change from 1.1.0-rc.8.
+
+## [1.1.0-rc.8] - 2026-07-21
+- Restored the approved 1.1–2.0 roadmap, continuity documents and complete handoff.
+- Preserved the RC.7 gate button, dedicated voice bridge and Support Bundle behavior.
+
+## [1.1.0-rc.7] - 2026-07-21
+- Separated the Alexa/Google gate switch into the dedicated `Alexa / Google Gate Bridge` logical device.
+- Preserved stable identifiers, user names and areas.
+- Confirmed Alexa discovery and real operation.
+
+## [1.1.0-rc.6b] - 2026-07-21
+- Expanded sanitized Support Bundle registry evidence for devices and entities.
+
+## [1.1.0-rc.6a] - 2026-07-21
+- Added the optional voice-assistant bridge switch while retaining the native gate button.
+
+## [1.1.0-rc.6] - 2026-07-21
+- Established `button.apri_cancello` as the native Home Assistant gate action.
+- Removed the temporary cover-based gate contract.
+
+## [1.0.0] - Reconstructed foundation baseline
+
+### Core integration
+- Config-entry lifecycle, Cloud runtime, SIP/TLS client, gate command and runtime isolation.
+- Stable configuration domain and migration from earlier experimental naming.
+- Async-safe diagnostics and filesystem access.
+
+### Observability and support
+- Structured diagnostics, Health Score, persistent runtime snapshots and Support Bundle v2.
+- Central privacy sanitizer, stable artifact naming and certificate-health isolation.
+- Developer Toolkit, runtime inspector, event monitor, metrics and support-report actions.
+
+### Calls and media
+- Normalized SIP caller identity, deterministic dialog state, event-driven call journal and call summaries.
+- SDP/audio/video offer inspection, codec selection, SRTP metadata and retained media-session diagnostics.
+
+### Home Assistant model
+- Stable entity identities, logical device topology, `DeviceKind`, registry-aware naming and visibility.
+- Dashboard entity resolution, operations/runtime dashboards and automation blueprints.
+- Runtime event bus and dispatcher with per-config-entry ownership.
+
+### Voice and safety foundation
+- Audited gate service, Assist sentences, explicit multi-gateway targeting and correlated action events.
+- No blind retry for physical gate actions; private exports and sanitized diagnostics.
+
+## Historical provenance
+Detailed mappings from experimental labels such as `4.0.0-alpha.*`, `5.0.0-beta.*`, `6.0.*` and `6.1.0-*` are recorded in `docs/release/HISTORICAL_PROVENANCE.md`. Those labels identify development checkpoints, not separate current release families.
+
+## Governance and continuation package
+
+- Added the Project Constitution, official gated workflow, Definition of Ready and Definition of Done.
+- Added permanent Engineering Notebook, Translation Review, documented Quality Review, Security and Benchmark governance.
+- Added automation/blueprint/Lovelace documentation policy and Final Release HACS/GitHub publication validation runbooks.
+- Rebuilt the handoff index, recovery prompt and immediate resume instructions for zero-knowledge-loss continuation.
+- Did not alter the approved roadmap points in `docs/roadmap/`.
+
+## Governance Automation Framework
+
+- Added executable governance, handoff and release-readiness checks.
+- Added evidence-adjusted Health Score and Governance Compliance Score generation.
+- Added consolidated governance automation reporting.
+- Added the mandatory GitHub Actions governance workflow.
+- Added regression tests for the Phase 6A automation framework.
+
+## Phase 6C — Quality and Release Intelligence
+
+- Added canonical evidence, risk, technical debt and decision traceability registries.
+- Added automated evidence consistency and release decision engines.
+- Added an explainable Release Decision Report; 1.1.0 Final remains blocked until mandatory runtime, security, compatibility, accessibility and publication evidence is validated.
+- Integrated Quality and Release Intelligence into governance automation and repository canonicalization.
+
+## Phase 6D — Runtime and Release Certification
+
+- Added reproducible repository-local runtime, compatibility, security and UX/accessibility certification.
+- Added explicit target-runtime and HACS lifecycle blockers.
+- Integrated certification into governance automation and release evidence.
+
+## Phase 6F — Release Pipeline & Distribution
+
+- Added reproducible candidate artifact generation.
+- Added SHA-256 checksums and machine-readable release manifests.
+- Added publication readiness checks tied to certification and release-decision gates.
+- Added archive integrity and inventory verification.
+
+### Phase 7B - Home Assistant Certification Enablement
+
+- Added an executable certification harness for real Home Assistant 2026.x targets.
+- Added evidence rules, execution runbook, live-target status and an export bridge to the Target Validation Pack.
+- Added governance and regression checks that prevent repository-only tests from being represented as live runtime certification.
+
+### Phase 7C - Home Assistant Quality Scale Gate
+- Added official-rule-aligned Bronze/Silver/Gold/Platinum self-assessment.
+- Added generated `quality_scale.yaml`, JSON/Markdown reports and a blocking Bronze release gate.
+- Added conservative handling for exemptions and rules requiring measured/runtime evidence.
+
+### QS-1 - Silver Coverage Program
+- Added behavioural tests for runtime summary, visibility policy, and dashboard manager paths.
+- Increased measured integration coverage from 34.27% to 35.54%.
+- Prevented coverage measurement from creating `.pytest_cache` and invalidating repository-integrity checks.
+- Added coverage priority map, ADR-0069, and handoff 42.
+- Silver remains blocked pending measured coverage above 95%.
+
+### QS-3 - Sensor Platform Coverage
+- Added behavioural coverage for every public sensor entity, setup modes, listeners, API fallbacks, and branch variants.
+- Raised `sensor.py` coverage to 98.74% and total measured integration coverage from 40.59% to 53.24%.
+- Added ADR-0071, QS-3 coverage report, and handoff 44.
+- Silver remains blocked pending total measured coverage above 95%.
+
+### QS-4 - Services and Cloud Coverage
+- Added executable behavioural tests for global service registration, targeting, success/failure handling, developer actions, and call-journal operations.
+- Added executable coverage for MyHomeWeb authentication classification, parsing, gateway discovery, SIP-user reuse/creation, identity helpers, and certificate-file handling.
+- Increased measured integration coverage from 53.24% to 59.24%; 253 tests pass.
+- Added ADR-0072, the QS-4 coverage report, and handoff 45.
+- Silver remains blocked pending total measured coverage above 95%.
+
+### QS-7 Lifecycle and SIP Transport Coverage
+
+- Added behavioural SIP lifecycle and transport tests.
+- Increased cumulative measured integration coverage from 68.62% to 71.57%.
+- Increased `sip_client.py` coverage from 40.02% to 53.95%.
+- Added ADR-0075, QS-7 report and handoff 48.
+- Quality Scale remains Bronze; Silver remains blocked by the >95% coverage requirement.
+
+### QS-9 - Runtime, Support and Voice Coverage
+- Added behavioural coverage for runtime data, support-debug redaction and persistence, managed Assist sentences, and native voice intents.
+- Increased measured integration coverage from 73.49% to 76.56%.
+- Raised `runtime.py`, `sentence_manager.py`, and `voice.py` to 100%; `support_debug.py` to 94%.
+- Added ADR-0077, QS-9 coverage report, and handoff 50.
+- Silver remains blocked pending total measured coverage above 95%.
+
+### QS-10 - Device Registry and Journal Coverage
+- Added behavioural coverage for device visibility cleanup, registry creation, metadata migration, localized reporting and topology validation.
+- Added Call Journal coverage for load/self-healing, event lifecycle, media metadata, metrics, rebuild and clearing.
+- Increased measured integration coverage from 76.56% to 79.23%.
+- Raised `device_model/manager.py` to 100%, `managers/device_manager.py` to 85%, and `call_journal/journal.py` to 94%.
+- Added ADR-0078, the QS-10 coverage report, and handoff 51.
+- Silver remains blocked pending total measured coverage above 95%.
+
+### QS-12 — Cloud and SIP Dispatch Coverage
+
+- Added behavioural cloud transport and SIP request/response dispatch tests.
+- Increased measured integration coverage from 80.49% to 83.22%.
+- Kept Silver blocked until coverage exceeds 95%.
+
+### QS-22 — Platinum Readiness Audit
+
+- Completed a documentation-only audit of the three Home Assistant Platinum rules.
+- Confirmed Home Assistant shared aiohttp session injection in all identified cloud-client construction paths.
+- Identified the missing external async communication dependency as the primary architectural blocker.
+- Measured the strict-typing baseline and documented the remaining `ConfigEntry[Any]`, annotation, and `Any` debt.
+- Added async lifecycle, public API, dependency, WebSession, strict typing, and implementation-plan reports under `docs/platinum/`.
+- Kept the Quality Scale self-assessment at Gold; no runtime implementation or Platinum promotion was performed.
+
+### QS-23 — Gold Project Policy
+
+- Adopted Quality Scale Gold as the permanent project target, release minimum and maximum governed tier.
+- Added strict workflow enforcement that blocks advancement on any Gold regression or silent policy change.
+- Removed Platinum rules from active remediation while retaining informational assessment.
+- Added Gold policy tests, ADR-0090, QS-23 report and handoff 64.
+- Updated workflow, roadmap, README and canonical Quality Scale documentation.
+
+## Governance consolidation — Documentation and Localization
+
+- Added RG-001 through RG-004 as the authoritative governance rule registry.
+- Added the Project Governance System, Framework Registry, Document Impact Matrix and Workflow Compliance Matrix.
+- Added an executable Localization Framework covering every shipped integration locale.
+- Removed the duplicated workflow body from the handoff layer and retained the project workflow as the single source of truth.
+- Added a reproducible documentation consolidation audit.
+
+## RC15 pre-Phase 7C repository hygiene
+
+- completed the mandatory bootstrap and repository-wide governance audit;
+- removed transient `.coverage`, Python caches and empty validation work directories from the canonical package;
+- moved the nested RC15 release ZIP and checksum to a separate companion archive;
+- retained the structured release JSON and historical Platinum audit trail without treating Platinum as an active governed tier;
+- documented that GOLD and Release Readiness pass while the Release Decision Engine remains BLOCKED.

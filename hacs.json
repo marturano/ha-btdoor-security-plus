@@ -1,3 +1,4 @@
 {
-  "name": "BTDoor Security+"
+  "name": "BTDoor Security+",
+  "homeassistant": "2026.1.0"
 }

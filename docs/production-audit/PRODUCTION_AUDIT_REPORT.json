@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-23",
+  "phase": "7A",
+  "repository_file_count": 769,
+  "status": "PASS",
+  "checks": {
+    "required_files": true,
+    "forbidden_artifacts": true,
+    "secret_scan": true,
+    "manifest_version": true,
+    "requirements_pinned": true,
+    "codeowners": true,
+    "https_metadata_urls": true,
+    "hacs_2026_floor": true,
+    "production_duplicate_scan": true
+  },
+  "findings": {
+    "missing_required_files": [],
+    "forbidden_artifacts": [],
+    "potential_secret_files": [],
+    "duplicate_groups_outside_docs_and_dist": [],
+    "allowed_duplicate_groups": [
+      [
+        "custom_components/btdoor_security_plus/strings.json",
+        "custom_components/btdoor_security_plus/translations/en.json"
+      ],
+      [
+        "custom_components/btdoor_security_plus/translations/da.json",
+        "custom_components/btdoor_security_plus/translations/nb.json"
+      ]
+    ]
+  },
+  "release_context": {
+    "integration_version": "1.1.0-rc.15",
+    "homeassistant_minimum": "2026.1.0",
+    "publication_approval": "NOT_GRANTED",
+    "note": "Phase 7A audits repository production readiness but does not override target certification or release gates."
+  }
+}

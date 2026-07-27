@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "target": "1.1.0 Final",
+  "decision": "BLOCKED",
+  "gate_results": [
+    {
+      "gate": "Definition of Ready Gate",
+      "status": "PASS",
+      "blocking_evidence": []
+    },
+    {
+      "gate": "Architecture Gate",
+      "status": "PASS",
+      "blocking_evidence": []
+    },
+    {
+      "gate": "Quality Gate",
+      "status": "PASS",
+      "blocking_evidence": []
+    },
+    {
+      "gate": "Security Gate",
+      "status": "BLOCKED",
+      "blocking_evidence": [
+        "EV-SEC-002"
+      ]
+    },
+    {
+      "gate": "Performance Gate",
+      "status": "BLOCKED",
+      "blocking_evidence": [
+        "EV-PERF-002"
+      ]
+    },
+    {
+      "gate": "Documentation Gate",
+      "status": "BLOCKED",
+      "blocking_evidence": [
+        "EV-UX-001"
+      ]
+    },
+    {
+      "gate": "Validation Gate",
+      "status": "BLOCKED",
+      "blocking_evidence": [
+        "EV-COMP-001"
+      ]
+    },
+    {
+      "gate": "Release Readiness Gate",
+      "status": "PASS",
+      "blocking_evidence": []
+    },
+    {
+      "gate": "Publication Gate",
+      "status": "BLOCKED",
+      "blocking_evidence": [
+        "EV-PUB-001"
+      ]
+    },
+    {
+      "gate": "Home Assistant Quality Scale Gate",
+      "status": "BLOCKED",
+      "blocking_evidence": [
+        "EV-HAQS-001"
+      ]
+    }
+  ],
+  "blocking_evidence": [
+    "EV-SEC-002",
+    "EV-PERF-002",
+    "EV-UX-001",
+    "EV-COMP-001",
+    "EV-PUB-001",
+    "EV-HAQS-001"
+  ],
+  "critical_high_open_risks": [
+    "RISK-001",
+    "RISK-002",
+    "RISK-003",
+    "RISK-004"
+  ],
+  "home_assistant_quality_scale": {
+    "achieved_tier": "gold",
+    "gate_status": "PASS"
+  },
+  "localization_completeness": "PASS",
+  "documentation_completeness": "PASS",
+  "governance_rules": [
+    "RG-001",
+    "RG-002",
+    "RG-003",
+    "RG-004"
+  ]
+}

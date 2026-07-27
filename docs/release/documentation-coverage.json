@@ -1,0 +1,342 @@
+{
+  "minimum_words": 25,
+  "locales": {
+    "en": {
+      "completed": 7,
+      "required": 7,
+      "coverage_percent": 100.0,
+      "documents": [
+        {
+          "path": "index.md",
+          "exists": true,
+          "words": 111,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "glossary.md",
+          "exists": true,
+          "words": 119,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/getting-started.md",
+          "exists": true,
+          "words": 129,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/dashboards-and-blueprints.md",
+          "exists": true,
+          "words": 135,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "voice_assistants.md",
+          "exists": true,
+          "words": 121,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "developer_console.md",
+          "exists": true,
+          "words": 116,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "release/compatibility.md",
+          "exists": true,
+          "words": 100,
+          "stale_markers": [],
+          "complete": true
+        }
+      ]
+    },
+    "it": {
+      "completed": 7,
+      "required": 7,
+      "coverage_percent": 100.0,
+      "documents": [
+        {
+          "path": "index.md",
+          "exists": true,
+          "words": 112,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "glossary.md",
+          "exists": true,
+          "words": 125,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/getting-started.md",
+          "exists": true,
+          "words": 126,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/dashboards-and-blueprints.md",
+          "exists": true,
+          "words": 128,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "voice_assistants.md",
+          "exists": true,
+          "words": 110,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "developer_console.md",
+          "exists": true,
+          "words": 108,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "release/compatibility.md",
+          "exists": true,
+          "words": 106,
+          "stale_markers": [],
+          "complete": true
+        }
+      ]
+    },
+    "fr": {
+      "completed": 7,
+      "required": 7,
+      "coverage_percent": 100.0,
+      "documents": [
+        {
+          "path": "index.md",
+          "exists": true,
+          "words": 109,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "glossary.md",
+          "exists": true,
+          "words": 118,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/getting-started.md",
+          "exists": true,
+          "words": 107,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/dashboards-and-blueprints.md",
+          "exists": true,
+          "words": 118,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "voice_assistants.md",
+          "exists": true,
+          "words": 95,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "developer_console.md",
+          "exists": true,
+          "words": 96,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "release/compatibility.md",
+          "exists": true,
+          "words": 92,
+          "stale_markers": [],
+          "complete": true
+        }
+      ]
+    },
+    "de": {
+      "completed": 7,
+      "required": 7,
+      "coverage_percent": 100.0,
+      "documents": [
+        {
+          "path": "index.md",
+          "exists": true,
+          "words": 92,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "glossary.md",
+          "exists": true,
+          "words": 83,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/getting-started.md",
+          "exists": true,
+          "words": 107,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/dashboards-and-blueprints.md",
+          "exists": true,
+          "words": 90,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "voice_assistants.md",
+          "exists": true,
+          "words": 85,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "developer_console.md",
+          "exists": true,
+          "words": 83,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "release/compatibility.md",
+          "exists": true,
+          "words": 70,
+          "stale_markers": [],
+          "complete": true
+        }
+      ]
+    },
+    "es": {
+      "completed": 7,
+      "required": 7,
+      "coverage_percent": 100.0,
+      "documents": [
+        {
+          "path": "index.md",
+          "exists": true,
+          "words": 105,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "glossary.md",
+          "exists": true,
+          "words": 102,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/getting-started.md",
+          "exists": true,
+          "words": 110,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/dashboards-and-blueprints.md",
+          "exists": true,
+          "words": 109,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "voice_assistants.md",
+          "exists": true,
+          "words": 95,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "developer_console.md",
+          "exists": true,
+          "words": 94,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "release/compatibility.md",
+          "exists": true,
+          "words": 89,
+          "stale_markers": [],
+          "complete": true
+        }
+      ]
+    },
+    "nl": {
+      "completed": 7,
+      "required": 7,
+      "coverage_percent": 100.0,
+      "documents": [
+        {
+          "path": "index.md",
+          "exists": true,
+          "words": 97,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "glossary.md",
+          "exists": true,
+          "words": 89,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/getting-started.md",
+          "exists": true,
+          "words": 105,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "user/dashboards-and-blueprints.md",
+          "exists": true,
+          "words": 89,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "voice_assistants.md",
+          "exists": true,
+          "words": 82,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "developer_console.md",
+          "exists": true,
+          "words": 88,
+          "stale_markers": [],
+          "complete": true
+        },
+        {
+          "path": "release/compatibility.md",
+          "exists": true,
+          "words": 73,
+          "stale_markers": [],
+          "complete": true
+        }
+      ]
+    }
+  },
+  "release_gate_passed": true
+}

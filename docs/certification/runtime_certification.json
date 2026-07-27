@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "scope": "repository-local test runtime",
+  "status": "VALIDATED",
+  "home_assistant_target_status": "PENDING",
+  "measurements": {
+    "command": "/opt/pyvenv/bin/python -m pytest -q -p no:cacheprovider tests/test_governance_automation.py tests/test_project_health_dashboard.py tests/test_quality_release_intelligence.py tests/test_repository_rationalization.py tests/test_rc15_repository_integrity.py",
+    "exit_code": 0,
+    "duration_seconds": 9.025,
+    "stdout_tail": "..............                                                           [100%]",
+    "stderr_tail": ""
+  },
+  "limitations": [
+    "No Home Assistant 2026.x instance was available.",
+    "CPU and memory deltas for integration setup, reload and sustained operation were not measured."
+  ]
+}

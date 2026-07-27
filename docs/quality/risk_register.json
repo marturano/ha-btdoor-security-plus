@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "project": "BTDoor Security+",
+  "updated": "2026-07-22",
+  "risks": [
+    {"id":"RISK-001","title":"Measured performance baseline unavailable","probability":4,"impact":5,"score":20,"severity":"CRITICAL","status":"OPEN","owner":"Performance","gates":["Performance Gate","Release Readiness Gate"],"mitigation":"Run reproducible runtime benchmarks and publish the Final benchmark report.","evidence":["EV-PERF-002"]},
+    {"id":"RISK-002","title":"Final security review not executed","probability":3,"impact":5,"score":15,"severity":"HIGH","status":"OPEN","owner":"Security","gates":["Security Gate","Final Release Gate"],"mitigation":"Complete threat-model delta review, secrets/logging verification and release security sign-off.","evidence":["EV-SEC-002"]},
+    {"id":"RISK-003","title":"Final runtime compatibility matrix incomplete","probability":3,"impact":4,"score":12,"severity":"HIGH","status":"OPEN","owner":"Compatibility","gates":["Validation Gate","Release Readiness Gate"],"mitigation":"Execute supported Home Assistant upgrade, install and runtime matrix.","evidence":["EV-COMP-001"]},
+    {"id":"RISK-004","title":"Publication lifecycle not validated","probability":3,"impact":4,"score":12,"severity":"HIGH","status":"OPEN","owner":"Repository maintenance","gates":["Publication Gate","Final Release Gate"],"mitigation":"Validate HACS install/update/rollback, GitHub tag, release assets and checksums.","evidence":["EV-PUB-001"]},
+    {"id":"RISK-005","title":"Accessibility evidence missing","probability":2,"impact":3,"score":6,"severity":"MEDIUM","status":"OPEN","owner":"UX","gates":["Documentation Gate"],"mitigation":"Execute dashboard, keyboard, labeling, contrast and exposed-control review.","evidence":["EV-UX-001"]}
+  ]
+}

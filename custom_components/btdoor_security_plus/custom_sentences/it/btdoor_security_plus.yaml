@@ -1,0 +1,10 @@
+language: it
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "apri [il] cancello"
+          - "apri [il] cancello esterno"
+          - "puoi aprire [il] cancello"
+          - "per favore apri [il] cancello"
+          - "apri [il] portone"

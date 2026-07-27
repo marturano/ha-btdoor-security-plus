@@ -11,11 +11,6 @@
         "default": "mdi:file-document-arrow-right-outline"
       }
     },
-    "switch": {
-      "open_gate_alexa": {
-        "default": "mdi:gate-open"
-      }
-    },
     "binary_sensor": {
       "sip_registered": {
         "default": "mdi:phone-check"

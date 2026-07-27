@@ -14,10 +14,10 @@ def test_device_model_defines_complete_hierarchy():
 
 
 def test_entity_unique_ids_are_not_rewritten():
-    for filename in ("sensor.py", "binary_sensor.py", "button.py", "switch.py", "event.py"):
+    for filename in ("sensor.py", "binary_sensor.py", "button.py", "event.py"):
         source = (COMPONENT / filename).read_text()
         assert "_device_kind" in source
-    assert 'f"{entry.unique_id}_open_gate_switch"' in (COMPONENT / "switch.py").read_text()
+    assert 'f"{entry.unique_id}_open_gate_button"' in (COMPONENT / "button.py").read_text()
     assert 'f"{entry.unique_id}_sip_registered"' in (COMPONENT / "binary_sensor.py").read_text()
 
 

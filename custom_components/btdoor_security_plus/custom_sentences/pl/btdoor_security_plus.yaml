@@ -1,0 +1,9 @@
+language: pl
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "otwórz bramę"
+          - "otwórz bramę zewnętrzną"
+          - "czy możesz otworzyć bramę"
+          - "proszę otwórz bramę"

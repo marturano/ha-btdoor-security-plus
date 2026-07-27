@@ -1,0 +1,9 @@
+language: ko
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "게이트 열어 줘"
+          - "문 열어 줘"
+          - "외부 게이트 열어 줘"
+          - "게이트를 열어 주세요"

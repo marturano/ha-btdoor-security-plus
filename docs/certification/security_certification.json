@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "repository_status": "VALIDATED",
+  "target_runtime_status": "PENDING",
+  "possible_findings": [],
+  "unpinned_requirements": [],
+  "limitations": [
+    "Pattern scanning is not a substitute for dependency vulnerability scanning or target-runtime security review."
+  ]
+}

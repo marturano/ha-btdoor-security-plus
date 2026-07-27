@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "duration_ms": 8.3,
+  "score": 100,
+  "status": "healthy",
+  "checks": {
+    "runtime": true,
+    "certificates": true,
+    "sip_registered": true,
+    "tls_runtime": true,
+    "storage_support_writable": true,
+    "debug_dropped_records_zero": true,
+    "media_runtime_observable": true
+  },
+  "issues": [],
+  "certificate_status": {
+    "certificate_exists": true,
+    "private_key_exists": true,
+    "certificate_path": "configured",
+    "private_key_path": "configured"
+  },
+  "note": "Health checks are independent; a certificate-file failure no longer marks TLS as failed when the live SIP/TLS session is established."
+}

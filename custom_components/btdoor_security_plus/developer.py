@@ -19,6 +19,7 @@ from cryptography.hazmat.primitives import hashes
 from homeassistant.core import HomeAssistant
 from homeassistant.loader import async_get_integration
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers import entity_registry as er
 
 from .cloud import BticinoCloudClient
 from .const import (
@@ -36,6 +37,7 @@ from .support_naming import (
 from .visibility import visibility_for_entry
 from .support_models import (
     SupportSnapshot,
+    build_timeline_summary,
     json_dumps,
     sanitize_jsonl,
     sanitize_support_data,
@@ -336,11 +338,16 @@ class DeveloperTools:
         bundle = self.output_dir / artifact_names.bundle_name
         await asyncio.to_thread(report.write_text, md, encoding='utf-8')
         from .device_model.manager import device_registry_report, device_translation_report
+        from .managers.device_manager import DeviceManager
         registry_report = device_registry_report(self.hass, self.entry)
+        registry_report["topology_validation"] = (
+            DeviceManager(self.hass, self.entry).validate_topology().as_dict()
+        )
         translation_report = device_translation_report(self.entry)
+        entity_registry_report = self._entity_registry_report()
         await asyncio.to_thread(
             self._write_bundle, bundle, report, snapshot, include_logs,
-            registry_report, translation_report,
+            registry_report, translation_report, entity_registry_report,
         )
         self.runtime.last_support_report_at = datetime.now(UTC)
         self.runtime.last_support_report_path = str(report)
@@ -460,23 +467,8 @@ class DeveloperTools:
 
     @staticmethod
     def _timeline_summary(events: list[dict[str, Any]]) -> dict[str, Any]:
-        """Aggregate a compact call and SIP-event summary."""
-        counts: dict[str, int] = {}
-        durations: list[float] = []
-        last_event: dict[str, Any] | None = None
-        for event in events:
-            name = str(event.get("event") or event.get("type") or "unknown")
-            counts[name] = counts.get(name, 0) + 1
-            value = event.get("duration") or event.get("duration_seconds")
-            if isinstance(value, (int, float)):
-                durations.append(float(value))
-            last_event = event
-        return {
-            "event_count": len(events),
-            "events_by_type": counts,
-            "average_duration_seconds": round(sum(durations) / len(durations), 2) if durations else None,
-            "last_event": sanitize_support_data(last_event),
-        }
+        """Aggregate a compact call and classified SIP-event summary."""
+        return build_timeline_summary(events)
 
     async def _async_framework_diagnostics(
         self, tests: dict[str, Any]
@@ -531,6 +523,33 @@ class DeveloperTools:
             "call_state": runtime.get("call_state"),
             "debug_dropped_records": runtime.get("debug_dropped_records", 0),
         })
+
+
+    def _entity_registry_report(self) -> dict[str, Any]:
+        """Return a sanitized registry snapshot for this config entry."""
+        registry = er.async_get(self.hass)
+        entities = []
+        for entity in er.async_entries_for_config_entry(registry, self.entry.entry_id):
+            state = self.hass.states.get(entity.entity_id)
+            entities.append({
+                "entity_id": entity.entity_id,
+                "unique_id": entity.unique_id,
+                "platform": entity.platform,
+                "domain": entity.domain,
+                "device_id": entity.device_id,
+                "disabled_by": None if entity.disabled_by is None else str(entity.disabled_by),
+                "hidden_by": None if entity.hidden_by is None else str(entity.hidden_by),
+                "original_name": entity.original_name,
+                "translation_key": getattr(entity, "translation_key", None),
+                "available": state is not None and state.state != "unavailable",
+                "state": None if state is None else state.state,
+            })
+        return {
+            "schema_version": 1,
+            "config_entry_id": self.entry.entry_id,
+            "count": len(entities),
+            "entities": entities,
+        }
 
     def _build_info(self, snapshot: SupportSnapshot) -> dict[str, Any]:
         """Return stable build and environment metadata."""
@@ -601,6 +620,7 @@ class DeveloperTools:
         include_logs: bool,
         registry_report: dict[str, Any],
         translation_report: dict[str, Any],
+        entity_registry_report: dict[str, Any],
     ) -> None:
         """Write Support Bundle v2 from structured, pre-sanitized values only."""
         safe_snapshot = sanitize_support_data(snapshot)
@@ -668,6 +688,7 @@ class DeveloperTools:
             archive.writestr("build_info.json", json_dumps(self._build_info(safe_snapshot)))
             archive.writestr("configuration/options.json", json_dumps(sanitize_support_data({**dict(self.entry.options), "effective_visibility": visibility_for_entry(self.entry).as_dict()})))
             archive.writestr("registry/devices.json", json_dumps(sanitize_support_data(registry_report)))
+            archive.writestr("registry/entities.json", json_dumps(sanitize_support_data(entity_registry_report)))
             archive.writestr("translations/report.json", json_dumps(sanitize_support_data(translation_report)))
             archive.writestr("diagnostics.json", json_dumps(safe_snapshot))
             archive.writestr("sip/timeline-summary.json", json_dumps(self._timeline_summary(all_events)))

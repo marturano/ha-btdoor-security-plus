@@ -1,0 +1,9 @@
+language: cs
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "otevři bránu"
+          - "otevři venkovní bránu"
+          - "můžeš otevřít bránu"
+          - "prosím otevři bránu"

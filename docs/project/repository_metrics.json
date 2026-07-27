@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "total_files": 798,
+  "text_files": 793,
+  "documentation_files": 433,
+  "canonical_areas": 27,
+  "canonical_documents": 27,
+  "derived_documents": 75,
+  "dependency_edges": 3213,
+  "referenced_files": 790,
+  "reference_coverage_percent": 99.0,
+  "broken_links": 0,
+  "exact_duplicate_groups": 0,
+  "unreferenced_candidates": 5,
+  "missing_registry_paths": 0,
+  "deprecated_alias_references": 0,
+  "broken_link_details": [],
+  "duplicate_groups": [],
+  "unreferenced_candidates_list": [
+    "PROJECT_MANIFEST.yaml",
+    "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
+    "docs/target-validation/evidence/20260727-runtime-support/SHA256SUMS",
+    "hacs.json",
+    "pyproject.toml"
+  ],
+  "missing_registry_paths_list": [],
+  "deprecated_alias_reference_details": []
+}

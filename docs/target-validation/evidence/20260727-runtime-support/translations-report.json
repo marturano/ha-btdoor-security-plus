@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "home_assistant_language": "it",
+  "integration_language_mode": "home_assistant",
+  "resolved_language": "it",
+  "fallback_to_english": false,
+  "device_names": {
+    "cloud": "Stato Cloud",
+    "sip": "Monitor SIP",
+    "dialog": "Monitor Chiamate",
+    "media": "Monitor Multimediale",
+    "diagnostics": "Diagnostica Avanzata",
+    "voice_bridge": "Bridge vocale cancello"
+  }
+}

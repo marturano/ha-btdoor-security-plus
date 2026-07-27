@@ -1,0 +1,46 @@
+title: BTDoor Security+ Developer Console
+views:
+  - title: Developer Console
+    path: btdoor-developer
+    icon: mdi:tools
+    cards:
+      - type: markdown
+        title: Developer Mode
+        content: >-
+          This console is generated only when Developer Mode and Advanced
+          Diagnostics are enabled. All exported reports are sanitized.
+      - type: entities
+        title: Runtime inspection
+        entities:
+          - sensor.btdoor_template_developer_runtime_inspector
+          - sensor.btdoor_template_developer_event_monitor
+          - sensor.btdoor_template_developer_event_metrics
+      - type: entities
+        title: Diagnostic actions
+        show_header_toggle: false
+        entities:
+          - button.btdoor_template_run_developer_test
+          - button.btdoor_template_generate_support_report
+          - button.btdoor_template_clean_debug_environment
+      - type: button
+        entity: button.btdoor_template_run_developer_test
+        name: Run diagnostic tests
+        icon: mdi:flask-outline
+        tap_action:
+          action: perform-action
+          perform_action: button.press
+          target:
+            entity_id: button.btdoor_template_run_developer_test
+        confirmation:
+          text: Run safe integration diagnostics?
+      - type: button
+        entity: button.btdoor_template_generate_support_report
+        name: Generate Support Bundle
+        icon: mdi:file-zip-outline
+        tap_action:
+          action: perform-action
+          perform_action: button.press
+          target:
+            entity_id: button.btdoor_template_generate_support_report
+        confirmation:
+          text: Generate a sanitized Support Bundle?

@@ -1,56 +1,87 @@
-"""Momentary gate control for BTDoor Security+ and Alexa/Alexa+."""
-
+"""Optional voice-assistant bridge switches for BTDoor Security+."""
 from __future__ import annotations
 
-import asyncio
-
 from homeassistant.components.switch import SwitchEntity
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from . import BticinoConfigEntry
-from .entity import BticinoDoorEntryEntity
+
+# Push-driven platform; entity updates do not perform parallel device I/O.
+PARALLEL_UPDATES = 0
+
+from .const import (
+    ATTR_ENTRY_ID,
+    ATTR_REASON,
+    ATTR_SOURCE,
+    CONF_QUICK_VOICE_GATE,
+    DEFAULT_QUICK_VOICE_GATE,
+    DOMAIN,
+    SERVICE_OPEN_GATE,
+)
 from .device_model import DeviceKind
-from .sip_client import BticinoSipError
+from .entity import BticinoDoorEntryEntity
 
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: BticinoConfigEntry,
+    entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up the single gate control entity."""
-    async_add_entities([BticinoOpenGateSwitch(entry)])
+    """Set up the optional Alexa/Google gate bridge."""
+    if not entry.options.get(CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE):
+        return
+    async_add_entities([BTDoorGateVoiceBridgeSwitch(entry)])
 
 
-class BticinoOpenGateSwitch(BticinoDoorEntryEntity, SwitchEntity):
-    _device_kind = DeviceKind.GATEWAY
-    """Single momentary gate control exposed to Home Assistant and Alexa."""
+class BTDoorGateVoiceBridgeSwitch(BticinoDoorEntryEntity, SwitchEntity):
+    """Stateless switch bridge displayed as a controllable Alexa device.
 
-    _attr_translation_key = "open_gate"
-    _attr_icon = "mdi:gate-open"
+    Turning the entity on sends one gate-opening impulse. The entity never
+    remains on, because the physical gate does not expose a persistent state.
+    """
+
+    _device_kind = DeviceKind.VOICE_BRIDGE
+    _attr_translation_key = "open_gate_voice_bridge"
+    _attr_icon = "mdi:gate-arrow-right"
     _attr_is_on = False
 
-    def __init__(self, entry: BticinoConfigEntry) -> None:
+    def __init__(self, entry: ConfigEntry) -> None:
         super().__init__(entry)
-        self._attr_unique_id = f"{entry.unique_id}_open_gate_switch"
+        self._attr_unique_id = f"{entry.unique_id}_open_gate_voice_bridge"
+
+    @property
+    def available(self) -> bool:
+        return getattr(self._entry, "runtime_data", None) is not None
 
     async def async_turn_on(self, **kwargs) -> None:
-        """Open the gate, then return immediately to off."""
-        self._attr_is_on = True
+        response = await self.hass.services.async_call(
+            DOMAIN,
+            SERVICE_OPEN_GATE,
+            {
+                ATTR_ENTRY_ID: self._entry.entry_id,
+                ATTR_REASON: "Voice-assistant bridge command",
+                ATTR_SOURCE: "voice_bridge_switch",
+            },
+            blocking=True,
+            return_response=True,
+            context=self._context,
+        )
+        result = (response or {}).get(self._entry.entry_id, {})
+        if not result.get("success"):
+            raise HomeAssistantError(
+                translation_domain=DOMAIN,
+                translation_key="gate_open_failed",
+                translation_placeholders={
+                    "error": result.get("error") or "BTicino gate opening failed"
+                },
+            )
+        # Keep the bridge stateless. Alexa will show the control returning to off.
+        self._attr_is_on = False
         self.async_write_ha_state()
-        try:
-            result = await self._entry.runtime_data.client.async_open_gate()
-            self._entry.runtime_data.last_result = result.status
-        except BticinoSipError as err:
-            self._entry.runtime_data.last_result = str(err)
-            raise HomeAssistantError(f"BTicino gate opening failed: {err}") from err
-        finally:
-            self._attr_is_on = False
-            self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs) -> None:
-        """Keep the momentary switch off."""
+        """Ignore turn-off: the gate command is a momentary impulse."""
         self._attr_is_on = False
         self.async_write_ha_state()

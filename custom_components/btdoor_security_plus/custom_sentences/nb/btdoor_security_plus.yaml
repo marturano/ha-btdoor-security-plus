@@ -1,0 +1,9 @@
+language: nb
+intents:
+  BTDoorOpenGate:
+    data:
+      - sentences:
+          - "åpne porten"
+          - "åpne den ytre porten"
+          - "kan du åpne porten"
+          - "vennligst åpne porten"

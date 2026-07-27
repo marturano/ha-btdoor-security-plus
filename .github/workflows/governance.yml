@@ -1,0 +1,30 @@
+name: Governance
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Run governance automation
+        run: python tools/governance/run_governance.py
+      - name: Verify repository rationalization artifacts are current
+        run: |
+          python tools/repository/analyze_repository.py --check
+          git diff --exit-code -- docs/project/CANONICAL_DOCUMENTS.md docs/project/REPOSITORY_DEPENDENCY_MAP.md docs/project/repository_dependency_map.json docs/project/repository_metrics.json
+      - name: Verify generated health dashboard is current
+        run: |
+          python tools/update_project_health.py
+          git diff --exit-code -- docs/project/PROJECT_HEALTH_DASHBOARD.md

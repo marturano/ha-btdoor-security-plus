@@ -46,10 +46,12 @@ from .const import (
     CONF_SIP_ACCOUNT,
     CONF_SIP_PASSWORD,
     CONF_VERIFY_SERVER,
+    CONF_QUICK_VOICE_GATE,
     DEFAULT_DEVICE_NAME,
     DEFAULT_PORT,
     DEFAULT_SERVER,
     DEFAULT_VERIFY_SERVER,
+    DEFAULT_QUICK_VOICE_GATE,
     CONF_DEBUG_MODE,
     CONF_DEVELOPER_MODE,
     DEFAULT_DEBUG_MODE,
@@ -362,19 +364,56 @@ class BTDoorOptionsFlow(OptionsFlow):
     """Configure module visibility, diagnostics and developer tools."""
 
     async def async_step_init(self, user_input=None):
+        errors: dict[str, str] = {}
+        values = dict(self.config_entry.options)
         if user_input is not None:
-            return self.async_create_entry(title="", data=user_input)
-        options = self.config_entry.options
+            values.update(user_input)
+            developer_mode = bool(user_input.get(CONF_DEVELOPER_MODE, False))
+            advanced_diagnostics = bool(
+                user_input.get(CONF_SHOW_ADVANCED_DIAGNOSTICS, False)
+            )
+            if advanced_diagnostics and not developer_mode:
+                errors[CONF_SHOW_ADVANCED_DIAGNOSTICS] = (
+                    "advanced_diagnostics_requires_developer_mode"
+                )
+            else:
+                normalized = dict(user_input)
+                if not developer_mode:
+                    normalized[CONF_SHOW_ADVANCED_DIAGNOSTICS] = False
+                was_enabled = bool(
+                    self.config_entry.options.get(
+                        CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE
+                    )
+                )
+                wants_enabled = bool(
+                    normalized.get(CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE)
+                )
+                if wants_enabled and not was_enabled:
+                    self._pending_options = normalized
+                    return await self.async_step_confirm_quick_voice()
+                return self.async_create_entry(title="", data=normalized)
+
+        developer_default = bool(
+            values.get(CONF_DEVELOPER_MODE, DEFAULT_DEVELOPER_MODE)
+        )
+        advanced_default = developer_default and bool(
+            values.get(
+                CONF_SHOW_ADVANCED_DIAGNOSTICS,
+                DEFAULT_SHOW_ADVANCED_DIAGNOSTICS,
+            )
+        )
+
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema({
-                vol.Required(CONF_SHOW_CLOUD_STATUS, default=options.get(CONF_SHOW_CLOUD_STATUS, DEFAULT_SHOW_CLOUD_STATUS)): BooleanSelector(),
-                vol.Required(CONF_SHOW_SIP_MONITOR, default=options.get(CONF_SHOW_SIP_MONITOR, DEFAULT_SHOW_SIP_MONITOR)): BooleanSelector(),
-                vol.Required(CONF_SHOW_CALL_MONITOR, default=options.get(CONF_SHOW_CALL_MONITOR, DEFAULT_SHOW_CALL_MONITOR)): BooleanSelector(),
-                vol.Required(CONF_SHOW_MEDIA_MONITOR, default=options.get(CONF_SHOW_MEDIA_MONITOR, DEFAULT_SHOW_MEDIA_MONITOR)): BooleanSelector(),
-                vol.Required(CONF_SHOW_ADVANCED_DIAGNOSTICS, default=options.get(CONF_SHOW_ADVANCED_DIAGNOSTICS, DEFAULT_SHOW_ADVANCED_DIAGNOSTICS)): BooleanSelector(),
-                vol.Required(CONF_DEVELOPER_MODE, default=options.get(CONF_DEVELOPER_MODE, DEFAULT_DEVELOPER_MODE)): BooleanSelector(),
-                vol.Required(CONF_DEBUG_MODE, default=options.get(CONF_DEBUG_MODE, DEFAULT_DEBUG_MODE)): SelectSelector(
+                vol.Required(CONF_SHOW_CLOUD_STATUS, default=values.get(CONF_SHOW_CLOUD_STATUS, DEFAULT_SHOW_CLOUD_STATUS)): BooleanSelector(),
+                vol.Required(CONF_SHOW_SIP_MONITOR, default=values.get(CONF_SHOW_SIP_MONITOR, DEFAULT_SHOW_SIP_MONITOR)): BooleanSelector(),
+                vol.Required(CONF_SHOW_CALL_MONITOR, default=values.get(CONF_SHOW_CALL_MONITOR, DEFAULT_SHOW_CALL_MONITOR)): BooleanSelector(),
+                vol.Required(CONF_SHOW_MEDIA_MONITOR, default=values.get(CONF_SHOW_MEDIA_MONITOR, DEFAULT_SHOW_MEDIA_MONITOR)): BooleanSelector(),
+                vol.Required(CONF_QUICK_VOICE_GATE, default=values.get(CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE)): BooleanSelector(),
+                vol.Required(CONF_DEVELOPER_MODE, default=developer_default): BooleanSelector(),
+                vol.Required(CONF_SHOW_ADVANCED_DIAGNOSTICS, default=advanced_default): BooleanSelector(),
+                vol.Required(CONF_DEBUG_MODE, default=values.get(CONF_DEBUG_MODE, DEFAULT_DEBUG_MODE)): SelectSelector(
                     SelectSelectorConfig(
                         options=[
                             DEBUG_MODE_OFF,
@@ -386,7 +425,16 @@ class BTDoorOptionsFlow(OptionsFlow):
                     )
                 ),
             }),
+            errors=errors,
         )
+
+    async def async_step_confirm_quick_voice(self, user_input=None):
+        """Require explicit acknowledgement before enabling quick voice opening."""
+        if user_input is not None:
+            return self.async_create_entry(
+                title="", data=dict(getattr(self, "_pending_options", {}))
+            )
+        return self.async_show_form(step_id="confirm_quick_voice")
 
 def _cloud_schema(values: dict[str, Any] | None) -> vol.Schema:
     values = values or {}

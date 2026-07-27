@@ -1,0 +1,38 @@
+blueprint:
+  name: BTDoor - Health Score alert
+  description: Run actions when the integration Health Score drops below a threshold.
+  domain: automation
+  author: BTDoor Security+ Project
+  homeassistant:
+    min_version: 2026.7.0
+  input:
+    health_score_entity:
+      name: Health Score sensor
+      selector:
+        entity:
+          domain: sensor
+    score_threshold:
+      name: Score threshold
+      default: 85
+      selector:
+        number:
+          min: 0
+          max: 100
+          mode: slider
+    minimum_duration:
+      name: Minimum degraded duration
+      default:
+        minutes: 2
+      selector:
+        duration: {}
+    alert_actions:
+      name: Alert actions
+      selector:
+        action: {}
+trigger:
+  - platform: numeric_state
+    entity_id: !input health_score_entity
+    below: !input score_threshold
+    for: !input minimum_duration
+action: !input alert_actions
+mode: single

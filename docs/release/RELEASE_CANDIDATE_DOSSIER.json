@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "project": "BTDoor Security+",
+  "package": "1.1.0-rc.15-phase7c-github-publication-ready",
+  "generated": "2026-07-27",
+  "target_release": "1.1.0 Final",
+  "phase": "7C Release Candidate Approval",
+  "decision": "BLOCKED",
+  "quality_scale": {
+    "required": "GOLD",
+    "current": "GOLD",
+    "policy_verified": true
+  },
+  "compatibility": {
+    "supported_series": "2026.x",
+    "reference_target": "2026.7.x"
+  },
+  "validated_supporting_evidence": [
+    "EV-TARGET-002"
+  ],
+  "blocking_evidence": [
+    "EV-SEC-002",
+    "EV-PERF-002",
+    "EV-UX-001",
+    "EV-COMP-001",
+    "EV-PUB-001",
+    "EV-HAQS-001"
+  ],
+  "open_high_or_critical_risks": [
+    "RISK-001",
+    "RISK-002",
+    "RISK-003",
+    "RISK-004"
+  ],
+  "approval_conditions": [
+    "All blocking evidence is VALIDATED for the exact package.",
+    "No open CRITICAL or HIGH risk remains without an approved exception.",
+    "Quality Scale GOLD remains verified.",
+    "Repository governance, handoff synchronization and release readiness pass.",
+    "At least one complete target lifecycle run is executed on Home Assistant 2026.7.x, with broader 2026.x compatibility evidence."
+  ],
+  "phase_7d_authorized": false
+}

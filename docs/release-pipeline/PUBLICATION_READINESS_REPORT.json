@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-27T09:02:01.205338+00:00",
+  "domain": "btdoor_security_plus",
+  "version": "1.1.0-rc.15",
+  "errors": [],
+  "warnings": [],
+  "gates": {
+    "release_decision": "BLOCKED",
+    "certification": "BLOCKED"
+  },
+  "structural_status": "PASS",
+  "publication_status": "BLOCKED",
+  "blocking_reasons": [
+    "release decision is BLOCKED",
+    "release certification is BLOCKED"
+  ]
+}

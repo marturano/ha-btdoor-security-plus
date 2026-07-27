@@ -1,0 +1,63 @@
+project: ha-btdoor-security-plus
+product_name: BTDoor Security+
+current_release: 1.1.0-rc.15
+current_phase: phase-7c-release-candidate-approval-local-certification
+integration_domain: btdoor_security_plus
+canonical_history:
+  milestones:
+  - 1.0 Foundation
+  - 1.1 Core Stable
+  provenance: docs/release/HISTORICAL_PROVENANCE.md
+home_assistant_compatibility:
+  target_series: 2026.x
+  minimum_candidate: 2026.1.0
+  primary_validation: 2026.7.x
+  evidence: docs/compatibility/COMPATIBILITY_MATRIX.md
+current_milestone:
+  version: '1.1'
+  name: Core Stable
+  runtime_change_from_rc8: false
+  verified:
+    native_gate_button: true
+    alexa_voice_bridge: true
+    support_bundle_registry_export: true
+  pending:
+  - clean install and supported upgrade matrix
+  - lifecycle and duplicate-registry regression
+  - Google Assistant real-device validation or explicit limitation
+  - final HACS, hassfest and Home Assistant 2026.x release checks
+entity_contract:
+  gate_action:
+    domain: button
+    example_entity_id: button.apri_cancello
+  voice_bridge:
+    domain: switch
+    example_entity_id: switch.apri_cancello_alexa
+    device_kind: voice_bridge
+    device_model: Alexa / Google Gate Bridge
+    via_device: null
+roadmap_document: docs/roadmap/ROADMAP.md
+continuity_documents:
+- PROJECT_MANIFEST.md
+- docs/project/PROJECT_CONSTITUTION.md
+- handoff/00_PROJECT_EXECUTION_CONTRACT.md
+- handoff/01_PROJECT_MEMORY.md
+- handoff/17_CONTINUITY_STATUS.md
+- handoff/18_INTEGRITY_SUITE_RESULTS.md
+- handoff/HANDOFF_INDEX.md
+- handoff/16_RECOVERY_PROMPT.md
+- docs/roadmap/ROADMAP.md
+- docs/release/1.1.0-rc.15.md
+- docs/validation/VALIDATION_REPORT_1.1.0-rc.15.md
+platform_name: BTDoor Platform
+continuity_framework: '2.1'
+integrity_suite: docs/quality/README.md
+governance_document: docs/project/PROJECT_CONSTITUTION.md
+architecture_contract:
+  index: docs/architecture/README.md
+  integrity_gate: architecture
+  mermaid_gate: mermaid
+  adr: docs/adr/ADR-0046-architecture-documentation-contract.md
+current_package: 1.1.0-rc.15-phase7c-github-publication-ready
+quality_scale: GOLD
+release_decision: BLOCKED

@@ -8,6 +8,10 @@ from homeassistant.const import EntityCategory, UnitOfTime
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+
+# Push-driven platform; entity updates do not perform parallel device I/O.
+PARALLEL_UPDATES = 0
+
 from . import BticinoConfigEntry
 from .entity import BticinoDoorEntryEntity, BticinoSipClientEntity
 from .device_model import DeviceKind
@@ -166,8 +170,8 @@ class BticinoLastCallerSensor(_ListeningEntity, SensorEntity):
         }
 
 
-class BticinoLastMessageSensor(_ListeningEntity, SensorEntity):
-    _device_kind = DeviceKind.GATEWAY
+class BticinoLastMessageSensor(_SipListeningEntity, SensorEntity):
+    _device_kind = DeviceKind.SIP
     _attr_translation_key = "last_message"
     _attr_icon = "mdi:message-text"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
@@ -249,8 +253,8 @@ class BticinoMissedCallCountSensor(_ListeningEntity, SensorEntity):
     def native_value(self): return self._entry.runtime_data.client.missed_call_count
 
 
-class BticinoMessageCountSensor(_ListeningEntity, SensorEntity):
-    _device_kind = DeviceKind.GATEWAY
+class BticinoMessageCountSensor(_SipListeningEntity, SensorEntity):
+    _device_kind = DeviceKind.SIP
     _attr_translation_key = "message_count"
     _attr_icon = "mdi:message-badge"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
@@ -260,8 +264,8 @@ class BticinoMessageCountSensor(_ListeningEntity, SensorEntity):
     def native_value(self): return self._entry.runtime_data.client.message_count
 
 
-class BticinoLastMessageTimeSensor(_ListeningEntity, SensorEntity):
-    _device_kind = DeviceKind.GATEWAY
+class BticinoLastMessageTimeSensor(_SipListeningEntity, SensorEntity):
+    _device_kind = DeviceKind.SIP
     _attr_translation_key = "last_message_time"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_entity_category = EntityCategory.DIAGNOSTIC
@@ -701,7 +705,7 @@ class BTDoorDeveloperEventMonitorSensor(_DeveloperEventEntity, SensorEntity):
     @property
     def native_value(self):
         bus = self._entry.runtime_data.event_bus
-        last = bus.metrics.get("last_event") if bus is not None else None
+        last = bus.last_event_summary if bus is not None else None
         return last.get("type", "none") if isinstance(last, dict) else "none"
 
     @property
@@ -709,14 +713,10 @@ class BTDoorDeveloperEventMonitorSensor(_DeveloperEventEntity, SensorEntity):
         bus = self._entry.runtime_data.event_bus
         if bus is None:
             return {}
-        timeline = []
-        for item in bus.history[-20:]:
-            timeline.append({
-                "timestamp": item.get("timestamp"),
-                "type": item.get("type"),
-                "source": item.get("source"),
-            })
-        return {"retained_events": len(bus.history), "timeline": timeline}
+        return {
+            "retained_events": bus.retained_count,
+            "timeline": bus.compact_history(20),
+        }
 
 
 class BTDoorDeveloperEventMetricsSensor(_DeveloperEventEntity, SensorEntity):

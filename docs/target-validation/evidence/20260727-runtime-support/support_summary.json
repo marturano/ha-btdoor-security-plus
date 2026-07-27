@@ -1,0 +1,21 @@
+{
+  "schema_version": 3,
+  "project": "BTDoor Security+",
+  "domain": "btdoor_security_plus",
+  "version": "1.1.0-rc.15",
+  "generated_at": "2026-07-27T08:15:26.678730+00:00",
+  "healthy": true,
+  "score": 100,
+  "health_status": "healthy",
+  "cloud": "ok",
+  "certificates": "ok",
+  "sip": "registered",
+  "dialog": "terminated",
+  "media": "closed",
+  "last_media_close_reason": "cancel",
+  "tls": "ok",
+  "last_error": null,
+  "last_sip_method": "CANCEL",
+  "call_state": "missed",
+  "debug_dropped_records": 0
+}

@@ -631,6 +631,10 @@ class BticinoSipClient:
             self._keepalive_task = None
         if self._call_timeout_task is not None:
             self._call_timeout_task.cancel()
+            try:
+                await self._call_timeout_task
+            except asyncio.CancelledError:
+                pass
             self._call_timeout_task = None
         if self._reader_task is not None:
             self._reader_task.cancel()

@@ -63,11 +63,6 @@
     }
   },
   "entity": {
-    "switch": {
-      "open_gate": {
-        "name": "Apri cancello"
-      }
-    },
     "binary_sensor": {
       "sip_registered": {
         "name": "SIP registrato"
@@ -96,7 +91,7 @@
         "name": "Ultimo chiamante"
       },
       "last_message": {
-        "name": "Ultimo messaggio SIP"
+        "name": "Contenuto ultimo SIP MESSAGE in ingresso"
       },
       "last_sip_status": {
         "name": "Ultimo stato SIP"
@@ -126,10 +121,10 @@
         "name": "Conteggio chiamate perse"
       },
       "message_count": {
-        "name": "Messaggi SIP in ingresso"
+        "name": "Richieste SIP MESSAGE in ingresso"
       },
       "last_message_time": {
-        "name": "Ora ultimo messaggio SIP"
+        "name": "Ora ultimo SIP MESSAGE in ingresso"
       },
       "last_event_time": {
         "name": "Ora ultimo evento"
@@ -153,13 +148,13 @@
         "name": "Qualità connessione SIP"
       },
       "dialog_state": {
-        "name": "SIP dialog state"
+        "name": "Stato dialogo SIP"
       },
       "last_sip_method": {
-        "name": "Last SIP method"
+        "name": "Ultimo metodo SIP"
       },
       "last_sdp_offer": {
-        "name": "Last SDP offer"
+        "name": "Ultima offerta SDP"
       },
       "sdp_summary": {
         "name": "Riepilogo media SDP"
@@ -171,10 +166,10 @@
         "name": "Offerta RTP video"
       },
       "last_developer_test": {
-        "name": "Last developer test"
+        "name": "Ultimo test sviluppatore"
       },
       "last_support_report": {
-        "name": "Last support report"
+        "name": "Ultimo report di supporto"
       },
       "media_preparation": {
         "name": "Preparazione media"
@@ -228,13 +223,13 @@
         "name": "Chiamate perse nel registro"
       },
       "call_journal_average_duration": {
-        "name": "Call journal average duration"
+        "name": "Durata media chiamate del registro"
       },
       "call_journal_answered_today": {
-        "name": "Call journal answered today"
+        "name": "Chiamate risposte oggi nel registro"
       },
       "call_journal_missed_today": {
-        "name": "Call journal missed today"
+        "name": "Chiamate perse oggi nel registro"
       },
       "developer_runtime_inspector": {
         "name": "Ispettore runtime sviluppatore"
@@ -253,13 +248,26 @@
     },
     "button": {
       "run_developer_test": {
-        "name": "Run developer test"
+        "name": "Esegui test sviluppatore"
       },
       "generate_support_report": {
-        "name": "Generate support report"
+        "name": "Genera report di supporto"
       },
       "clean_debug_environment": {
         "name": "Pulisci ambiente di debug"
+      },
+      "open_gate": {
+        "name": "Apri cancello"
+      }
+    },
+    "cover": {
+      "gate": {
+        "name": "Cancello"
+      }
+    },
+    "switch": {
+      "open_gate_voice_bridge": {
+        "name": "Apri cancello Alexa"
       }
     }
   },
@@ -273,30 +281,38 @@
       "description": "Verifica TLS e registrazione SIP senza aprire il cancello."
     },
     "reject_call": {
-      "name": "Reject call",
-      "description": "Reject the currently ringing BTicino call with SIP 486 Busy Here."
+      "name": "Rifiuta chiamata",
+      "description": "Rifiuta la chiamata BTicino in arrivo con SIP 486 Busy Here."
     },
     "developer_test": {
-      "name": "Developer test",
-      "description": "Run advanced diagnostics without opening the gate."
+      "name": "Test sviluppatore",
+      "description": "Esegue la diagnostica avanzata senza aprire il cancello."
     },
     "generate_support_report": {
-      "name": "Generate support report",
-      "description": "Create a redacted Markdown report and ZIP bundle for technical support."
+      "name": "Genera report di supporto",
+      "description": "Crea un report Markdown sanitizzato e un archivio ZIP per il supporto tecnico."
     },
     "export_debug_bundle": {
-      "name": "Export debug bundle",
-      "description": "Export the same redacted support bundle for developer workflows."
+      "name": "Esporta bundle di debug",
+      "description": "Esporta lo stesso Support Bundle sanitizzato per i flussi di sviluppo."
     },
     "clean_debug_environment": {
       "name": "Pulisci ambiente di debug",
       "description": "Elimina log e report di supporto mantenendo configurazione e certificati."
+    },
+    "open_gate": {
+      "name": "Apri cancello",
+      "description": "Invia il comando SIP per aprire il cancello."
     }
   },
   "issues": {
     "missing_certificate": {
       "title": "Certificato BTicino mancante",
       "description": "Il certificato o la chiave privata di {entry_title} non è disponibile. Apri Riconfigura e completa il provisioning MyHomeWeb."
+    },
+    "assist_sentences_restart_required": {
+      "title": "Riavvio richiesto per le frasi Assist di BTDoor",
+      "description": "BTDoor Security+ ha installato o aggiornato le frasi Assist locali. Riavvia Home Assistant una volta affinché Conversation carichi i nuovi file delle frasi."
     }
   },
   "options": {
@@ -311,7 +327,8 @@
           "show_media_monitor": "Visualizza Monitor Multimediale",
           "show_advanced_diagnostics": "Visualizza Diagnostica Avanzata",
           "developer_mode": "Abilita Developer mode",
-          "debug_mode": "Modalità Support Debug"
+          "debug_mode": "Modalità Support Debug",
+          "quick_voice_gate": "Abilita comando rapido per assistenti vocali"
         },
         "data_description": {
           "show_cloud_status": "Visualizza le entità relative alla connessione cloud, alla sincronizzazione del gateway e all’autenticazione.",
@@ -320,9 +337,17 @@
           "show_media_monitor": "Visualizza lo stato delle sessioni multimediali, i codec negoziati e le informazioni RTP/SRTP.",
           "show_advanced_diagnostics": "Consente di visualizzare il dispositivo Diagnostica Avanzata e le relative entità di supporto. Deve essere attiva anche la Developer mode.",
           "developer_mode": "Abilita gli strumenti avanzati: Event Monitor, Runtime Inspector, metriche di salute, self-test e report di supporto.",
-          "debug_mode": "Lascia disattivato durante l’uso normale. Abilita Supporto o Debug approfondito solo mentre riproduci un problema, quindi scarica la diagnostica dell’integrazione."
+          "debug_mode": "Lascia disattivato durante l’uso normale. Abilita Supporto o Debug approfondito solo mentre riproduci un problema, quindi scarica la diagnostica dell’integrazione.",
+          "quick_voice_gate": "Crea un dispositivo interruttore momentaneo visibile nell’app Alexa e in Google Assistant. L’attivazione apre immediatamente il cancello e il comando torna subito su spento."
         }
+      },
+      "confirm_quick_voice": {
+        "title": "Conferma comando vocale rapido",
+        "description": "Abilitando questa funzione, il cancello potrà essere aperto tramite un assistente vocale senza che venga necessariamente richiesto un codice. Chiunque possa impartire comandi a un dispositivo autorizzato potrebbe aprire il cancello. Abilita solo in ambienti controllati e se accetti questo rischio."
       }
+    },
+    "error": {
+      "advanced_diagnostics_requires_developer_mode": "Per visualizzare Diagnostica Avanzata devi abilitare anche la Developer mode."
     }
   },
   "selector": {
@@ -332,6 +357,26 @@
         "support": "Supporto",
         "deep": "Debug approfondito"
       }
+    }
+  },
+  "exceptions": {
+    "no_matching_config": {
+      "message": "Non è stata trovata alcuna configurazione BTDoor Security+ caricata corrispondente."
+    },
+    "multiple_gates": {
+      "message": "Sono configurati più cancelli BTDoor. Specifica un ID voce o un ID entità."
+    },
+    "sip_connection_test_failed": {
+      "message": "Il test della connessione SIP BTicino non è riuscito: {error}"
+    },
+    "call_rejection_failed": {
+      "message": "Non è stato possibile rifiutare la chiamata BTicino: {error}"
+    },
+    "developer_mode_disabled": {
+      "message": "L’operazione sviluppatore non è disponibile: {error}"
+    },
+    "gate_open_failed": {
+      "message": "Non è stato possibile aprire il cancello BTicino: {error}"
     }
   }
 }

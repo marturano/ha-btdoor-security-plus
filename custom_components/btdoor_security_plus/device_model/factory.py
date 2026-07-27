@@ -28,6 +28,7 @@ class DeviceKind(StrEnum):
     DIALOG = "dialog"
     MEDIA = "media"
     DIAGNOSTICS = "diagnostics"
+    VOICE_BRIDGE = "voice_bridge"
 
 
 def _root_key(entry: Any) -> str:
@@ -64,12 +65,13 @@ def device_info_for(entry: Any, kind: DeviceKind) -> DeviceInfo:
         or "BTDoor Gateway"
     )
     models: dict[DeviceKind, str] = {
-        DeviceKind.GATEWAY: "Classe 300X Door Entry Gateway",
-        DeviceKind.CLOUD: "MyHomeWeb Cloud Runtime",
-        DeviceKind.SIP: "Secure SIP Runtime",
-        DeviceKind.DIALOG: "SIP Dialog Runtime",
-        DeviceKind.MEDIA: "RTP / SRTP Media Runtime",
-        DeviceKind.DIAGNOSTICS: "Diagnostic and Support Runtime",
+        DeviceKind.GATEWAY: "DS+ Suite - Integration Hub",
+        DeviceKind.CLOUD: "DS+ Suite - Cloud Status",
+        DeviceKind.SIP: "DS+ Suite - SIP Monitor",
+        DeviceKind.DIALOG: "DS+ Suite - Call Manager",
+        DeviceKind.MEDIA: "DS+ Suite - Multimedia Monitor",
+        DeviceKind.DIAGNOSTICS: "DS+ Suite - Advanced Diagnostics",
+        DeviceKind.VOICE_BRIDGE: "Alexa / Google Gate Bridge",
     }
     if kind is DeviceKind.GATEWAY:
         name = gateway_name
@@ -89,7 +91,7 @@ def device_info_for(entry: Any, kind: DeviceKind) -> DeviceInfo:
         sw_version=INTEGRATION_VERSION,
         configuration_url=CONFIGURATION_URL,
     )
-    if kind is not DeviceKind.GATEWAY:
+    if kind not in {DeviceKind.GATEWAY, DeviceKind.VOICE_BRIDGE}:
         info["via_device"] = root
     gateway_id = entry.data.get(CONF_GATEWAY_ID)
     if kind is DeviceKind.GATEWAY and gateway_id:

@@ -568,9 +568,10 @@ def _decode_certificate_response(blob: bytes) -> bytes:
 
 def _load_certificates(data: bytes) -> list[x509.Certificate]:
     certs: list[x509.Certificate] = []
+    text_data = data.strip()
     for block in re.findall(
         br"-----BEGIN CERTIFICATE-----\s+.*?-----END CERTIFICATE-----",
-        data.strip(),
+        text_data,
         flags=re.S,
     ):
         try:
@@ -580,12 +581,18 @@ def _load_certificates(data: bytes) -> list[x509.Certificate]:
     if certs:
         return certs
     try:
-        return [x509.load_der_x509_certificate(data.strip())]
+        # DER is arbitrary binary data: stripping ASCII whitespace bytes can
+        # corrupt a valid certificate whose encoded value ends with one of
+        # those byte values.
+        return [x509.load_der_x509_certificate(data)]
     except ValueError:
         pass
-    for loader in (pkcs7.load_der_pkcs7_certificates, pkcs7.load_pem_pkcs7_certificates):
+    for loader, payload in (
+        (pkcs7.load_der_pkcs7_certificates, data),
+        (pkcs7.load_pem_pkcs7_certificates, text_data),
+    ):
         try:
-            loaded = loader(data.strip())
+            loaded = loader(payload)
             if loaded:
                 return list(loaded)
         except ValueError:

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "generated": "2026-07-27",
+  "scope": "custom_components/btdoor_security_plus",
+  "threshold_percent": 95.0,
+  "measured_percent": 95.08,
+  "covered_lines": 5297,
+  "missing_lines": 274,
+  "num_statements": 5571,
+  "status": "VALIDATED",
+  "source": "pytest-cov JSON report",
+  "raw_report": "docs/quality-scale/integration_coverage.raw.json"
+}

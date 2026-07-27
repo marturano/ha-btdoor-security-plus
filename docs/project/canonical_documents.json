@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "project": "BTDoor Security+",
+  "updated": "2026-07-22",
+  "areas": [
+    {
+      "id": "foundation",
+      "title": "Project foundation",
+      "canonical": "docs/FOUNDATION.md",
+      "owner": "Project governance",
+      "derived": []
+    },
+    {
+      "id": "constitution",
+      "title": "Project constitution",
+      "canonical": "docs/project/PROJECT_CONSTITUTION.md",
+      "owner": "Project governance",
+      "derived": [
+        "handoff/00_PROJECT_EXECUTION_CONTRACT.md"
+      ]
+    },
+    {
+      "id": "workflow",
+      "title": "Official workflow",
+      "canonical": "docs/project/WORKFLOW.md",
+      "owner": "Project governance",
+      "derived": [
+        "docs/project/WORKFLOW_GATES.md",
+        "handoff/24_OFFICIAL_WORKFLOW.md"
+      ]
+    },
+    {
+      "id": "ready",
+      "title": "Definition of Ready",
+      "canonical": "docs/project/DEFINITION_OF_READY.md",
+      "owner": "Project governance",
+      "derived": []
+    },
+    {
+      "id": "done",
+      "title": "Definition of Done",
+      "canonical": "docs/project/DEFINITION_OF_DONE.md",
+      "owner": "Project governance",
+      "derived": []
+    },
+    {
+      "id": "roadmap",
+      "title": "Product roadmap",
+      "canonical": "docs/roadmap/ROADMAP.md",
+      "owner": "Product governance",
+      "derived": [
+        "docs/roadmap/ROADMAP_1X.md",
+        "docs/roadmap/ROADMAP_2X.md",
+        "docs/roadmap/ROADMAP_3X.md",
+        "docs/roadmap/ROADMAP_4X.md",
+        "docs/roadmap/ROADMAP_5X.md",
+        "docs/roadmap/FUTURE_BACKLOG.md"
+      ]
+    },
+    {
+      "id": "architecture",
+      "title": "Architecture index",
+      "canonical": "docs/architecture/README.md",
+      "owner": "Architecture",
+      "derived": [
+        "ARCHITECTURE_PRINCIPLES.md"
+      ]
+    },
+    {
+      "id": "decisions",
+      "title": "Architecture decisions",
+      "canonical": "docs/adr/README.md",
+      "owner": "Architecture",
+      "derived": [
+        "docs/project/DECISIONS_AND_CONSTRAINTS.md"
+      ]
+    },
+    {
+      "id": "quality",
+      "title": "Quality policy and register",
+      "canonical": "docs/quality/QUALITY_POLICY.md",
+      "owner": "Quality",
+      "derived": [
+        "docs/quality/QUALITY_REVIEW_REGISTER.md"
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Security policy",
+      "canonical": "docs/security/SECURITY_POLICY.md",
+      "owner": "Security",
+      "derived": [
+        "SECURITY.md",
+        "docs/security/SECURE_DEVELOPMENT_GUIDE.md",
+        "docs/security/THREAT_MODEL.md",
+        "docs/security/SECURITY_BASELINE.md",
+        "docs/security/DATA_RETENTION.md"
+      ]
+    },
+    {
+      "id": "benchmarks",
+      "title": "Benchmark policy",
+      "canonical": "docs/benchmarks/BENCHMARK_POLICY.md",
+      "owner": "Performance",
+      "derived": [
+        "docs/benchmarks/BASELINES.md"
+      ]
+    },
+    {
+      "id": "translations",
+      "title": "Translation review",
+      "canonical": "docs/i18n/TRANSLATION_REVIEW.md",
+      "owner": "Localization",
+      "derived": [
+        "docs/shared/terminology.yaml"
+      ]
+    },
+    {
+      "id": "compatibility",
+      "title": "Compatibility evidence",
+      "canonical": "docs/project/FEATURE_AND_VALIDATION_MATRIX.md",
+      "owner": "Compatibility",
+      "derived": [
+        "docs/validation/VALIDATION_REGISTER.md"
+      ]
+    },
+    {
+      "id": "validation",
+      "title": "Validation policy and register",
+      "canonical": "docs/validation/VALIDATION_MAINTENANCE_POLICY.md",
+      "owner": "Validation",
+      "derived": [
+        "docs/validation/VALIDATION_REGISTER.md",
+        "docs/validation/VALIDATION_REPORT_1.1.0-rc.15.md"
+      ]
+    },
+    {
+      "id": "release",
+      "title": "Release policy",
+      "canonical": "docs/release/RELEASE_DOCUMENTATION_POLICY.md",
+      "owner": "Release management",
+      "derived": [
+        "docs/release/RELEASE_CHECKLIST.md",
+        "CHANGELOG.md"
+      ]
+    },
+    {
+      "id": "repository",
+      "title": "Repository policy",
+      "canonical": "docs/repository/REPOSITORY_POLICY.md",
+      "owner": "Repository maintenance",
+      "derived": [
+        "docs/repository/REPOSITORY_MAINTENANCE_GUIDE.md",
+        "docs/repository/GITHUB_REPOSITORY_POLICY.md",
+        "docs/repository/HACS_PUBLICATION_GUIDE.md",
+        "docs/repository/RELEASE_PUBLICATION_RUNBOOK.md"
+      ]
+    },
+    {
+      "id": "health",
+      "title": "Project health dashboard",
+      "canonical": "docs/project/project_health.json",
+      "owner": "Project governance",
+      "derived": [
+        "docs/project/PROJECT_HEALTH_DASHBOARD.md",
+        "docs/project/project_health_calculated.json"
+      ]
+    },
+    {
+      "id": "handoff",
+      "title": "Continuation package",
+      "canonical": "handoff/HANDOFF_INDEX.md",
+      "owner": "Project continuity",
+      "derived": [
+        "handoff/28_IMMEDIATE_RESUME_POINT.md",
+        "handoff/16_RECOVERY_PROMPT.md"
+      ]
+    },
+    {
+      "id": "automation_assets",
+      "title": "Automation assets policy",
+      "canonical": "docs/automation-assets/AUTOMATION_ASSETS_POLICY.md",
+      "owner": "Automation assets",
+      "derived": [
+        "docs/automation-assets/AUTOMATIONS_GUIDE.md",
+        "docs/automation-assets/BLUEPRINTS_GUIDE.md",
+        "docs/automation-assets/LOVELACE_GUIDE.md"
+      ]
+    },
+    {
+      "id": "governance_automation",
+      "title": "Governance automation",
+      "canonical": "docs/project/GOVERNANCE_AUTOMATION.md",
+      "owner": "Project governance",
+      "derived": [
+        "docs/validation/governance-automation-report.json"
+      ]
+    },
+    {
+      "id": "repository_rationalization",
+      "title": "Repository rationalization",
+      "canonical": "docs/project/REPOSITORY_RATIONALIZATION.md",
+      "owner": "Repository maintenance",
+      "derived": [
+        "docs/project/REPOSITORY_DEPENDENCY_MAP.md",
+        "docs/project/repository_dependency_map.json",
+        "docs/project/repository_metrics.json"
+      ]
+    },
+    {
+      "id": "quality_release_intelligence",
+      "title": "Quality and release intelligence",
+      "canonical": "docs/quality/evidence_register.json",
+      "owner": "Quality and release management",
+      "derived": [
+        "docs/quality/EVIDENCE_REGISTER.md",
+        "docs/quality/risk_register.json",
+        "docs/quality/RISK_REGISTER.md",
+        "docs/quality/technical_debt_register.json",
+        "docs/quality/TECHNICAL_DEBT_REGISTER.md",
+        "docs/quality/decision_traceability.json",
+        "docs/quality/DECISION_TRACEABILITY.md",
+        "docs/quality/quality_release_intelligence.json",
+        "docs/quality/release_decision.json",
+        "docs/quality/RELEASE_DECISION_REPORT.md",
+        "docs/quality/QUALITY_RELEASE_INTELLIGENCE.md"
+      ]
+    },
+    {
+      "id": "certification",
+      "title": "Runtime and release certification",
+      "canonical": "docs/certification/CERTIFICATION_POLICY.md",
+      "owner": "Release certification",
+      "derived": [
+        "docs/certification/BENCHMARK_PROTOCOL.md",
+        "docs/certification/COMPATIBILITY_CERTIFICATION.md",
+        "docs/certification/SECURITY_CERTIFICATION.md",
+        "docs/certification/UX_ACCESSIBILITY_CERTIFICATION.md",
+        "docs/certification/release_certification.json",
+        "docs/certification/reports/RELEASE_CERTIFICATION_REPORT.md"
+      ]
+    },
+    {
+      "id": "target_validation",
+      "title": "Target validation evidence",
+      "canonical": "docs/target-validation/TARGET_VALIDATION_POLICY.md",
+      "owner": "Release certification",
+      "derived": [
+        "docs/target-validation/TARGET_VALIDATION_GUIDE.md",
+        "docs/target-validation/target_validation_plan.json",
+        "docs/target-validation/schema/target_validation_result.schema.json",
+        "docs/target-validation/runs/README.md"
+      ]
+    },
+    {
+      "id": "production_audit",
+      "title": "Repository production audit",
+      "canonical": "docs/production-audit/PRODUCTION_AUDIT_POLICY.md",
+      "owner": "Release engineering",
+      "derived": [
+        "docs/production-audit/README.md",
+        "docs/production-audit/PRODUCTION_AUDIT_REPORT.md"
+      ]
+    },
+    {
+      "id": "home_assistant_certification",
+      "title": "Home Assistant certification",
+      "canonical": "docs/home-assistant-certification/HOME_ASSISTANT_CERTIFICATION_POLICY.md",
+      "owner": "Release certification",
+      "derived": [
+        "docs/home-assistant-certification/EXECUTION_RUNBOOK.md",
+        "docs/home-assistant-certification/CERTIFICATION_STATUS.json"
+      ]
+    },
+    {
+      "id": "home_assistant_quality_scale",
+      "title": "Home Assistant Integration Quality Scale",
+      "canonical": "docs/quality-scale/QUALITY_SCALE_POLICY.md",
+      "owner": "Integration quality",
+      "derived": [
+        "docs/quality-scale/README.md",
+        "docs/quality-scale/QUALITY_SCALE_REPORT.md",
+        "custom_components/btdoor_security_plus/quality_scale.yaml",
+        "docs/quality-scale/QUALITY_SCALE_WORKFLOW.md",
+        "docs/quality-scale/quality_scale_workflow.json",
+        "docs/quality-scale/QUALITY_SCALE_WORKFLOW_STATUS.json",
+        "docs/quality-scale/QUALITY_SCALE_REMEDIATION_PLAN.md",
+        "docs/quality-scale/QUALITY_SCALE_REMEDIATION_PLAN.json",
+        "docs/quality-scale/config_flow_coverage.json",
+        "tests/test_config_flow_full_coverage.py",
+        "docs/adr/ADR-0067-quality-scale-bronze-achievement.md",
+        "handoff/40_QUALITY_SCALE_BRONZE_ACHIEVEMENT.md"
+      ]
+    }
+  ],
+  "deprecated_aliases": {}
+}

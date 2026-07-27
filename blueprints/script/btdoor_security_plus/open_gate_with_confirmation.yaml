@@ -1,0 +1,32 @@
+blueprint:
+  name: BTDoor - Open gate action
+  description: Safely trigger the BTDoor gate entity from a reusable script. The calling UI should require confirmation.
+  domain: script
+  author: BTDoor Security+ Project
+  homeassistant:
+    min_version: 2026.7.0
+  input:
+    gate_entity:
+      name: Gate cover
+      selector:
+        entity:
+          domain: button
+    conditions:
+      name: Optional safety conditions
+      default: []
+      selector:
+        condition: {}
+    success_actions:
+      name: Actions after the command
+      default: []
+      selector:
+        action: {}
+sequence:
+  - condition: and
+    conditions: !input conditions
+  - action: button.press
+    target:
+      entity_id: !input gate_entity
+  - choose: []
+    default: !input success_actions
+mode: single

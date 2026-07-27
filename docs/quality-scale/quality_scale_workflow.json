@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "standard": "Home Assistant Integration Quality Scale",
+  "assessment_type": "self-assessment for a custom integration; not an official Home Assistant grade",
+  "release_minimum_tier": "gold",
+  "desired_tier": "gold",
+  "workflow_policy": {
+    "assess_at_phase_start": true,
+    "assess_after_implementation": true,
+    "generate_remediation_plan": true,
+    "apply_safe_automatic_remediations": true,
+    "require_evidence_for_completion": true,
+    "forbid_unproven_auto_promotion": true,
+    "block_release_below_minimum": true,
+    "track_gap_to_desired_tier": true,
+    "enforce_exact_project_target": true
+  },
+  "automatic_remediation_classes": [
+    "documentation",
+    "metadata",
+    "validation-scaffolding"
+  ],
+  "manual_remediation_classes": [
+    "functional-code",
+    "test-coverage",
+    "runtime-evidence",
+    "architecture",
+    "typing",
+    "dependency-behaviour"
+  ],
+  "maximum_governed_tier": "gold",
+  "platinum_policy": "out_of_scope_unless_explicitly_reopened_by_project_decision"
+}
