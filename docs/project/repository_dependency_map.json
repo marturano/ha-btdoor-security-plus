@@ -578,6 +578,7 @@
     "docs/target-validation/runs/README.md",
     "docs/target-validation/schema/target_validation_result.schema.json",
     "docs/target-validation/target_validation_plan.json",
+    "docs/validation/GITHUB_ACTIONS_VALIDATION.md",
     "docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md",
     "docs/validation/GITHUB_SANDBOX_VALIDATION.md",
     "docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md",
@@ -666,6 +667,7 @@
     "handoff/76_PHASE_7C_RUNTIME_EVIDENCE_INTAKE.md",
     "handoff/77_PHASE_7C_RELEASE_CANDIDATE_DOSSIER.md",
     "handoff/78_PHASE_7C_GITHUB_PUBLICATION_AUDIT.md",
+    "handoff/79_GITHUB_EFFECTIVE_VALIDATION_REMEDIATION.md",
     "handoff/CONTINUITY_CHECKLIST.md",
     "handoff/HANDOFF_INDEX.md",
     "handoff/README.md",
@@ -689,6 +691,7 @@
     "tests/test_diagnostic_framework_alpha25.py",
     "tests/test_dialog_engine.py",
     "tests/test_event_bus_performance_alpha3a.py",
+    "tests/test_github_workflow_contract.py",
     "tests/test_governance_automation.py",
     "tests/test_health_score_v2_beta1.py",
     "tests/test_home_assistant_certification.py",
@@ -806,6 +809,7 @@
     "tools/update_project_health.py",
     "tools/validate.py",
     "tools/validate_support_bundle.py",
+    "tools/validation/check_github_workflows.py",
     "tools/validation/github_sandbox_validate.sh",
     "tools/watch.py"
   ],
@@ -860,7 +864,7 @@
     },
     {
       "source": ".github/workflows/validate.yml",
-      "target": "tools/publication/check_repository_publication.py"
+      "target": "tools/validation/github_sandbox_validate.sh"
     },
     {
       "source": "CHANGELOG.md",
@@ -2091,6 +2095,10 @@
       "target": ".github/workflows/ruff-remediation.yml"
     },
     {
+      "source": "docs/developer/QUALITY_GATES.md",
+      "target": "docs/validation/GITHUB_ACTIONS_VALIDATION.md"
+    },
+    {
       "source": "docs/document_manifest.yaml",
       "target": "docs/FOUNDATION.md"
     },
@@ -2481,6 +2489,10 @@
     {
       "source": "docs/engineering/ENGINEERING_NOTEBOOK.md",
       "target": "docs/project/WORKFLOW.md"
+    },
+    {
+      "source": "docs/engineering/ENGINEERING_NOTEBOOK.md",
+      "target": "tools/validation/check_github_workflows.py"
     },
     {
       "source": "docs/es/index.md",
@@ -5660,6 +5672,10 @@
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "docs/validation/GITHUB_ACTIONS_VALIDATION.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md"
     },
     {
@@ -6008,6 +6024,10 @@
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "handoff/79_GITHUB_EFFECTIVE_VALIDATION_REMEDIATION.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "handoff/CONTINUITY_CHECKLIST.md"
     },
     {
@@ -6093,6 +6113,10 @@
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "tests/test_event_bus_performance_alpha3a.py"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "tests/test_github_workflow_contract.py"
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
@@ -6561,6 +6585,10 @@
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "tools/validate_support_bundle.py"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "tools/validation/check_github_workflows.py"
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
@@ -9484,6 +9512,10 @@
     },
     {
       "source": "docs/project/repository_dependency_map.json",
+      "target": "docs/validation/GITHUB_ACTIONS_VALIDATION.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
       "target": "docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md"
     },
     {
@@ -9832,6 +9864,10 @@
     },
     {
       "source": "docs/project/repository_dependency_map.json",
+      "target": "handoff/79_GITHUB_EFFECTIVE_VALIDATION_REMEDIATION.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
       "target": "handoff/CONTINUITY_CHECKLIST.md"
     },
     {
@@ -9917,6 +9953,10 @@
     {
       "source": "docs/project/repository_dependency_map.json",
       "target": "tests/test_event_bus_performance_alpha3a.py"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
+      "target": "tests/test_github_workflow_contract.py"
     },
     {
       "source": "docs/project/repository_dependency_map.json",
@@ -10388,11 +10428,19 @@
     },
     {
       "source": "docs/project/repository_dependency_map.json",
+      "target": "tools/validation/check_github_workflows.py"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
       "target": "tools/validation/github_sandbox_validate.sh"
     },
     {
       "source": "docs/project/repository_dependency_map.json",
       "target": "tools/watch.py"
+    },
+    {
+      "source": "docs/project/repository_metrics.json",
+      "target": "handoff/79_GITHUB_EFFECTIVE_VALIDATION_REMEDIATION.md"
     },
     {
       "source": "docs/quality-scale/QS12_CLOUD_SIP_DISPATCH_COVERAGE_REPORT.md",
@@ -11176,7 +11224,15 @@
     },
     {
       "source": "docs/release/RELEASE_CHECKLIST.md",
+      "target": "docs/validation/GITHUB_ACTIONS_VALIDATION.md"
+    },
+    {
+      "source": "docs/release/RELEASE_CHECKLIST.md",
       "target": "tools/check_repository_integrity.py"
+    },
+    {
+      "source": "docs/release/RELEASE_CHECKLIST.md",
+      "target": "tools/validation/check_github_workflows.py"
     },
     {
       "source": "docs/repository/REPOSITORY_HYGIENE_AUDIT_1.1.0-RC15.md",
@@ -11251,8 +11307,20 @@
       "target": "tools/target_validation/target_validation.py"
     },
     {
+      "source": "docs/validation/GITHUB_ACTIONS_VALIDATION.md",
+      "target": "tools/validation/check_github_workflows.py"
+    },
+    {
+      "source": "docs/validation/GITHUB_ACTIONS_VALIDATION.md",
+      "target": "tools/validation/github_sandbox_validate.sh"
+    },
+    {
       "source": "docs/validation/GITHUB_SANDBOX_VALIDATION.md",
       "target": "tools/validation/github_sandbox_validate.sh"
+    },
+    {
+      "source": "docs/validation/README.md",
+      "target": "docs/validation/GITHUB_ACTIONS_VALIDATION.md"
     },
     {
       "source": "docs/validation/README.md",
@@ -11551,6 +11619,10 @@
       "target": "docs/engineering/REPOSITORY_CLEANUP_AUDIT_2026-07-22.md"
     },
     {
+      "source": "handoff/09_TEST_STATUS.md",
+      "target": "tools/validation/check_github_workflows.py"
+    },
+    {
       "source": "handoff/14_BUILD_INFORMATION.md",
       "target": "docs/project/PROJECT_HEALTH_DASHBOARD.md"
     },
@@ -11641,6 +11713,14 @@
     {
       "source": "handoff/19_GOVERNANCE_STATUS.md",
       "target": "docs/repository/REPOSITORY_POLICY.md"
+    },
+    {
+      "source": "handoff/19_GOVERNANCE_STATUS.md",
+      "target": "docs/validation/GITHUB_ACTIONS_VALIDATION.md"
+    },
+    {
+      "source": "handoff/19_GOVERNANCE_STATUS.md",
+      "target": "tools/validation/check_github_workflows.py"
     },
     {
       "source": "handoff/24_OFFICIAL_WORKFLOW.md",
@@ -13753,6 +13833,14 @@
     {
       "source": "tools/update_project_health.py",
       "target": "tools/health/calculate_health.py"
+    },
+    {
+      "source": "tools/validation/check_github_workflows.py",
+      "target": "tools/check_ha_compatibility.py"
+    },
+    {
+      "source": "tools/validation/check_github_workflows.py",
+      "target": "tools/validation/github_sandbox_validate.sh"
     }
   ]
 }

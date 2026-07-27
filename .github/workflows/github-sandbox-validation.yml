@@ -16,7 +16,7 @@ jobs:
     timeout-minutes: 45
     env:
       PYTHONDONTWRITEBYTECODE: "1"
-      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/btdoor-pycache
+      PYTHONPYCACHEPREFIX: /tmp/btdoor-pycache
     steps:
       - uses: actions/checkout@v6
         with:

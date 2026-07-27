@@ -103,3 +103,36 @@ Two workflows were introduced. The read-only workflow validates the exact commit
 ## 2026-07-27 - GitHub validation failure triage
 
 Reviewed the GitHub validation log and identified 882 Ruff findings across 121 files plus an invalid Python/Home Assistant compatibility matrix. Updated the sandbox/remediation workflows and compatibility runtime mapping. Mechanical Ruff remediation is now persisted before semantic residual failures are reported, preventing the previous all-or-nothing workflow from discarding valid safe fixes. Release remains blocked pending a fully green read-only validation run with GOLD retained.
+
+## 2026-07-27 — GitHub Actions effective-validation remediation
+
+### Trigger
+
+GitHub accepted the workflow files after the `runner.temp` correction, but acceptance was incorrectly treated as if repository validation had occurred.
+
+### Findings
+
+- Workflow syntax and workflow execution evidence had been conflated.
+- The canonical sandbox runner did not install or execute mypy.
+- `pytest-asyncio` was not explicitly installed even though the suite loads its plugin explicitly.
+- The main Validate Python job duplicated only part of the canonical sequence.
+- No dependency-free contract prevented removal of mandatory workflow jobs or reintroduction of direct shell execution.
+
+### Remediation
+
+- Added `tools/validation/check_github_workflows.py` and regression coverage.
+- Expanded the canonical runner to execute Ruff format/lint, mypy, compile, JSON validation, pytest and all repository gates.
+- Preserved exit codes through `set -euo pipefail` and a logged-command wrapper.
+- Changed `validate.yml` to call the canonical runner and upload evidence even on failure.
+- Added a canonical GitHub Actions validation contract and synchronized quality, release, governance and handoff documentation.
+
+### Evidence status
+
+- Workflow contract: locally executed, PASS.
+- Bash syntax and Python compilation for the new tooling: locally executed, PASS.
+- Individual repository integrity checks: locally executed, PASS.
+- Ruff and mypy: NOT VERIFIED locally because the package index returned HTTP 503.
+- Full pytest suite: NOT VERIFIED locally; execution progressed through the suite but exceeded the available local command window.
+- HACS, Hassfest and GitHub-hosted matrix: NOT VERIFIED until the updated commit is pushed and the remote workflows complete.
+
+The release remains BLOCKED until all mandatory remote jobs are green.

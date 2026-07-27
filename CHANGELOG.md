@@ -1,4 +1,18 @@
+## Unreleased — GitHub effective-validation remediation
+
+### Fixed
+- Replaced partial and duplicated Python CI checks with the canonical read-only validation runner.
+- Added explicit mypy and pytest-asyncio installation and execution to the sandbox validation contract.
+- Added a dependency-free GitHub workflow contract validator that rejects missing gates, unsafe shell invocation and unsupported workflow environment context.
+- Preserved real command failures through `set -euo pipefail` and evidence logging.
+
+### Documentation
+- Added the canonical GitHub Actions Validation Contract.
+- Synchronized quality gates, release checklist, impact matrix, engineering notebook and handoff status.
+- Recorded Ruff, mypy, full pytest, HACS, Hassfest and compatibility as NOT VERIFIED until real execution evidence exists.
+
 ## Phase 7C — Governance and CI audit remediation
+- Fixed invalid GitHub Actions job-level use of `runner.temp`; Python cache paths now use `/tmp/btdoor-pycache` across validation, governance, and sandbox workflows.
 
 - Prevented Python bytecode caches from being written inside the checked-out repository during GitHub validation, governance and compatibility jobs.
 - Removed packaged runtime logs and local cache directories that violated repository integrity and hygiene gates.

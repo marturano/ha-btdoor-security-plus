@@ -10,3 +10,7 @@
 - Latest stable Ruff validation evidence for the corrected commit: PENDING GitHub execution.
 - RC15 publication decision: BLOCKED until remediation and subsequent read-only validation pass.
 - Required Integration Quality Scale: GOLD, unchanged.
+
+## GitHub validation prerequisite — 2026-07-27
+
+Publication remains blocked. The updated commit must pass HACS, Hassfest, canonical Python/governance validation, all configured Home Assistant compatibility jobs, GitHub Sandbox Validation and Governance. Artifacts and run identifiers must identify the same commit from which the release ZIP is generated.

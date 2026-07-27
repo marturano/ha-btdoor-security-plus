@@ -4,7 +4,7 @@
 **Package:** `1.1.0-rc.15-phase7c-github-publication-ready`  
 **Purpose:** canonical inventory of every active file in the exact package during Phase 7C assessment.
 
-**Active file count:** 806
+**Active file count:** 810
 
 ## Active files
 
@@ -584,6 +584,7 @@
 - `docs/target-validation/runs/README.md`
 - `docs/target-validation/schema/target_validation_result.schema.json`
 - `docs/target-validation/target_validation_plan.json`
+- `docs/validation/GITHUB_ACTIONS_VALIDATION.md`
 - `docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md`
 - `docs/validation/GITHUB_SANDBOX_VALIDATION.md`
 - `docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md`
@@ -672,6 +673,7 @@
 - `handoff/76_PHASE_7C_RUNTIME_EVIDENCE_INTAKE.md`
 - `handoff/77_PHASE_7C_RELEASE_CANDIDATE_DOSSIER.md`
 - `handoff/78_PHASE_7C_GITHUB_PUBLICATION_AUDIT.md`
+- `handoff/79_GITHUB_EFFECTIVE_VALIDATION_REMEDIATION.md`
 - `handoff/CONTINUITY_CHECKLIST.md`
 - `handoff/HANDOFF_INDEX.md`
 - `handoff/README.md`
@@ -695,6 +697,7 @@
 - `tests/test_diagnostic_framework_alpha25.py`
 - `tests/test_dialog_engine.py`
 - `tests/test_event_bus_performance_alpha3a.py`
+- `tests/test_github_workflow_contract.py`
 - `tests/test_governance_automation.py`
 - `tests/test_health_score_v2_beta1.py`
 - `tests/test_home_assistant_certification.py`
@@ -812,6 +815,7 @@
 - `tools/update_project_health.py`
 - `tools/validate.py`
 - `tools/validate_support_bundle.py`
+- `tools/validation/check_github_workflows.py`
 - `tools/validation/github_sandbox_validate.sh`
 - `tools/watch.py`
 

@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHONDONTWRITEBYTECODE: "1"
-      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/btdoor-pycache
+      PYTHONPYCACHEPREFIX: /tmp/btdoor-pycache
     steps:
       - name: Check out repository
         uses: actions/checkout@v6

@@ -7,3 +7,6 @@ This directory is the canonical home for validation policy, the validation regis
 - [Current RC.15 report](VALIDATION_REPORT_1.1.0-rc.15.md)
 
 GitHub and HACS Final Release publication evidence remains under `docs/repository/validations/` because it validates an external distribution lifecycle rather than only repository content.
+- [GitHub Actions validation contract](GITHUB_ACTIONS_VALIDATION.md)
+
+A workflow accepted by GitHub is only syntactically valid. Release approval requires executed commands, exit codes and retained evidence for the exact commit.

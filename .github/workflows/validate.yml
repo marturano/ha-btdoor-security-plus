@@ -32,48 +32,37 @@ jobs:
         uses: home-assistant/actions/hassfest@master
 
   python:
-    name: Python checks
+    name: Python, governance and repository gates
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     env:
       PYTHONDONTWRITEBYTECODE: "1"
-      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/btdoor-pycache
+      PYTHONPYCACHEPREFIX: /tmp/btdoor-pycache
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.14.2"
           cache: pip
-      - name: Install validation dependencies
-        run: python -m pip install --upgrade pip pytest ruff mypy
-      - name: Compile integration
-        run: python -m compileall -q custom_components/btdoor_security_plus
-      - name: Validate JSON files
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          for path in Path("custom_components/btdoor_security_plus").rglob("*.json"):
-              json.loads(path.read_text(encoding="utf-8"))
-              print(path)
-          json.loads(Path("hacs.json").read_text(encoding="utf-8"))
-          PY
-      - name: Publication preflight
-        run: python tools/publication/check_repository_publication.py
-      - name: Ruff
-        run: ruff check custom_components/btdoor_security_plus tests tools
-      - name: Mypy
-        run: mypy custom_components/btdoor_security_plus
-      - name: Full test suite
-        env:
-          PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
-        run: pytest -q -p no:cacheprovider -p pytest_asyncio.plugin
+      - name: Run canonical read-only validation
+        shell: bash
+        run: bash tools/validation/github_sandbox_validate.sh check
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: validate-python-governance-evidence
+          path: artifacts/github-sandbox-validation
+          if-no-files-found: error
 
   ha-compatibility:
     env:
       PYTHONDONTWRITEBYTECODE: "1"
-      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/btdoor-pycache
+      PYTHONPYCACHEPREFIX: /tmp/btdoor-pycache
     name: HA ${{ matrix.homeassistant }} import compatibility
     runs-on: ubuntu-latest
     strategy:

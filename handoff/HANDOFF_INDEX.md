@@ -126,3 +126,5 @@ Each generated package must contain a complete, self-contained handoff. Current-
 - `77_PHASE_7C_RELEASE_CANDIDATE_DOSSIER.md` — consolidated exact-package gate, evidence and risk dossier.
 
 - `78_PHASE_7C_GITHUB_PUBLICATION_AUDIT.md` — exact-package GitHub publication readiness and mandatory remote validation sequence.
+
+- `79_GITHUB_EFFECTIVE_VALIDATION_REMEDIATION.md` — corrects the distinction between workflow syntax and executed validation evidence; records the mandatory remote rerun.

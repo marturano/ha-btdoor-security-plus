@@ -49,3 +49,17 @@ A release is not complete until every applicable item is satisfied or explicitly
 - [ ] Project Health Dashboard regenerated from canonical evidence.
 - [ ] All applicable workflow gates have documented PASS, PASS WITH CONDITIONS, BLOCKED or NOT APPLICABLE decisions.
 - [ ] No BLOCKED gate remains for the requested release type.
+
+## Exact-package GitHub Actions gate
+
+- [ ] `python tools/validation/check_github_workflows.py` passes.
+- [ ] `Validate / HACS` is green for the exact commit.
+- [ ] `Validate / Hassfest` is green for the exact commit.
+- [ ] `Validate / Python, governance and repository gates` is green and its evidence artifact is retained.
+- [ ] Every Home Assistant compatibility matrix job is green or an explicitly approved matrix correction is documented.
+- [ ] `GitHub Sandbox Validation` is green and confirms a clean tree after validation.
+- [ ] `Governance` is green and generated canonical documents are unchanged.
+- [ ] No result inferred only from workflow syntax is recorded as PASS.
+- [ ] The release archive is built from the validated commit and its SHA-256 is recalculated after final packaging.
+
+See [GitHub Actions Validation Contract](../validation/GITHUB_ACTIONS_VALIDATION.md).

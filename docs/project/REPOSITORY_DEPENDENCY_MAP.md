@@ -2,9 +2,9 @@
 
 **Generated:** 2026-07-27
 
-- Files: **806**
-- Dependency edges: **3236**
-- Referenced files: **798**
+- Files: **810**
+- Dependency edges: **3257**
+- Referenced files: **802**
 - Reference coverage: **99.0%**
 - Broken Markdown links: **0**
 - Exact duplicate groups: **0**

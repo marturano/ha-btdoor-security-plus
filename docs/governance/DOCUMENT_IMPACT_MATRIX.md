@@ -61,3 +61,14 @@ Every row also requires explicit review of registries, matrices, certificates, r
 | Handoff memory/status | Continuity and resume instructions | Updated |
 | CHANGELOG | Governance, CI and documentation changes | Updated |
 | Quality Scale policy | GOLD threshold preserved; downgrade prohibited | Confirmed |
+
+## GitHub validation pipeline change impact
+
+| Impact domain | Required action |
+|---|---|
+| Workflow files | Re-run workflow contract and every modified workflow |
+| Validation runner | Re-run Ruff, mypy, pytest, publication, integrity, hygiene, governance and certification |
+| Test dependencies | Record exact versions in validation evidence |
+| Release documentation | Update checklist, changelog and evidence status |
+| Handoff | Record verified, failed and unverified gates without inference |
+| Packaging | Invalidate all earlier package checksums and regenerate from the validated tree |

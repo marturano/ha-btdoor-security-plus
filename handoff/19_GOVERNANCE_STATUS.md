@@ -24,3 +24,7 @@ The workflow now formally includes Engineering Notebook, Translation Review, Ben
 - Release documentation policy: `docs/release/RELEASE_DOCUMENTATION_POLICY.md`
 
 Legacy root policy documents were archived after their unique content was consolidated.
+
+## Effective-validation rule
+
+Workflow syntax is no longer accepted as governance evidence. A gate may be marked PASS only when the command has run against the exact repository tree and has returned exit code `0`. FAIL, NOT VERIFIED and BLOCKED must be preserved honestly. The canonical contract is `docs/validation/GITHUB_ACTIONS_VALIDATION.md`, enforced by `tools/validation/check_github_workflows.py`.
