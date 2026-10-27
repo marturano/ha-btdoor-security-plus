@@ -1,7 +1,7 @@
 ## Unreleased — Linux validation completion (2026-10-27)
 
 - Preserved SIP/Cloud protocol logic while correcting static types and validation portability.
-- Passed Ruff, mypy, 345 tests, fresh 95.01% coverage and every local canonical gate on Linux/Python 3.14.2.
+- Passed Ruff, mypy, 347 tests, fresh 95.01% coverage and every local canonical gate on Linux/Python 3.14.2.
 - Fixed delegated publication validation, HA smoke imports and isolated generated evidence from source inventory.
 - Pinned complete validation dependencies; target certification and Final remain BLOCKED.
 

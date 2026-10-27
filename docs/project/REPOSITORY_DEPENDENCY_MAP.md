@@ -3,7 +3,7 @@
 **Generated:** 2026-10-27
 
 - Files: **816**
-- Dependency edges: **3174**
+- Dependency edges: **3180**
 - Referenced files: **808**
 - Reference coverage: **99.0%**
 - Broken Markdown links: **0**
@@ -79,7 +79,7 @@ Outbound dependencies: **0**
 
 ### Validation policy and register
 Canonical: `docs/validation/VALIDATION_MAINTENANCE_POLICY.md`
-Inbound references: **10**
+Inbound references: **11**
 Outbound dependencies: **1**
 
 ### Release policy

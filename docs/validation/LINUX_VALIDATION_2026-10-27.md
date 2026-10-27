@@ -15,14 +15,14 @@ Home Assistant 2026.7.2. Direct validation dependencies are pinned in
 |---|---|
 | Ruff check and format | PASS, zero findings, 218 Python files formatted |
 | mypy | PASS, no issues in 78 integration source files |
-| Full pytest suite | PASS, 345 tests, zero skipped/failed |
+| Full pytest suite | PASS, 347 tests, zero skipped/failed |
 | Fresh integration coverage | PASS, 95.01%, above the governed 95% threshold |
 | Python compilation and 21 JSON parses | PASS |
 | Publication preflight and workflow contract | PASS |
 | Repository integrity, document consistency and hygiene | PASS |
 | Governance automation | PASS, all 18 subchecks |
 | Local certification framework | PASS; Final remains BLOCKED |
-| Canonical Bash runner | PASS, exit 0; source hashes unchanged for all 815 input files |
+| Canonical Bash runner | PASS, exit 0; source hashes unchanged for all 816 input files |
 | Real HA import/API smoke | PASS on Home Assistant 2026.7.2 in a fresh process |
 | SIP protocol logic comparison | PASS, 59 methods unchanged after removing type annotations/casts/local aliases |
 | Cloud source comparison | PASS, byte-identical to the previous delivered Ruff-fixed ZIP |
@@ -70,3 +70,13 @@ Real HA/device/cloud SIP calls, install/update/rollback, benchmarks, target secu
 and interactive UX remain NOT EXECUTED. The five target-certification blockers and
 the governed Final BLOCKED decision remain in force. No release tag, merge or live
 deployment is part of this correction.
+
+## GitHub follow-up
+
+The first pushed commit passed HACS, Hassfest, all five HA matrix targets, Validate and GitHub Sandbox Validation. Standalone Governance exposed a source-hygiene false positive on empty Git metadata directories; the checker now excludes only .git internals. Two additional regression cases accept empty Git internals and reject an actual empty project directory. The updated canonical Linux run passes all 347 tests. The Governance workflow also uploads its JSON evidence on failure.
+
+Live remote check status and exact commits are available on [pull request #1](https://github.com/marturano/ha-btdoor-security-plus/pull/1). They must be read from the commit checks rather than inferred from this local report.
+
+The stale July candidate build manifest from the uploaded ZIP was removed from active package content and retained in the companion evidence. It is not a checksum for the new archive.
+
+A later local staging attempt retained the obsolete July build manifest and correctly failed inventory. Recreating the staging copy from scratch restored a complete PASS; no source gate was disabled.

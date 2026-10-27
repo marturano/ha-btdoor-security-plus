@@ -846,6 +846,10 @@
     },
     {
       "source": ".github/workflows/governance.yml",
+      "target": "docs/validation/governance-automation-report.json"
+    },
+    {
+      "source": ".github/workflows/governance.yml",
       "target": "tools/governance/run_governance.py"
     },
     {
@@ -12666,11 +12670,31 @@
     },
     {
       "source": "tests/test_repository_production_audit.py",
+      "target": "docs/project/REPOSITORY_INVENTORY.md"
+    },
+    {
+      "source": "tests/test_repository_production_audit.py",
+      "target": "docs/validation/VALIDATION_MAINTENANCE_POLICY.md"
+    },
+    {
+      "source": "tests/test_repository_production_audit.py",
+      "target": "docs/validation/VALIDATION_REGISTER.md"
+    },
+    {
+      "source": "tests/test_repository_production_audit.py",
+      "target": "docs/validation/VALIDATION_REPORT_1.1.0-rc.15.md"
+    },
+    {
+      "source": "tests/test_repository_production_audit.py",
       "target": "handoff/36_REPOSITORY_PRODUCTION_AUDIT_STATUS.md"
     },
     {
       "source": "tests/test_repository_production_audit.py",
       "target": "tools/audit/production_audit.py"
+    },
+    {
+      "source": "tests/test_repository_production_audit.py",
+      "target": "tools/check_orphans.py"
     },
     {
       "source": "tests/test_repository_rationalization.py",

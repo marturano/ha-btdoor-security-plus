@@ -19,7 +19,10 @@ REQUIRED = {
 
 errors = []
 for path in ROOT.rglob("*"):
-    rel = path.relative_to(ROOT).as_posix()
+    relative = path.relative_to(ROOT)
+    if ".git" in relative.parts:
+        continue
+    rel = relative.as_posix()
     if path.is_dir() and path.name in PROHIBITED_DIR_NAMES:
         errors.append(f"cache directory: {rel}")
     if path.is_file() and path.name in PROHIBITED_FILES:

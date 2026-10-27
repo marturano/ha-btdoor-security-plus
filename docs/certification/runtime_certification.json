@@ -7,7 +7,7 @@
   "measurements": {
     "command": "/tmp/btdoor-codex-validation-20261027/venv/bin/python -m pytest -q -p no:cacheprovider tests/test_governance_automation.py tests/test_project_health_dashboard.py tests/test_quality_release_intelligence.py tests/test_repository_rationalization.py tests/test_rc15_repository_integrity.py",
     "exit_code": 0,
-    "duration_seconds": 12.049,
+    "duration_seconds": 10.19,
     "stdout_tail": "..............                                                           [100%]",
     "stderr_tail": ""
   },
