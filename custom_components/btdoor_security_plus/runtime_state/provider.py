@@ -1,4 +1,5 @@
 """Single source of truth for immutable BTDoor runtime snapshots."""
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -128,21 +129,29 @@ class RuntimeStateProvider:
         suite = None
         if isinstance(suites, list) and suites:
             suite = str(suites[0])
-        suite = suite or _optional(plan.get("srtp_suite")) or _optional(getattr(self.client, "selected_srtp_suite", None))
+        suite = (
+            suite
+            or _optional(plan.get("srtp_suite"))
+            or _optional(getattr(self.client, "selected_srtp_suite", None))
+        )
         history = getattr(self.client, "media_session_history", None)
         retained = len(history) if isinstance(history, list) else 0
         state = str(getattr(self.client, "media_runtime_state", "idle") or "idle")
         return MediaState(
             state=state,
             ready=state in {"prepared", "active", "closed"} or bool(session),
-            audio_codec=_codec(audio) or _optional(getattr(self.client, "selected_audio_codec", None)),
-            video_codec=_codec(video) or _optional(getattr(self.client, "selected_video_codec", None)),
+            audio_codec=_codec(audio)
+            or _optional(getattr(self.client, "selected_audio_codec", None)),
+            video_codec=_codec(video)
+            or _optional(getattr(self.client, "selected_video_codec", None)),
             remote_audio_ip=audio_ip,
             remote_audio_port=audio_port,
             remote_video_ip=video_ip,
             remote_video_port=video_port,
             srtp_suite=suite,
-            duration_seconds=_float_or_none(session.get("duration_seconds") or getattr(self.client, "last_call_duration", None)),
+            duration_seconds=_float_or_none(
+                session.get("duration_seconds") or getattr(self.client, "last_call_duration", None)
+            ),
             close_reason=_optional(session.get("closed_reason")),
             started_at=_iso(session.get("started_at")),
             closed_at=_iso(session.get("closed_at")),

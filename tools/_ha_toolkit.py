@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Shared helpers for the BTDoor Security+ developer toolkit."""
+
 from __future__ import annotations
 
 import json
 import os
 import shutil
-import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -23,7 +23,9 @@ def token_from_env(value: str | None) -> str:
     return token
 
 
-def request_json(base_url: str, token: str, path: str, payload: dict[str, Any] | None = None) -> Any:
+def request_json(
+    base_url: str, token: str, path: str, payload: dict[str, Any] | None = None
+) -> Any:
     url = base_url.rstrip("/") + path
     data = None if payload is None else json.dumps(payload).encode("utf-8")
     request = urllib.request.Request(
@@ -52,7 +54,11 @@ def copy_component(config_dir: Path) -> Path:
     staging = target.with_name(target.name + ".staging")
     if staging.exists():
         shutil.rmtree(staging)
-    shutil.copytree(SOURCE_COMPONENT, staging, ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "logs", "support", "certificate"))
+    shutil.copytree(
+        SOURCE_COMPONENT,
+        staging,
+        ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "logs", "support", "certificate"),
+    )
     for preserved in ("logs", "support", "certificate"):
         source = target / preserved
         destination = staging / preserved

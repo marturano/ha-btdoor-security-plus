@@ -61,7 +61,11 @@ class RuntimeEventBus:
         event_type: RuntimeEventType | None = None,
     ) -> Callable[[], None]:
         """Subscribe to all events or to one event type."""
-        listeners = self._listeners if event_type is None else self._typed_listeners.setdefault(event_type, set())
+        listeners = (
+            self._listeners
+            if event_type is None
+            else self._typed_listeners.setdefault(event_type, set())
+        )
         listeners.add(listener)
 
         def _remove() -> None:

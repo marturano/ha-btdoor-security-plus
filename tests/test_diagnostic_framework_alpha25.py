@@ -1,18 +1,26 @@
 """Tests for the alpha.25 modular diagnostic framework."""
+
 from __future__ import annotations
 
 import asyncio
 
-from custom_components.btdoor_security_plus.diagnostic_framework import DiagnosticEngine, HealthEngine
-from custom_components.btdoor_security_plus.diagnostic_framework.providers import StaticResultProvider
+from custom_components.btdoor_security_plus.diagnostic_framework import (
+    DiagnosticEngine,
+    HealthEngine,
+)
+from custom_components.btdoor_security_plus.diagnostic_framework.providers import (
+    StaticResultProvider,
+)
 
 
 def test_provider_collection_and_health_are_independent() -> None:
     async def run():
-        engine = DiagnosticEngine([
-            StaticResultProvider("sip", 70, {"ok": True, "registered": True}),
-            StaticResultProvider("media", 30, {"ok": False, "error": "not ready"}),
-        ])
+        engine = DiagnosticEngine(
+            [
+                StaticResultProvider("sip", 70, {"ok": True, "registered": True}),
+                StaticResultProvider("media", 30, {"ok": False, "error": "not ready"}),
+            ]
+        )
         results = await engine.async_collect()
         health = HealthEngine.aggregate(results)
         return results, health

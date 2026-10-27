@@ -3,33 +3,45 @@
 from __future__ import annotations
 
 import asyncio
-
-from datetime import UTC, datetime, timedelta
 import logging
-from pathlib import Path
 import shutil
+from datetime import UTC, datetime, timedelta
+from pathlib import Path
 from typing import TYPE_CHECKING, Any
-
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import CoreState, HomeAssistant
-from homeassistant.helpers.typing import ConfigType
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
-from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers import entity_registry as er
-from homeassistant.helpers.storage import Store
+from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.event import async_track_time_interval
+from homeassistant.helpers.storage import Store
+from homeassistant.helpers.typing import ConfigType
 
 from .const import (
-    ATTR_ENTRY_ID,
-    ATTR_REASON,
-    ATTR_SOURCE,
+    ATTR_ENTRY_ID as ATTR_ENTRY_ID,
+)
+from .const import (
+    ATTR_INCLUDE_LOGS as ATTR_INCLUDE_LOGS,
+)
+from .const import (
+    ATTR_REASON as ATTR_REASON,
+)
+from .const import (
+    ATTR_SOURCE as ATTR_SOURCE,
+)
+from .const import (
+    ATTR_TEST as ATTR_TEST,
+)
+from .const import (
     CERTIFICATE_RENEW_BEFORE,
     CONF_CA_CHAIN_PATH,
     CONF_CERTIFICATE_NOT_AFTER,
     CONF_CLIENT_CERT_PATH,
     CONF_CLIENT_KEY_PATH,
+    CONF_DEBUG_MODE,
+    CONF_DEVELOPER_MODE,
     CONF_DEVICE_NAME,
     CONF_EMAIL,
     CONF_GATEWAY_ID,
@@ -43,8 +55,6 @@ from .const import (
     CONF_SIP_ACCOUNT,
     CONF_SIP_PASSWORD,
     CONF_VERIFY_SERVER,
-    CONF_DEBUG_MODE,
-    CONF_DEVELOPER_MODE,
     DEFAULT_DEBUG_MODE,
     DEFAULT_DEVELOPER_MODE,
     DEFAULT_DEVICE_NAME,
@@ -52,27 +62,47 @@ from .const import (
     DEFAULT_SERVER,
     DEFAULT_VERIFY_SERVER,
     DOMAIN,
-    INTEGRATION_VERSION,
     EVENT_BUS,
+    INTEGRATION_VERSION,
     PLATFORMS,
-    SERVICE_OPEN_GATE,
-    SERVICE_RESET_STATISTICS,
-    SERVICE_TEST_CONNECTION,
-    SERVICE_REJECT_CALL,
-    SERVICE_DEVELOPER_TEST,
-    SERVICE_GENERATE_SUPPORT_REPORT,
-    SERVICE_CLEAN_DEBUG_ENVIRONMENT,
-    SERVICE_EXPORT_DEBUG_BUNDLE,
-    SERVICE_CLEAR_CALL_JOURNAL,
-    SERVICE_EXPORT_CALL_JOURNAL,
-    SERVICE_REBUILD_CALL_JOURNAL,
-    ATTR_TEST,
-    ATTR_INCLUDE_LOGS,
     STORAGE_VERSION,
 )
+from .const import (
+    SERVICE_CLEAN_DEBUG_ENVIRONMENT as SERVICE_CLEAN_DEBUG_ENVIRONMENT,
+)
+from .const import (
+    SERVICE_CLEAR_CALL_JOURNAL as SERVICE_CLEAR_CALL_JOURNAL,
+)
+from .const import (
+    SERVICE_DEVELOPER_TEST as SERVICE_DEVELOPER_TEST,
+)
+from .const import (
+    SERVICE_EXPORT_CALL_JOURNAL as SERVICE_EXPORT_CALL_JOURNAL,
+)
+from .const import (
+    SERVICE_EXPORT_DEBUG_BUNDLE as SERVICE_EXPORT_DEBUG_BUNDLE,
+)
+from .const import (
+    SERVICE_GENERATE_SUPPORT_REPORT as SERVICE_GENERATE_SUPPORT_REPORT,
+)
+from .const import (
+    SERVICE_OPEN_GATE as SERVICE_OPEN_GATE,
+)
+from .const import (
+    SERVICE_REBUILD_CALL_JOURNAL as SERVICE_REBUILD_CALL_JOURNAL,
+)
+from .const import (
+    SERVICE_REJECT_CALL as SERVICE_REJECT_CALL,
+)
+from .const import (
+    SERVICE_RESET_STATISTICS as SERVICE_RESET_STATISTICS,
+)
+from .const import (
+    SERVICE_TEST_CONNECTION as SERVICE_TEST_CONNECTION,
+)
+
 if TYPE_CHECKING:
     from .runtime import BTDoorRuntimeData
-    from .sip_client import BticinoSipClient
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -81,7 +111,7 @@ type BticinoConfigEntry = ConfigEntry[Any]
 
 
 def _log_availability_transition(
-    runtime: "BTDoorRuntimeData", available: bool, entry_title: str
+    runtime: BTDoorRuntimeData, available: bool, entry_title: str
 ) -> None:
     """Log an availability transition once per actual state change."""
     previous = runtime.availability_state
@@ -93,6 +123,7 @@ def _log_availability_transition(
             _LOGGER.info("BTDoor Security+ %s recovered and is available again", entry_title)
         return
     _LOGGER.warning("BTDoor Security+ %s became unavailable", entry_title)
+
 
 def _client_from_entry(entry: ConfigEntry, debug=None):
     from .sip_client import BticinoSipClient
@@ -109,7 +140,6 @@ def _client_from_entry(entry: ConfigEntry, debug=None):
         verify_server=data.get(CONF_VERIFY_SERVER, DEFAULT_VERIFY_SERVER),
         debug_recorder=debug,
     )
-
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
@@ -148,14 +178,20 @@ async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> b
     # Keeping the package import lightweight avoids expensive crypto, SIP,
     # media and diagnostics module imports in Home Assistant's event loop.
     from .call_journal import CallJournal
-    from .cloud import BticinoCloudAuthenticationError, BticinoCloudConnectionError, BticinoCloudError
-    from .developer import DeveloperModeDisabledError, DeveloperTools
+    from .developer import DeveloperTools
+    from .event_bus import (
+        RuntimeEvent,
+        RuntimeEventBus,
+        RuntimeEventType,
+        RuntimeSource,
+        map_client_event,
+    )
     from .managers import async_register_devices
-    from .event_bus import RuntimeEvent, RuntimeEventBus, RuntimeEventType, RuntimeSource, map_client_event
     from .runtime import BTDoorRuntimeData
     from .runtime_state import BTDoorRuntimeAPI
     from .sip_client import BticinoSipError
     from .support_debug import SupportDebugRecorder
+
     if entry.title != "Bticino DS+ Suite":
         hass.config_entries.async_update_entry(entry, title="Bticino DS+ Suite")
 
@@ -173,13 +209,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> b
         await debug.async_stop()
         raise
     client = _client_from_entry(entry, debug)
-    store: Store[dict[str, object]] = Store(
-        hass, STORAGE_VERSION, f"{DOMAIN}.{entry.entry_id}"
-    )
+    store: Store[dict[str, object]] = Store(hass, STORAGE_VERSION, f"{DOMAIN}.{entry.entry_id}")
     client.restore_state(await store.async_load())
 
-    cert_path = Path(str(entry.data.get(CONF_CLIENT_CERT_PATH, ""))).expanduser()
-    key_path = Path(str(entry.data.get(CONF_CLIENT_KEY_PATH, ""))).expanduser()
+    cert_path = await asyncio.to_thread(
+        Path(str(entry.data.get(CONF_CLIENT_CERT_PATH, ""))).expanduser
+    )
+    key_path = await asyncio.to_thread(
+        Path(str(entry.data.get(CONF_CLIENT_KEY_PATH, ""))).expanduser
+    )
     certificate_files_ready = await asyncio.to_thread(
         lambda: cert_path.is_file() and key_path.is_file()
     )
@@ -191,13 +229,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> b
         except BticinoSipError as err:
             await client.async_stop()
             await debug.async_stop()
-            raise ConfigEntryNotReady(
-                f"Unable to establish BTicino SIP session: {err}"
-            ) from err
+            raise ConfigEntryNotReady(f"Unable to establish BTicino SIP session: {err}") from err
     else:
         ir.async_create_issue(
-            hass, DOMAIN, f"missing_certificate_{entry.entry_id}",
-            is_fixable=False, severity=ir.IssueSeverity.WARNING,
+            hass,
+            DOMAIN,
+            f"missing_certificate_{entry.entry_id}",
+            is_fixable=False,
+            severity=ir.IssueSeverity.WARNING,
             translation_key="missing_certificate",
             translation_placeholders={"entry_title": entry.title},
         )
@@ -227,12 +266,17 @@ async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> b
     call_journal.attach(runtime_event_bus)
 
     entry.runtime_data = BTDoorRuntimeData(
-        client=client, store=store, debug=debug, event_bus=runtime_event_bus,
+        client=client,
+        store=store,
+        debug=debug,
+        event_bus=runtime_event_bus,
         call_journal=call_journal,
         language=str(hass.config.language or "en"),
     )
     entry.runtime_data.developer = DeveloperTools(
-        hass, entry, entry.runtime_data,
+        hass,
+        entry,
+        entry.runtime_data,
         bool(entry.options.get(CONF_DEVELOPER_MODE, DEFAULT_DEVELOPER_MODE)),
     )
     entry.runtime_data.api = BTDoorRuntimeAPI(entry, entry.runtime_data)
@@ -322,9 +366,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> b
     return True
 
 
-def _async_remove_legacy_gate_entities(
-    hass: HomeAssistant, entry: BticinoConfigEntry
-) -> None:
+def _async_remove_legacy_gate_entities(hass: HomeAssistant, entry: BticinoConfigEntry) -> None:
     """Remove retired gate entities from the entity registry."""
     if not entry.unique_id:
         return
@@ -340,7 +382,7 @@ def _async_remove_legacy_gate_entities(
             _LOGGER.info("Removed retired BTDoor gate entity: %s", entity_id)
 
 
-async def _async_cleanup_runtime(runtime: "BTDoorRuntimeData") -> None:
+async def _async_cleanup_runtime(runtime: BTDoorRuntimeData) -> None:
     """Release resources allocated during setup or normal unload."""
     if runtime.renewal_unsub is not None:
         runtime.renewal_unsub()
@@ -367,9 +409,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: BticinoConfigEntry) -> 
                     payload={"entry_id": entry.entry_id},
                 )
             )
-        await entry.runtime_data.store.async_save(
-            entry.runtime_data.client.export_state()
-        )
+        await entry.runtime_data.store.async_save(entry.runtime_data.client.export_state())
         await _async_cleanup_runtime(entry.runtime_data)
     return unloaded
 
@@ -400,14 +440,10 @@ async def _async_migrate_debug_storage(hass: HomeAssistant, entry: BticinoConfig
 
 def _certificate_storage_dir(hass: HomeAssistant, gateway_id: str) -> Path:
     """Return the requested certificate directory inside the integration."""
-    return Path(
-        hass.config.path("custom_components", DOMAIN, "certificate", str(gateway_id))
-    )
+    return Path(hass.config.path("custom_components", DOMAIN, "certificate", str(gateway_id)))
 
 
-def _copy_certificate_material(
-    source_dir: Path, destination_dir: Path
-) -> dict[str, str]:
+def _copy_certificate_material(source_dir: Path, destination_dir: Path) -> dict[str, str]:
     """Copy existing certificate material to the integration certificate folder."""
     destination_dir.mkdir(parents=True, exist_ok=True)
     result: dict[str, str] = {}
@@ -442,8 +478,10 @@ async def _async_migrate_certificate_storage(
     if not gateway_id:
         return
     destination = _certificate_storage_dir(hass, gateway_id)
-    current_cert = Path(str(data.get(CONF_CLIENT_CERT_PATH, ""))).expanduser()
-    current_key = Path(str(data.get(CONF_CLIENT_KEY_PATH, ""))).expanduser()
+    current_cert = await asyncio.to_thread(
+        Path(str(data.get(CONF_CLIENT_CERT_PATH, ""))).expanduser
+    )
+    current_key = await asyncio.to_thread(Path(str(data.get(CONF_CLIENT_KEY_PATH, ""))).expanduser)
     already_migrated = await asyncio.to_thread(
         lambda: (
             current_cert.parent == destination
@@ -482,18 +520,14 @@ async def _async_migrate_certificate_storage(
     for source_dir in source_dirs:
         if await asyncio.to_thread(source_dir.is_dir):
             updates.update(
-                await asyncio.to_thread(
-                    _copy_certificate_material, source_dir, destination
-                )
+                await asyncio.to_thread(_copy_certificate_material, source_dir, destination)
             )
         if CONF_CLIENT_CERT_PATH in updates and CONF_CLIENT_KEY_PATH in updates:
             break
     if updates:
         data.update(updates)
         hass.config_entries.async_update_entry(entry, data=data)
-        _LOGGER.info(
-            "Migrated BTicino certificate material to %s", destination
-        )
+        _LOGGER.info("Migrated BTicino certificate material to %s", destination)
 
 
 async def _async_renew_certificate_if_needed(
@@ -515,9 +549,7 @@ async def _async_renew_certificate_if_needed(
     if not email or not password:
         return False
 
-    expiry = await asyncio.to_thread(
-        certificate_expiry, data.get(CONF_CLIENT_CERT_PATH, "")
-    )
+    expiry = await asyncio.to_thread(certificate_expiry, data.get(CONF_CLIENT_CERT_PATH, ""))
     now = datetime.now(UTC)
     if expiry is not None and expiry - now > CERTIFICATE_RENEW_BEFORE:
         return False
@@ -556,8 +588,10 @@ async def _async_renew_certificate_if_needed(
     except BticinoCloudAuthenticationError as err:
         raise ConfigEntryAuthFailed("BTicino cloud credentials rejected") from err
     except BticinoCloudConnectionError as err:
-        cert_path = Path(str(data.get(CONF_CLIENT_CERT_PATH, ""))).expanduser()
-        key_path = Path(str(data.get(CONF_CLIENT_KEY_PATH, ""))).expanduser()
+        cert_path = await asyncio.to_thread(
+            Path(str(data.get(CONF_CLIENT_CERT_PATH, ""))).expanduser
+        )
+        key_path = await asyncio.to_thread(Path(str(data.get(CONF_CLIENT_KEY_PATH, ""))).expanduser)
         if await asyncio.to_thread(lambda: cert_path.is_file() and key_path.is_file()):
             _LOGGER.warning(
                 "Unable to check or renew the BTicino certificate because the "
@@ -566,12 +600,12 @@ async def _async_renew_certificate_if_needed(
                 err,
             )
             return False
-        raise ConfigEntryNotReady(
-            f"Unable to provision BTicino certificate: {err}"
-        ) from err
+        raise ConfigEntryNotReady(f"Unable to provision BTicino certificate: {err}") from err
     except BticinoCloudError as err:
-        cert_path = Path(str(data.get(CONF_CLIENT_CERT_PATH, ""))).expanduser()
-        key_path = Path(str(data.get(CONF_CLIENT_KEY_PATH, ""))).expanduser()
+        cert_path = await asyncio.to_thread(
+            Path(str(data.get(CONF_CLIENT_CERT_PATH, ""))).expanduser
+        )
+        key_path = await asyncio.to_thread(Path(str(data.get(CONF_CLIENT_KEY_PATH, ""))).expanduser)
         if await asyncio.to_thread(lambda: cert_path.is_file() and key_path.is_file()):
             _LOGGER.warning(
                 "Unable to renew the BTicino certificate. Continuing with the "
@@ -609,9 +643,7 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     if entry.version == 1:
         data = dict(entry.data)
         data.setdefault(CONF_DEVICE_NAME, entry.title or DEFAULT_DEVICE_NAME)
-        hass.config_entries.async_update_entry(
-            entry, data=data, version=2, minor_version=0
-        )
+        hass.config_entries.async_update_entry(entry, data=data, version=2, minor_version=0)
     return True
 
 

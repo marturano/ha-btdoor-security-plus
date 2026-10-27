@@ -1,6 +1,6 @@
 # Release Decision Report
 
-**Generated:** 2026-07-27
+**Generated:** 2026-10-27
 **Target:** 1.1.0 Final
 **Decision:** **BLOCKED**
 

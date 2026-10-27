@@ -1,4 +1,5 @@
 """Tests for Support Bundle v2 pure aggregation helpers."""
+
 from custom_components.btdoor_security_plus.support_models import build_timeline_summary
 
 

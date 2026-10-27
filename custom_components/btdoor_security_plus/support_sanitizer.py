@@ -1,8 +1,9 @@
 """Central sanitization policy for exported BTDoor Security+ diagnostics."""
+
 from __future__ import annotations
 
-from enum import StrEnum
 import hashlib
+from enum import StrEnum
 from typing import Any
 
 from .support_debug import redact_support_text

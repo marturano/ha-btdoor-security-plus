@@ -1,8 +1,10 @@
 """Resolve dashboard entities from stable integration unique IDs."""
+
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
-from typing import Any, Iterable
+from typing import Any
 
 
 @dataclass(frozen=True, slots=True)
@@ -56,10 +58,15 @@ class DashboardEntityResolver:
     """Resolve entities without relying on user-editable entity IDs."""
 
     @staticmethod
-    def resolve(entries: Iterable[Any], *, config_entry_id: str | None = None) -> DashboardEntityMap:
+    def resolve(
+        entries: Iterable[Any], *, config_entry_id: str | None = None
+    ) -> DashboardEntityMap:
         resolved: dict[str, str | None] = {key: None for key in _SUFFIXES}
         for entry in entries:
-            if config_entry_id is not None and getattr(entry, "config_entry_id", None) != config_entry_id:
+            if (
+                config_entry_id is not None
+                and getattr(entry, "config_entry_id", None) != config_entry_id
+            ):
                 continue
             unique_id = str(getattr(entry, "unique_id", "") or "")
             entity_id = getattr(entry, "entity_id", None)

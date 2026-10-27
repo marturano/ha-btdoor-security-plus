@@ -1,11 +1,14 @@
 """Compatibility wrappers for localized logical-device names."""
+
 from __future__ import annotations
 
 from ..managers.device_name_provider import DeviceNameProvider
 from ..managers.language_manager import (
     DEFAULT_LANGUAGE,
-    SUPPORTED_LANGUAGE_SET as SUPPORTED_LANGUAGES,
     normalize_language,
+)
+from ..managers.language_manager import (
+    SUPPORTED_LANGUAGE_SET as SUPPORTED_LANGUAGES,
 )
 from .factory import DeviceKind
 

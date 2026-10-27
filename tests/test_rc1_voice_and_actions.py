@@ -30,7 +30,7 @@ def test_open_gate_action_has_audit_fields_and_response() -> None:
 
 def test_assist_sentences_and_handler_are_packaged() -> None:
     voice = (DOMAIN / "voice.py").read_text(encoding="utf-8")
-    assert 'intent_type = INTENT_OPEN_GATE' in voice
+    assert "intent_type = INTENT_OPEN_GATE" in voice
     assert "len(entries) > 1" in voice
     assert '"source": "assist"' in voice
     for language in ("it", "en"):

@@ -1,15 +1,14 @@
 """Optional voice-assistant bridge switches for BTDoor Security+."""
+
 from __future__ import annotations
+
+from typing import TYPE_CHECKING, cast
 
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
-
-
-# Push-driven platform; entity updates do not perform parallel device I/O.
-PARALLEL_UPDATES = 0
 
 from .const import (
     ATTR_ENTRY_ID,
@@ -22,6 +21,12 @@ from .const import (
 )
 from .device_model import DeviceKind
 from .entity import BticinoDoorEntryEntity
+
+if TYPE_CHECKING:
+    from .service_models import GateActionResult
+
+# Push-driven platform; entity updates do not perform parallel device I/O.
+PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
@@ -68,7 +73,7 @@ class BTDoorGateVoiceBridgeSwitch(BticinoDoorEntryEntity, SwitchEntity):
             return_response=True,
             context=self._context,
         )
-        result = (response or {}).get(self._entry.entry_id, {})
+        result = cast("GateActionResult", (response or {}).get(self._entry.entry_id, {}))
         if not result.get("success"):
             raise HomeAssistantError(
                 translation_domain=DOMAIN,

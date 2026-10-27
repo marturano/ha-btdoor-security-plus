@@ -117,17 +117,20 @@ def _complete_run(run_id: str, version: str) -> Path:
     work = ROOT / "target-validation-work" / run_id
     if work.exists():
         import shutil
+
         shutil.rmtree(work)
     assert run_tool("init", "--run-id", run_id).returncode == 0
     evidence = work / "evidence" / "proof.txt"
     evidence.write_text("sanitized evidence\n", encoding="utf-8")
     result_path = work / "result.json"
     data = json.loads(result_path.read_text(encoding="utf-8"))
-    data["environment"].update({
-        "home_assistant_version": version,
-        "installation_type": "Home Assistant OS",
-        "host": "ha-target",
-    })
+    data["environment"].update(
+        {
+            "home_assistant_version": version,
+            "installation_type": "Home Assistant OS",
+            "host": "ha-target",
+        }
+    )
     for section in data["sections"].values():
         section["status"] = "VALIDATED"
         for check in section["checks"].values():
@@ -154,6 +157,7 @@ def test_validate_accepts_supported_2026_series_target() -> None:
         assert payload["reference_target"] is False
     finally:
         import shutil
+
         shutil.rmtree(work)
 
 
@@ -167,6 +171,7 @@ def test_status_marks_2026_7_as_reference_target() -> None:
         assert payload["reference_target"] is True
     finally:
         import shutil
+
         shutil.rmtree(work)
 
 
@@ -179,6 +184,7 @@ def test_validate_rejects_non_2026_target() -> None:
         assert "supported 2026.x series" in result.stdout
     finally:
         import shutil
+
         shutil.rmtree(work)
 
 
@@ -194,6 +200,7 @@ def test_validate_rejects_result_run_id_mismatch() -> None:
     work = ROOT / "target-validation-work" / run_id
     if work.exists():
         import shutil
+
         shutil.rmtree(work)
     try:
         assert run_tool("init", "--run-id", run_id).returncode == 0
@@ -207,4 +214,5 @@ def test_validate_rejects_result_run_id_mismatch() -> None:
     finally:
         if work.exists():
             import shutil
+
             shutil.rmtree(work)

@@ -1,4 +1,5 @@
 """Regression tests for alpha.26 persistent media snapshots."""
+
 from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
@@ -8,7 +9,7 @@ from custom_components.btdoor_security_plus.sip_client import BticinoSipClient
 
 def _client_without_init() -> BticinoSipClient:
     client = object.__new__(BticinoSipClient)
-    client.media_session_history = __import__('collections').deque(maxlen=10)
+    client.media_session_history = __import__("collections").deque(maxlen=10)
     client.last_completed_media_session = None
     client.media_runtime_state = "closed"
     client.media_runtime_call_id = "call-1"
@@ -29,16 +30,28 @@ def _client_without_init() -> BticinoSipClient:
     client.media_trace_id = "MT-000001"
     client.media_trace_state = "closed"
     client.media_trace_error = None
-    client.media_trace = __import__('collections').deque([{"stage": "prepared"}], maxlen=100)
+    client.media_trace = __import__("collections").deque([{"stage": "prepared"}], maxlen=100)
     return client
 
 
 def test_media_metrics_aggregate_history() -> None:
     client = _client_without_init()
-    client.media_session_history.extend([
-        {"duration_seconds": 2.0, "closed_reason": "cancel", "closed_at": "a", "plan": {"audio": {"codec": "SPEEX/8000"}}},
-        {"duration_seconds": 4.0, "closed_reason": "bye", "closed_at": "b", "plan": {"audio": {"codec": "SPEEX/8000"}, "video": {"codec": "H264/90000"}}},
-    ])
+    client.media_session_history.extend(
+        [
+            {
+                "duration_seconds": 2.0,
+                "closed_reason": "cancel",
+                "closed_at": "a",
+                "plan": {"audio": {"codec": "SPEEX/8000"}},
+            },
+            {
+                "duration_seconds": 4.0,
+                "closed_reason": "bye",
+                "closed_at": "b",
+                "plan": {"audio": {"codec": "SPEEX/8000"}, "video": {"codec": "H264/90000"}},
+            },
+        ]
+    )
     metrics = client.media_session_metrics
     assert metrics["retained_sessions"] == 2
     assert metrics["average_duration_seconds"] == 3.0

@@ -1,4 +1,5 @@
 """QS-13 behavioural coverage for SIP dialog, registration and keepalive."""
+
 from __future__ import annotations
 
 import asyncio
@@ -7,7 +8,6 @@ import sys
 import types
 from datetime import UTC, datetime
 from pathlib import Path
-from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
 import pytest
@@ -40,7 +40,11 @@ def _load(name: str):
 
 @pytest.fixture
 def sip():
-    previous = {name: module for name, module in sys.modules.items() if name.startswith("custom_components.btdoor_security_plus")}
+    previous = {
+        name: module
+        for name, module in sys.modules.items()
+        if name.startswith("custom_components.btdoor_security_plus")
+    }
     _reset_package()
     _load("const")
     _load("sip_identity")
@@ -69,16 +73,29 @@ def _client(sip):
 
 
 class Reader:
-    def at_eof(self): return False
+    def at_eof(self):
+        return False
 
 
 class Writer:
-    def __init__(self): self.data = []; self.closed = False
-    def is_closing(self): return self.closed
-    def write(self, data): self.data.append(data)
-    async def drain(self): return None
-    def close(self): self.closed = True
-    async def wait_closed(self): return None
+    def __init__(self):
+        self.data = []
+        self.closed = False
+
+    def is_closing(self):
+        return self.closed
+
+    def write(self, data):
+        self.data.append(data)
+
+    async def drain(self):
+        return None
+
+    def close(self):
+        self.closed = True
+
+    async def wait_closed(self):
+        return None
 
 
 def _headers(method="INVITE", call_id="call-13"):
@@ -101,10 +118,14 @@ async def test_invite_sdp_then_cancel_terminates_dialog(sip):
     client._async_send_response = AsyncMock()
     events = []
     client.add_listener(lambda event, data: events.append((event, data)))
-    sdp = (b"v=0\r\no=- 1 1 IN IP4 10.0.0.2\r\ns=Door\r\nc=IN IP4 10.0.0.2\r\n"
-           b"t=0 0\r\nm=audio 4000 RTP/AVP 0\r\na=sendrecv\r\n")
+    sdp = (
+        b"v=0\r\no=- 1 1 IN IP4 10.0.0.2\r\ns=Door\r\nc=IN IP4 10.0.0.2\r\n"
+        b"t=0 0\r\nm=audio 4000 RTP/AVP 0\r\na=sendrecv\r\n"
+    )
     headers = _headers()
-    await client._async_handle_request(session, "INVITE sip:user@example.com SIP/2.0", headers, sdp, packet_id=13)
+    await client._async_handle_request(
+        session, "INVITE sip:user@example.com SIP/2.0", headers, sdp, packet_id=13
+    )
     assert client.ringing is True
     assert client.call_state == "ringing"
     assert client.invite_received_count == 1
@@ -116,7 +137,9 @@ async def test_invite_sdp_then_cancel_terminates_dialog(sip):
 
     cancel = _headers("CANCEL")
     cancel["content-type"] = [""]
-    await client._async_handle_request(session, "CANCEL sip:user@example.com SIP/2.0", cancel, b"", packet_id=14)
+    await client._async_handle_request(
+        session, "CANCEL sip:user@example.com SIP/2.0", cancel, b"", packet_id=14
+    )
     assert client.ringing is False
     assert client.call_state == "missed"
     assert client.dialog_state == "terminated"
@@ -136,7 +159,9 @@ async def test_bye_and_timeout_paths(sip, monkeypatch):
     client.call_started_at = datetime.now(UTC)
     client.last_call_id = "call-bye"
     client._active_call_id = "call-bye"
-    await client._async_handle_request(session, "BYE sip:user@example.com SIP/2.0", _headers("BYE", "call-bye"), b"")
+    await client._async_handle_request(
+        session, "BYE sip:user@example.com SIP/2.0", _headers("BYE", "call-bye"), b""
+    )
     assert client.call_state == "ended"
 
     client2 = _client(sip)
@@ -160,10 +185,16 @@ async def test_register_challenge_success_and_failure(sip):
     reader, writer = Reader(), Writer()
     client._async_connect = AsyncMock(return_value=(reader, writer))
     client._async_write = AsyncMock()
-    client._read_final_response = AsyncMock(side_effect=[
-        (b"401", "SIP/2.0 401 Unauthorized", {"www-authenticate": ['Digest realm="r", nonce="n"']}),
-        (b"200", "SIP/2.0 200 OK", {}),
-    ])
+    client._read_final_response = AsyncMock(
+        side_effect=[
+            (
+                b"401",
+                "SIP/2.0 401 Unauthorized",
+                {"www-authenticate": ['Digest realm="r", nonce="n"']},
+            ),
+            (b"200", "SIP/2.0 200 OK", {}),
+        ]
+    )
     events = []
     client.add_listener(lambda event, data: events.append(event))
     session, result = await client._async_register()
@@ -189,25 +220,35 @@ async def test_prime_proxy_auth_keepalive_and_response_building(sip, monkeypatch
     session = sip.SipSession(Reader(), writer, "i", "c", "p", "u")
     client._session = session
     client._async_write = AsyncMock()
-    client._read_final_response = AsyncMock(return_value=(b"407", "SIP/2.0 407 Proxy Authentication Required", {"proxy-authenticate": ['Digest realm="r", nonce="n"']}))
+    client._read_final_response = AsyncMock(
+        return_value=(
+            b"407",
+            "SIP/2.0 407 Proxy Authentication Required",
+            {"proxy-authenticate": ['Digest realm="r", nonce="n"']},
+        )
+    )
     await client._async_prime_proxy_auth()
     assert client._message_challenge is not None
     assert client._message_auth_name == "Proxy-Authorization"
 
     client._async_ensure_session = AsyncMock(return_value=session)
     sleeps = 0
+
     async def one_sleep(_):
         nonlocal sleeps
         sleeps += 1
         if sleeps > 1:
             raise asyncio.CancelledError
+
     monkeypatch.setattr(asyncio, "sleep", one_sleep)
     with pytest.raises(asyncio.CancelledError):
         await client._async_keepalive_loop()
     assert client.last_keepalive_at is not None
 
     client._async_write = AsyncMock()
-    await client._async_send_response(writer, 200, "OK", _headers("OPTIONS"), add_to_tag=True, to_tag="local")
+    await client._async_send_response(
+        writer, 200, "OK", _headers("OPTIONS"), add_to_tag=True, to_tag="local"
+    )
     payload = client._async_write.await_args.args[1].decode()
     assert payload.startswith("SIP/2.0 200 OK")
     assert "To: <sip:user@example.com>;tag=local" in payload

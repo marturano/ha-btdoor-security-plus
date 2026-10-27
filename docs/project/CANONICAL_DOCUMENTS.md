@@ -1,6 +1,6 @@
 # Canonical Documents Registry
 
-**Generated:** 2026-07-27
+**Generated:** 2026-10-27
 
 This registry defines the single source of truth for each governed project area. Derived documents may summarize or operationalize canonical content but must not redefine it.
 

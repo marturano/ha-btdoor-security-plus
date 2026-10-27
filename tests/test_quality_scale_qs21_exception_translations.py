@@ -1,4 +1,5 @@
 """QS-21 behavioural evidence for translated user-facing exceptions."""
+
 from __future__ import annotations
 
 import json

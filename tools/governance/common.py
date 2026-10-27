@@ -1,9 +1,11 @@
 from __future__ import annotations
+
 import json
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+
 
 @dataclass
 class CheckResult:
@@ -20,12 +22,15 @@ class CheckResult:
     def to_dict(self) -> dict:
         return asdict(self)
 
+
 def exists(rel: str) -> bool:
     return (ROOT / rel).exists()
+
 
 def read(rel: str) -> str:
     path = ROOT / rel
     return path.read_text(encoding="utf-8") if path.exists() else ""
+
 
 def write_json(path: Path, payload: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)

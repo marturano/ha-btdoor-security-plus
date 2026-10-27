@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Render the governed Project Health Dashboard from project_health.json."""
+
 from __future__ import annotations
+
 import json
 from pathlib import Path
 
@@ -38,8 +40,12 @@ def main() -> int:
         "## Executive health",
         "",
         f"- **Governed assessment score:** **{overall}/100 — {label}**",
-        f"- **Automated evidence-adjusted health:** **{calculated['health_score']}/100**" if calculated else "- **Automated evidence-adjusted health:** not generated",
-        f"- **Governance compliance score:** **{calculated['compliance_score']}/100**" if calculated else "- **Governance compliance score:** not generated",
+        f"- **Automated evidence-adjusted health:** **{calculated['health_score']}/100**"
+        if calculated
+        else "- **Automated evidence-adjusted health:** not generated",
+        f"- **Governance compliance score:** **{calculated['compliance_score']}/100**"
+        if calculated
+        else "- **Governance compliance score:** not generated",
         f"- **Blocking domains:** **{len(blockers)}**",
         f"- **Domains not started:** **{len(not_started)}**",
         "- **Interpretation:** package integrity is strong, but Final Release readiness remains constrained by measured benchmarks, security/runtime evidence, compatibility execution and HACS/GitHub publication validation.",
@@ -51,7 +57,9 @@ def main() -> int:
         "|---|---:|---:|---|---|---|",
     ]
     for item in domains:
-        lines.append(f"| {item['name']} | {item['weight']}% | {item['score']} | {item['status']} | `{bar(item['score'])}` | {item['next_action']} |")
+        lines.append(
+            f"| {item['name']} | {item['weight']}% | {item['score']} | {item['status']} | `{bar(item['score'])}` | {item['next_action']} |"
+        )
     lines += ["", "## Blocking path to 1.1.0 Final", ""]
     ordered = blockers + not_started
     if not ordered:
@@ -80,6 +88,7 @@ def main() -> int:
     OUTPUT.write_text("\n".join(lines), encoding="utf-8")
     print(f"Rendered {OUTPUT.relative_to(ROOT)} with score {overall}/100")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -1,4 +1,5 @@
 """QS-4 behavioural coverage for services and cloud helpers."""
+
 from __future__ import annotations
 
 import asyncio
@@ -17,7 +18,14 @@ PKG = ROOT / "custom_components" / "btdoor_security_plus"
 
 
 class HomeAssistantError(Exception):
-    def __init__(self, message=None, *, translation_domain=None, translation_key=None, translation_placeholders=None):
+    def __init__(
+        self,
+        message=None,
+        *,
+        translation_domain=None,
+        translation_key=None,
+        translation_placeholders=None,
+    ):
         self.translation_domain = translation_domain
         self.translation_key = translation_key
         self.translation_placeholders = translation_placeholders or {}
@@ -89,7 +97,9 @@ def _load(name: str):
 
 def _install_services_stubs():
     for name in list(sys.modules):
-        if name.startswith("custom_components.btdoor_security_plus") or name.startswith("homeassistant"):
+        if name.startswith("custom_components.btdoor_security_plus") or name.startswith(
+            "homeassistant"
+        ):
             sys.modules.pop(name, None)
     root = types.ModuleType("custom_components")
     root.__path__ = [str(ROOT / "custom_components")]
@@ -122,14 +132,16 @@ def _install_services_stubs():
     er.async_get = lambda hass: hass.entity_registry
     helpers.config_validation = cv
     helpers.entity_registry = er
-    sys.modules.update({
-        "homeassistant": ha,
-        "homeassistant.core": core,
-        "homeassistant.exceptions": exc,
-        "homeassistant.helpers": helpers,
-        cv.__name__: cv,
-        er.__name__: er,
-    })
+    sys.modules.update(
+        {
+            "homeassistant": ha,
+            "homeassistant.core": core,
+            "homeassistant.exceptions": exc,
+            "homeassistant.helpers": helpers,
+            cv.__name__: cv,
+            er.__name__: er,
+        }
+    )
 
 
 @pytest.fixture
@@ -137,16 +149,20 @@ def services_module():
     _install_services_stubs()
     const = _load("const")
     developer = types.ModuleType("custom_components.btdoor_security_plus.developer")
+
     class DeveloperModeDisabledError(Exception):
         pass
+
     developer.DeveloperModeDisabledError = DeveloperModeDisabledError
     sys.modules[developer.__name__] = developer
     event_bus = types.ModuleType("custom_components.btdoor_security_plus.event_bus")
     event_bus.RuntimeEvent = SimpleNamespace(from_dict=lambda item: SimpleNamespace(**item))
     sys.modules[event_bus.__name__] = event_bus
     sip = types.ModuleType("custom_components.btdoor_security_plus.sip_client")
+
     class BticinoSipError(Exception):
         pass
+
     sip.BticinoSipError = BticinoSipError
     sys.modules[sip.__name__] = sip
     return _load("services"), const, DeveloperModeDisabledError, BticinoSipError
@@ -173,8 +189,10 @@ def _entry(entry_id="entry-1"):
             async_clean_debug_environment=AsyncMock(return_value={"clean": True}),
         ),
         call_journal=SimpleNamespace(
-            async_clear=AsyncMock(), export_state=lambda: {"calls": []},
-            async_rebuild=AsyncMock(), metrics={"total": 1},
+            async_clear=AsyncMock(),
+            export_state=lambda: {"calls": []},
+            async_rebuild=AsyncMock(),
+            metrics={"total": 1},
         ),
         event_bus=SimpleNamespace(history=[{"event_type": "incoming_call", "payload": {}}]),
     )
@@ -186,12 +204,21 @@ async def test_services_selection_registration_and_handlers(tmp_path, services_m
     services, const, _, _ = services_module
     first, second = _entry(), _entry("entry-2")
     hass = _Hass([first, second], tmp_path)
-    hass.entity_registry = SimpleNamespace(async_get=lambda entity_id: SimpleNamespace(config_entry_id="entry-2") if entity_id == "button.gate" else None)
+    hass.entity_registry = SimpleNamespace(
+        async_get=lambda entity_id: (
+            SimpleNamespace(config_entry_id="entry-2") if entity_id == "button.gate" else None
+        )
+    )
 
     with pytest.raises(HomeAssistantError):
         services._service_entries(hass, SimpleNamespace(data={}), require_single=True)
-    assert services._service_entries(hass, SimpleNamespace(data={"entry_id": "entry-1"}))[0] is first
-    assert services._service_entries(hass, SimpleNamespace(data={"entity_id": "button.gate"}))[0] is second
+    assert (
+        services._service_entries(hass, SimpleNamespace(data={"entry_id": "entry-1"}))[0] is first
+    )
+    assert (
+        services._service_entries(hass, SimpleNamespace(data={"entity_id": "button.gate"}))[0]
+        is second
+    )
     with pytest.raises(HomeAssistantError):
         services._service_entries(hass, SimpleNamespace(data={"entry_id": "missing"}))
 
@@ -208,18 +235,47 @@ async def test_services_selection_registration_and_handlers(tmp_path, services_m
     assert first.runtime_data.last_result == "opened"
     assert hass.bus.events[-1][1]["event_type"] == "gate_open_succeeded"
 
-    await hass.services.handlers[(const.DOMAIN, const.SERVICE_RESET_STATISTICS)][0](call({"entry_id": "entry-1"}))
+    await hass.services.handlers[(const.DOMAIN, const.SERVICE_RESET_STATISTICS)][0](
+        call({"entry_id": "entry-1"})
+    )
     first.runtime_data.store.async_save.assert_awaited_once_with({"ok": True})
-    await hass.services.handlers[(const.DOMAIN, const.SERVICE_TEST_CONNECTION)][0](call({"entry_id": "entry-1"}))
-    await hass.services.handlers[(const.DOMAIN, const.SERVICE_REJECT_CALL)][0](call({"entry_id": "entry-1"}))
-    assert (await hass.services.handlers[(const.DOMAIN, const.SERVICE_DEVELOPER_TEST)][0](call({"entry_id": "entry-1", "test": "sip"})))["entry-1"] == {"status": "ok"}
-    assert (await hass.services.handlers[(const.DOMAIN, const.SERVICE_GENERATE_SUPPORT_REPORT)][0](call({"entry_id": "entry-1", "include_logs": False})))["entry-1"] == {"path": "report"}
-    assert (await hass.services.handlers[(const.DOMAIN, const.SERVICE_CLEAN_DEBUG_ENVIRONMENT)][0](call({"entry_id": "entry-1"})))["entry-1"] == {"clean": True}
-    assert (await hass.services.handlers[(const.DOMAIN, const.SERVICE_CLEAR_CALL_JOURNAL)][0](call({"entry_id": "entry-1"})))["entry-1"] == {"cleared": True}
-    export = await hass.services.handlers[(const.DOMAIN, const.SERVICE_EXPORT_CALL_JOURNAL)][0](call({"entry_id": "entry-1"}))
+    await hass.services.handlers[(const.DOMAIN, const.SERVICE_TEST_CONNECTION)][0](
+        call({"entry_id": "entry-1"})
+    )
+    await hass.services.handlers[(const.DOMAIN, const.SERVICE_REJECT_CALL)][0](
+        call({"entry_id": "entry-1"})
+    )
+    assert (
+        await hass.services.handlers[(const.DOMAIN, const.SERVICE_DEVELOPER_TEST)][0](
+            call({"entry_id": "entry-1", "test": "sip"})
+        )
+    )["entry-1"] == {"status": "ok"}
+    assert (
+        await hass.services.handlers[(const.DOMAIN, const.SERVICE_GENERATE_SUPPORT_REPORT)][0](
+            call({"entry_id": "entry-1", "include_logs": False})
+        )
+    )["entry-1"] == {"path": "report"}
+    assert (
+        await hass.services.handlers[(const.DOMAIN, const.SERVICE_CLEAN_DEBUG_ENVIRONMENT)][0](
+            call({"entry_id": "entry-1"})
+        )
+    )["entry-1"] == {"clean": True}
+    assert (
+        await hass.services.handlers[(const.DOMAIN, const.SERVICE_CLEAR_CALL_JOURNAL)][0](
+            call({"entry_id": "entry-1"})
+        )
+    )["entry-1"] == {"cleared": True}
+    export = await hass.services.handlers[(const.DOMAIN, const.SERVICE_EXPORT_CALL_JOURNAL)][0](
+        call({"entry_id": "entry-1"})
+    )
     exported = Path(export["entry-1"]["path"])
-    assert exported.exists() and json.loads(exported.read_text())["calls"] == []
-    rebuilt = await hass.services.handlers[(const.DOMAIN, const.SERVICE_REBUILD_CALL_JOURNAL)][0](call({"entry_id": "entry-1"}))
+    assert (
+        await asyncio.to_thread(exported.exists)
+        and json.loads(await asyncio.to_thread(exported.read_text))["calls"] == []
+    )
+    rebuilt = await hass.services.handlers[(const.DOMAIN, const.SERVICE_REBUILD_CALL_JOURNAL)][0](
+        call({"entry_id": "entry-1"})
+    )
     assert rebuilt["entry-1"] == {"total": 1}
 
     services.async_unregister_services(hass)
@@ -233,7 +289,9 @@ async def test_services_error_paths(tmp_path, services_module, monkeypatch):
     hass = _Hass([entry], tmp_path)
     hass.entity_registry = SimpleNamespace(async_get=lambda entity_id: None)
     await services.async_register_services(hass)
-    call = lambda data=None: SimpleNamespace(data=data or {"entry_id": "entry-1"}, context=None)
+
+    def call(data=None):
+        return SimpleNamespace(data=data or {"entry_id": "entry-1"}, context=None)
 
     entry.runtime_data.client.async_open_gate = AsyncMock(side_effect=BticinoSipError("offline"))
     result = await hass.services.handlers[(const.DOMAIN, const.SERVICE_OPEN_GATE)][0](call())
@@ -248,13 +306,19 @@ async def test_services_error_paths(tmp_path, services_module, monkeypatch):
     with pytest.raises(HomeAssistantError) as exc_info:
         await hass.services.handlers[(const.DOMAIN, const.SERVICE_REJECT_CALL)][0](call())
     assert exc_info.value.translation_key == "call_rejection_failed"
-    entry.runtime_data.developer.async_run_tests = AsyncMock(side_effect=DeveloperModeDisabledError("disabled"))
+    entry.runtime_data.developer.async_run_tests = AsyncMock(
+        side_effect=DeveloperModeDisabledError("disabled")
+    )
     with pytest.raises(HomeAssistantError) as exc_info:
         await hass.services.handlers[(const.DOMAIN, const.SERVICE_DEVELOPER_TEST)][0](call())
     assert exc_info.value.translation_key == "developer_mode_disabled"
-    entry.runtime_data.developer.async_generate_support_report = AsyncMock(side_effect=DeveloperModeDisabledError("disabled"))
+    entry.runtime_data.developer.async_generate_support_report = AsyncMock(
+        side_effect=DeveloperModeDisabledError("disabled")
+    )
     with pytest.raises(HomeAssistantError) as exc_info:
-        await hass.services.handlers[(const.DOMAIN, const.SERVICE_GENERATE_SUPPORT_REPORT)][0](call())
+        await hass.services.handlers[(const.DOMAIN, const.SERVICE_GENERATE_SUPPORT_REPORT)][0](
+            call()
+        )
     assert exc_info.value.translation_key == "developer_mode_disabled"
 
 
@@ -289,7 +353,10 @@ def test_cloud_parsing_and_identity_helpers(tmp_path):
     assert cloud._get({"GatewayId": "abc"}, "gatewayid") == "abc"
     assert cloud._decode_certificate_response(b"plain") == b"plain"
 
-    key = tmp_path / "key.pem"; cert = tmp_path / "cert.pem"; full = tmp_path / "full.pem"; chain = tmp_path / "chain.pem"
+    key = tmp_path / "key.pem"
+    cert = tmp_path / "cert.pem"
+    full = tmp_path / "full.pem"
+    chain = tmp_path / "chain.pem"
     cloud._write_certificate_files(key, cert, full, chain, b"KEY", b"CERT", b"CHAIN")
     assert key.read_bytes() == b"KEY" and full.read_bytes() == b"CERTCHAIN"
     cloud._write_certificate_files(key, cert, full, chain, b"KEY2", b"CERT2", None)
@@ -300,7 +367,9 @@ def test_cloud_parsing_and_identity_helpers(tmp_path):
 @pytest.mark.asyncio
 async def test_cloud_client_login_gateways_and_sip_reuse(tmp_path):
     cloud = _load_cloud()
-    client = cloud.BticinoCloudClient(SimpleNamespace(), email=" user@example.com ", password="pw", base_url="https://x/")
+    client = cloud.BticinoCloudClient(
+        SimpleNamespace(), email=" user@example.com ", password="pw", base_url="https://x/"
+    )
     assert client.email == "user@example.com" and client.base_url == "https://x"
 
     client._request = AsyncMock(return_value=({"auth_token": "token"}, {}))
@@ -312,18 +381,50 @@ async def test_cloud_client_login_gateways_and_sip_reuse(tmp_path):
         await client.async_login()
 
     client.auth_token = "token"
-    client._request = AsyncMock(side_effect=[
-        ({"plants": [{"PlantId": "p1", "PlantName": "Home"}, {"Name": "skip"}]}, {}),
-        ({"gateways": [{"GatewayId": "g1", "Name": "Front"}, {"Name": "skip"}]}, {}),
-    ])
+    client._request = AsyncMock(
+        side_effect=[
+            ({"plants": [{"PlantId": "p1", "PlantName": "Home"}, {"Name": "skip"}]}, {}),
+            ({"gateways": [{"GatewayId": "g1", "Name": "Front"}, {"Name": "skip"}]}, {}),
+        ]
+    )
     gateways = await client.async_list_gateways()
     assert gateways == [cloud.PlantGateway("p1", "Home", "g1", "Front")]
 
     selection = gateways[0]
-    client._request = AsyncMock(return_value=({"users": [{"SipAccount": "user-example.com-id@g1.bs.iotleg.com", "SipPassword": "pw", "IdDevice": "id"}]}, {}))
-    user = await client._async_get_or_create_sip_user(selection=selection, device_name="HA", id_device="id")
+    client._request = AsyncMock(
+        return_value=(
+            {
+                "users": [
+                    {
+                        "SipAccount": "user-example.com-id@g1.bs.iotleg.com",
+                        "SipPassword": "pw",
+                        "IdDevice": "id",
+                    }
+                ]
+            },
+            {},
+        )
+    )
+    user = await client._async_get_or_create_sip_user(
+        selection=selection, device_name="HA", id_device="id"
+    )
     assert user["SipPassword"] == "pw"
 
-    client._request = AsyncMock(side_effect=[({"users": []}, {}), ({"users": [{"SipAccount": "new", "SipPassword": "pw"}]}, {}), ({"users": [{"SipAccount": "user-example.com-id@g1.bs.iotleg.com", "SipPassword": "pw"}]}, {})])
-    created = await client._async_get_or_create_sip_user(selection=selection, device_name="HA", id_device="id")
+    client._request = AsyncMock(
+        side_effect=[
+            ({"users": []}, {}),
+            ({"users": [{"SipAccount": "new", "SipPassword": "pw"}]}, {}),
+            (
+                {
+                    "users": [
+                        {"SipAccount": "user-example.com-id@g1.bs.iotleg.com", "SipPassword": "pw"}
+                    ]
+                },
+                {},
+            ),
+        ]
+    )
+    created = await client._async_get_or_create_sip_user(
+        selection=selection, device_name="HA", id_device="id"
+    )
     assert created["SipPassword"] == "pw"

@@ -81,7 +81,9 @@ def create_plan(report: dict, config: dict) -> dict:
     required = config["release_minimum_tier"]
     maximum = config.get("maximum_governed_tier", desired)
     if desired != "gold" or required != "gold" or maximum != "gold":
-        raise ValueError("Project Quality Scale policy requires desired, minimum and maximum governed tier to remain GOLD")
+        raise ValueError(
+            "Project Quality Scale policy requires desired, minimum and maximum governed tier to remain GOLD"
+        )
     max_index = tier_index(desired)
     items = []
     for rule in report["rules"]:
@@ -127,9 +129,7 @@ def create_plan(report: dict, config: dict) -> dict:
 
 
 def write_plan(plan: dict) -> None:
-    PLAN_JSON.write_text(
-        json.dumps(plan, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
+    PLAN_JSON.write_text(json.dumps(plan, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     lines = [
         "# Home Assistant Quality Scale Remediation Plan",
         "",
@@ -197,12 +197,17 @@ def main() -> int:
         "desired_tier": plan["desired_tier"],
         "maximum_governed_tier": plan["maximum_governed_tier"],
         "platinum_policy": plan["platinum_policy"],
-        "gold_policy_verified": plan["current_tier"] == "gold" and plan["desired_tier"] == "gold" and plan["release_minimum_tier"] == "gold" and plan["maximum_governed_tier"] == "gold",
+        "gold_policy_verified": plan["current_tier"] == "gold"
+        and plan["desired_tier"] == "gold"
+        and plan["release_minimum_tier"] == "gold"
+        and plan["maximum_governed_tier"] == "gold",
         "release_gate_status": plan["release_gate_status"],
         "desired_tier_status": plan["desired_tier_status"],
         "open_remediations": plan["open_items"],
         "automatic_remediations_applied": applied,
-        "workflow_status": "PASS" if REPORT.exists() and PLAN_JSON.exists() and plan["current_tier"] == "gold" else "BLOCKED",
+        "workflow_status": "PASS"
+        if REPORT.exists() and PLAN_JSON.exists() and plan["current_tier"] == "gold"
+        else "BLOCKED",
         "advancement_status": "ALLOWED"
         if plan["release_gate_status"] == "PASS" and plan["current_tier"] == "gold"
         else "BLOCKED",
@@ -213,7 +218,12 @@ def main() -> int:
         f"{status['workflow_status']} | current={status['current_tier'].upper()} | "
         f"desired={status['desired_tier'].upper()} | release={status['advancement_status']}"
     )
-    return 1 if args.command == "check" and (status["advancement_status"] != "ALLOWED" or not status["gold_policy_verified"]) else 0
+    return (
+        1
+        if args.command == "check"
+        and (status["advancement_status"] != "ALLOWED" or not status["gold_policy_verified"])
+        else 0
+    )
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # Decision Traceability
 
-**Generated:** 2026-07-27
+**Generated:** 2026-10-27
 
 | Decision | ADR | Roadmap | CHANGELOG | Engineering Notebook | Release evidence |
 |---|---|---|---|---|---|

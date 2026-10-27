@@ -1,4 +1,5 @@
 """Regression checks for rc.3f device registry support exports."""
+
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,5 +20,6 @@ def test_registry_migration_preserves_user_names() -> None:
 
 def test_manifest_version() -> None:
     import json
+
     data = json.loads((ROOT / "custom_components/btdoor_security_plus/manifest.json").read_text())
     assert data["version"] == "1.1.0-rc.15"

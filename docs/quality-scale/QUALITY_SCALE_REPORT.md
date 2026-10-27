@@ -1,6 +1,6 @@
 # Home Assistant Integration Quality Scale Report
 
-**Generated:** 2026-07-27
+**Generated:** 2026-10-27
 **Assessment:** self-assessment for a custom integration; not an official Home Assistant grade
 **Achieved tier:** **GOLD**
 **Project target:** **GOLD**
@@ -49,7 +49,7 @@
 | Silver | `log-when-unavailable` | DONE | Availability transition logging detected. |
 | Silver | `parallel-updates` | DONE | Platform parallel update limits are declared. |
 | Silver | `reauthentication-flow` | DONE | Reauthentication flow detected. |
-| Silver | `test-coverage` | DONE | Measured integration coverage is 95.08%; above 95% is required. |
+| Silver | `test-coverage` | DONE | Measured integration coverage is 95.01%; above 95% is required. |
 | Gold | `devices` | DONE | Device registry integration detected. |
 | Gold | `diagnostics` | DONE | Diagnostics are implemented. |
 | Gold | `discovery-update-info` | EXEMPT | No supported network discovery mechanism is currently declared. |

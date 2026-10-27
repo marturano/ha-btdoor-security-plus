@@ -1,4 +1,5 @@
 """QS-18 behavioural coverage for residual media and package paths."""
+
 from __future__ import annotations
 
 import base64
@@ -13,10 +14,14 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 PKG = ROOT / "custom_components" / "btdoor_security_plus"
 
+
 def _load_media():
     root = sys.modules.setdefault("custom_components", types.ModuleType("custom_components"))
     root.__path__ = [str(ROOT / "custom_components")]
-    package = sys.modules.setdefault("custom_components.btdoor_security_plus", types.ModuleType("custom_components.btdoor_security_plus"))
+    package = sys.modules.setdefault(
+        "custom_components.btdoor_security_plus",
+        types.ModuleType("custom_components.btdoor_security_plus"),
+    )
     package.__path__ = [str(PKG)]
     name = "custom_components.btdoor_security_plus.media"
     spec = importlib.util.spec_from_file_location(name, PKG / "media.py")
@@ -25,6 +30,7 @@ def _load_media():
     assert spec.loader
     spec.loader.exec_module(module)
     return module
+
 
 media = _load_media()
 
@@ -120,12 +126,20 @@ def test_prepare_media_offer_degraded_and_cleanup(monkeypatch: pytest.MonkeyPatc
 
     bad_crypto = media.SrtpCryptoOffer(1, "AES_CM_128_HMAC_SHA1_80", "inline", "bad")
     audio = SimpleNamespace(
-        media="audio", port=4000, codecs=("0:PCMU/8000",), connection_address="10.0.0.8",
-        protocol="RTP/SAVP", crypto=(bad_crypto,),
+        media="audio",
+        port=4000,
+        codecs=("0:PCMU/8000",),
+        connection_address="10.0.0.8",
+        protocol="RTP/SAVP",
+        crypto=(bad_crypto,),
     )
     video = SimpleNamespace(
-        media="video", port=5000, codecs=("broken",), connection_address="10.0.0.8",
-        protocol="RTP/SAVP", crypto=(),
+        media="video",
+        port=5000,
+        codecs=("broken",),
+        connection_address="10.0.0.8",
+        protocol="RTP/SAVP",
+        crypto=(),
     )
     result = media.prepare_media_offer(SimpleNamespace(media=(audio, video)))
     assert result.state == "degraded"

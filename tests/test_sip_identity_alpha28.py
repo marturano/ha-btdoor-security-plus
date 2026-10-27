@@ -1,9 +1,12 @@
 """Regression tests for normalized caller identity."""
-from pathlib import Path
+
 import importlib.util
 import sys
+from pathlib import Path
 
-MODULE = Path(__file__).parents[1] / "custom_components" / "btdoor_security_plus" / "sip_identity.py"
+MODULE = (
+    Path(__file__).parents[1] / "custom_components" / "btdoor_security_plus" / "sip_identity.py"
+)
 spec = importlib.util.spec_from_file_location("sip_identity_alpha28", MODULE)
 module = importlib.util.module_from_spec(spec)
 assert spec and spec.loader

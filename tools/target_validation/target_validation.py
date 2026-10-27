@@ -6,9 +6,8 @@ import json
 import os
 import re
 import shutil
-import sys
 import urllib.request
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -56,15 +55,11 @@ EVIDENCE_IDS = {
 
 
 def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def validate_run_id(run_id: str) -> str:
-    if (
-        not RUN_ID_PATTERN.fullmatch(run_id)
-        or run_id in {".", ".."}
-        or ".." in run_id
-    ):
+    if not RUN_ID_PATTERN.fullmatch(run_id) or run_id in {".", ".."} or ".." in run_id:
         raise SystemExit(
             "Invalid run id; use 1-128 letters, numbers, dots, underscores, or hyphens "
             "without path separators or '..'"
@@ -158,9 +153,7 @@ def init(run_id: str) -> None:
         "operator_attestation": {"name": "", "date": "", "statement": ""},
         "import_status": "NOT_IMPORTED",
     }
-    (directory / "result.json").write_text(
-        json.dumps(data, indent=2) + "\n", encoding="utf-8"
-    )
+    (directory / "result.json").write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     (directory / "CHECKLIST.md").write_text(checklist_text(data), encoding="utf-8")
     (directory / "README.md").write_text(
         f"# Target validation run {run_id}\n\n"
@@ -323,7 +316,9 @@ def status(run_id: str) -> None:
                 "required_checks": total,
                 "sections": sections,
                 "target_series": "2026.x",
-                "reference_target": str(data.get("environment", {}).get("home_assistant_version", "")).startswith("2026.7."),
+                "reference_target": str(
+                    data.get("environment", {}).get("home_assistant_version", "")
+                ).startswith("2026.7."),
                 "ready_for_import": not errors,
                 "blocking_items": errors,
             },

@@ -1,4 +1,5 @@
 """QS-3 behavioural coverage for the large sensor platform."""
+
 from __future__ import annotations
 
 import asyncio
@@ -55,7 +56,13 @@ def _install_stubs():
     ha = types.ModuleType("homeassistant")
     components = types.ModuleType("homeassistant.components")
     helpers = types.ModuleType("homeassistant.helpers")
-    sys.modules.update({"homeassistant": ha, "homeassistant.components": components, "homeassistant.helpers": helpers})
+    sys.modules.update(
+        {
+            "homeassistant": ha,
+            "homeassistant.components": components,
+            "homeassistant.helpers": helpers,
+        }
+    )
 
     sensor_mod = types.ModuleType("homeassistant.components.sensor")
     sensor_mod.SensorEntity = _SensorEntity
@@ -116,76 +123,161 @@ def _snapshot():
         sip=SimpleNamespace(registered=True, status="200 OK"),
         dialog=SimpleNamespace(state="idle", call_state="idle", caller="Visitor"),
         media=SimpleNamespace(
-            state="ready", ready=True, audio_codec="PCMU", video_codec="H264",
-            srtp_suite="AES_CM_128_HMAC_SHA1_80", duration_seconds=4.2,
+            state="ready",
+            ready=True,
+            audio_codec="PCMU",
+            video_codec="H264",
+            srtp_suite="AES_CM_128_HMAC_SHA1_80",
+            duration_seconds=4.2,
             close_reason="bye",
         ),
     )
-    value.as_dict = lambda: {"gateway": {}, "cloud": {}, "sip": {}, "dialog": {}, "media": {}, "diagnostics": {}}
+    value.as_dict = lambda: {
+        "gateway": {},
+        "cloud": {},
+        "sip": {},
+        "dialog": {},
+        "media": {},
+        "diagnostics": {},
+    }
     return value
 
 
 def _entry(*, developer=True, api=True):
     now = datetime.now(UTC)
     client = SimpleNamespace(
-        registered=True, last_status="200 OK", last_open=now, last_event_type="incoming_call",
-        last_caller="Visitor", last_caller_uri="sip:visitor@example", last_caller_domain="example",
-        last_caller_tag="tag", last_caller_display_name="Visitor", last_caller_raw="raw",
-        last_call_id="call-1", call_state="idle", last_sip_method="INVITE",
-        last_message="hello", last_call_duration=1.234, call_count=3,
-        call_started_at=now-timedelta(seconds=2), call_ended_at=now,
-        missed_call_count=1, message_count=2, last_message_at=now,
-        last_event_at=now, reconnect_count=1, last_error=None,
-        connected_at=now-timedelta(seconds=10), last_command_duration=0.5,
-        last_command_at=now, dialog_state="idle", last_sdp_offer="v=0\n"*100,
-        last_sdp_summary="audio+video", sdp_audio_port=4000, sdp_audio_address="10.0.0.2",
-        sdp_audio_direction="sendrecv", sdp_audio_codecs=("PCMU",),
-        sdp_video_port=5000, sdp_video_address="10.0.0.2", sdp_video_direction="sendrecv",
-        sdp_video_codecs=("H264",), media_runtime_state="prepared",
-        media_runtime={"state":"prepared"}, media_plan={
-            "audio":{"codec":"PCMU"}, "video":{"codec":"H264"},
-            "srtp":{"suite":"AES_CM_128_HMAC_SHA1_80"}},
-        media_session_metrics={"retained_sessions":2},
-        last_completed_media_session={"closed_reason":"bye", "call_id":"call-1", "duration_seconds":4.2},
+        registered=True,
+        last_status="200 OK",
+        last_open=now,
+        last_event_type="incoming_call",
+        last_caller="Visitor",
+        last_caller_uri="sip:visitor@example",
+        last_caller_domain="example",
+        last_caller_tag="tag",
+        last_caller_display_name="Visitor",
+        last_caller_raw="raw",
+        last_call_id="call-1",
+        call_state="idle",
+        last_sip_method="INVITE",
+        last_message="hello",
+        last_call_duration=1.234,
+        call_count=3,
+        call_started_at=now - timedelta(seconds=2),
+        call_ended_at=now,
+        missed_call_count=1,
+        message_count=2,
+        last_message_at=now,
+        last_event_at=now,
+        reconnect_count=1,
+        last_error=None,
+        connected_at=now - timedelta(seconds=10),
+        last_command_duration=0.5,
+        last_command_at=now,
+        dialog_state="idle",
+        last_sdp_offer="v=0\n" * 100,
+        last_sdp_summary="audio+video",
+        sdp_audio_port=4000,
+        sdp_audio_address="10.0.0.2",
+        sdp_audio_direction="sendrecv",
+        sdp_audio_codecs=("PCMU",),
+        sdp_video_port=5000,
+        sdp_video_address="10.0.0.2",
+        sdp_video_direction="sendrecv",
+        sdp_video_codecs=("H264",),
+        media_runtime_state="prepared",
+        media_runtime={"state": "prepared"},
+        media_plan={
+            "audio": {"codec": "PCMU"},
+            "video": {"codec": "H264"},
+            "srtp": {"suite": "AES_CM_128_HMAC_SHA1_80"},
+        },
+        media_session_metrics={"retained_sessions": 2},
+        last_completed_media_session={
+            "closed_reason": "bye",
+            "call_id": "call-1",
+            "duration_seconds": 4.2,
+        },
         add_listener=lambda callback: lambda: None,
     )
     cloud = SimpleNamespace(
-        status="connected", connected=True, authenticated=True, certificate_ready=True,
-        last_request="req", last_response="resp", endpoint="https://api.example", last_error=None,
+        status="connected",
+        connected=True,
+        authenticated=True,
+        certificate_ready=True,
+        last_request="req",
+        last_response="resp",
+        endpoint="https://api.example",
+        last_error=None,
     )
-    dialog = SimpleNamespace(state="idle", call_id="call-1", caller="Visitor", started_at=now, ended_at=now)
-    media = SimpleNamespace(close_reason="bye", retained_sessions=2, duration_seconds=4.2, audio_codec="PCMU", video_codec="H264", started_at=now, closed_at=now)
+    dialog = SimpleNamespace(
+        state="idle", call_id="call-1", caller="Visitor", started_at=now, ended_at=now
+    )
+    media = SimpleNamespace(
+        close_reason="bye",
+        retained_sessions=2,
+        duration_seconds=4.2,
+        audio_codec="PCMU",
+        video_codec="H264",
+        started_at=now,
+        closed_at=now,
+    )
     diagnostics = SimpleNamespace(
-        status="healthy", score=98, sip_registered=True, dialog_state="idle",
-        media_state="ready", last_error=None, issues=(),
+        status="healthy",
+        score=98,
+        sip_registered=True,
+        dialog_state="idle",
+        media_state="ready",
+        last_error=None,
+        issues=(),
     )
-    api_obj = SimpleNamespace(
-        snapshot=_snapshot, cloud=lambda: cloud, dialog=lambda: dialog,
-        media=lambda: media, diagnostics=lambda: diagnostics,
-    ) if api else None
+    api_obj = (
+        SimpleNamespace(
+            snapshot=_snapshot,
+            cloud=lambda: cloud,
+            dialog=lambda: dialog,
+            media=lambda: media,
+            diagnostics=lambda: diagnostics,
+        )
+        if api
+        else None
+    )
     event_bus = SimpleNamespace(
         subscribe=lambda callback: lambda: None,
-        history=[{"event_type":"incoming_call"}],
-        metrics={"total_events":1, "events_by_type":{"incoming_call":1}},
-        last_event=SimpleNamespace(event_type="incoming_call", timestamp=now, payload={"id":1}),
-        last_event_summary={"event_type":"incoming_call", "timestamp":now.isoformat()},
-        retained_count=1, compact_history=lambda limit: [{"event_type":"incoming_call"}],
+        history=[{"event_type": "incoming_call"}],
+        metrics={"total_events": 1, "events_by_type": {"incoming_call": 1}},
+        last_event=SimpleNamespace(event_type="incoming_call", timestamp=now, payload={"id": 1}),
+        last_event_summary={"event_type": "incoming_call", "timestamp": now.isoformat()},
+        retained_count=1,
+        compact_history=lambda limit: [{"event_type": "incoming_call"}],
     )
     journal = SimpleNamespace(
-        last_record={"result":"answered", "caller":"Visitor"}, records=[1,2],
-        metrics={"calls_by_result":{"missed":1}, "average_duration_seconds":3.5,
-                 "answered_today":1, "missed_today":1},
+        last_record={"result": "answered", "caller": "Visitor"},
+        records=[1, 2],
+        metrics={
+            "calls_by_result": {"missed": 1},
+            "average_duration_seconds": 3.5,
+            "answered_today": 1,
+            "missed_today": 1,
+        },
     )
     runtime = SimpleNamespace(
-        client=client, api=api_obj, last_open=now,
-        last_developer_test_result="passed", last_developer_test_at=now,
-        last_support_report_at=now, last_support_report_path="/tmp/report.json",
-        last_support_bundle_path="/tmp/bundle.zip", event_bus=event_bus,
+        client=client,
+        api=api_obj,
+        last_open=now,
+        last_developer_test_result="passed",
+        last_developer_test_at=now,
+        last_support_report_at=now,
+        last_support_report_path="/tmp/report.json",
+        last_support_bundle_path="/tmp/bundle.zip",
+        event_bus=event_bus,
         call_journal=journal,
     )
     return SimpleNamespace(
-        unique_id="uid", entry_id="entry", data={"gateway_id":"gw", "gateway_name":"Front"},
-        options={"developer_mode": developer}, runtime_data=runtime,
+        unique_id="uid",
+        entry_id="entry",
+        data={"gateway_id": "gw", "gateway_name": "Front"},
+        options={"developer_mode": developer},
+        runtime_data=runtime,
     )
 
 
@@ -197,7 +289,11 @@ def _sensor_classes():
 
 def test_sensor_setup_filters_and_developer_mode(monkeypatch):
     added = []
-    monkeypatch.setattr(sensor, "visibility_for_entry", lambda _: SimpleNamespace(filter_entities=lambda values: values))
+    monkeypatch.setattr(
+        sensor,
+        "visibility_for_entry",
+        lambda _: SimpleNamespace(filter_entities=lambda values: values),
+    )
     asyncio.run(sensor.async_setup_entry(SimpleNamespace(), _entry(developer=False), added.extend))
     assert len(added) == 43
     added.clear()
@@ -223,16 +319,31 @@ def test_sensor_branch_variants():
     entry = _entry(api=False)
     client = entry.runtime_data.client
     quality = sensor.BticinoConnectionQualitySensor(entry)
-    client.registered = False; assert quality.native_value == "offline"
-    client.registered = True; client.last_error = "x"; assert quality.native_value == "poor"
+    client.registered = False
+    assert quality.native_value == "offline"
+    client.registered = True
+    client.last_error = "x"
+    assert quality.native_value == "poor"
     client.last_error = None
-    for duration, expected in ((None,"good"),(0.5,"excellent"),(1.0,"good"),(2.0,"average"),(4.0,"poor")):
-        client.last_command_duration = duration; assert quality.native_value == expected
-    client.sdp_audio_port = None; assert sensor.BticinoAudioOfferSensor(entry).native_value is None
-    client.sdp_video_port = None; assert sensor.BticinoVideoOfferSensor(entry).native_value is None
-    client.last_sdp_offer = None; assert sensor.BticinoLastSdpOfferSensor(entry).native_value is None
-    client.last_call_duration = None; assert sensor.BticinoLastCallDurationSensor(entry).native_value is None
-    client.connected_at = None; assert sensor.BticinoConnectionUptimeSensor(entry).native_value is None
+    for duration, expected in (
+        (None, "good"),
+        (0.5, "excellent"),
+        (1.0, "good"),
+        (2.0, "average"),
+        (4.0, "poor"),
+    ):
+        client.last_command_duration = duration
+        assert quality.native_value == expected
+    client.sdp_audio_port = None
+    assert sensor.BticinoAudioOfferSensor(entry).native_value is None
+    client.sdp_video_port = None
+    assert sensor.BticinoVideoOfferSensor(entry).native_value is None
+    client.last_sdp_offer = None
+    assert sensor.BticinoLastSdpOfferSensor(entry).native_value is None
+    client.last_call_duration = None
+    assert sensor.BticinoLastCallDurationSensor(entry).native_value is None
+    client.connected_at = None
+    assert sensor.BticinoConnectionUptimeSensor(entry).native_value is None
     client.media_plan = None
     assert sensor.BticinoSelectedAudioCodecSensor(entry).native_value is None
     assert sensor.BticinoSelectedVideoCodecSensor(entry).extra_state_attributes == {}

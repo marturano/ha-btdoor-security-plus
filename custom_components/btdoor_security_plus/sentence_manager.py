@@ -1,4 +1,5 @@
 """Install integration-owned Assist custom sentences safely."""
+
 from __future__ import annotations
 
 import asyncio
@@ -24,10 +25,7 @@ def _install(source_root: Path, config_root: Path) -> dict[str, int]:
         hash_path = destination.with_suffix(".sha256")
         destination.parent.mkdir(parents=True, exist_ok=True)
         source_bytes = source.read_bytes()
-        managed = (
-            f"{MANAGED_MARKER}\n# Version: {INTEGRATION_VERSION}\n".encode("utf-8")
-            + source_bytes
-        )
+        managed = f"{MANAGED_MARKER}\n# Version: {INTEGRATION_VERSION}\n".encode() + source_bytes
         new_hash = _digest(managed)
         if not destination.exists():
             destination.write_bytes(managed)

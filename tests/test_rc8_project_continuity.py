@@ -42,9 +42,7 @@ def test_rc8_roadmap_order_and_names() -> None:
 
 
 def test_handoff_preserves_entity_contract() -> None:
-    content = "\n".join(
-        path.read_text(errors="ignore") for path in (ROOT / "handoff").glob("*.md")
-    )
+    content = "\n".join(path.read_text(errors="ignore") for path in (ROOT / "handoff").glob("*.md"))
     assert "button.apri_cancello" in content
     assert "switch.apri_cancello_alexa" in content
     assert "Alexa" in content

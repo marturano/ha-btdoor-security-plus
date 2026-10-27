@@ -1,14 +1,14 @@
 """Redacted support diagnostics recorder for BTDoor Security+."""
+
 from __future__ import annotations
 
 import asyncio
-from collections import deque
-from datetime import UTC, datetime
 import hashlib
 import json
-import logging
-from pathlib import Path
 import re
+from collections import deque
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 from .const import (
@@ -20,9 +20,18 @@ from .const import (
 )
 
 _SENSITIVE_KEYS = {
-    "password", "sip_password", "auth_token", "authorization",
-    "proxy-authorization", "nonce", "response", "client_key",
-    "private_key", "csr", "cookie", "set-cookie",
+    "password",
+    "sip_password",
+    "auth_token",
+    "authorization",
+    "proxy-authorization",
+    "nonce",
+    "response",
+    "client_key",
+    "private_key",
+    "csr",
+    "cookie",
+    "set-cookie",
 }
 _AUTH_RE = re.compile(r"(?im)^(authorization|proxy-authorization):.*$")
 _EMAIL_RE = re.compile(r"(?i)([a-z0-9._%+-]{1,3})[a-z0-9._%+-]*@([a-z0-9.-]+)")
@@ -33,8 +42,8 @@ _IPV4_RE = re.compile(r"(?<![\d.])((?:\d{1,3}\.){3}\d{1,3})(?![\d.])")
 
 _SIP_CALL_ID_RE = re.compile(r"(?im)(^(?:call-id|i):\s*)([^\r\n]+)$")
 _SIP_BRANCH_RE = re.compile(r"(?i)(branch=)([^;\s,>]+)")
-_SIP_TAG_RE = re.compile(r'(?i)(;tag=)([\"\']?)([^;\s,>\"\']+)(?:[\"\']?)')
-_SIP_INSTANCE_RE = re.compile(r'(?i)(sip\.instance\s*=\s*)(?:\"([^\"]+)\"|([^;\s,]+))')
+_SIP_TAG_RE = re.compile(r"(?i)(;tag=)([\"\']?)([^;\s,>\"\']+)(?:[\"\']?)")
+_SIP_INSTANCE_RE = re.compile(r"(?i)(sip\.instance\s*=\s*)(?:\"([^\"]+)\"|([^;\s,]+))")
 
 
 def _hash(value: str) -> str:
@@ -54,16 +63,20 @@ def redact_text(value: str) -> str:
 def redact_support_text(value: str) -> str:
     """Redact secrets and partially mask IP addresses for exported reports."""
     value = redact_text(value)
+
     def _mask_ip(match: re.Match[str]) -> str:
         parts = match.group(1).split(".")
         if len(parts) != 4 or any(not part.isdigit() or int(part) > 255 for part in parts):
             return match.group(1)
         return f"{parts[0]}.{parts[1]}.xxx.xxx"
+
     value = _IPV4_RE.sub(_mask_ip, value)
     value = _SIP_CALL_ID_RE.sub(lambda m: f"{m.group(1)}[HASH:{_hash(m.group(2))}]", value)
     value = _SIP_BRANCH_RE.sub(lambda m: f"{m.group(1)}[HASH:{_hash(m.group(2))}]", value)
     value = _SIP_TAG_RE.sub(lambda m: f"{m.group(1)}[HASH:{_hash(m.group(3))}]", value)
-    value = _SIP_INSTANCE_RE.sub(lambda m: f'{m.group(1)}"[HASH:{_hash(m.group(2) or m.group(3))}]"', value)
+    value = _SIP_INSTANCE_RE.sub(
+        lambda m: f'{m.group(1)}"[HASH:{_hash(m.group(2) or m.group(3))}]"', value
+    )
     return value
 
 
@@ -160,7 +173,10 @@ class SupportDebugRecorder:
 
     def _append_rotating(self, line: str) -> None:
         self.log_dir.mkdir(parents=True, exist_ok=True)
-        if self.log_path.exists() and self.log_path.stat().st_size + len(line.encode()) > DEBUG_LOG_MAX_BYTES:
+        if (
+            self.log_path.exists()
+            and self.log_path.stat().st_size + len(line.encode()) > DEBUG_LOG_MAX_BYTES
+        ):
             oldest = self.log_path.with_suffix(f".jsonl.{DEBUG_LOG_BACKUP_COUNT}")
             oldest.unlink(missing_ok=True)
             for index in range(DEBUG_LOG_BACKUP_COUNT - 1, 0, -1):

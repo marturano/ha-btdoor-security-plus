@@ -1,11 +1,13 @@
-from pathlib import Path
 import json
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_rc13_version_and_roadmaps():
-    manifest = json.loads((ROOT / "custom_components/btdoor_security_plus/manifest.json").read_text())
+    manifest = json.loads(
+        (ROOT / "custom_components/btdoor_security_plus/manifest.json").read_text()
+    )
     assert manifest["version"] == "1.1.0-rc.15"
     expected = {
         "ROADMAP_1X.md": ["1.9 — AI Vision & Recognition", "1.10 — Core Consolidation & Migration"],
@@ -20,10 +22,14 @@ def test_rc13_version_and_roadmaps():
 
 def test_platform_governance_documents_exist():
     required = [
-        "PROJECT_VISION.md", "ARCHITECTURE_PRINCIPLES.md",
-        "docs/architecture/ECOSYSTEM_MODEL.md", "docs/architecture/AI_PIPELINE.md",
-        "docs/ai/VISION.md", "docs/sdk/SDK_STRATEGY.md",
-        "docs/security/SECURITY_BASELINE.md", "docs/benchmarks/BASELINES.md",
+        "PROJECT_VISION.md",
+        "ARCHITECTURE_PRINCIPLES.md",
+        "docs/architecture/ECOSYSTEM_MODEL.md",
+        "docs/architecture/AI_PIPELINE.md",
+        "docs/ai/VISION.md",
+        "docs/sdk/SDK_STRATEGY.md",
+        "docs/security/SECURITY_BASELINE.md",
+        "docs/benchmarks/BASELINES.md",
     ]
     for rel in required:
         assert (ROOT / rel).is_file(), rel

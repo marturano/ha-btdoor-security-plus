@@ -10,7 +10,13 @@ def test_new_configuration_and_device_names_are_packaged():
     names = (ROOT / "custom_components/btdoor_security_plus/device_model/names.py").read_text()
     assert "Bticino DS+ Suite" in init
     assert "Bticino DS+ Suite" in flow
-    for name in ("Cloud Status", "Advanced Diagnostics", "Call Manager", "Multimedia Monitor", "SIP Monitor"):
+    for name in (
+        "Cloud Status",
+        "Advanced Diagnostics",
+        "Call Manager",
+        "Multimedia Monitor",
+        "SIP Monitor",
+    ):
         assert name in factory or name in names
 
 
@@ -22,6 +28,6 @@ def test_diagnostics_device_is_controlled_by_visibility_manager():
     assert "registry.async_remove_device" in manager
     assert "entity_registry.async_remove" in manager
     assert "visibility.is_visible(kind)" in manager
-    assert "developer_mode and bool" in visibility
+    assert "developer_mode and bool" in " ".join(visibility.split())
     assert "visibility_for_entry(entry).filter_entities" in sensor
     assert "visibility_for_entry(entry).filter_entities" in binary_sensor

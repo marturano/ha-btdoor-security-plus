@@ -1,6 +1,8 @@
 """QS-15 behavioural coverage for cloud certificate provisioning and residual modules."""
+
 from __future__ import annotations
 
+import asyncio
 import base64
 import importlib
 import importlib.util
@@ -40,7 +42,11 @@ def _load(name: str):
     full = f"custom_components.btdoor_security_plus.{name}"
     path = PKG.joinpath(*name.split("."))
     path = path / "__init__.py" if path.is_dir() else path.with_suffix(".py")
-    spec = importlib.util.spec_from_file_location(full, path, submodule_search_locations=[str(path.parent)] if path.name == "__init__.py" else None)
+    spec = importlib.util.spec_from_file_location(
+        full,
+        path,
+        submodule_search_locations=[str(path.parent)] if path.name == "__init__.py" else None,
+    )
     module = importlib.util.module_from_spec(spec)
     sys.modules[full] = module
     assert spec.loader
@@ -50,7 +56,11 @@ def _load(name: str):
 
 @pytest.fixture
 def cloud():
-    previous = {n: m for n, m in sys.modules.items() if n.startswith("custom_components.btdoor_security_plus")}
+    previous = {
+        n: m
+        for n, m in sys.modules.items()
+        if n.startswith("custom_components.btdoor_security_plus")
+    }
     _reset_package()
     module = _load("cloud")
     try:
@@ -117,8 +127,15 @@ def test_cloud_certificate_decoding_loading_and_unpacking(cloud, tmp_path):
     inter = _cert(inter_key, "Intermediate", root, root_key, ca=True)
     leaf_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
     leaf = _cert(leaf_key, "Leaf", inter, inter_key)
-    leaf_key_pem = leaf_key.private_bytes(serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8, serialization.NoEncryption())
-    pem_blob = b"junk\n" + leaf.public_bytes(serialization.Encoding.PEM) + inter.public_bytes(serialization.Encoding.PEM) + root.public_bytes(serialization.Encoding.PEM)
+    leaf_key_pem = leaf_key.private_bytes(
+        serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8, serialization.NoEncryption()
+    )
+    pem_blob = (
+        b"junk\n"
+        + leaf.public_bytes(serialization.Encoding.PEM)
+        + inter.public_bytes(serialization.Encoding.PEM)
+        + root.public_bytes(serialization.Encoding.PEM)
+    )
 
     assert cloud._decode_certificate_response(base64.b64encode(pem_blob)) == pem_blob
     assert cloud._decode_certificate_response(pem_blob) == pem_blob
@@ -156,43 +173,74 @@ def test_cloud_certificate_decoding_loading_and_unpacking(cloud, tmp_path):
 async def test_cloud_provision_success_and_failures(cloud, tmp_path, monkeypatch):
     selection = cloud.PlantGateway("p", "Plant", "g", "Gate")
     client = cloud.BticinoCloudClient(SimpleNamespace(), email="a@b.c", password="p")
-    client._async_get_or_create_sip_user = AsyncMock(return_value={"SipAccount": "sip:a", "SipPassword": "pw", "IdDevice": "id2"})
+    client._async_get_or_create_sip_user = AsyncMock(
+        return_value={"SipAccount": "sip:a", "SipPassword": "pw", "IdDevice": "id2"}
+    )
     client._request_bytes = AsyncMock(return_value=(b"blob", {}))
     monkeypatch.setattr(cloud, "_generate_official_csr", lambda cn: (b"key", "csr"))
     monkeypatch.setattr(cloud, "_decode_certificate_response", lambda blob: b"decoded")
     expiry = datetime.now(UTC) + timedelta(days=30)
     monkeypatch.setattr(cloud, "_unpack_certificate", lambda blob, key: (b"leaf", b"chain", expiry))
-    monkeypatch.setattr(cloud, "_write_certificate_files", lambda *args: [p.write_bytes(data) for p, data in ((args[0], args[4]), (args[1], args[5]), (args[2], args[5] + args[6]), (args[3], args[6]))])
-    result = await client.async_provision(selection=selection, device_name="HA", id_device="id", storage_dir=tmp_path / "certs")
+    monkeypatch.setattr(
+        cloud,
+        "_write_certificate_files",
+        lambda *args: [
+            p.write_bytes(data)
+            for p, data in (
+                (args[0], args[4]),
+                (args[1], args[5]),
+                (args[2], args[5] + args[6]),
+                (args[3], args[6]),
+            )
+        ],
+    )
+    result = await client.async_provision(
+        selection=selection, device_name="HA", id_device="id", storage_dir=tmp_path / "certs"
+    )
     assert result.sip_account == "sip:a" and result.id_device == "id2"
-    assert result.ca_chain_path and Path(result.client_cert_path).exists()
+    assert result.ca_chain_path and await asyncio.to_thread(Path(result.client_cert_path).exists)
 
     client._async_get_or_create_sip_user = AsyncMock(return_value={})
     with pytest.raises(cloud.BticinoCloudError, match="Incomplete"):
-        await client.async_provision(selection=selection, device_name="HA", id_device="id", storage_dir=tmp_path / "bad")
+        await client.async_provision(
+            selection=selection, device_name="HA", id_device="id", storage_dir=tmp_path / "bad"
+        )
 
-    client._async_get_or_create_sip_user = AsyncMock(return_value={"SipAccount": "sip:a", "SipPassword": "pw"})
+    client._async_get_or_create_sip_user = AsyncMock(
+        return_value={"SipAccount": "sip:a", "SipPassword": "pw"}
+    )
     client._request_bytes = AsyncMock(return_value=(b"blob", {"X-AttachmentMD5": "bad"}))
     with pytest.raises(cloud.BticinoCloudError, match="checksum"):
-        await client.async_provision(selection=selection, device_name="HA", id_device="id", storage_dir=tmp_path / "bad2")
+        await client.async_provision(
+            selection=selection, device_name="HA", id_device="id", storage_dir=tmp_path / "bad2"
+        )
 
 
 @pytest.mark.asyncio
 async def test_cloud_user_creation_residual_paths(cloud):
     selection = cloud.PlantGateway("p", "Plant", "g", "Gate")
     client = cloud.BticinoCloudClient(SimpleNamespace(), email="A@B.C", password="p")
-    expected = "A-B.C-id@g.bs.iotleg.com"
-    client._request = AsyncMock(side_effect=[({"users": [{"IdDevice": "ID", "SipAccount": "other"}]}, {})])
-    assert (await client._async_get_or_create_sip_user(selection=selection, device_name="HA", id_device="id"))["IdDevice"] == "ID"
+    client._request = AsyncMock(
+        side_effect=[({"users": [{"IdDevice": "ID", "SipAccount": "other"}]}, {})]
+    )
+    assert (
+        await client._async_get_or_create_sip_user(
+            selection=selection, device_name="HA", id_device="id"
+        )
+    )["IdDevice"] == "ID"
 
     client._request = AsyncMock(side_effect=[([], {}), ([{"SipAccount": "created"}], {}), ([], {})])
-    assert (await client._async_get_or_create_sip_user(selection=selection, device_name="HA", id_device="id"))["SipAccount"] == "created"
+    assert (
+        await client._async_get_or_create_sip_user(
+            selection=selection, device_name="HA", id_device="id"
+        )
+    )["SipAccount"] == "created"
 
     client._request = AsyncMock(side_effect=[([], {}), ([], {}), ([], {})])
     with pytest.raises(cloud.BticinoCloudError, match="did not return"):
-        await client._async_get_or_create_sip_user(selection=selection, device_name="HA", id_device="id")
-
-
+        await client._async_get_or_create_sip_user(
+            selection=selection, device_name="HA", id_device="id"
+        )
 
 
 def test_der_certificate_loader_preserves_binary_payload(cloud, monkeypatch):

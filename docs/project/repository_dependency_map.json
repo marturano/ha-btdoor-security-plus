@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated": "2026-07-27",
+  "generated": "2026-10-27",
   "nodes": [
     ".github/workflows/github-sandbox-validation.yml",
     ".github/workflows/governance.yml",
@@ -108,6 +108,7 @@
     "custom_components/btdoor_security_plus/runtime_state/provider.py",
     "custom_components/btdoor_security_plus/sensor.py",
     "custom_components/btdoor_security_plus/sentence_manager.py",
+    "custom_components/btdoor_security_plus/service_models.py",
     "custom_components/btdoor_security_plus/services.py",
     "custom_components/btdoor_security_plus/services.yaml",
     "custom_components/btdoor_security_plus/sip_client.py",
@@ -147,7 +148,6 @@
     "dashboards/templates/mobile-dashboard.yaml",
     "dashboards/templates/runtime-dashboard.yaml",
     "dashboards/templates/user-dashboard.yaml",
-    "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
     "docs/FOUNDATION.md",
     "docs/adr/ADR-0025-active-roadmap-and-handoff.md",
     "docs/adr/ADR-0026-canonical-product-history.md",
@@ -582,7 +582,9 @@
     "docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md",
     "docs/validation/GITHUB_SANDBOX_VALIDATION.md",
     "docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md",
+    "docs/validation/LINUX_VALIDATION_2026-10-27.md",
     "docs/validation/README.md",
+    "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md",
     "docs/validation/VALIDATION_MAINTENANCE_POLICY.md",
     "docs/validation/VALIDATION_REGISTER.md",
     "docs/validation/VALIDATION_REPORT_1.1.0-rc.15.md",
@@ -668,10 +670,13 @@
     "handoff/77_PHASE_7C_RELEASE_CANDIDATE_DOSSIER.md",
     "handoff/78_PHASE_7C_GITHUB_PUBLICATION_AUDIT.md",
     "handoff/79_GITHUB_EFFECTIVE_VALIDATION_REMEDIATION.md",
+    "handoff/80_RUFF_RESIDUAL_REMEDIATION.md",
+    "handoff/81_LINUX_VALIDATION_COMPLETION.md",
     "handoff/CONTINUITY_CHECKLIST.md",
     "handoff/HANDOFF_INDEX.md",
     "handoff/README.md",
     "pyproject.toml",
+    "requirements-validation.txt",
     "tests/test_alpha1a_regressions.py",
     "tests/test_alpha3_documentation_qa.py",
     "tests/test_alpha4_ux.py",
@@ -706,6 +711,7 @@
     "tests/test_persistent_media_snapshot_alpha26.py",
     "tests/test_platform_runtime.py",
     "tests/test_project_health_dashboard.py",
+    "tests/test_publication_validation_contract.py",
     "tests/test_quality_release_intelligence.py",
     "tests/test_quality_scale_engine.py",
     "tests/test_quality_scale_gold_policy.py",
@@ -877,6 +883,10 @@
     {
       "source": "CHANGELOG.md",
       "target": "docs/release/HISTORICAL_PROVENANCE.md"
+    },
+    {
+      "source": "CHANGELOG.md",
+      "target": "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md"
     },
     {
       "source": "CHANGELOG.md",
@@ -1105,474 +1115,6 @@
     {
       "source": "custom_components/btdoor_security_plus/quality_scale.yaml",
       "target": "tools/quality_scale/quality_scale_engine.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/adapters/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/adapters/base.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/analysis/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/analysis/runtime_summary.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/binary_sensor.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/brand/icon.png"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/brand/icon@2x.png"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/button.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/call_journal/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/call_journal/journal.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/cloud.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/config_flow.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/const.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/core/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/core/dispatcher.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/core/lifecycle.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/core/runtime.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/cs/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/da/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/de/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/en/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/es/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/fi/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/fr/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/it/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/ja/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/ko/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/nb/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/nl/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/pl/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/pt/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/sv/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/zh-Hans/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/custom_sentences/zh-Hant/btdoor_security_plus.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/developer.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/device_model/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/device_model/factory.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/device_model/manager.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/device_model/names.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/diagnostic_framework/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/diagnostic_framework/bundle.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/diagnostic_framework/engine.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/diagnostic_framework/health.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/diagnostic_framework/models.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/diagnostic_framework/provider.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/diagnostic_framework/providers/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/diagnostic_framework/providers/test_result.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/diagnostics.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/dialog/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/dialog/dialog_engine.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/dialog/dialog_session.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/dialog/dialog_state.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/entity.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/entity_metrics.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/event.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/event_bus/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/event_bus/bus.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/event_bus/events.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/event_bus/mapper.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/icons.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/managers/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/managers/dashboard_manager.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/managers/device_manager.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/managers/device_name_provider.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/managers/language_manager.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/managers/visibility_manager.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/manifest.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/media.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/models/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/models/call.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/models/cloud.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/models/device.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/models/media.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/models/runtime.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/models/sip.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/runtime.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/runtime_state/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/runtime_state/api.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/runtime_state/models.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/runtime_state/provider.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/sensor.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/sentence_manager.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/services.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/services.yaml"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/sip_client.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/sip_identity.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/sip_timeline.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/strings.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/support_debug.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/support_models.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/support_naming.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/support_sanitizer.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/switch.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/cs.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/da.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/de.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/en.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/es.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/fi.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/fr.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/it.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/ja.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/ko.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/nb.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/nl.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/pl.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/pt.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/sv.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/zh-Hans.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/translations/zh-Hant.json"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/ux/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/ux/dashboard_builder.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/ux/entity_resolver.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/visibility/__init__.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/visibility/manager.py"
-    },
-    {
-      "source": "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
-      "target": "custom_components/btdoor_security_plus/voice.py"
     },
     {
       "source": "docs/FOUNDATION.md",
@@ -3804,6 +3346,10 @@
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "custom_components/btdoor_security_plus/service_models.py"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "custom_components/btdoor_security_plus/services.py"
     },
     {
@@ -5688,7 +5234,15 @@
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "docs/validation/LINUX_VALIDATION_2026-10-27.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "docs/validation/README.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md"
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
@@ -6028,6 +5582,14 @@
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "handoff/80_RUFF_RESIDUAL_REMEDIATION.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "handoff/81_LINUX_VALIDATION_COMPLETION.md"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "handoff/CONTINUITY_CHECKLIST.md"
     },
     {
@@ -6173,6 +5735,10 @@
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
       "target": "tests/test_project_health_dashboard.py"
+    },
+    {
+      "source": "docs/project/REPOSITORY_INVENTORY.md",
+      "target": "tests/test_publication_validation_contract.py"
     },
     {
       "source": "docs/project/REPOSITORY_INVENTORY.md",
@@ -7644,6 +7210,10 @@
     },
     {
       "source": "docs/project/repository_dependency_map.json",
+      "target": "custom_components/btdoor_security_plus/service_models.py"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
       "target": "custom_components/btdoor_security_plus/services.py"
     },
     {
@@ -9528,7 +9098,15 @@
     },
     {
       "source": "docs/project/repository_dependency_map.json",
+      "target": "docs/validation/LINUX_VALIDATION_2026-10-27.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
       "target": "docs/validation/README.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
+      "target": "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md"
     },
     {
       "source": "docs/project/repository_dependency_map.json",
@@ -9868,6 +9446,14 @@
     },
     {
       "source": "docs/project/repository_dependency_map.json",
+      "target": "handoff/80_RUFF_RESIDUAL_REMEDIATION.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
+      "target": "handoff/81_LINUX_VALIDATION_COMPLETION.md"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
       "target": "handoff/CONTINUITY_CHECKLIST.md"
     },
     {
@@ -10013,6 +9599,10 @@
     {
       "source": "docs/project/repository_dependency_map.json",
       "target": "tests/test_project_health_dashboard.py"
+    },
+    {
+      "source": "docs/project/repository_dependency_map.json",
+      "target": "tests/test_publication_validation_contract.py"
     },
     {
       "source": "docs/project/repository_dependency_map.json",
@@ -10437,10 +10027,6 @@
     {
       "source": "docs/project/repository_dependency_map.json",
       "target": "tools/watch.py"
-    },
-    {
-      "source": "docs/project/repository_metrics.json",
-      "target": "handoff/79_GITHUB_EFFECTIVE_VALIDATION_REMEDIATION.md"
     },
     {
       "source": "docs/quality-scale/QS12_CLOUD_SIP_DISPATCH_COVERAGE_REPORT.md",
@@ -10892,6 +10478,10 @@
     },
     {
       "source": "docs/quality-scale/integration_coverage.raw.json",
+      "target": "custom_components/btdoor_security_plus/service_models.py"
+    },
+    {
+      "source": "docs/quality-scale/integration_coverage.raw.json",
       "target": "custom_components/btdoor_security_plus/services.py"
     },
     {
@@ -11188,6 +10778,10 @@
     },
     {
       "source": "docs/release/DOCUMENTATION_CHANGELOG.md",
+      "target": "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md"
+    },
+    {
+      "source": "docs/release/DOCUMENTATION_CHANGELOG.md",
       "target": "handoff/17_CONTINUITY_STATUS.md"
     },
     {
@@ -11319,6 +10913,10 @@
       "target": "tools/validation/github_sandbox_validate.sh"
     },
     {
+      "source": "docs/validation/LINUX_VALIDATION_2026-10-27.md",
+      "target": "docs/quality-scale/integration_coverage.raw.json"
+    },
+    {
       "source": "docs/validation/README.md",
       "target": "docs/validation/GITHUB_ACTIONS_VALIDATION.md"
     },
@@ -11353,6 +10951,14 @@
     {
       "source": "docs/validation/VALIDATION_REGISTER.md",
       "target": "docs/project/repository_metrics.json"
+    },
+    {
+      "source": "docs/validation/VALIDATION_REGISTER.md",
+      "target": "docs/validation/LINUX_VALIDATION_2026-10-27.md"
+    },
+    {
+      "source": "docs/validation/VALIDATION_REGISTER.md",
+      "target": "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md"
     },
     {
       "source": "docs/validation/VALIDATION_REGISTER.md",
@@ -11615,8 +11221,24 @@
       "target": "docs/roadmap/ROADMAP.md"
     },
     {
+      "source": "handoff/03_PROJECT_STATE.md",
+      "target": "docs/validation/LINUX_VALIDATION_2026-10-27.md"
+    },
+    {
+      "source": "handoff/03_PROJECT_STATE.md",
+      "target": "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md"
+    },
+    {
       "source": "handoff/07_DOCUMENTATION_STATUS.md",
       "target": "docs/engineering/REPOSITORY_CLEANUP_AUDIT_2026-07-22.md"
+    },
+    {
+      "source": "handoff/09_TEST_STATUS.md",
+      "target": "docs/validation/LINUX_VALIDATION_2026-10-27.md"
+    },
+    {
+      "source": "handoff/09_TEST_STATUS.md",
+      "target": "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md"
     },
     {
       "source": "handoff/09_TEST_STATUS.md",
@@ -11641,6 +11263,14 @@
     {
       "source": "handoff/14_BUILD_INFORMATION.md",
       "target": "docs/roadmap/ROADMAP.md"
+    },
+    {
+      "source": "handoff/14_BUILD_INFORMATION.md",
+      "target": "docs/validation/LINUX_VALIDATION_2026-10-27.md"
+    },
+    {
+      "source": "handoff/14_BUILD_INFORMATION.md",
+      "target": "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md"
     },
     {
       "source": "handoff/14_BUILD_INFORMATION.md",
@@ -11757,6 +11387,14 @@
     {
       "source": "handoff/28_IMMEDIATE_RESUME_POINT.md",
       "target": "docs/release/RELEASE_CANDIDATE_DOSSIER.md"
+    },
+    {
+      "source": "handoff/28_IMMEDIATE_RESUME_POINT.md",
+      "target": "docs/validation/LINUX_VALIDATION_2026-10-27.md"
+    },
+    {
+      "source": "handoff/28_IMMEDIATE_RESUME_POINT.md",
+      "target": "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md"
     },
     {
       "source": "handoff/28_IMMEDIATE_RESUME_POINT.md",
@@ -12159,6 +11797,14 @@
       "target": "docs/release/RELEASE_CANDIDATE_DOSSIER.md"
     },
     {
+      "source": "handoff/80_RUFF_RESIDUAL_REMEDIATION.md",
+      "target": "docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md"
+    },
+    {
+      "source": "handoff/81_LINUX_VALIDATION_COMPLETION.md",
+      "target": "docs/validation/LINUX_VALIDATION_2026-10-27.md"
+    },
+    {
       "source": "handoff/HANDOFF_INDEX.md",
       "target": "docs/governance/GOVERNANCE_RULE_REGISTRY.md"
     },
@@ -12484,6 +12130,14 @@
     },
     {
       "source": "handoff/HANDOFF_INDEX.md",
+      "target": "handoff/80_RUFF_RESIDUAL_REMEDIATION.md"
+    },
+    {
+      "source": "handoff/HANDOFF_INDEX.md",
+      "target": "handoff/81_LINUX_VALIDATION_COMPLETION.md"
+    },
+    {
+      "source": "handoff/HANDOFF_INDEX.md",
       "target": "handoff/CONTINUITY_CHECKLIST.md"
     },
     {
@@ -12637,6 +12291,18 @@
     {
       "source": "tests/test_project_health_dashboard.py",
       "target": "tools/update_project_health.py"
+    },
+    {
+      "source": "tests/test_publication_validation_contract.py",
+      "target": ".github/workflows/validate.yml"
+    },
+    {
+      "source": "tests/test_publication_validation_contract.py",
+      "target": "tools/publication/check_repository_publication.py"
+    },
+    {
+      "source": "tests/test_publication_validation_contract.py",
+      "target": "tools/validation/github_sandbox_validate.sh"
     },
     {
       "source": "tests/test_quality_release_intelligence.py",
@@ -13621,6 +13287,14 @@
     {
       "source": "tools/i18n/localization_framework.py",
       "target": "docs/i18n/language_registry.json"
+    },
+    {
+      "source": "tools/publication/check_repository_publication.py",
+      "target": ".github/workflows/validate.yml"
+    },
+    {
+      "source": "tools/publication/check_repository_publication.py",
+      "target": "tools/validation/github_sandbox_validate.sh"
     },
     {
       "source": "tools/quality_scale/coverage_gate.py",

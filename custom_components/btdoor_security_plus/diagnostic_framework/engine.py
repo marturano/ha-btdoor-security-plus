@@ -1,9 +1,10 @@
 """Diagnostic provider orchestration."""
+
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Iterable
 from time import perf_counter
-from typing import Iterable
 
 from .models import DiagnosticResult
 from .provider import DiagnosticProvider
@@ -36,7 +37,7 @@ class DiagnosticEngine:
                 result.timeout_seconds = timeout
                 result.timed_out = False
                 return result
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 return DiagnosticResult(
                     name=provider.name,
                     healthy=False,

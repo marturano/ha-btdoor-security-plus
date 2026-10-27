@@ -1,5 +1,6 @@
-from pathlib import Path
 import json
+from pathlib import Path
+
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -7,12 +8,16 @@ VERSION = "1.1.0-rc.15"
 
 
 def test_version_and_pcp():
-    manifest = json.loads((ROOT / "custom_components/btdoor_security_plus/manifest.json").read_text())
+    manifest = json.loads(
+        (ROOT / "custom_components/btdoor_security_plus/manifest.json").read_text()
+    )
     assert manifest["version"] == VERSION
     required = [
-        "PROJECT_MANIFEST.md", "docs/repository/REPOSITORY_POLICY.md",
+        "PROJECT_MANIFEST.md",
+        "docs/repository/REPOSITORY_POLICY.md",
         "handoff/00_PROJECT_EXECUTION_CONTRACT.md",
-        "handoff/01_PROJECT_MEMORY.md", "handoff/HANDOFF_INDEX.md",
+        "handoff/01_PROJECT_MEMORY.md",
+        "handoff/HANDOFF_INDEX.md",
         "handoff/16_RECOVERY_PROMPT.md",
         "docs/release/RELEASE_CHECKLIST.md",
         "docs/release/DOCUMENTATION_CHANGELOG.md",

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Validate every JSON/JSONL member in a generated support bundle."""
+
 from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 import zipfile
+from pathlib import Path
 
 
 def main() -> int:

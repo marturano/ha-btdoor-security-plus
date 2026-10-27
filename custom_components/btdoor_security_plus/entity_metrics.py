@@ -1,7 +1,8 @@
 """Pure helpers used by Home Assistant status entities."""
+
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 
 def last_completed_session(client: Any) -> dict[str, Any]:
@@ -31,13 +32,17 @@ def runtime_health(client: Any) -> tuple[str, int, dict[str, Any]]:
 
     score = max(0, score)
     status = "healthy" if score >= 90 else "degraded" if score >= 60 else "unhealthy"
-    return status, score, {
-        "registered": registered,
-        "dialog_state": dialog_state,
-        "media_state": media_state,
-        "last_error": last_error,
-        "issues": issues,
-    }
+    return (
+        status,
+        score,
+        {
+            "registered": registered,
+            "dialog_state": dialog_state,
+            "media_state": media_state,
+            "last_error": last_error,
+            "issues": issues,
+        },
+    )
 
 
 def last_call_summary(client: Any) -> tuple[str | None, dict[str, Any]]:
@@ -55,15 +60,20 @@ def last_call_summary(client: Any) -> tuple[str | None, dict[str, Any]]:
         "completed": "completed",
         "answered": "answered",
     }
-    state = state_map.get(str(close_reason).lower(), str(call_state or close_reason or "unknown").lower())
+    state = state_map.get(
+        str(close_reason).lower(), str(call_state or close_reason or "unknown").lower()
+    )
 
-    plan = session.get("plan") if isinstance(session.get("plan"), dict) else {}
-    audio = plan.get("audio") if isinstance(plan.get("audio"), dict) else {}
-    video = plan.get("video") if isinstance(plan.get("video"), dict) else {}
+    plan = (
+        cast(dict[str, Any], session.get("plan")) if isinstance(session.get("plan"), dict) else {}
+    )
+    audio = cast(dict[str, Any], plan.get("audio")) if isinstance(plan.get("audio"), dict) else {}
+    video = cast(dict[str, Any], plan.get("video")) if isinstance(plan.get("video"), dict) else {}
     attributes = {
         "caller": caller,
         "call_id": session.get("call_id") or getattr(client, "last_call_id", None),
-        "duration_seconds": session.get("duration_seconds") or getattr(client, "last_call_duration", None),
+        "duration_seconds": session.get("duration_seconds")
+        or getattr(client, "last_call_duration", None),
         "close_reason": close_reason,
         "audio_codec": audio.get("codec"),
         "video_codec": video.get("codec"),

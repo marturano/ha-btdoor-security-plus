@@ -16,7 +16,9 @@ def test_compact_history_does_not_serialize_payloads() -> None:
     bus = RuntimeEventBus(store, max_events=500)
     payload = {"large": "x" * 200_000}
     for _ in range(30):
-        bus.publish(RuntimeEvent(RuntimeEventType.RUNTIME_EVENT, RuntimeSource.DIAGNOSTICS, payload))
+        bus.publish(
+            RuntimeEvent(RuntimeEventType.RUNTIME_EVENT, RuntimeSource.DIAGNOSTICS, payload)
+        )
 
     timeline = bus.compact_history(20)
 

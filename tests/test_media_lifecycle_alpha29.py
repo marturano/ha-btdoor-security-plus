@@ -1,4 +1,5 @@
 """Regression tests for alpha.29 media lifecycle persistence."""
+
 from __future__ import annotations
 
 from collections import deque

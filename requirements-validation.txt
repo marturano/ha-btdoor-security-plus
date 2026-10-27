@@ -1,0 +1,9 @@
+# Canonical Linux validation environment: CPython 3.14.2.
+ruff==0.17.3
+mypy==2.4.0
+pytest==9.1.1
+pytest-asyncio==1.4.1
+pytest-cov==7.1.0
+types-PyYAML==6.0.12.20260906
+homeassistant==2026.7.2
+asn1crypto==1.5.1

@@ -1,5 +1,18 @@
 # Test Status
 
+## Current Linux validation checkpoint — 2026-10-27
+
+Ruff/format, mypy, 345 pytest tests, fresh coverage 95.01%, all 18 governance subchecks, publication, integrity, hygiene and the canonical runner PASS on Ubuntu/Python 3.14.2. Real HA 2026.7.2 import/API smoke PASS. Historical local failures below are superseded for this code. Remote commit checks and live target certification remain separate; Final remains BLOCKED.
+
+See [the Linux validation report](../docs/validation/LINUX_VALIDATION_2026-10-27.md).
+
+
+## Current Ruff checkpoint — 2026-10-27
+
+Ruff: 77 to 0; format check passes. Windows/Python 3.12 pytest: 337 passed, 3 existing failures reproduced on the original ZIP. mypy executed and failed (160 diagnostics, including missing Home Assistant imports). Fresh coverage, Linux CI, remote checks and live HA/SIP/Cloud remain unverified. Final remains BLOCKED. Historical full-pass and coverage claims do not validate this edited package.
+
+See [the current validation report](../docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md).
+
 RC.14 validation covers version consistency, required PCP files, roadmap content, archive traceability, translation document presence, syntax, and existing documentation QA.
 
 The full Home Assistant-dependent suite may be limited in a standalone build environment. Any such limitation must be recorded in the release validation report and must not be represented as a passing runtime validation.

@@ -12,5 +12,11 @@ def test_developer_tools_uses_public_entry_attribute():
 def test_canonical_english_device_names():
     source = Path("custom_components/btdoor_security_plus/device_model/factory.py").read_text()
     source += Path("custom_components/btdoor_security_plus/device_model/names.py").read_text()
-    for name in ("Cloud Status", "SIP Monitor", "Call Manager", "Multimedia Monitor", "Advanced Diagnostics"):
+    for name in (
+        "Cloud Status",
+        "SIP Monitor",
+        "Call Manager",
+        "Multimedia Monitor",
+        "Advanced Diagnostics",
+    ):
         assert name in source

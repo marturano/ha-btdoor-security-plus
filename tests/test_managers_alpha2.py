@@ -1,11 +1,12 @@
 """Regression tests for the 6.1.0-alpha.2 manager foundation."""
+
 from __future__ import annotations
 
 import importlib.util
 import json
-from pathlib import Path
 import sys
 import types
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PKG = ROOT / "custom_components" / "btdoor_security_plus"
@@ -59,8 +60,13 @@ def test_device_name_provider_has_complete_catalog() -> None:
         provider = provider_module.DeviceNameProvider(locale)
         assert len(provider.catalog()) == 6
         assert provider.name_for(factory.DeviceKind.GATEWAY) is None
-    assert provider_module.DeviceNameProvider("it").name_for(factory.DeviceKind.CLOUD) == "Stato Cloud"
-    assert provider_module.DeviceNameProvider("nl").name_for(factory.DeviceKind.DIAGNOSTICS) == "Geavanceerde diagnostiek"
+    assert (
+        provider_module.DeviceNameProvider("it").name_for(factory.DeviceKind.CLOUD) == "Stato Cloud"
+    )
+    assert (
+        provider_module.DeviceNameProvider("nl").name_for(factory.DeviceKind.DIAGNOSTICS)
+        == "Geavanceerde diagnostiek"
+    )
 
 
 def test_ds_plus_device_models_are_declared() -> None:

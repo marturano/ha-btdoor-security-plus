@@ -72,3 +72,13 @@ Every row also requires explicit review of registries, matrices, certificates, r
 | Release documentation | Update checklist, changelog and evidence status |
 | Handoff | Record verified, failed and unverified gates without inference |
 | Packaging | Invalidate all earlier package checksums and regenerate from the validated tree |
+
+
+## Ruff residual remediation — 2026-10-27
+
+Runtime: revalidate certificate path dispatch; SIP/Cloud contracts retained. Test/tool cleanup: local revalidation recorded. Documentation/handoff: updated. Localization, schemas, versions, ADR policy and release decisions: unchanged. Coverage, Linux CI, typing and target certification: exact-package revalidation required; historical evidence is not promoted.
+
+
+## Linux validation completion — 2026-10-27
+
+Runtime: internal typing, guards and SIP/Cloud contracts preserved and regression-tested. Development/validation: pinned dependencies, isolated runner, delegated publication and smoke-import corrections revalidated. Documentation/evidence/handoff: updated. Localization, public schemas, versions, Gold threshold and release rules: unchanged. Linux local certificates refreshed; remote and live-target certificates remain required.

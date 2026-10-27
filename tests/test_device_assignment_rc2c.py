@@ -2,7 +2,9 @@ from pathlib import Path
 
 
 def test_last_call_summary_is_attached_to_calls_device():
-    sensor = (Path(__file__).parents[1] / "custom_components" / "btdoor_security_plus" / "sensor.py").read_text()
+    sensor = (
+        Path(__file__).parents[1] / "custom_components" / "btdoor_security_plus" / "sensor.py"
+    ).read_text()
     start = sensor.index("class BTDoorLastCallSummarySensor")
     end = sensor.index("class BTDoorLastMediaCloseReasonSensor", start)
     block = sensor[start:end]

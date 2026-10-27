@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+
 import argparse
 import json
 import re
@@ -16,8 +17,28 @@ REQUIRED_RULES = [
     *(f"RR-{i:03d}" for i in range(1, 5)),
     "MGR-001",
 ]
-FRAMEWORKS = ["Development", "Validation", "Quality", "Localization", "Documentation", "Governance", "Evidence", "Release"]
-DOMAINS = ["Runtime", "Documents", "Frameworks", "Registries", "Matrices", "Certificates", "Localization", "Evidence", "Release", "Handoff"]
+FRAMEWORKS = [
+    "Development",
+    "Validation",
+    "Quality",
+    "Localization",
+    "Documentation",
+    "Governance",
+    "Evidence",
+    "Release",
+]
+DOMAINS = [
+    "Runtime",
+    "Documents",
+    "Frameworks",
+    "Registries",
+    "Matrices",
+    "Certificates",
+    "Localization",
+    "Evidence",
+    "Release",
+    "Handoff",
+]
 
 
 def check() -> list[str]:
@@ -49,7 +70,11 @@ def check() -> list[str]:
         if framework not in dim:
             errors.append(f"Framework Impact Matrix missing {framework}")
     workflow = workflow_path.read_text(encoding="utf-8")
-    for marker in ("Project Impact Analysis", "Framework Revalidation", "Automatic Handoff Synchronization"):
+    for marker in (
+        "Project Impact Analysis",
+        "Framework Revalidation",
+        "Automatic Handoff Synchronization",
+    ):
         if marker not in workflow:
             errors.append(f"Workflow missing {marker}")
     return errors
@@ -60,7 +85,11 @@ def main() -> int:
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
     errors = check()
-    payload = {"gate": "project_impact", "status": "PASS" if not errors else "FAIL", "errors": errors}
+    payload = {
+        "gate": "project_impact",
+        "status": "PASS" if not errors else "FAIL",
+        "errors": errors,
+    }
     if args.json:
         print(json.dumps(payload, indent=2))
     else:

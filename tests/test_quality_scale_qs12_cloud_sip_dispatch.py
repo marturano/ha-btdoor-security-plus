@@ -1,9 +1,9 @@
 """QS-12 behavioural coverage for cloud transport and SIP dispatch."""
+
 from __future__ import annotations
 
 import asyncio
 import importlib.util
-import json
 import sys
 import types
 from pathlib import Path
@@ -40,7 +40,11 @@ def _load(name: str):
 
 @pytest.fixture
 def sip():
-    previous = {name: module for name, module in sys.modules.items() if name.startswith("custom_components.btdoor_security_plus")}
+    previous = {
+        name: module
+        for name, module in sys.modules.items()
+        if name.startswith("custom_components.btdoor_security_plus")
+    }
     _reset_package()
     _load("const")
     _load("sip_identity")
@@ -72,11 +76,21 @@ class Writer:
     def __init__(self):
         self.closed = False
         self.data = []
-    def is_closing(self): return self.closed
-    def write(self, data): self.data.append(data)
-    async def drain(self): return None
-    def close(self): self.closed = True
-    async def wait_closed(self): return None
+
+    def is_closing(self):
+        return self.closed
+
+    def write(self, data):
+        self.data.append(data)
+
+    async def drain(self):
+        return None
+
+    def close(self):
+        self.closed = True
+
+    async def wait_closed(self):
+        return None
 
 
 @pytest.mark.asyncio
@@ -98,18 +112,34 @@ async def test_sip_request_dispatch_branches(sip):
     await client._async_handle_request(session, "BROKEN", base, b"", packet_id=1)
     assert client.last_sip_method is None
 
-    await client._async_handle_request(session, "MESSAGE sip:user SIP/2.0", base, b"hello", packet_id=2)
+    await client._async_handle_request(
+        session, "MESSAGE sip:user SIP/2.0", base, b"hello", packet_id=2
+    )
     assert client.last_message == "hello" and client.message_count == 1
-    await client._async_handle_request(session, "MESSAGE sip:user SIP/2.0", base, b"hello", packet_id=3)
+    await client._async_handle_request(
+        session, "MESSAGE sip:user SIP/2.0", base, b"hello", packet_id=3
+    )
     assert client.message_count == 1
 
-    for method in ("OPTIONS", "ACK", "INFO", "NOTIFY", "REFER", "SUBSCRIBE", "PRACK", "UPDATE", "PUBLISH"):
+    for method in (
+        "OPTIONS",
+        "ACK",
+        "INFO",
+        "NOTIFY",
+        "REFER",
+        "SUBSCRIBE",
+        "PRACK",
+        "UPDATE",
+        "PUBLISH",
+    ):
         headers = dict(base)
         headers["cseq"] = [f"2 {method}"]
         headers["event"] = ["door"]
         headers["subscription-state"] = ["active"]
         headers["refer-to"] = ["sip:other@example.com"]
-        await client._async_handle_request(session, f"{method} sip:user SIP/2.0", headers, b"payload", packet_id=4)
+        await client._async_handle_request(
+            session, f"{method} sip:user SIP/2.0", headers, b"payload", packet_id=4
+        )
 
     assert client.dialog_state == "confirmed"
     assert client.last_info_body == "payload"
@@ -132,10 +162,12 @@ async def test_sip_reader_loop_dispatches_responses_and_disconnects(sip):
         b"SIP/2.0 180 Ringing\r\nCall-ID: call-1\r\nCSeq: 1 MESSAGE\r\nContent-Length: 0\r\n\r\n",
         b"SIP/2.0 200 OK\r\nCall-ID: call-1\r\nCSeq: 1 MESSAGE\r\nContent-Length: 0\r\n\r\n",
     ]
-    async def read_frame(reader, timeout):
+
+    async def read_frame(reader, timeout):  # noqa: ASYNC109 - Preserve the SIP timeout contract (including test doubles).
         if frames:
             return frames.pop(0)
         raise sip.BticinoSipConnectionError("closed")
+
     client._read_sip_frame = read_frame
     events = []
     client.add_listener(lambda event, data: events.append(event))
@@ -152,16 +184,25 @@ class Response:
         self._text = text
         self._raw = raw
         self.headers = headers or {}
-    async def __aenter__(self): return self
-    async def __aexit__(self, *args): return False
-    async def text(self): return self._text
-    async def read(self): return self._raw
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, *args):
+        return False
+
+    async def text(self):
+        return self._text
+
+    async def read(self):
+        return self._raw
 
 
 class Session:
     def __init__(self, responses):
         self.responses = list(responses)
         self.calls = []
+
     def request(self, method, url, **kwargs):
         self.calls.append((method, url, kwargs))
         item = self.responses.pop(0)
@@ -172,7 +213,11 @@ class Session:
 
 @pytest.fixture
 def cloud():
-    previous = {name: module for name, module in sys.modules.items() if name.startswith("custom_components.btdoor_security_plus")}
+    previous = {
+        name: module
+        for name, module in sys.modules.items()
+        if name.startswith("custom_components.btdoor_security_plus")
+    }
     _reset_package()
     loaded = _load("cloud")
     try:
@@ -213,7 +258,9 @@ async def test_cloud_request_bytes_retry_and_errors(cloud, monkeypatch):
     with pytest.raises(cloud.BticinoCloudAuthenticationError):
         await client._request_bytes("GET", "/x")
 
-    session = Session([OSError("one"), OSError("two"), Response(200, raw=b"cert", headers={"auth_token": "n"})])
+    session = Session(
+        [OSError("one"), OSError("two"), Response(200, raw=b"cert", headers={"auth_token": "n"})]
+    )
     client = cloud.BticinoCloudClient(session, email="a", password="p")
     client.auth_token = "t"
     monkeypatch.setattr(asyncio, "sleep", AsyncMock())

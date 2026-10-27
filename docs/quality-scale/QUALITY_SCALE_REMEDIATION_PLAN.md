@@ -1,6 +1,6 @@
 # Home Assistant Quality Scale Remediation Plan
 
-**Generated:** 2026-07-27
+**Generated:** 2026-10-27
 **Current tier:** GOLD
 **Release minimum:** GOLD
 **Desired tier:** GOLD

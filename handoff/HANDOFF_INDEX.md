@@ -6,6 +6,10 @@
 
 This directory is the historical and operational memory of the project. Read the bootstrap set first. Historical snapshots must never override master documents, current certificates or the current-state handoffs.
 
+Current local checkpoint: [Ruff residual remediation](80_RUFF_RESIDUAL_REMEDIATION.md).
+
+Latest local checkpoint: [Linux validation completion](81_LINUX_VALIDATION_COMPLETION.md).
+
 ## 1. Mandatory bootstrap set
 
 - [Project Execution Contract](00_PROJECT_EXECUTION_CONTRACT.md)

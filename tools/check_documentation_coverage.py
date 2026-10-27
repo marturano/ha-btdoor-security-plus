@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Calculate multilingual documentation coverage without treating placeholders as complete."""
+
 from __future__ import annotations
 
 import json
@@ -35,7 +36,15 @@ def main() -> int:
             ok = path.exists() and words >= MIN_WORDS and not stale
             completed += int(ok)
             complete &= ok
-            records.append({"path": relative, "exists": path.exists(), "words": words, "stale_markers": stale, "complete": ok})
+            records.append(
+                {
+                    "path": relative,
+                    "exists": path.exists(),
+                    "words": words,
+                    "stale_markers": stale,
+                    "complete": ok,
+                }
+            )
         report["locales"][locale] = {
             "completed": completed,
             "required": len(documents),

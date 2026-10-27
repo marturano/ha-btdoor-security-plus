@@ -1,10 +1,11 @@
 """Regression tests for localized device registry names in rc.3e."""
+
 from __future__ import annotations
 
-from pathlib import Path
 import importlib.util
 import sys
 import types
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PKG = ROOT / "custom_components" / "btdoor_security_plus"

@@ -1,5 +1,5 @@
-from pathlib import Path
 import json
+from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
 COMPONENT = ROOT / "custom_components" / "btdoor_security_plus"
@@ -47,5 +47,5 @@ def test_legacy_gate_switch_is_replaced_by_optional_voice_bridge():
 def test_legacy_switch_registry_cleanup_is_present():
     source = (COMPONENT / "__init__.py").read_text(encoding="utf-8")
     assert "_async_remove_legacy_gate_entities" in source
-    assert 'registry.async_get_entity_id(platform, DOMAIN, unique_id)' in source
+    assert "registry.async_get_entity_id(platform, DOMAIN, unique_id)" in source
     assert "registry.async_remove(entity_id)" in source

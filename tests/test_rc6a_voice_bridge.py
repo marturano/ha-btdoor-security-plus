@@ -1,5 +1,5 @@
-from pathlib import Path
 import json
+from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
 DOMAIN = ROOT / "custom_components" / "btdoor_security_plus"
@@ -18,9 +18,9 @@ def test_voice_bridge_is_optional_and_stateless():
     source = (DOMAIN / "switch.py").read_text()
     assert "CONF_QUICK_VOICE_GATE" in source
     assert "BTDoorGateVoiceBridgeSwitch" in source
-    assert '_attr_is_on = False' in source
-    assert 'SERVICE_OPEN_GATE' in source
-    assert 'voice_bridge_switch' in source
+    assert "_attr_is_on = False" in source
+    assert "SERVICE_OPEN_GATE" in source
+    assert "voice_bridge_switch" in source
 
 
 def test_assist_restart_issue_not_created_during_startup():

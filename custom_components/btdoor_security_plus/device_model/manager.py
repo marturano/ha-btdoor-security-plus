@@ -1,9 +1,11 @@
 """Device registry lifecycle for BTDoor Security+."""
+
 from __future__ import annotations
 
 from typing import Any
 
-from homeassistant.helpers import device_registry as dr, entity_registry as er
+from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import entity_registry as er
 
 from ..visibility import visibility_for_entry
 from .factory import DeviceKind, device_identifier, device_info_for
@@ -23,9 +25,7 @@ async def async_register_devices(hass: Any, entry: Any) -> None:
         if device is None:
             continue
         for entity in list(
-            er.async_entries_for_device(
-                entity_registry, device.id, include_disabled_entities=True
-            )
+            er.async_entries_for_device(entity_registry, device.id, include_disabled_entities=True)
         ):
             if entity.config_entry_id == entry.entry_id:
                 entity_registry.async_remove(entity.entity_id)

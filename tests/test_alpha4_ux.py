@@ -1,7 +1,7 @@
+import sys
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
-import sys
 
 import yaml
 
@@ -32,9 +32,19 @@ DashboardBuilder = MODULES["dashboard_builder"].DashboardBuilder
 
 def test_entity_resolver_uses_unique_ids_not_entity_names():
     entries = [
-        SimpleNamespace(config_entry_id="entry", unique_id="gateway_open_gate_button", entity_id="button.custom_gate"),
-        SimpleNamespace(config_entry_id="entry", unique_id="gateway_sip_registered", entity_id="binary_sensor.custom_sip"),
-        SimpleNamespace(config_entry_id="other", unique_id="gateway_runtime_score", entity_id="sensor.other"),
+        SimpleNamespace(
+            config_entry_id="entry",
+            unique_id="gateway_open_gate_button",
+            entity_id="button.custom_gate",
+        ),
+        SimpleNamespace(
+            config_entry_id="entry",
+            unique_id="gateway_sip_registered",
+            entity_id="binary_sensor.custom_sip",
+        ),
+        SimpleNamespace(
+            config_entry_id="other", unique_id="gateway_runtime_score", entity_id="sensor.other"
+        ),
     ]
     result = DashboardEntityResolver.resolve(entries, config_entry_id="entry")
     assert result.open_gate == "button.custom_gate"
@@ -44,7 +54,9 @@ def test_entity_resolver_uses_unique_ids_not_entity_names():
 
 def test_dashboard_builder_requires_gate_confirmation():
     entries = [
-        SimpleNamespace(config_entry_id="entry", unique_id=f"gateway{suffix}", entity_id=f"sensor.{key}")
+        SimpleNamespace(
+            config_entry_id="entry", unique_id=f"gateway{suffix}", entity_id=f"sensor.{key}"
+        )
         for key, suffix in {
             "open_gate": "_open_gate_button",
             "sip_registered": "_sip_registered",
@@ -58,7 +70,9 @@ def test_dashboard_builder_requires_gate_confirmation():
         }.items()
     ]
     entity_map = DashboardEntityResolver.resolve(entries, config_entry_id="entry")
-    result = DashboardBuilder(ROOT / "dashboards" / "templates").build("user-dashboard.yaml", entity_map)
+    result = DashboardBuilder(ROOT / "dashboards" / "templates").build(
+        "user-dashboard.yaml", entity_map
+    )
     data = yaml.safe_load(result.content)
     button = data["views"][0]["cards"][1]
     assert button["tap_action"]["confirmation"]["text"]
@@ -80,8 +94,12 @@ def test_blueprint_catalog_and_files_are_valid_yaml():
 
 
 def test_area_report_uses_observable_semantics():
-    model = (ROOT / "custom_components" / "btdoor_security_plus" / "models" / "device.py").read_text()
-    manager = (ROOT / "custom_components" / "btdoor_security_plus" / "managers" / "device_manager.py").read_text()
+    model = (
+        ROOT / "custom_components" / "btdoor_security_plus" / "models" / "device.py"
+    ).read_text()
+    manager = (
+        ROOT / "custom_components" / "btdoor_security_plus" / "managers" / "device_manager.py"
+    ).read_text()
     assert "integration_assigns_areas" in model
     assert "integration_suggested_areas" in model
     assert "integration_assigns_areas=False" in manager
@@ -94,7 +112,7 @@ def test_raw_dashboard_templates_use_valid_entity_ids():
 
     entity_id = re.compile(r"^[a-z0-9_]+\.[a-z0-9_]+$")
     for template_name in ("user-dashboard.yaml", "mobile-dashboard.yaml"):
-        data = yaml.safe_load((ROOT / "dashboards" / "templates" / template_name).read_text())
+        yaml.safe_load((ROOT / "dashboards" / "templates" / template_name).read_text())
         text = (ROOT / "dashboards" / "templates" / template_name).read_text()
         assert "__ENTITY_" not in text
         for match in re.findall(r"(?:entity:|entity_id:)\s*([a-zA-Z0-9_.-]+)", text):
@@ -140,8 +158,17 @@ views:
 
     assert cards[0]["entity"] == "cover.esterno_citofono_maria_cancello"
     assert cards[0]["tap_action"]["target"]["entity_id"] == "cover.esterno_citofono_maria_cancello"
-    assert cards[1]["entities"][0]["entity"] == "binary_sensor.esterno_citofono_maria_chiamata_in_corso"
-    assert cards[2]["conditions"][0]["entity"] == "binary_sensor.esterno_citofono_maria_chiamata_in_corso"
-    assert cards[3]["custom"]["cover.esterno_citofono_maria_cancello"] == "sensor.esterno_citofono_maria_stato_chiamata"
+    assert (
+        cards[1]["entities"][0]["entity"]
+        == "binary_sensor.esterno_citofono_maria_chiamata_in_corso"
+    )
+    assert (
+        cards[2]["conditions"][0]["entity"]
+        == "binary_sensor.esterno_citofono_maria_chiamata_in_corso"
+    )
+    assert (
+        cards[3]["custom"]["cover.esterno_citofono_maria_cancello"]
+        == "sensor.esterno_citofono_maria_stato_chiamata"
+    )
     assert "__ENTITY_" not in result.content
     assert result.missing_entities == ()

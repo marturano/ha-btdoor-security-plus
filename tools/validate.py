@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Fast validation suitable for pre-deploy use."""
+
 from __future__ import annotations
+
 import ast
 import json
 import sys
-from pathlib import Path
+
 from _ha_toolkit import ROOT, SOURCE_COMPONENT
 
 errors: list[str] = []

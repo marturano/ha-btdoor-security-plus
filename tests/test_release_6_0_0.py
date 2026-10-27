@@ -1,4 +1,5 @@
 """Stable release regression checks for the current 6.0.x release."""
+
 from __future__ import annotations
 
 import ast

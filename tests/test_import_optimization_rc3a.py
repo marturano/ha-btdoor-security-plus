@@ -5,12 +5,8 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
-
 INTEGRATION_INIT = (
-    Path(__file__).parents[1]
-    / "custom_components"
-    / "btdoor_security_plus"
-    / "__init__.py"
+    Path(__file__).parents[1] / "custom_components" / "btdoor_security_plus" / "__init__.py"
 )
 
 HEAVY_SUBSYSTEMS = {

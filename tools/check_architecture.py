@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import ast
-from pathlib import Path
 import sys
+from pathlib import Path
 
 ROOT = Path(__file__).parents[1] / "custom_components" / "btdoor_security_plus"
 RULES = {

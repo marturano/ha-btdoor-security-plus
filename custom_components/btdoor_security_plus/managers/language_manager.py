@@ -1,4 +1,5 @@
 """Central language resolution for BTDoor Security+."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -12,11 +13,7 @@ SUPPORTED_LANGUAGE_SET: Final = frozenset(SUPPORTED_LANGUAGES)
 def normalize_language(language: str | None) -> str:
     """Normalize a locale to a supported two-letter language code."""
     normalized = (
-        str(language or DEFAULT_LANGUAGE)
-        .strip()
-        .lower()
-        .replace("_", "-")
-        .split("-", 1)[0]
+        str(language or DEFAULT_LANGUAGE).strip().lower().replace("_", "-").split("-", 1)[0]
     )
     return normalized if normalized in SUPPORTED_LANGUAGE_SET else DEFAULT_LANGUAGE
 
@@ -55,7 +52,7 @@ class LanguageManager:
         )
 
     @classmethod
-    def from_entry(cls, entry: object) -> "LanguageManager":
+    def from_entry(cls, entry: object) -> LanguageManager:
         runtime_data = getattr(entry, "runtime_data", None)
         return cls(getattr(runtime_data, "language", DEFAULT_LANGUAGE))
 

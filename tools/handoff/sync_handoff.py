@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+
 import argparse
 import json
 import re
@@ -7,7 +8,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 HANDOFF = ROOT / "handoff"
-REQUIRED_CURRENT = ["03_PROJECT_STATE.md", "14_BUILD_INFORMATION.md", "28_IMMEDIATE_RESUME_POINT.md"]
+REQUIRED_CURRENT = [
+    "03_PROJECT_STATE.md",
+    "14_BUILD_INFORMATION.md",
+    "28_IMMEDIATE_RESUME_POINT.md",
+]
 
 
 def package_identity() -> str:
@@ -43,7 +48,9 @@ def validate() -> list[str]:
         if latest.name not in index_text:
             errors.append(f"HANDOFF_INDEX omits latest numbered handoff {latest.name}")
         if identity and identity not in latest.read_text(encoding="utf-8"):
-            errors.append(f"Latest numbered handoff {latest.name} does not reference current package")
+            errors.append(
+                f"Latest numbered handoff {latest.name} does not reference current package"
+            )
     return errors
 
 
@@ -53,7 +60,11 @@ def main() -> int:
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
     errors = validate()
-    payload = {"gate": "handoff_synchronization", "status": "PASS" if not errors else "FAIL", "errors": errors}
+    payload = {
+        "gate": "handoff_synchronization",
+        "status": "PASS" if not errors else "FAIL",
+        "errors": errors,
+    }
     if args.json:
         print(json.dumps(payload, indent=2))
     else:

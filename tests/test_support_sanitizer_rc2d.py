@@ -1,4 +1,5 @@
 """Regression tests for the centralized export sanitizer."""
+
 from custom_components.btdoor_security_plus.support_sanitizer import (
     sanitize_export_data,
     sanitize_gateway_id,

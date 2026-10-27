@@ -1,8 +1,11 @@
 """Import-time compatibility smoke test for supported Home Assistant releases."""
+
 from __future__ import annotations
 
 import importlib
+import sys
 from importlib.metadata import version
+from pathlib import Path
 
 from homeassistant.config_entries import ConfigEntry, ConfigEntryState
 from homeassistant.core import HomeAssistant, SupportsResponse
@@ -10,6 +13,9 @@ from homeassistant.helpers import entity_registry, intent
 
 
 def main() -> None:
+    # Direct script execution puts tools/, rather than the checkout root, on
+    # sys.path. Resolve the integration from this checkout in every environment.
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     module = importlib.import_module("custom_components.btdoor_security_plus")
     services = importlib.import_module("custom_components.btdoor_security_plus.services")
     voice = importlib.import_module("custom_components.btdoor_security_plus.voice")
