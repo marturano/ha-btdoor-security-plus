@@ -1,4 +1,5 @@
 """Regression tests for the Beta.1 runtime-state facade."""
+
 from types import SimpleNamespace
 
 from custom_components.btdoor_security_plus.runtime_state import RuntimeStateProvider
@@ -9,18 +10,20 @@ def _provider(tmp_path):
     key = tmp_path / "client.key"
     cert.write_text("cert")
     key.write_text("key")
-    entry = SimpleNamespace(data={
-        "gateway_id": "gw-1",
-        "gateway_name": "Gateway",
-        "device_name": "C300X",
-        "plant_id": "plant-1",
-        "plant_name": "Home",
-        "sip_account": "ha-user",
-        "server": "sip.example.test",
-        "port": 5061,
-        "client_cert_path": str(cert),
-        "client_key_path": str(key),
-    })
+    entry = SimpleNamespace(
+        data={
+            "gateway_id": "gw-1",
+            "gateway_name": "Gateway",
+            "device_name": "C300X",
+            "plant_id": "plant-1",
+            "plant_name": "Home",
+            "sip_account": "ha-user",
+            "server": "sip.example.test",
+            "port": 5061,
+            "client_cert_path": str(cert),
+            "client_key_path": str(key),
+        }
+    )
     client = SimpleNamespace(
         registered=True,
         last_status="registered",

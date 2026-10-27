@@ -1,4 +1,5 @@
 """Home Assistant 2026.x compatibility hardening for 6.1.0-rc.4."""
+
 from __future__ import annotations
 
 import json
@@ -16,8 +17,12 @@ def test_rc4_version_alignment() -> None:
 
 def test_global_actions_are_registered_in_async_setup() -> None:
     source = (DOMAIN / "__init__.py").read_text()
-    setup = source[source.index("async def async_setup("):source.index("async def async_setup_entry(")]
-    entry_setup = source[source.index("async def async_setup_entry("):source.index("async def async_unload_entry(")]
+    setup = source[
+        source.index("async def async_setup(") : source.index("async def async_setup_entry(")
+    ]
+    entry_setup = source[
+        source.index("async def async_setup_entry(") : source.index("async def async_unload_entry(")
+    ]
     assert "async_register_services(hass)" in setup
     assert "async_register_voice_intents(hass)" in setup
     assert "async_install_sentences(hass)" in setup
@@ -27,7 +32,11 @@ def test_global_actions_are_registered_in_async_setup() -> None:
 
 def test_unload_does_not_remove_integration_wide_actions() -> None:
     source = (DOMAIN / "__init__.py").read_text()
-    unload = source[source.index("async def async_unload_entry("):source.index("async def _async_migrate_debug_storage(")]
+    unload = source[
+        source.index("async def async_unload_entry(") : source.index(
+            "async def _async_migrate_debug_storage("
+        )
+    ]
     assert "async_unregister_services" not in unload
     assert "async_entries(DOMAIN)" not in unload
 
@@ -44,7 +53,9 @@ def test_2026_api_compatibility_guards() -> None:
 def test_sentence_install_is_idempotent_and_requests_one_restart() -> None:
     manager = (DOMAIN / "sentence_manager.py").read_text()
     integration = (DOMAIN / "__init__.py").read_text()
-    assert manager.index("if current_hash == new_hash") < manager.index("elif previous_hash and current_hash == previous_hash")
+    assert manager.index("if current_hash == new_hash") < manager.index(
+        "elif previous_hash and current_hash == previous_hash"
+    )
     assert "assist_sentences_restart_required" in integration
     assert 'sentence_result["installed"] or sentence_result["updated"]' in integration
 

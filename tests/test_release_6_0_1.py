@@ -17,7 +17,10 @@ def test_release_version_is_consistent() -> None:
         node.value.value
         for node in module.body
         if isinstance(node, ast.Assign)
-        and any(isinstance(target, ast.Name) and target.id == "INTEGRATION_VERSION" for target in node.targets)
+        and any(
+            isinstance(target, ast.Name) and target.id == "INTEGRATION_VERSION"
+            for target in node.targets
+        )
         and isinstance(node.value, ast.Constant)
     )
     assert manifest["version"] == "1.1.0-rc.15"

@@ -1,4 +1,5 @@
 """Build a provider-neutral operational runtime summary."""
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass

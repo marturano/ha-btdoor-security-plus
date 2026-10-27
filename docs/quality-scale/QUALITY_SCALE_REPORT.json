@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated": "2026-07-27",
+  "generated": "2026-10-27",
   "standard": "Home Assistant Integration Quality Scale",
   "assessment_type": "self-assessment for a custom integration; not an official Home Assistant grade",
   "achieved_tier": "gold",
@@ -310,7 +310,7 @@
       "id": "test-coverage",
       "tier": "silver",
       "status": "done",
-      "reason": "Measured integration coverage is 95.08%; above 95% is required.",
+      "reason": "Measured integration coverage is 95.01%; above 95% is required.",
       "evidence": [
         "docs/quality-scale/integration_coverage.json",
         "docs/quality-scale/INTEGRATION_COVERAGE_REPORT.md"

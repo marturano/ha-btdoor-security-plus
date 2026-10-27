@@ -30,7 +30,10 @@ class DialogEngine:
         self._sessions: dict[str, DialogSession] = {}
 
     def receive_invite(self, call_id: str, *, remote_tag: str | None = None) -> DialogSession:
-        if call_id in self._sessions and self._sessions[call_id].state is not DialogState.TERMINATED:
+        if (
+            call_id in self._sessions
+            and self._sessions[call_id].state is not DialogState.TERMINATED
+        ):
             raise DialogTransitionError(f"Active dialog already exists for {call_id}")
         session = DialogSession(call_id=call_id, remote_tag=remote_tag)
         self._sessions[call_id] = session
@@ -55,6 +58,8 @@ class DialogEngine:
 
     def diagnostics(self) -> dict[str, object]:
         return {
-            "active_count": sum(s.state is not DialogState.TERMINATED for s in self._sessions.values()),
+            "active_count": sum(
+                s.state is not DialogState.TERMINATED for s in self._sessions.values()
+            ),
             "sessions": [session.snapshot() for session in self._sessions.values()],
         }

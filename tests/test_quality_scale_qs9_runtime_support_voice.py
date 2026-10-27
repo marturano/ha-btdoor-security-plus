@@ -1,7 +1,7 @@
 """QS-9 behavioural coverage for runtime, support, voice and sentences."""
+
 from __future__ import annotations
 
-import asyncio
 import importlib.util
 import sys
 import types
@@ -17,11 +17,16 @@ PKG = ROOT / "custom_components" / "btdoor_security_plus"
 
 def _reset() -> None:
     for name in list(sys.modules):
-        if name.startswith("custom_components.btdoor_security_plus") or name.startswith("homeassistant"):
+        if name.startswith("custom_components.btdoor_security_plus") or name.startswith(
+            "homeassistant"
+        ):
             sys.modules.pop(name, None)
-    root = types.ModuleType("custom_components"); root.__path__ = [str(ROOT / "custom_components")]
-    pkg = types.ModuleType("custom_components.btdoor_security_plus"); pkg.__path__ = [str(PKG)]
-    sys.modules[root.__name__] = root; sys.modules[pkg.__name__] = pkg
+    root = types.ModuleType("custom_components")
+    root.__path__ = [str(ROOT / "custom_components")]
+    pkg = types.ModuleType("custom_components.btdoor_security_plus")
+    pkg.__path__ = [str(PKG)]
+    sys.modules[root.__name__] = root
+    sys.modules[pkg.__name__] = pkg
 
 
 def _load(name: str):
@@ -31,32 +36,51 @@ def _load(name: str):
         path = path / "__init__.py"
     else:
         path = path.with_suffix(".py")
-    spec = importlib.util.spec_from_file_location(full, path, submodule_search_locations=[str(path.parent)] if path.name == "__init__.py" else None)
-    mod = importlib.util.module_from_spec(spec); sys.modules[full] = mod
-    assert spec.loader; spec.loader.exec_module(mod)
+    spec = importlib.util.spec_from_file_location(
+        full,
+        path,
+        submodule_search_locations=[str(path.parent)] if path.name == "__init__.py" else None,
+    )
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[full] = mod
+    assert spec.loader
+    spec.loader.exec_module(mod)
     return mod
 
 
 def _ha_stubs() -> None:
     ha = types.ModuleType("homeassistant")
-    core = types.ModuleType("homeassistant.core"); core.HomeAssistant = object
+    core = types.ModuleType("homeassistant.core")
+    core.HomeAssistant = object
     helpers = types.ModuleType("homeassistant.helpers")
-    storage = types.ModuleType("homeassistant.helpers.storage"); storage.Store = object
+    storage = types.ModuleType("homeassistant.helpers.storage")
+    storage.Store = object
     intent = types.ModuleType("homeassistant.helpers.intent")
-    class IntentHandler: pass
-    class Intent: pass
-    intent.IntentHandler = IntentHandler; intent.Intent = Intent
-    intent.IntentResponse = object; intent.registered = []
+
+    class IntentHandler:
+        pass
+
+    class Intent:
+        pass
+
+    intent.IntentHandler = IntentHandler
+    intent.Intent = Intent
+    intent.IntentResponse = object
+    intent.registered = []
     intent.async_register = lambda hass, handler: intent.registered.append(handler)
     sys.modules.update({m.__name__: m for m in (ha, core, helpers, storage, intent)})
 
 
 @pytest.fixture
 def modules():
-    _reset(); _ha_stubs(); _load("const")
+    _reset()
+    _ha_stubs()
+    _load("const")
     return SimpleNamespace(
-        runtime=_load("runtime"), support=_load("support_debug"),
-        sentence=_load("sentence_manager"), voice=_load("voice"),
+        runtime=_load("runtime"),
+        support=_load("support_debug"),
+        sentence=_load("sentence_manager"),
+        voice=_load("voice"),
     )
 
 
@@ -108,9 +132,12 @@ async def test_support_writer_rotation_and_clear(modules, tmp_path, monkeypatch)
 
 def test_sentence_install_new_update_preserve(modules, tmp_path):
     m = modules.sentence
-    src = tmp_path / "src"; dst = tmp_path / "cfg"
-    lang = src / "it"; lang.mkdir(parents=True)
-    source = lang / "btdoor_security_plus.yaml"; source.write_text("language: it\n", encoding="utf-8")
+    src = tmp_path / "src"
+    dst = tmp_path / "cfg"
+    lang = src / "it"
+    lang.mkdir(parents=True)
+    source = lang / "btdoor_security_plus.yaml"
+    source.write_text("language: it\n", encoding="utf-8")
     assert m._install(src, dst) == {"installed": 1, "updated": 0, "preserved": 0}
     assert m._install(src, dst) == {"installed": 0, "updated": 0, "preserved": 0}
     source.write_text("language: it\nnew: true\n", encoding="utf-8")
@@ -125,21 +152,35 @@ def test_sentence_install_new_update_preserve(modules, tmp_path):
 @pytest.mark.asyncio
 async def test_async_install_sentences(modules, monkeypatch, tmp_path):
     called = {}
-    monkeypatch.setattr(modules.sentence, "_install", lambda source, config: called.update(source=source, config=config) or {"installed": 1, "updated": 0, "preserved": 0})
+    monkeypatch.setattr(
+        modules.sentence,
+        "_install",
+        lambda source, config: (
+            called.update(source=source, config=config)
+            or {"installed": 1, "updated": 0, "preserved": 0}
+        ),
+    )
     hass = SimpleNamespace(config=SimpleNamespace(path=lambda: str(tmp_path)))
     result = await modules.sentence.async_install_sentences(hass)
     assert result["installed"] == 1 and called["config"] == tmp_path
 
 
 class Response:
-    def __init__(self): self.speech = None
-    def async_set_speech(self, value): self.speech = value
+    def __init__(self):
+        self.speech = None
+
+    def async_set_speech(self, value):
+        self.speech = value
 
 
 class IntentObject:
     def __init__(self, hass, language="it"):
-        self.hass = hass; self.language = language; self.context = object()
-    def create_response(self): return Response()
+        self.hass = hass
+        self.language = language
+        self.context = object()
+
+    def create_response(self):
+        return Response()
 
 
 @pytest.mark.asyncio
@@ -148,11 +189,18 @@ async def test_voice_intent_all_paths(modules):
     handler = v.BTDoorOpenGateIntent()
     config = SimpleNamespace(language="it")
 
-    hass = SimpleNamespace(config=config, config_entries=SimpleNamespace(async_entries=lambda domain: []), services=SimpleNamespace())
+    hass = SimpleNamespace(
+        config=config,
+        config_entries=SimpleNamespace(async_entries=lambda domain: []),
+        services=SimpleNamespace(),
+    )
     response = await handler.async_handle(IntentObject(hass))
     assert "disponibile" in response.speech
 
-    entries = [SimpleNamespace(entry_id="a", runtime_data=object()), SimpleNamespace(entry_id="b", runtime_data=object())]
+    entries = [
+        SimpleNamespace(entry_id="a", runtime_data=object()),
+        SimpleNamespace(entry_id="b", runtime_data=object()),
+    ]
     hass.config_entries.async_entries = lambda domain: entries
     response = await handler.async_handle(IntentObject(hass))
     assert "più cancelli" in response.speech
@@ -171,7 +219,8 @@ async def test_voice_intent_all_paths(modules):
 def test_voice_registration_idempotent(modules):
     v = modules.voice
     hass = SimpleNamespace(data={})
-    v.async_register_voice_intents(hass); v.async_register_voice_intents(hass)
+    v.async_register_voice_intents(hass)
+    v.async_register_voice_intents(hass)
     intent_mod = sys.modules["homeassistant.helpers.intent"]
     assert len(intent_mod.registered) == 1
     assert hass.data[f"{v.DOMAIN}_voice_intents_registered"] is True

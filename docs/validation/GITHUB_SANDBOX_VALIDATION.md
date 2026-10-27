@@ -16,13 +16,13 @@ The project provides two workflows:
 ## Local equivalent
 
 ```bash
-./tools/validation/github_sandbox_validate.sh check
+bash tools/validation/github_sandbox_validate.sh check
 ```
 
 To apply supported automatic remediation in an isolated branch:
 
 ```bash
-./tools/validation/github_sandbox_validate.sh fix
+bash tools/validation/github_sandbox_validate.sh fix
 ```
 
 The `fix` mode is not a release approval. A subsequent clean `check` execution is required.

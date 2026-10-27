@@ -1,4 +1,5 @@
 """Immutable public runtime state models for BTDoor Security+."""
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field

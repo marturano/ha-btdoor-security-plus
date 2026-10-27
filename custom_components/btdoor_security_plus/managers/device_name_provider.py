@@ -1,4 +1,5 @@
 """Localized logical-device names."""
+
 from __future__ import annotations
 
 from typing import Final
@@ -78,7 +79,4 @@ class DeviceNameProvider:
         return _DEVICE_NAMES[self._language][kind]
 
     def catalog(self) -> dict[str, str]:
-        return {
-            kind.value: name
-            for kind, name in _DEVICE_NAMES[self._language].items()
-        }
+        return {kind.value: name for kind, name in _DEVICE_NAMES[self._language].items()}

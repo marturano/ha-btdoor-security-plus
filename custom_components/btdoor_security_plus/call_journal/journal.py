@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections import deque
 from datetime import UTC, datetime
-from typing import Any
+from typing import Any, cast
 
 from homeassistant.helpers.storage import Store
 
@@ -20,7 +20,9 @@ def _iso_duration(started: str | None, ended: str | None) -> float | None:
     if not started or not ended:
         return None
     try:
-        return max(0.0, (datetime.fromisoformat(ended) - datetime.fromisoformat(started)).total_seconds())
+        return max(
+            0.0, (datetime.fromisoformat(ended) - datetime.fromisoformat(started)).total_seconds()
+        )
     except (TypeError, ValueError):
         return None
 
@@ -41,7 +43,9 @@ class CallJournal:
                 self._records.append(dict(item))
         active = stored.get("active") or {}
         if isinstance(active, dict):
-            completed_ids = {str(item.get("call_id")) for item in self._records if item.get("call_id")}
+            completed_ids = {
+                str(item.get("call_id")) for item in self._records if item.get("call_id")
+            }
             for key, value in active.items():
                 if not isinstance(value, dict):
                     continue
@@ -105,10 +109,18 @@ class CallJournal:
             ):
                 return
             record = {
-                "schema_version": 1, "call_id": call_id, "direction": "incoming",
-                "started_at": event.timestamp, "ended_at": None, "caller": None,
-                "result": "unknown", "duration_seconds": None, "close_reason": None,
-                "audio_codec": None, "video_codec": None, "srtp_suite": None,
+                "schema_version": 1,
+                "call_id": call_id,
+                "direction": "incoming",
+                "started_at": event.timestamp,
+                "ended_at": None,
+                "caller": None,
+                "result": "unknown",
+                "duration_seconds": None,
+                "close_reason": None,
+                "audio_codec": None,
+                "video_codec": None,
+                "srtp_suite": None,
             }
             self._active[call_id] = record
 
@@ -116,9 +128,19 @@ class CallJournal:
             media = event.payload.get("media_runtime") or {}
             plan = media.get("plan") if isinstance(media, dict) else {}
             plan = plan if isinstance(plan, dict) else {}
-            audio = plan.get("audio") if isinstance(plan.get("audio"), dict) else {}
-            video = plan.get("video") if isinstance(plan.get("video"), dict) else {}
-            srtp = plan.get("srtp") if isinstance(plan.get("srtp"), dict) else {}
+            audio = (
+                cast(dict[str, Any], plan.get("audio"))
+                if isinstance(plan.get("audio"), dict)
+                else {}
+            )
+            video = (
+                cast(dict[str, Any], plan.get("video"))
+                if isinstance(plan.get("video"), dict)
+                else {}
+            )
+            srtp = (
+                cast(dict[str, Any], plan.get("srtp")) if isinstance(plan.get("srtp"), dict) else {}
+            )
             record["audio_codec"] = audio.get("codec") or record.get("audio_codec")
             record["video_codec"] = video.get("codec") or record.get("video_codec")
             record["srtp_suite"] = srtp.get("suite") or record.get("srtp_suite")
@@ -140,10 +162,26 @@ class CallJournal:
             if isinstance(runtime, dict):
                 record["ended_at"] = runtime.get("closed_at") or event.timestamp
                 record["close_reason"] = runtime.get("close_reason") or record.get("close_reason")
-                plan = runtime.get("plan") if isinstance(runtime.get("plan"), dict) else {}
-                audio = plan.get("audio") if isinstance(plan.get("audio"), dict) else {}
-                video = plan.get("video") if isinstance(plan.get("video"), dict) else {}
-                srtp = plan.get("srtp") if isinstance(plan.get("srtp"), dict) else {}
+                plan = (
+                    cast(dict[str, Any], runtime.get("plan"))
+                    if isinstance(runtime.get("plan"), dict)
+                    else {}
+                )
+                audio = (
+                    cast(dict[str, Any], plan.get("audio"))
+                    if isinstance(plan.get("audio"), dict)
+                    else {}
+                )
+                video = (
+                    cast(dict[str, Any], plan.get("video"))
+                    if isinstance(plan.get("video"), dict)
+                    else {}
+                )
+                srtp = (
+                    cast(dict[str, Any], plan.get("srtp"))
+                    if isinstance(plan.get("srtp"), dict)
+                    else {}
+                )
                 record["audio_codec"] = audio.get("codec") or record.get("audio_codec")
                 record["video_codec"] = video.get("codec") or record.get("video_codec")
                 record["srtp_suite"] = srtp.get("suite") or record.get("srtp_suite")
@@ -162,7 +200,9 @@ class CallJournal:
         if record is None:
             return
         record["ended_at"] = ended_at
-        record["duration_seconds"] = round(_iso_duration(record.get("started_at"), ended_at) or 0.0, 3)
+        record["duration_seconds"] = round(
+            _iso_duration(record.get("started_at"), ended_at) or 0.0, 3
+        )
         if record.get("result") in ("ringing", "unknown"):
             record["result"] = "completed"
         self._records.append(record)
@@ -220,7 +260,9 @@ class CallJournal:
             "retained_calls": len(self._records),
             "active_calls": len(self._active),
             "calls_by_result": results,
-            "average_duration_seconds": round(sum(durations) / len(durations), 3) if durations else None,
+            "average_duration_seconds": round(sum(durations) / len(durations), 3)
+            if durations
+            else None,
             "audio_codec_usage": codecs,
             "answered_today": answered_today,
             "missed_today": missed_today,

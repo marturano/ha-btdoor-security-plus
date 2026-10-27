@@ -1,4 +1,5 @@
 """Stable Device Registry manager facade for the runtime architecture."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -46,8 +47,7 @@ class DeviceManager:
             matches = [
                 device
                 for device in registry.devices.values()
-                if identifier in device.identifiers
-                and self.entry.entry_id in device.config_entries
+                if identifier in device.identifiers and self.entry.entry_id in device.config_entries
             ]
             if not matches:
                 missing.append(kind.value)

@@ -19,10 +19,14 @@ def test_gold_is_the_fixed_project_quality_scale_policy() -> None:
 def test_gold_policy_is_enforced_by_strict_workflow_check() -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "tools/quality_scale/quality_scale_workflow.py"), "check"],
-        cwd=ROOT, capture_output=True, text=True
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
     )
     assert result.returncode == 0, result.stderr or result.stdout
-    status = json.loads((ROOT / "docs/quality-scale/QUALITY_SCALE_WORKFLOW_STATUS.json").read_text())
+    status = json.loads(
+        (ROOT / "docs/quality-scale/QUALITY_SCALE_WORKFLOW_STATUS.json").read_text()
+    )
     assert status["current_tier"] == "gold"
     assert status["gold_policy_verified"] is True
     assert status["advancement_status"] == "ALLOWED"

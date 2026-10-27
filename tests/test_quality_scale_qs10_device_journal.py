@@ -1,13 +1,12 @@
 """QS-10 behavioural coverage for device registry, topology and call journal."""
+
 from __future__ import annotations
 
 import importlib.util
 import sys
 import types
-from datetime import UTC, datetime
 from pathlib import Path
 from types import SimpleNamespace
-from unittest.mock import AsyncMock
 
 import pytest
 
@@ -69,10 +68,13 @@ class FakeDeviceRegistry:
         device = self.async_get_device(kwargs["identifiers"])
         if device is None:
             device = FakeDevice(
-                f"dev{len(self.devices)+1}", kwargs["identifiers"],
+                f"dev{len(self.devices) + 1}",
+                kwargs["identifiers"],
                 config_entries=(kwargs["config_entry_id"],),
-                name=kwargs.get("name"), manufacturer=kwargs.get("manufacturer"),
-                model=kwargs.get("model"), sw_version=kwargs.get("sw_version"),
+                name=kwargs.get("name"),
+                manufacturer=kwargs.get("manufacturer"),
+                model=kwargs.get("model"),
+                sw_version=kwargs.get("sw_version"),
                 configuration_url=kwargs.get("configuration_url"),
             )
             self.devices[device.id] = device
@@ -106,14 +108,16 @@ def _load_device_modules(registry, entity_registry):
     _package("qs10pkg.models", PKG / "models")
     _package("qs10pkg.visibility", PKG / "visibility")
 
-    ha = _package("homeassistant", Path("."))
+    _package("homeassistant", Path("."))
     helpers = _package("homeassistant.helpers", Path("."))
     dr = types.ModuleType("homeassistant.helpers.device_registry")
     dr.DeviceInfo = DeviceInfo
     dr.async_get = lambda hass: registry
     er = types.ModuleType("homeassistant.helpers.entity_registry")
     er.async_get = lambda hass: entity_registry
-    er.async_entries_for_device = lambda reg, device_id, include_disabled_entities=True: list(reg.by_device.get(device_id, []))
+    er.async_entries_for_device = lambda reg, device_id, include_disabled_entities=True: list(
+        reg.by_device.get(device_id, [])
+    )
     sys.modules[dr.__name__] = dr
     sys.modules[er.__name__] = er
     helpers.device_registry = dr
@@ -121,7 +125,7 @@ def _load_device_modules(registry, entity_registry):
 
     _load("qs10pkg.const", PKG / "const.py")
     factory = _load("qs10pkg.device_model.factory", PKG / "device_model" / "factory.py")
-    names = _load("qs10pkg.device_model.names", PKG / "device_model" / "names.py")
+    _load("qs10pkg.device_model.names", PKG / "device_model" / "names.py")
     vismod = _load("qs10pkg.visibility.manager", PKG / "visibility" / "manager.py")
     vispkg = sys.modules["qs10pkg.visibility"]
     vispkg.visibility_for_entry = vismod.visibility_for_entry
@@ -135,23 +139,35 @@ def _load_device_modules(registry, entity_registry):
 
 @pytest.mark.asyncio
 async def test_device_registration_removes_hidden_and_migrates_metadata():
-    registry = FakeDeviceRegistry(); entities = FakeEntityRegistry()
+    registry = FakeDeviceRegistry()
+    entities = FakeEntityRegistry()
     factory, manager, _ = _load_device_modules(registry, entities)
     entry = SimpleNamespace(
-        entry_id="entry", unique_id="root", runtime_data=SimpleNamespace(language="it"),
+        entry_id="entry",
+        unique_id="root",
+        runtime_data=SimpleNamespace(language="it"),
         data={"device_name": "Porta", "gateway_id": "GW1"},
-        options={"show_cloud_status": False, "show_sip_monitor": True,
-                 "show_call_monitor": True, "show_media_monitor": True,
-                 "developer_mode": False, "show_advanced_diagnostics": False,
-                 "quick_voice_gate": True},
+        options={
+            "show_cloud_status": False,
+            "show_sip_monitor": True,
+            "show_call_monitor": True,
+            "show_media_monitor": True,
+            "developer_mode": False,
+            "show_advanced_diagnostics": False,
+            "quick_voice_gate": True,
+        },
     )
     hidden_id = factory.device_identifier(entry, factory.DeviceKind.CLOUD)
     hidden = FakeDevice("hidden", {hidden_id}, name="Cloud")
     registry.devices[hidden.id] = hidden
-    entities.by_device[hidden.id] = [SimpleNamespace(entity_id="sensor.hidden", config_entry_id="entry")]
+    entities.by_device[hidden.id] = [
+        SimpleNamespace(entity_id="sensor.hidden", config_entry_id="entry")
+    ]
 
     gateway_id = factory.device_identifier(entry, factory.DeviceKind.GATEWAY)
-    gateway = FakeDevice("gateway", {gateway_id}, name="Old", manufacturer="Wrong", model="Wrong", sw_version="0")
+    gateway = FakeDevice(
+        "gateway", {gateway_id}, name="Old", manufacturer="Wrong", model="Wrong", sw_version="0"
+    )
     registry.devices[gateway.id] = gateway
 
     await manager.async_register_devices(object(), entry)
@@ -169,13 +185,36 @@ async def test_device_registration_removes_hidden_and_migrates_metadata():
 
 
 def test_device_topology_validation_reports_missing_duplicates_and_areas(monkeypatch):
-    registry = FakeDeviceRegistry(); entities = FakeEntityRegistry()
+    registry = FakeDeviceRegistry()
+    entities = FakeEntityRegistry()
     factory, _, facade = _load_device_modules(registry, entities)
-    entry = SimpleNamespace(entry_id="entry", unique_id="root", runtime_data=SimpleNamespace(language="en"), data={}, options={})
+    entry = SimpleNamespace(
+        entry_id="entry",
+        unique_id="root",
+        runtime_data=SimpleNamespace(language="en"),
+        data={},
+        options={},
+    )
     gateway_identifier = factory.device_identifier(entry, factory.DeviceKind.GATEWAY)
     expected = factory.device_info_for(entry, factory.DeviceKind.GATEWAY)
-    root = FakeDevice("root", {gateway_identifier}, name=expected["name"], manufacturer="Wrong", model=expected["model"], sw_version=expected["sw_version"], area_id="front")
-    duplicate = FakeDevice("root2", {gateway_identifier}, name=expected["name"], manufacturer=expected["manufacturer"], model=expected["model"], sw_version=expected["sw_version"], name_by_user=" ")
+    root = FakeDevice(
+        "root",
+        {gateway_identifier},
+        name=expected["name"],
+        manufacturer="Wrong",
+        model=expected["model"],
+        sw_version=expected["sw_version"],
+        area_id="front",
+    )
+    duplicate = FakeDevice(
+        "root2",
+        {gateway_identifier},
+        name=expected["name"],
+        manufacturer=expected["manufacturer"],
+        model=expected["model"],
+        sw_version=expected["sw_version"],
+        name_by_user=" ",
+    )
     registry.devices = {root.id: root, duplicate.id: duplicate}
     manager = facade.DeviceManager(object(), entry)
     report = manager.validate_topology()
@@ -189,68 +228,139 @@ def test_device_topology_validation_reports_missing_duplicates_and_areas(monkeyp
 
 
 class FakeStore:
-    def __init__(self, value=None): self.value=value; self.saved=None; self.delayed=0
-    async def async_load(self): return self.value
-    async def async_save(self, value): self.saved=value
-    def async_delay_save(self, callback, delay): self.delayed += 1; self.saved=callback()
+    def __init__(self, value=None):
+        self.value = value
+        self.saved = None
+        self.delayed = 0
+
+    async def async_load(self):
+        return self.value
+
+    async def async_save(self, value):
+        self.saved = value
+
+    def async_delay_save(self, callback, delay):
+        self.delayed += 1
+        self.saved = callback()
 
 
 def _load_journal():
-    _reset(); _package("qs10pkg", PKG); _package("qs10pkg.event_bus", PKG / "event_bus"); _package("qs10pkg.call_journal", PKG / "call_journal")
-    _package("homeassistant", Path(".")); _package("homeassistant.helpers", Path("."))
+    _reset()
+    _package("qs10pkg", PKG)
+    _package("qs10pkg.event_bus", PKG / "event_bus")
+    _package("qs10pkg.call_journal", PKG / "call_journal")
+    _package("homeassistant", Path("."))
+    _package("homeassistant.helpers", Path("."))
     storage = types.ModuleType("homeassistant.helpers.storage")
+
     class Store:
-        def __class_getitem__(cls, item): return cls
-    storage.Store = Store; sys.modules[storage.__name__] = storage
+        def __class_getitem__(cls, item):
+            return cls
+
+    storage.Store = Store
+    sys.modules[storage.__name__] = storage
     events = _load("qs10pkg.event_bus.events", PKG / "event_bus" / "events.py")
     buspkg = sys.modules["qs10pkg.event_bus"]
-    buspkg.RuntimeEvent=events.RuntimeEvent; buspkg.RuntimeEventType=events.RuntimeEventType
+    buspkg.RuntimeEvent = events.RuntimeEvent
+    buspkg.RuntimeEventType = events.RuntimeEventType
     journal = _load("qs10pkg.call_journal.journal", PKG / "call_journal" / "journal.py")
     return journal, events
 
 
 def _event(events, kind, call_id="c1", timestamp="2026-07-23T10:00:00+00:00", **payload):
-    return events.RuntimeEvent(event_type=kind, source=events.RuntimeSource.DIALOG, payload={"call_id": call_id, **payload}, timestamp=timestamp)
+    return events.RuntimeEvent(
+        event_type=kind,
+        source=events.RuntimeSource.DIALOG,
+        payload={"call_id": call_id, **payload},
+        timestamp=timestamp,
+    )
 
 
 @pytest.mark.asyncio
 async def test_call_journal_full_lifecycle_metrics_rebuild_and_clear():
-    journal_mod, events = _load_journal(); store=FakeStore(); journal=journal_mod.CallJournal(store, max_records=3)
-    callbacks=[]
-    bus=SimpleNamespace(subscribe=lambda cb: callbacks.append(cb) or (lambda: callbacks.clear()))
-    journal.attach(bus); journal.attach(bus); assert len(callbacks)==1
+    journal_mod, events = _load_journal()
+    store = FakeStore()
+    journal = journal_mod.CallJournal(store, max_records=3)
+    callbacks = []
+    bus = SimpleNamespace(subscribe=lambda cb: callbacks.append(cb) or (lambda: callbacks.clear()))
+    journal.attach(bus)
+    journal.attach(bus)
+    assert len(callbacks) == 1
     journal.process(_event(events, events.RuntimeEventType.INVITE_RECEIVED, caller="door"))
-    journal.process(_event(events, events.RuntimeEventType.MEDIA_PREPARED, media_runtime={"plan":{"audio":{"codec":"PCMU"},"video":{"codec":"H264"},"srtp":{"suite":"AES"}}}))
+    journal.process(
+        _event(
+            events,
+            events.RuntimeEventType.MEDIA_PREPARED,
+            media_runtime={
+                "plan": {
+                    "audio": {"codec": "PCMU"},
+                    "video": {"codec": "H264"},
+                    "srtp": {"suite": "AES"},
+                }
+            },
+        )
+    )
     journal.process(_event(events, events.RuntimeEventType.CALL_ANSWERED))
-    journal.process(_event(events, events.RuntimeEventType.MEDIA_CLOSED, timestamp="2026-07-23T10:00:12+00:00", media_runtime={"closed_at":"2026-07-23T10:00:12+00:00","close_reason":"normal"}))
-    metrics=journal.metrics
-    assert metrics["retained_calls"]==1 and metrics["active_calls"]==0
-    assert metrics["average_duration_seconds"]==12.0
-    assert metrics["audio_codec_usage"]=={"PCMU":1}
-    assert journal.last_record["result"]=="answered"
-    journal.detach(); assert callbacks==[]
+    journal.process(
+        _event(
+            events,
+            events.RuntimeEventType.MEDIA_CLOSED,
+            timestamp="2026-07-23T10:00:12+00:00",
+            media_runtime={"closed_at": "2026-07-23T10:00:12+00:00", "close_reason": "normal"},
+        )
+    )
+    metrics = journal.metrics
+    assert metrics["retained_calls"] == 1 and metrics["active_calls"] == 0
+    assert metrics["average_duration_seconds"] == 12.0
+    assert metrics["audio_codec_usage"] == {"PCMU": 1}
+    assert journal.last_record["result"] == "answered"
+    journal.detach()
+    assert callbacks == []
 
-    await journal.async_rebuild([
-        _event(events, events.RuntimeEventType.CALL_STARTED, "c2"),
-        _event(events, events.RuntimeEventType.CALL_CANCELLED, "c2", method="CANCEL"),
-        _event(events, events.RuntimeEventType.CALL_ENDED, "c2", "2026-07-23T10:00:05+00:00"),
-    ])
-    assert journal.last_record["result"]=="missed"
+    await journal.async_rebuild(
+        [
+            _event(events, events.RuntimeEventType.CALL_STARTED, "c2"),
+            _event(events, events.RuntimeEventType.CALL_CANCELLED, "c2", method="CANCEL"),
+            _event(events, events.RuntimeEventType.CALL_ENDED, "c2", "2026-07-23T10:00:05+00:00"),
+        ]
+    )
+    assert journal.last_record["result"] == "missed"
     assert store.saved["records"]
     await journal.async_clear()
-    assert journal.records==[] and store.saved["active"]=={}
+    assert journal.records == [] and store.saved["active"] == {}
 
 
 @pytest.mark.asyncio
 async def test_call_journal_load_self_heals_and_ignores_invalid_events():
     journal_mod, events = _load_journal()
-    ended={"call_id":"done","started_at":"bad","ended_at":"2026-07-23T10:00:00+00:00","result":"missed"}
-    active={"call_id":"live","started_at":"2026-07-23T10:00:00+00:00","ended_at":None,"result":"ringing"}
-    store=FakeStore({"records":["bad", ended], "active":{"done":ended,"live":active,"junk":"bad"}})
-    journal=journal_mod.CallJournal(store); await journal.async_load()
-    assert journal.metrics["retained_calls"]==1 and journal.metrics["active_calls"]==1
+    ended = {
+        "call_id": "done",
+        "started_at": "bad",
+        "ended_at": "2026-07-23T10:00:00+00:00",
+        "result": "missed",
+    }
+    active = {
+        "call_id": "live",
+        "started_at": "2026-07-23T10:00:00+00:00",
+        "ended_at": None,
+        "result": "ringing",
+    }
+    store = FakeStore(
+        {"records": ["bad", ended], "active": {"done": ended, "live": active, "junk": "bad"}}
+    )
+    journal = journal_mod.CallJournal(store)
+    await journal.async_load()
+    assert journal.metrics["retained_calls"] == 1 and journal.metrics["active_calls"] == 1
     journal.process(_event(events, events.RuntimeEventType.CALL_ENDED, call_id=""))
     journal.process(_event(events, events.RuntimeEventType.CALL_REJECTED, call_id="unknown"))
-    journal.process(_event(events, events.RuntimeEventType.MEDIA_FAILED, call_id="live", error="boom", timestamp="2026-07-23T10:00:01+00:00"))
-    assert journal.last_record["result"]=="failed"
+    journal.process(
+        _event(
+            events,
+            events.RuntimeEventType.MEDIA_FAILED,
+            call_id="live",
+            error="boom",
+            timestamp="2026-07-23T10:00:01+00:00",
+        )
+    )
+    assert journal.last_record["result"] == "failed"
     assert journal_mod._iso_duration("bad", "also-bad") is None

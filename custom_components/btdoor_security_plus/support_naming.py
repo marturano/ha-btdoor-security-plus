@@ -1,4 +1,5 @@
 """Naming helpers for BTDoor Security+ support artifacts."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

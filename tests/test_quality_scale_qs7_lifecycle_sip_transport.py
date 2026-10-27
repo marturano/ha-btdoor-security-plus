@@ -1,4 +1,5 @@
 """QS-7 behavioural coverage for lifecycle and SIP transport."""
+
 from __future__ import annotations
 
 import asyncio
@@ -7,7 +8,6 @@ import sys
 import types
 from datetime import UTC, datetime
 from pathlib import Path
-from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
 import pytest
@@ -65,16 +65,30 @@ class Writer:
         self.closing = closing
         self.data = []
         self.closed = False
-    def is_closing(self): return self.closing
-    def write(self, data): self.data.append(data)
-    async def drain(self): return None
-    def close(self): self.closed = True; self.closing = True
-    async def wait_closed(self): return None
+
+    def is_closing(self):
+        return self.closing
+
+    def write(self, data):
+        self.data.append(data)
+
+    async def drain(self):
+        return None
+
+    def close(self):
+        self.closed = True
+        self.closing = True
+
+    async def wait_closed(self):
+        return None
 
 
 class Reader:
-    def __init__(self, eof=False): self.eof = eof
-    def at_eof(self): return self.eof
+    def __init__(self, eof=False):
+        self.eof = eof
+
+    def at_eof(self):
+        return self.eof
 
 
 @pytest.mark.asyncio
@@ -131,7 +145,9 @@ async def test_open_gate_success_and_retry_paths(sip, monkeypatch):
     assert result.code == 202 and client.last_error is None
     assert events[-1][0] == "gate_opened"
 
-    client._async_send_message = AsyncMock(side_effect=[sip.BticinoSipNotFoundError("404"), sip.SipResult("SIP/2.0 200 OK", 200)])
+    client._async_send_message = AsyncMock(
+        side_effect=[sip.BticinoSipNotFoundError("404"), sip.SipResult("SIP/2.0 200 OK", 200)]
+    )
     monkeypatch.setattr(asyncio, "sleep", AsyncMock())
     result = await client.async_open_gate()
     assert result.code == 200 and client._async_send_message.await_count == 2
@@ -162,7 +178,13 @@ async def test_reject_call_and_ensure_session(sip):
     writer = Writer()
     session = sip.SipSession(Reader(), writer, "i", "c", "p", "u")
     client.ringing = True
-    client._invite_headers = {"via": ["v"], "from": ["f"], "to": ["t"], "call-id": ["id"], "cseq": ["1 INVITE"]}
+    client._invite_headers = {
+        "via": ["v"],
+        "from": ["f"],
+        "to": ["t"],
+        "call-id": ["id"],
+        "cseq": ["1 INVITE"],
+    }
     client._invite_local_tag = "tag"
     client.last_caller = "door"
     client.last_call_id = "id"
@@ -206,11 +228,15 @@ async def test_drop_session_write_exchange_and_connect_errors(sip, monkeypatch, 
     assert writer2.data == [b"abc"]
 
     session2 = sip.SipSession(Reader(), Writer(), "i", "c", "p", "u")
+
     async def complete(writer, data):
         key = next(iter(client._pending))
         client._pending[key].set_result((b"raw", "SIP/2.0 200 OK", {}))
+
     client._async_write = complete
-    raw, status, headers = await client._async_exchange(session2, b"x", call_id="c", cseq_method="MESSAGE", timeout=1)
+    raw, status, headers = await client._async_exchange(
+        session2, b"x", call_id="c", cseq_method="MESSAGE", timeout=1
+    )
     assert status.endswith("200 OK") and not client._pending
 
     client.client_cert_path = str(tmp_path / "missing-cert")
@@ -226,10 +252,16 @@ async def test_drop_session_write_exchange_and_connect_errors(sip, monkeypatch, 
 async def test_send_message_authentication_and_errors(sip):
     client = _client(sip)
     session = sip.SipSession(Reader(), Writer(), "sip:i", "sip:c", "sip:p", "u")
-    client._async_exchange = AsyncMock(side_effect=[
-        (b"raw", "SIP/2.0 407 Proxy Authentication Required", {"proxy-authenticate": ['Digest realm="r", nonce="n"']}),
-        (b"raw", "SIP/2.0 202 Accepted", {}),
-    ])
+    client._async_exchange = AsyncMock(
+        side_effect=[
+            (
+                b"raw",
+                "SIP/2.0 407 Proxy Authentication Required",
+                {"proxy-authenticate": ['Digest realm="r", nonce="n"']},
+            ),
+            (b"raw", "SIP/2.0 202 Accepted", {}),
+        ]
+    )
     result = await client._async_send_message(session, "sip:t", "OPEN")
     assert result.code == 202 and client._message_challenge
 

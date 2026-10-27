@@ -1,8 +1,9 @@
 """Typed support-diagnostic models and safe structured sanitization."""
+
 from __future__ import annotations
 
-from typing import Any, NotRequired, TypedDict
 import re
+from typing import Any, TypedDict
 
 from .support_sanitizer import ExportPolicy, sanitize_export_data
 
@@ -37,6 +38,7 @@ class SupportSnapshot(TypedDict, total=False):
     health: dict[str, Any]
     tests: dict[str, Any]
     recent_debug: list[dict[str, Any]]
+    diagnostic_framework: dict[str, Any]
 
 
 _ANGLE_URI_RE = re.compile(r"<(?P<uri>sips?:[^>]+)>", re.I)
@@ -52,8 +54,6 @@ _PARAM_RE = re.compile(r";(?P<name>[+a-z0-9_.-]+)(?:=(?P<value>[^;]+))?", re.I)
 def sanitize_support_data(value: Any, key: str | None = None) -> Any:
     """Return a JSON-safe copy using the central standard export policy."""
     return sanitize_export_data(value, key, policy=ExportPolicy.STANDARD)
-
-
 
 
 def build_timeline_summary(events: list[dict[str, Any]]) -> dict[str, Any]:
@@ -79,6 +79,7 @@ def build_timeline_summary(events: list[dict[str, Any]]) -> dict[str, Any]:
         "last_event": sanitize_support_data(last_event),
     }
 
+
 def sanitize_json_text(value: Any, *, indent: int | None = 2) -> str:
     """Serialize a sanitized structured value to guaranteed-valid JSON."""
     return json_dumps(sanitize_support_data(value), indent=indent)
@@ -99,7 +100,8 @@ def parse_party_header(raw: Any) -> SipPartyInfo | None:
     angle = _ANGLE_URI_RE.search(text)
     bare = _BARE_URI_RE.search(text)
     uri = angle.group("uri") if angle else bare.group("uri") if bare else ""
-    tag = (_TAG_RE.search(text).group("tag") if _TAG_RE.search(text) else "")
+    tag_match = _TAG_RE.search(text)
+    tag = tag_match.group("tag") if tag_match else ""
     display = text.split("<", 1)[0].strip().strip('"') if "<" in text else ""
     result: SipPartyInfo = {"raw": text}
     if uri:
@@ -124,7 +126,7 @@ def parse_contact_header(raw: Any) -> SipContactInfo | None:
     if instance_match:
         instance = instance_match.group("quoted") or instance_match.group("plain") or ""
     params: dict[str, str | bool] = {}
-    suffix = text[angle.end():] if angle else text
+    suffix = text[angle.end() :] if angle else text
     for match in _PARAM_RE.finditer(suffix):
         name = match.group("name")
         value = match.group("value")

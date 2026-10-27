@@ -1,4 +1,5 @@
 """QS-2 behavioural coverage for entity platforms without a full HA runtime."""
+
 from __future__ import annotations
 
 import asyncio
@@ -35,7 +36,14 @@ class _EventEntity(_Entity):
 
 
 class HomeAssistantError(Exception):
-    def __init__(self, message=None, *, translation_domain=None, translation_key=None, translation_placeholders=None):
+    def __init__(
+        self,
+        message=None,
+        *,
+        translation_domain=None,
+        translation_key=None,
+        translation_placeholders=None,
+    ):
         self.translation_domain = translation_domain
         self.translation_key = translation_key
         self.translation_placeholders = translation_placeholders or {}
@@ -64,7 +72,13 @@ def _install_stubs() -> None:
     ha = types.ModuleType("homeassistant")
     components = types.ModuleType("homeassistant.components")
     helpers = types.ModuleType("homeassistant.helpers")
-    sys.modules.update({"homeassistant": ha, "homeassistant.components": components, "homeassistant.helpers": helpers})
+    sys.modules.update(
+        {
+            "homeassistant": ha,
+            "homeassistant.components": components,
+            "homeassistant.helpers": helpers,
+        }
+    )
 
     for component, class_name, cls in (
         ("binary_sensor", "BinarySensorEntity", _Entity),
@@ -147,19 +161,45 @@ switch = _load("switch")
 
 def _client(**overrides):
     defaults = dict(
-        registered=True, last_status="200 OK", ringing=False, last_caller="Door station",
-        last_call_id="call-1", media_runtime_state="prepared",
-        last_completed_media_session={"closed_reason": "cancel"}, call_state="idle",
-        last_error=None, server="sip.example.test", port=5060,
-        target_uri="sip:door@example.test", call_started_at=None, call_ended_at=None,
-        last_call_duration=0.0, call_count=2, missed_call_count=1, last_message=None,
-        last_message_at=None, message_count=0, last_event_type=None, last_event_at=None,
-        connected_at=None, last_keepalive_at=None, reconnect_count=0,
-        last_command_duration=None, last_command_at=None, dialog_state="idle",
-        last_sip_method=None, last_sdp_offer=None, last_info_body=None,
-        last_notify_event=None, last_refer_to=None, media_runtime={},
-        media_instrumentation={}, sip_dispatcher_diagnostics={}, last_caller_uri=None,
-        last_caller_domain=None, last_caller_display_name=None,
+        registered=True,
+        last_status="200 OK",
+        ringing=False,
+        last_caller="Door station",
+        last_call_id="call-1",
+        media_runtime_state="prepared",
+        last_completed_media_session={"closed_reason": "cancel"},
+        call_state="idle",
+        last_error=None,
+        server="sip.example.test",
+        port=5060,
+        target_uri="sip:door@example.test",
+        call_started_at=None,
+        call_ended_at=None,
+        last_call_duration=0.0,
+        call_count=2,
+        missed_call_count=1,
+        last_message=None,
+        last_message_at=None,
+        message_count=0,
+        last_event_type=None,
+        last_event_at=None,
+        connected_at=None,
+        last_keepalive_at=None,
+        reconnect_count=0,
+        last_command_duration=None,
+        last_command_at=None,
+        dialog_state="idle",
+        last_sip_method=None,
+        last_sdp_offer=None,
+        last_info_body=None,
+        last_notify_event=None,
+        last_refer_to=None,
+        media_runtime={},
+        media_instrumentation={},
+        sip_dispatcher_diagnostics={},
+        last_caller_uri=None,
+        last_caller_domain=None,
+        last_caller_display_name=None,
         add_listener=lambda callback: lambda: None,
     )
     defaults.update(overrides)
@@ -170,12 +210,18 @@ def _entry(*, quick_voice=True, client=None, developer=None):
     cloud = SimpleNamespace(connected=True)
     dialog_api = SimpleNamespace(state="active")
     return SimpleNamespace(
-        unique_id="entry-uid", entry_id="entry-id", data={},
+        unique_id="entry-uid",
+        entry_id="entry-id",
+        data={},
         options={const.CONF_QUICK_VOICE_GATE: quick_voice},
         runtime_data=SimpleNamespace(
             client=client or _client(),
             api=SimpleNamespace(cloud=lambda: cloud, dialog=lambda: dialog_api),
-            developer=developer, debug=None, last_open=None, last_result=None, language="en",
+            developer=developer,
+            debug=None,
+            last_open=None,
+            last_result=None,
+            language="en",
         ),
     )
 
@@ -190,14 +236,23 @@ def _attach_hass(entity, response=None):
 def test_binary_sensor_properties_and_setup(monkeypatch):
     entry = _entry()
     sensors = [
-        binary_sensor.BticinoSipRegisteredSensor(entry), binary_sensor.BticinoRingingSensor(entry),
-        binary_sensor.BTDoorMediaReadySensor(entry), binary_sensor.BTDoorLastCallMissedSensor(entry),
-        binary_sensor.BTDoorRuntimeHealthySensor(entry), binary_sensor.BTDoorCloudConnectedSensor(entry),
+        binary_sensor.BticinoSipRegisteredSensor(entry),
+        binary_sensor.BticinoRingingSensor(entry),
+        binary_sensor.BTDoorMediaReadySensor(entry),
+        binary_sensor.BTDoorLastCallMissedSensor(entry),
+        binary_sensor.BTDoorRuntimeHealthySensor(entry),
+        binary_sensor.BTDoorCloudConnectedSensor(entry),
         binary_sensor.BTDoorDialogCallActiveSensor(entry),
     ]
     assert sensors[0].is_on and sensors[0].extra_state_attributes["last_sip_status"] == "200 OK"
     assert sensors[1].is_on is False and sensors[1].extra_state_attributes["call_id"] == "call-1"
-    assert sensors[2].is_on and sensors[3].is_on and sensors[4].is_on and sensors[5].is_on and sensors[6].is_on
+    assert (
+        sensors[2].is_on
+        and sensors[3].is_on
+        and sensors[4].is_on
+        and sensors[5].is_on
+        and sensors[6].is_on
+    )
     entry.runtime_data.client.registered = False
     entry.runtime_data.client.last_error = "failed"
     entry.runtime_data.client.media_runtime_state = "failed"
@@ -207,7 +262,11 @@ def test_binary_sensor_properties_and_setup(monkeypatch):
     assert not sensors[3].is_on and not sensors[4].is_on and not sensors[6].is_on
 
     added = []
-    monkeypatch.setattr(binary_sensor, "visibility_for_entry", lambda _: SimpleNamespace(filter_entities=lambda value: value[:2]))
+    monkeypatch.setattr(
+        binary_sensor,
+        "visibility_for_entry",
+        lambda _: SimpleNamespace(filter_entities=lambda value: value[:2]),
+    )
     asyncio.run(binary_sensor.async_setup_entry(SimpleNamespace(), entry, added.extend))
     assert len(added) == 2
 
@@ -227,7 +286,9 @@ def test_event_setup_and_filtering(monkeypatch):
 
 def test_voice_bridge_paths(monkeypatch):
     disabled, enabled = [], []
-    asyncio.run(switch.async_setup_entry(SimpleNamespace(), _entry(quick_voice=False), disabled.extend))
+    asyncio.run(
+        switch.async_setup_entry(SimpleNamespace(), _entry(quick_voice=False), disabled.extend)
+    )
     asyncio.run(switch.async_setup_entry(SimpleNamespace(), _entry(), enabled.extend))
     assert not disabled and len(enabled) == 1
     entity = enabled[0]
@@ -261,13 +322,22 @@ def test_gate_and_developer_button_paths(monkeypatch):
     assert exc_info.value.translation_key == "gate_open_failed"
 
     developer = SimpleNamespace(
-        enabled=True, async_run_tests=AsyncMock(return_value={"one": {"ok": True}}),
-        async_generate_support_report=AsyncMock(return_value={"report_path": "/tmp/r.md", "bundle_path": "/tmp/r.zip"}),
+        enabled=True,
+        async_run_tests=AsyncMock(return_value={"one": {"ok": True}}),
+        async_generate_support_report=AsyncMock(
+            return_value={"report_path": "/tmp/r.md", "bundle_path": "/tmp/r.zip"}
+        ),
         async_clean_debug_environment=AsyncMock(return_value={"removed_files": 3}),
     )
     notices = []
-    monkeypatch.setattr(button.persistent_notification, "async_create", lambda *a, **k: notices.append((a, k)))
-    for cls in (button.BTDoorDeveloperTestButton, button.BTDoorSupportReportButton, button.BTDoorCleanDebugButton):
+    monkeypatch.setattr(
+        button.persistent_notification, "async_create", lambda *a, **k: notices.append((a, k))
+    )
+    for cls in (
+        button.BTDoorDeveloperTestButton,
+        button.BTDoorSupportReportButton,
+        button.BTDoorCleanDebugButton,
+    ):
         entity = cls(_entry(developer=developer))
         entity.hass = SimpleNamespace()
         monkeypatch.setattr(entity, "async_write_ha_state", lambda: None)
@@ -278,7 +348,9 @@ def test_gate_and_developer_button_paths(monkeypatch):
 
 def test_diagnostics_payload(monkeypatch):
     monkeypatch.setattr(diagnostics, "sanitize_support_data", lambda data: data)
-    result = asyncio.run(diagnostics.async_get_config_entry_diagnostics(SimpleNamespace(), _entry()))
+    result = asyncio.run(
+        diagnostics.async_get_config_entry_diagnostics(SimpleNamespace(), _entry())
+    )
     assert result["runtime"]["registered"] is True
     assert result["runtime"]["server"] == "sip.example.test"
     assert result["support_debug"]["mode"] == "off"

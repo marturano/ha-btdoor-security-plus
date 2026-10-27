@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import logging
-from typing import Any
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 import voluptuous as vol
-
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.selector import (
@@ -33,6 +32,8 @@ from .const import (
     CONF_CERTIFICATE_NOT_AFTER,
     CONF_CLIENT_CERT_PATH,
     CONF_CLIENT_KEY_PATH,
+    CONF_DEBUG_MODE,
+    CONF_DEVELOPER_MODE,
     CONF_DEVICE_NAME,
     CONF_EMAIL,
     CONF_GATEWAY_ID,
@@ -42,33 +43,31 @@ from .const import (
     CONF_PLANT_ID,
     CONF_PLANT_NAME,
     CONF_PORT,
+    CONF_QUICK_VOICE_GATE,
     CONF_SERVER,
+    CONF_SHOW_ADVANCED_DIAGNOSTICS,
+    CONF_SHOW_CALL_MONITOR,
+    CONF_SHOW_CLOUD_STATUS,
+    CONF_SHOW_MEDIA_MONITOR,
+    CONF_SHOW_SIP_MONITOR,
     CONF_SIP_ACCOUNT,
     CONF_SIP_PASSWORD,
     CONF_VERIFY_SERVER,
-    CONF_QUICK_VOICE_GATE,
-    DEFAULT_DEVICE_NAME,
-    DEFAULT_PORT,
-    DEFAULT_SERVER,
-    DEFAULT_VERIFY_SERVER,
-    DEFAULT_QUICK_VOICE_GATE,
-    CONF_DEBUG_MODE,
-    CONF_DEVELOPER_MODE,
-    DEFAULT_DEBUG_MODE,
-    DEFAULT_DEVELOPER_MODE,
-    CONF_SHOW_CLOUD_STATUS,
-    CONF_SHOW_SIP_MONITOR,
-    CONF_SHOW_CALL_MONITOR,
-    CONF_SHOW_MEDIA_MONITOR,
-    CONF_SHOW_ADVANCED_DIAGNOSTICS,
-    DEFAULT_SHOW_CLOUD_STATUS,
-    DEFAULT_SHOW_SIP_MONITOR,
-    DEFAULT_SHOW_CALL_MONITOR,
-    DEFAULT_SHOW_MEDIA_MONITOR,
-    DEFAULT_SHOW_ADVANCED_DIAGNOSTICS,
+    DEBUG_MODE_DEEP,
     DEBUG_MODE_OFF,
     DEBUG_MODE_SUPPORT,
-    DEBUG_MODE_DEEP,
+    DEFAULT_DEBUG_MODE,
+    DEFAULT_DEVELOPER_MODE,
+    DEFAULT_DEVICE_NAME,
+    DEFAULT_PORT,
+    DEFAULT_QUICK_VOICE_GATE,
+    DEFAULT_SERVER,
+    DEFAULT_SHOW_ADVANCED_DIAGNOSTICS,
+    DEFAULT_SHOW_CALL_MONITOR,
+    DEFAULT_SHOW_CLOUD_STATUS,
+    DEFAULT_SHOW_MEDIA_MONITOR,
+    DEFAULT_SHOW_SIP_MONITOR,
+    DEFAULT_VERIFY_SERVER,
     DOMAIN,
 )
 from .sip_client import (
@@ -79,6 +78,10 @@ from .sip_client import (
 )
 
 _LOGGER = logging.getLogger(__name__)
+
+if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigEntry
+    from homeassistant.helpers.selector import SelectOptionDict
 
 
 class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -91,16 +94,14 @@ class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
         self._credentials: dict[str, Any] = {}
         self._gateways: dict[str, PlantGateway] = {}
         self._id_device = generate_id_device()
-        self._reconfigure_entry = None
+        self._reconfigure_entry: ConfigEntry[Any] | None = None
 
     @staticmethod
     def async_get_options_flow(config_entry):
         """Return the support-debug options flow."""
         return BTDoorOptionsFlow()
 
-    async def async_step_user(
-        self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    async def async_step_user(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Authenticate with MyHomeWeb and discover gateways."""
         errors: dict[str, str] = {}
         if user_input is not None:
@@ -136,10 +137,8 @@ class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
     ) -> ConfigFlowResult:
         """Select one gateway when the account has multiple gateways."""
         if user_input is not None:
-            return await self._async_finish(
-                self._gateways[str(user_input[CONF_GATEWAY_ID])]
-            )
-        options = [
+            return await self._async_finish(self._gateways[str(user_input[CONF_GATEWAY_ID])])
+        options: list[SelectOptionDict] = [
             {"value": gateway_id, "label": item.label}
             for gateway_id, item in self._gateways.items()
         ]
@@ -203,9 +202,7 @@ class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
             CONF_EMAIL: entry.data.get(CONF_EMAIL, ""),
             CONF_DEVICE_NAME: entry.data.get(CONF_DEVICE_NAME, DEFAULT_DEVICE_NAME),
             CONF_SERVER: entry.data.get(CONF_SERVER, DEFAULT_SERVER),
-            CONF_VERIFY_SERVER: entry.data.get(
-                CONF_VERIFY_SERVER, DEFAULT_VERIFY_SERVER
-            ),
+            CONF_VERIFY_SERVER: entry.data.get(CONF_VERIFY_SERVER, DEFAULT_VERIFY_SERVER),
         }
         return self.async_show_form(
             step_id="reconfigure",
@@ -213,9 +210,7 @@ class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
             errors=errors,
         )
 
-    async def async_step_reauth(
-        self, entry_data: dict[str, Any]
-    ) -> ConfigFlowResult:
+    async def async_step_reauth(self, entry_data: dict[str, Any]) -> ConfigFlowResult:
         """Start reauthentication after cloud credentials are rejected."""
         self._credentials = dict(entry_data)
         return await self.async_step_reauth_confirm()
@@ -230,9 +225,7 @@ class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
             merged = dict(entry.data)
             merged.update(user_input)
             self._credentials = merged
-            self._id_device = str(
-                entry.data.get(CONF_ID_DEVICE) or generate_id_device()
-            )
+            self._id_device = str(entry.data.get(CONF_ID_DEVICE) or generate_id_device())
             try:
                 gateways = await self._async_discover(merged)
                 selection = next(
@@ -253,15 +246,15 @@ class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
             except (BticinoCloudError, BticinoSipError):
                 errors["base"] = "provisioning_error"
             else:
-                return self.async_update_and_abort(entry, title="Bticino DS+ Suite", data_updates=data)
+                return self.async_update_and_abort(
+                    entry, title="Bticino DS+ Suite", data_updates=data
+                )
 
         return self.async_show_form(
             step_id="reauth_confirm",
             data_schema=vol.Schema(
                 {
-                    vol.Required(
-                        CONF_EMAIL, default=entry.data.get(CONF_EMAIL, "")
-                    ): TextSelector(
+                    vol.Required(CONF_EMAIL, default=entry.data.get(CONF_EMAIL, "")): TextSelector(
                         TextSelectorConfig(type=TextSelectorType.EMAIL)
                     ),
                     vol.Required(CONF_PASSWORD): TextSelector(
@@ -272,9 +265,7 @@ class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
             errors=errors,
         )
 
-    async def _async_discover(
-        self, user_input: dict[str, Any]
-    ) -> list[PlantGateway]:
+    async def _async_discover(self, user_input: dict[str, Any]) -> list[PlantGateway]:
         client = BticinoCloudClient(
             async_get_clientsession(self.hass),
             email=str(user_input[CONF_EMAIL]),
@@ -313,9 +304,7 @@ class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
             errors=errors,
         )
 
-    async def _async_provision_and_validate(
-        self, selection: PlantGateway
-    ) -> dict[str, Any]:
+    async def _async_provision_and_validate(self, selection: PlantGateway) -> dict[str, Any]:
         cloud = BticinoCloudClient(
             async_get_clientsession(self.hass),
             email=str(self._credentials[CONF_EMAIL]),
@@ -327,9 +316,7 @@ class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
         )
         provisioned = await cloud.async_provision(
             selection=selection,
-            device_name=str(
-                self._credentials.get(CONF_DEVICE_NAME, DEFAULT_DEVICE_NAME)
-            ),
+            device_name=str(self._credentials.get(CONF_DEVICE_NAME, DEFAULT_DEVICE_NAME)),
             id_device=self._id_device,
             storage_dir=storage_dir,
         )
@@ -359,7 +346,6 @@ class BticinoDoorEntryConfigFlow(ConfigFlow, domain=DOMAIN):
         return data
 
 
-
 class BTDoorOptionsFlow(OptionsFlow):
     """Configure module visibility, diagnostics and developer tools."""
 
@@ -369,9 +355,7 @@ class BTDoorOptionsFlow(OptionsFlow):
         if user_input is not None:
             values.update(user_input)
             developer_mode = bool(user_input.get(CONF_DEVELOPER_MODE, False))
-            advanced_diagnostics = bool(
-                user_input.get(CONF_SHOW_ADVANCED_DIAGNOSTICS, False)
-            )
+            advanced_diagnostics = bool(user_input.get(CONF_SHOW_ADVANCED_DIAGNOSTICS, False))
             if advanced_diagnostics and not developer_mode:
                 errors[CONF_SHOW_ADVANCED_DIAGNOSTICS] = (
                     "advanced_diagnostics_requires_developer_mode"
@@ -381,9 +365,7 @@ class BTDoorOptionsFlow(OptionsFlow):
                 if not developer_mode:
                     normalized[CONF_SHOW_ADVANCED_DIAGNOSTICS] = False
                 was_enabled = bool(
-                    self.config_entry.options.get(
-                        CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE
-                    )
+                    self.config_entry.options.get(CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE)
                 )
                 wants_enabled = bool(
                     normalized.get(CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE)
@@ -393,9 +375,7 @@ class BTDoorOptionsFlow(OptionsFlow):
                     return await self.async_step_confirm_quick_voice()
                 return self.async_create_entry(title="", data=normalized)
 
-        developer_default = bool(
-            values.get(CONF_DEVELOPER_MODE, DEFAULT_DEVELOPER_MODE)
-        )
+        developer_default = bool(values.get(CONF_DEVELOPER_MODE, DEFAULT_DEVELOPER_MODE))
         advanced_default = developer_default and bool(
             values.get(
                 CONF_SHOW_ADVANCED_DIAGNOSTICS,
@@ -405,26 +385,47 @@ class BTDoorOptionsFlow(OptionsFlow):
 
         return self.async_show_form(
             step_id="init",
-            data_schema=vol.Schema({
-                vol.Required(CONF_SHOW_CLOUD_STATUS, default=values.get(CONF_SHOW_CLOUD_STATUS, DEFAULT_SHOW_CLOUD_STATUS)): BooleanSelector(),
-                vol.Required(CONF_SHOW_SIP_MONITOR, default=values.get(CONF_SHOW_SIP_MONITOR, DEFAULT_SHOW_SIP_MONITOR)): BooleanSelector(),
-                vol.Required(CONF_SHOW_CALL_MONITOR, default=values.get(CONF_SHOW_CALL_MONITOR, DEFAULT_SHOW_CALL_MONITOR)): BooleanSelector(),
-                vol.Required(CONF_SHOW_MEDIA_MONITOR, default=values.get(CONF_SHOW_MEDIA_MONITOR, DEFAULT_SHOW_MEDIA_MONITOR)): BooleanSelector(),
-                vol.Required(CONF_QUICK_VOICE_GATE, default=values.get(CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE)): BooleanSelector(),
-                vol.Required(CONF_DEVELOPER_MODE, default=developer_default): BooleanSelector(),
-                vol.Required(CONF_SHOW_ADVANCED_DIAGNOSTICS, default=advanced_default): BooleanSelector(),
-                vol.Required(CONF_DEBUG_MODE, default=values.get(CONF_DEBUG_MODE, DEFAULT_DEBUG_MODE)): SelectSelector(
-                    SelectSelectorConfig(
-                        options=[
-                            DEBUG_MODE_OFF,
-                            DEBUG_MODE_SUPPORT,
-                            DEBUG_MODE_DEEP,
-                        ],
-                        translation_key=CONF_DEBUG_MODE,
-                        mode=SelectSelectorMode.DROPDOWN,
-                    )
-                ),
-            }),
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_SHOW_CLOUD_STATUS,
+                        default=values.get(CONF_SHOW_CLOUD_STATUS, DEFAULT_SHOW_CLOUD_STATUS),
+                    ): BooleanSelector(),
+                    vol.Required(
+                        CONF_SHOW_SIP_MONITOR,
+                        default=values.get(CONF_SHOW_SIP_MONITOR, DEFAULT_SHOW_SIP_MONITOR),
+                    ): BooleanSelector(),
+                    vol.Required(
+                        CONF_SHOW_CALL_MONITOR,
+                        default=values.get(CONF_SHOW_CALL_MONITOR, DEFAULT_SHOW_CALL_MONITOR),
+                    ): BooleanSelector(),
+                    vol.Required(
+                        CONF_SHOW_MEDIA_MONITOR,
+                        default=values.get(CONF_SHOW_MEDIA_MONITOR, DEFAULT_SHOW_MEDIA_MONITOR),
+                    ): BooleanSelector(),
+                    vol.Required(
+                        CONF_QUICK_VOICE_GATE,
+                        default=values.get(CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE),
+                    ): BooleanSelector(),
+                    vol.Required(CONF_DEVELOPER_MODE, default=developer_default): BooleanSelector(),
+                    vol.Required(
+                        CONF_SHOW_ADVANCED_DIAGNOSTICS, default=advanced_default
+                    ): BooleanSelector(),
+                    vol.Required(
+                        CONF_DEBUG_MODE, default=values.get(CONF_DEBUG_MODE, DEFAULT_DEBUG_MODE)
+                    ): SelectSelector(
+                        SelectSelectorConfig(
+                            options=[
+                                DEBUG_MODE_OFF,
+                                DEBUG_MODE_SUPPORT,
+                                DEBUG_MODE_DEEP,
+                            ],
+                            translation_key=CONF_DEBUG_MODE,
+                            mode=SelectSelectorMode.DROPDOWN,
+                        )
+                    ),
+                }
+            ),
             errors=errors,
         )
 
@@ -436,13 +437,14 @@ class BTDoorOptionsFlow(OptionsFlow):
             )
         return self.async_show_form(step_id="confirm_quick_voice")
 
+
 def _cloud_schema(values: dict[str, Any] | None) -> vol.Schema:
     values = values or {}
     return vol.Schema(
         {
-            vol.Required(
-                CONF_EMAIL, default=values.get(CONF_EMAIL, "")
-            ): TextSelector(TextSelectorConfig(type=TextSelectorType.EMAIL)),
+            vol.Required(CONF_EMAIL, default=values.get(CONF_EMAIL, "")): TextSelector(
+                TextSelectorConfig(type=TextSelectorType.EMAIL)
+            ),
             vol.Required(CONF_PASSWORD): TextSelector(
                 TextSelectorConfig(type=TextSelectorType.PASSWORD)
             ),

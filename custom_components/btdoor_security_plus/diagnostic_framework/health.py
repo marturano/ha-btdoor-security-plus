@@ -1,5 +1,8 @@
 """Formalized, weighted and explainable Health Score aggregation."""
+
 from __future__ import annotations
+
+from typing import Any
 
 from .models import DiagnosticResult
 
@@ -22,7 +25,7 @@ class HealthEngine:
     @staticmethod
     def aggregate(results: dict[str, DiagnosticResult]) -> dict[str, object]:
         total_weight = sum(max(result.weight, 0) for result in results.values()) or 1
-        provider_rows: dict[str, dict[str, object]] = {}
+        provider_rows: dict[str, dict[str, Any]] = {}
         earned_total = 0.0
 
         for name, result in results.items():

@@ -88,3 +88,13 @@ Added the complete API Foundation, voice-assistant exposure contract, automation
 - Consolidated validation and QA evidence under `docs/validation/`.
 - Added Validation Maintenance and Update to the official workflow.
 - Added repository cleanup audit and orphan/inventory checks.
+
+
+## Ruff residual remediation — 2026-10-27
+
+Recorded input checksum, actual checks, baseline comparison, runtime limitations and current handoff in `docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md`.
+
+
+## Linux validation completion — 2026-10-27
+
+Added the Linux validation report and iteration handoff, updated the canonical runner contract, fresh measured coverage and exact execution status.

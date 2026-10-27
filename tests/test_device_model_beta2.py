@@ -1,4 +1,5 @@
 """Static regression tests for the Beta.2 device model."""
+
 from pathlib import Path
 
 ROOT = Path(__file__).parents[1]

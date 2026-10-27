@@ -136,3 +136,8 @@ GitHub accepted the workflow files after the `runner.temp` correction, but accep
 - HACS, Hassfest and GitHub-hosted matrix: NOT VERIFIED until the updated commit is pushed and the remote workflows complete.
 
 The release remains BLOCKED until all mandatory remote jobs are green.
+
+
+## Linux validation completion — 2026-10-27
+
+Resolved validation portability and dependency gaps. Canonical Linux execution passed all gates, 347 tests, mypy and fresh coverage above 95%, while hashes proved no source mutation. Protocol audit compared 59 SIP methods and byte-identical Cloud source against the previous delivered package. Final remains BLOCKED pending target evidence.

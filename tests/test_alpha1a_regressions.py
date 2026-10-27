@@ -1,4 +1,5 @@
 """Source-level regressions for the 6.1.0-alpha.1a local hotfix."""
+
 from __future__ import annotations
 
 import ast
@@ -50,7 +51,6 @@ def test_existing_translations_include_dependency_error() -> None:
     paths = [COMPONENT / "strings.json", *(COMPONENT / "translations").glob("*.json")]
     for path in paths:
         payload = json.loads(path.read_text(encoding="utf-8"))
-        assert (
-            "advanced_diagnostics_requires_developer_mode"
-            in payload["options"]["error"]
-        ), path.name
+        assert "advanced_diagnostics_requires_developer_mode" in payload["options"]["error"], (
+            path.name
+        )

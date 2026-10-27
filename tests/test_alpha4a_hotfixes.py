@@ -1,7 +1,7 @@
+import sys
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 from types import ModuleType
-import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_DIR = ROOT / "custom_components" / "btdoor_security_plus"
@@ -23,13 +23,15 @@ def _load_sanitizer():
 
 def test_support_export_masks_persistent_ids_and_certificate_paths():
     module = _load_sanitizer()
-    result = module.sanitize_export_data({
-        "plant_id": "5617397",
-        "id_device": "5bf91ddf146d",
-        "client_cert_path": "/config/custom_components/btdoor_security_plus/certificate/2621300/client-cert.pem",
-        "client_key_path": "/config/custom_components/btdoor_security_plus/certificate/2621300/client-key.pem",
-        "ca_chain_path": "/config/custom_components/btdoor_security_plus/certificate/2621300/ca-chain.pem",
-    })
+    result = module.sanitize_export_data(
+        {
+            "plant_id": "5617397",
+            "id_device": "5bf91ddf146d",
+            "client_cert_path": "/config/custom_components/btdoor_security_plus/certificate/2621300/client-cert.pem",
+            "client_key_path": "/config/custom_components/btdoor_security_plus/certificate/2621300/client-key.pem",
+            "ca_chain_path": "/config/custom_components/btdoor_security_plus/certificate/2621300/ca-chain.pem",
+        }
+    )
     assert result["plant_id"].startswith("[HASH:")
     assert result["id_device"].startswith("[HASH:")
     assert result["client_cert_path"] == "[REDACTED]"

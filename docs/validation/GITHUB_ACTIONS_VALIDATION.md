@@ -28,7 +28,9 @@ run: bash tools/validation/github_sandbox_validate.sh check
 
 Direct execution of repository shell scripts is forbidden because executable-bit preservation can differ between Windows workstations, ZIP archives and Git checkouts.
 
-The runner installs and records the versions of Ruff, mypy and pytest, then executes:
+The runner installs the pinned Linux dependencies in `requirements-validation.txt`,
+including Home Assistant and the typing dependencies, and records their versions.
+The canonical interpreter is CPython 3.14.2. It then executes:
 
 1. GitHub workflow contract validation;
 2. Ruff formatting check;
@@ -36,16 +38,28 @@ The runner installs and records the versions of Ruff, mypy and pytest, then exec
 4. mypy integration check;
 5. Python compilation;
 6. JSON parsing;
-7. full pytest suite with explicit asyncio plugin;
+7. full pytest suite with explicit asyncio and coverage plugins, fresh coverage above 95%;
 8. publication preflight;
 9. repository integrity;
 10. documentation consistency;
-11. repository hygiene;
-12. governance automation;
-13. certification automation;
+11. governance automation;
+12. certification automation;
+13. repository hygiene;
 14. clean-tree verification.
 
 `set -euo pipefail` and the logged-command wrapper ensure a failed command remains a failed workflow even when output is piped through `tee`.
+
+Static checks inspect the checkout directly. Tests and governance run against an
+exact temporary source copy because they generate reports. Caches, bytecode and
+the coverage database remain outside both source trees. Only the two known empty
+test workspaces are removed; unexpected contents remain subject to validation.
+The checkout must remain unchanged. Command logs and coverage evidence are copied
+to `artifacts/github-sandbox-validation` only after the gates finish, including on
+failure, so the evidence cannot invalidate the source inventory while it is checked.
+
+The publication preflight follows the workflow's canonical runner delegation and
+requires the actual Ruff, mypy and pytest gate commands. It must reject removed
+gates rather than require inline duplicates in the workflow YAML.
 
 ## Workflow contract validator
 

@@ -18,6 +18,7 @@ _EXPORTS = {
 
 __all__ = list(_EXPORTS)
 
+
 def __getattr__(name: str) -> Any:
     """Load manager APIs lazily to keep package imports side-effect free."""
     try:

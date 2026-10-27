@@ -1,10 +1,10 @@
 # Repository Dependency Map
 
-**Generated:** 2026-07-27
+**Generated:** 2026-10-27
 
-- Files: **810**
-- Dependency edges: **3257**
-- Referenced files: **802**
+- Files: **816**
+- Dependency edges: **3180**
+- Referenced files: **808**
 - Reference coverage: **99.0%**
 - Broken Markdown links: **0**
 - Exact duplicate groups: **0**
@@ -79,7 +79,7 @@ Outbound dependencies: **0**
 
 ### Validation policy and register
 Canonical: `docs/validation/VALIDATION_MAINTENANCE_POLICY.md`
-Inbound references: **10**
+Inbound references: **11**
 Outbound dependencies: **1**
 
 ### Release policy
@@ -100,7 +100,7 @@ Outbound dependencies: **25**
 ### Continuation package
 Canonical: `handoff/HANDOFF_INDEX.md`
 Inbound references: **22**
-Outbound dependencies: **82**
+Outbound dependencies: **84**
 
 ### Automation assets policy
 Canonical: `docs/automation-assets/AUTOMATION_ASSETS_POLICY.md`

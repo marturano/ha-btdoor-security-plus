@@ -3,20 +3,20 @@
 from __future__ import annotations
 
 import asyncio
-from collections import deque
-from collections.abc import Callable
-from dataclasses import dataclass
-from datetime import UTC, datetime
 import hashlib
 import logging
-from pathlib import Path
 import re
 import secrets
 import ssl
 import uuid
+from collections import deque
+from collections.abc import Callable
+from dataclasses import dataclass
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import TypedDict, cast
 
 from .const import CALL_TIMEOUT_SECONDS, DEFAULT_EXPIRES, DEFAULT_OPEN_COMMAND, USER_AGENT
-from .sip_identity import parse_sip_identity
 from .media import (
     MediaPreparation,
     SrtpCryptoOffer,
@@ -25,6 +25,7 @@ from .media import (
     parse_crypto_attribute,
     prepare_media_offer,
 )
+from .sip_identity import parse_sip_identity
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -91,6 +92,99 @@ class SipSession:
     username: str
 
 
+class _StoredSipState(TypedDict, total=False):
+    """Existing export-state schema; runtime restoration guards remain in place."""
+
+    last_status: str | None
+    last_caller: str | None
+    last_caller_raw: str | None
+    last_caller_uri: str | None
+    last_caller_domain: str | None
+    last_caller_tag: str | None
+    last_caller_display_name: str | None
+    last_call_id: str | None
+    last_message: str | None
+    call_state: str
+    call_started_at: str | None
+    call_ended_at: str | None
+    last_call_duration: float | None
+    call_count: int
+    missed_call_count: int
+    message_count: int
+    last_message_at: str | None
+    last_event_type: str | None
+    last_event_data: dict[str, object]
+    last_event_at: str | None
+    reconnect_count: int
+    last_error: str | None
+    last_command_duration: float | None
+    last_command_at: str | None
+    dialog_state: str
+    last_sip_method: str | None
+    last_sdp_offer: str | None
+    last_sdp_summary: str | None
+    sdp_session_address: str | None
+    sdp_audio_address: str | None
+    sdp_audio_port: int | None
+    sdp_audio_direction: str | None
+    sdp_audio_codecs: list[str]
+    sdp_audio_protocol: str | None
+    sdp_audio_payload_types: list[int]
+    sdp_audio_fmtp: dict[int, str]
+    sdp_video_address: str | None
+    sdp_video_port: int | None
+    sdp_video_direction: str | None
+    sdp_video_codecs: list[str]
+    sdp_video_protocol: str | None
+    sdp_video_payload_types: list[int]
+    sdp_video_fmtp: dict[int, str]
+    last_dialog_headers: dict[str, object]
+    sip_timeline: list[dict[str, object]]
+    runtime_session_id: str
+    runtime_session_started_at: str
+    last_info_body: str | None
+    last_notify_event: str | None
+    last_refer_to: str | None
+    media_preparation: dict[str, object] | None
+    last_media_preparation: dict[str, object] | None
+    media_runtime_state: str
+    media_runtime_call_id: str | None
+    media_runtime_started_at: str | None
+    media_runtime_prepared_at: str | None
+    media_runtime_closed_at: str | None
+    last_media_remote_sdp: str | None
+    last_media_local_sdp: str | None
+    last_media_sdp_diff: str | None
+    media_trace_counter: int
+    media_trace_id: str | None
+    media_trace_state: str
+    media_trace_error: str | None
+    media_trace: list[dict[str, object]]
+    media_session_history: list[dict[str, object]]
+    last_completed_media_session: dict[str, object] | None
+    sip_dispatcher_trace: list[dict[str, object]]
+    sip_packet_count: int
+    invite_received_count: int
+    invite_dispatched_count: int
+    invite_with_sdp_count: int
+    invite_media_runtime_count: int
+
+
+class _SdpSection(TypedDict):
+    """Typed working buffer for one existing SDP media section."""
+
+    media: str
+    port: int
+    protocol: str
+    payloads: list[int]
+    address: str | None
+    direction: str
+    rtpmap: dict[int, str]
+    fmtp: dict[int, str]
+    crypto: list[SrtpCryptoOffer]
+    rtcp_fb: dict[int, list[str]]
+
+
 class BticinoSipClient:
     """BTicino SIP client implementing the validated register/open flow."""
 
@@ -122,7 +216,9 @@ class BticinoSipClient:
         self._lock = asyncio.Lock()
         self._keepalive_task: asyncio.Task[None] | None = None
         self._reader_task: asyncio.Task[None] | None = None
-        self._pending: dict[tuple[str, str], asyncio.Future[tuple[bytes, str, dict[str, list[str]]]]] = {}
+        self._pending: dict[
+            tuple[str, str], asyncio.Future[tuple[bytes, str, dict[str, list[str]]]]
+        ] = {}
         self._write_lock = asyncio.Lock()
         self.ringing = False
         self.last_caller: str | None = None
@@ -236,7 +332,7 @@ class BticinoSipClient:
         **details: object,
     ) -> None:
         """Record one non-sensitive SIP dispatcher step."""
-        record = {
+        record: dict[str, object] = {
             "timestamp": datetime.now(UTC).isoformat(),
             "runtime_session_id": self.runtime_session_id,
             "packet_id": packet_id,
@@ -263,10 +359,18 @@ class BticinoSipClient:
         return {
             "state": self.media_runtime_state,
             "call_id": self.media_runtime_call_id,
-            "started_at": self.media_runtime_started_at.isoformat() if self.media_runtime_started_at else None,
-            "prepared_at": self.media_runtime_prepared_at.isoformat() if self.media_runtime_prepared_at else None,
-            "closed_at": self.media_runtime_closed_at.isoformat() if self.media_runtime_closed_at else None,
-            "ready_for_answer": bool(plan and plan.get("state") in {"prepared", "released"} and not plan.get("issues")),
+            "started_at": self.media_runtime_started_at.isoformat()
+            if self.media_runtime_started_at
+            else None,
+            "prepared_at": self.media_runtime_prepared_at.isoformat()
+            if self.media_runtime_prepared_at
+            else None,
+            "closed_at": self.media_runtime_closed_at.isoformat()
+            if self.media_runtime_closed_at
+            else None,
+            "ready_for_answer": bool(
+                plan and plan.get("state") in {"prepared", "released"} and not plan.get("issues")
+            ),
             "plan": plan,
             "remote_sdp_available": bool(self.last_media_remote_sdp),
             "local_sdp_available": bool(self.last_media_local_sdp),
@@ -282,7 +386,7 @@ class BticinoSipClient:
         """Return aggregate metrics for the bounded completed-session history."""
         sessions = list(self.media_session_history)
         durations = [
-            float(item["duration_seconds"])
+            float(cast(int | float, item["duration_seconds"]))
             for item in sessions
             if isinstance(item.get("duration_seconds"), (int, float))
         ]
@@ -302,7 +406,9 @@ class BticinoSipClient:
         return {
             "retained_sessions": len(sessions),
             "history_limit": self.media_session_history.maxlen,
-            "average_duration_seconds": (round(sum(durations) / len(durations), 3) if durations else None),
+            "average_duration_seconds": (
+                round(sum(durations) / len(durations), 3) if durations else None
+            ),
             "codec_usage": codecs,
             "close_reasons": close_reasons,
             "last_closed_at": sessions[-1].get("closed_at") if sessions else None,
@@ -353,7 +459,7 @@ class BticinoSipClient:
         **details: object,
     ) -> None:
         """Record one observable step in the Media Runtime pipeline."""
-        record = {
+        record: dict[str, object] = {
             "timestamp": datetime.now(UTC).isoformat(),
             "runtime_session_id": self.runtime_session_id,
             "trace_id": self.media_trace_id,
@@ -391,8 +497,10 @@ class BticinoSipClient:
 
     def export_state(self) -> dict[str, object]:
         """Return persistent event/statistics state."""
+
         def iso(value: datetime | None) -> str | None:
             return value.isoformat() if value else None
+
         return {
             "last_status": self.last_status,
             "last_caller": self.last_caller,
@@ -444,7 +552,9 @@ class BticinoSipClient:
             "last_info_body": self.last_info_body,
             "last_notify_event": self.last_notify_event,
             "last_refer_to": self.last_refer_to,
-            "media_preparation": self.media_preparation.public_dict() if self.media_preparation else None,
+            "media_preparation": self.media_preparation.public_dict()
+            if self.media_preparation
+            else None,
             "last_media_preparation": self.last_media_preparation,
             "media_runtime_state": self.media_runtime_state,
             "media_runtime_call_id": self.media_runtime_call_id,
@@ -473,108 +583,238 @@ class BticinoSipClient:
         """Restore persistent event/statistics state."""
         if not state:
             return
+
+        stored = cast(_StoredSipState, state)
+
         def dt(name: str) -> datetime | None:
-            value = state.get(name)
+            value = stored.get(name)
             if not isinstance(value, str) or not value:
                 return None
             try:
                 return datetime.fromisoformat(value)
             except ValueError:
                 return None
-        self.last_status = state.get("last_status") if isinstance(state.get("last_status"), str) else None
-        stored_caller = state.get("last_caller") if isinstance(state.get("last_caller"), str) else None
-        stored_raw = state.get("last_caller_raw") if isinstance(state.get("last_caller_raw"), str) else stored_caller
-        restored_identity = parse_sip_identity(stored_raw)
-        self.last_caller = (
-            restored_identity.label if restored_identity else stored_caller
+
+        self.last_status = (
+            stored.get("last_status") if isinstance(stored.get("last_status"), str) else None
         )
+        stored_caller = (
+            stored.get("last_caller") if isinstance(stored.get("last_caller"), str) else None
+        )
+        stored_raw = (
+            stored.get("last_caller_raw")
+            if isinstance(stored.get("last_caller_raw"), str)
+            else stored_caller
+        )
+        restored_identity = parse_sip_identity(stored_raw)
+        self.last_caller = restored_identity.label if restored_identity else stored_caller
         self.last_caller_raw = restored_identity.raw if restored_identity else stored_raw
         self.last_caller_uri = (
-            state.get("last_caller_uri") if isinstance(state.get("last_caller_uri"), str)
-            else restored_identity.uri if restored_identity else None
+            stored.get("last_caller_uri")
+            if isinstance(stored.get("last_caller_uri"), str)
+            else restored_identity.uri
+            if restored_identity
+            else None
         )
         self.last_caller_domain = (
-            state.get("last_caller_domain") if isinstance(state.get("last_caller_domain"), str)
-            else restored_identity.domain if restored_identity else None
+            stored.get("last_caller_domain")
+            if isinstance(stored.get("last_caller_domain"), str)
+            else restored_identity.domain
+            if restored_identity
+            else None
         )
         self.last_caller_tag = (
-            state.get("last_caller_tag") if isinstance(state.get("last_caller_tag"), str)
-            else restored_identity.tag if restored_identity else None
+            stored.get("last_caller_tag")
+            if isinstance(stored.get("last_caller_tag"), str)
+            else restored_identity.tag
+            if restored_identity
+            else None
         )
         self.last_caller_display_name = (
-            state.get("last_caller_display_name") if isinstance(state.get("last_caller_display_name"), str)
-            else restored_identity.display_name if restored_identity else None
+            stored.get("last_caller_display_name")
+            if isinstance(stored.get("last_caller_display_name"), str)
+            else restored_identity.display_name
+            if restored_identity
+            else None
         )
-        self.last_call_id = state.get("last_call_id") if isinstance(state.get("last_call_id"), str) else None
-        self.last_message = state.get("last_message") if isinstance(state.get("last_message"), str) else None
-        self.call_state = str(state.get("call_state", "idle"))
+        self.last_call_id = (
+            stored.get("last_call_id") if isinstance(stored.get("last_call_id"), str) else None
+        )
+        self.last_message = (
+            stored.get("last_message") if isinstance(stored.get("last_message"), str) else None
+        )
+        self.call_state = str(stored.get("call_state", "idle"))
         self.call_started_at = dt("call_started_at")
         self.call_ended_at = dt("call_ended_at")
-        self.last_call_duration = state.get("last_call_duration") if isinstance(state.get("last_call_duration"), (int, float)) else None
-        self.call_count = int(state.get("call_count", 0) or 0)
-        self.missed_call_count = int(state.get("missed_call_count", 0) or 0)
-        self.message_count = int(state.get("message_count", 0) or 0)
+        self.last_call_duration = (
+            stored.get("last_call_duration")
+            if isinstance(stored.get("last_call_duration"), (int, float))
+            else None
+        )
+        self.call_count = int(stored.get("call_count", 0) or 0)
+        self.missed_call_count = int(stored.get("missed_call_count", 0) or 0)
+        self.message_count = int(stored.get("message_count", 0) or 0)
         self.last_message_at = dt("last_message_at")
-        self.last_event_type = state.get("last_event_type") if isinstance(state.get("last_event_type"), str) else None
-        self.last_event_data = state.get("last_event_data") if isinstance(state.get("last_event_data"), dict) else {}
+        self.last_event_type = (
+            stored.get("last_event_type")
+            if isinstance(stored.get("last_event_type"), str)
+            else None
+        )
+        self.last_event_data = (
+            cast(dict[str, object], stored.get("last_event_data"))
+            if isinstance(stored.get("last_event_data"), dict)
+            else {}
+        )
         self.last_event_at = dt("last_event_at")
-        self.reconnect_count = int(state.get("reconnect_count", 0) or 0)
-        self.last_error = state.get("last_error") if isinstance(state.get("last_error"), str) else None
-        self.last_command_duration = state.get("last_command_duration") if isinstance(state.get("last_command_duration"), (int, float)) else None
+        self.reconnect_count = int(stored.get("reconnect_count", 0) or 0)
+        self.last_error = (
+            stored.get("last_error") if isinstance(stored.get("last_error"), str) else None
+        )
+        self.last_command_duration = (
+            stored.get("last_command_duration")
+            if isinstance(stored.get("last_command_duration"), (int, float))
+            else None
+        )
         self.last_command_at = dt("last_command_at")
-        self.dialog_state = str(state.get("dialog_state", "idle"))
-        self.last_sip_method = state.get("last_sip_method") if isinstance(state.get("last_sip_method"), str) else None
-        self.last_sdp_offer = state.get("last_sdp_offer") if isinstance(state.get("last_sdp_offer"), str) else None
-        self.last_sdp_summary = state.get("last_sdp_summary") if isinstance(state.get("last_sdp_summary"), str) else None
-        self.sdp_session_address = state.get("sdp_session_address") if isinstance(state.get("sdp_session_address"), str) else None
-        self.sdp_audio_address = state.get("sdp_audio_address") if isinstance(state.get("sdp_audio_address"), str) else None
-        self.sdp_audio_port = state.get("sdp_audio_port") if isinstance(state.get("sdp_audio_port"), int) else None
-        self.sdp_audio_direction = state.get("sdp_audio_direction") if isinstance(state.get("sdp_audio_direction"), str) else None
-        self.sdp_audio_codecs = tuple(str(x) for x in state.get("sdp_audio_codecs", []) or [])
-        self.sdp_audio_protocol = state.get("sdp_audio_protocol") or None
-        self.sdp_audio_payload_types = tuple(int(x) for x in state.get("sdp_audio_payload_types", []) or [])
-        self.sdp_audio_fmtp = {int(k): str(v) for k, v in dict(state.get("sdp_audio_fmtp", {}) or {}).items()}
-        self.sdp_video_address = state.get("sdp_video_address") or None
-        self.sdp_video_port = state.get("sdp_video_port") if isinstance(state.get("sdp_video_port"), int) else None
-        self.sdp_video_direction = state.get("sdp_video_direction") if isinstance(state.get("sdp_video_direction"), str) else None
-        self.sdp_video_codecs = tuple(str(x) for x in state.get("sdp_video_codecs", []) or [])
-        self.sdp_video_protocol = state.get("sdp_video_protocol") or None
-        self.sdp_video_payload_types = tuple(int(x) for x in state.get("sdp_video_payload_types", []) or [])
-        self.sdp_video_fmtp = {int(k): str(v) for k, v in dict(state.get("sdp_video_fmtp", {}) or {}).items()}
-        self.last_dialog_headers = dict(state.get("last_dialog_headers", {}) or {})
-        self.sip_timeline = deque((dict(x) for x in state.get("sip_timeline", []) or []), maxlen=100)
-        self.last_info_body = state.get("last_info_body") or None
-        self.last_notify_event = state.get("last_notify_event") if isinstance(state.get("last_notify_event"), str) else None
-        self.last_refer_to = state.get("last_refer_to") if isinstance(state.get("last_refer_to"), str) else None
-        self.last_media_preparation = state.get("last_media_preparation") if isinstance(state.get("last_media_preparation"), dict) else None
-        self.media_runtime_state = str(state.get("media_runtime_state", "idle") or "idle")
-        self.media_runtime_call_id = state.get("media_runtime_call_id") if isinstance(state.get("media_runtime_call_id"), str) else None
+        self.dialog_state = str(stored.get("dialog_state", "idle"))
+        self.last_sip_method = (
+            stored.get("last_sip_method")
+            if isinstance(stored.get("last_sip_method"), str)
+            else None
+        )
+        self.last_sdp_offer = (
+            stored.get("last_sdp_offer") if isinstance(stored.get("last_sdp_offer"), str) else None
+        )
+        self.last_sdp_summary = (
+            stored.get("last_sdp_summary")
+            if isinstance(stored.get("last_sdp_summary"), str)
+            else None
+        )
+        self.sdp_session_address = (
+            stored.get("sdp_session_address")
+            if isinstance(stored.get("sdp_session_address"), str)
+            else None
+        )
+        self.sdp_audio_address = (
+            stored.get("sdp_audio_address")
+            if isinstance(stored.get("sdp_audio_address"), str)
+            else None
+        )
+        self.sdp_audio_port = (
+            stored.get("sdp_audio_port") if isinstance(stored.get("sdp_audio_port"), int) else None
+        )
+        self.sdp_audio_direction = (
+            stored.get("sdp_audio_direction")
+            if isinstance(stored.get("sdp_audio_direction"), str)
+            else None
+        )
+        self.sdp_audio_codecs = tuple(str(x) for x in stored.get("sdp_audio_codecs", []) or [])
+        self.sdp_audio_protocol = stored.get("sdp_audio_protocol") or None
+        self.sdp_audio_payload_types = tuple(
+            int(x) for x in stored.get("sdp_audio_payload_types", []) or []
+        )
+        self.sdp_audio_fmtp = {
+            int(k): str(v) for k, v in dict(stored.get("sdp_audio_fmtp", {}) or {}).items()
+        }
+        self.sdp_video_address = stored.get("sdp_video_address") or None
+        self.sdp_video_port = (
+            stored.get("sdp_video_port") if isinstance(stored.get("sdp_video_port"), int) else None
+        )
+        self.sdp_video_direction = (
+            stored.get("sdp_video_direction")
+            if isinstance(stored.get("sdp_video_direction"), str)
+            else None
+        )
+        self.sdp_video_codecs = tuple(str(x) for x in stored.get("sdp_video_codecs", []) or [])
+        self.sdp_video_protocol = stored.get("sdp_video_protocol") or None
+        self.sdp_video_payload_types = tuple(
+            int(x) for x in stored.get("sdp_video_payload_types", []) or []
+        )
+        self.sdp_video_fmtp = {
+            int(k): str(v) for k, v in dict(stored.get("sdp_video_fmtp", {}) or {}).items()
+        }
+        self.last_dialog_headers = dict(stored.get("last_dialog_headers", {}) or {})
+        self.sip_timeline = deque(
+            (dict(x) for x in stored.get("sip_timeline", []) or []), maxlen=100
+        )
+        self.last_info_body = stored.get("last_info_body") or None
+        self.last_notify_event = (
+            stored.get("last_notify_event")
+            if isinstance(stored.get("last_notify_event"), str)
+            else None
+        )
+        self.last_refer_to = (
+            stored.get("last_refer_to") if isinstance(stored.get("last_refer_to"), str) else None
+        )
+        self.last_media_preparation = (
+            stored.get("last_media_preparation")
+            if isinstance(stored.get("last_media_preparation"), dict)
+            else None
+        )
+        self.media_runtime_state = str(stored.get("media_runtime_state", "idle") or "idle")
+        self.media_runtime_call_id = (
+            stored.get("media_runtime_call_id")
+            if isinstance(stored.get("media_runtime_call_id"), str)
+            else None
+        )
         self.media_runtime_started_at = dt("media_runtime_started_at")
         self.media_runtime_prepared_at = dt("media_runtime_prepared_at")
         self.media_runtime_closed_at = dt("media_runtime_closed_at")
-        self.last_media_remote_sdp = state.get("last_media_remote_sdp") if isinstance(state.get("last_media_remote_sdp"), str) else None
-        self.last_media_local_sdp = state.get("last_media_local_sdp") if isinstance(state.get("last_media_local_sdp"), str) else None
-        self.last_media_sdp_diff = state.get("last_media_sdp_diff") if isinstance(state.get("last_media_sdp_diff"), str) else None
-        self.media_trace_counter = int(state.get("media_trace_counter", 0) or 0)
-        self.media_trace_id = state.get("media_trace_id") if isinstance(state.get("media_trace_id"), str) else None
-        self.media_trace_state = str(state.get("media_trace_state", "idle") or "idle")
-        self.media_trace_error = state.get("media_trace_error") if isinstance(state.get("media_trace_error"), str) else None
-        self.media_trace = deque((dict(x) for x in state.get("media_trace", []) or [] if isinstance(x, dict)), maxlen=100)
-        self.media_session_history = deque((dict(x) for x in state.get("media_session_history", []) or [] if isinstance(x, dict)), maxlen=10)
-        stored_completed = state.get("last_completed_media_session")
-        self.last_completed_media_session = dict(stored_completed) if isinstance(stored_completed, dict) else (dict(self.media_session_history[-1]) if self.media_session_history else None)
-        self.sip_dispatcher_trace = deque((dict(x) for x in state.get("sip_dispatcher_trace", []) or [] if isinstance(x, dict)), maxlen=250)
-        self.sip_packet_count = int(state.get("sip_packet_count", 0) or 0)
-        self.invite_received_count = int(state.get("invite_received_count", 0) or 0)
-        self.invite_dispatched_count = int(state.get("invite_dispatched_count", 0) or 0)
-        self.invite_with_sdp_count = int(state.get("invite_with_sdp_count", 0) or 0)
-        self.invite_media_runtime_count = int(state.get("invite_media_runtime_count", 0) or 0)
+        self.last_media_remote_sdp = (
+            stored.get("last_media_remote_sdp")
+            if isinstance(stored.get("last_media_remote_sdp"), str)
+            else None
+        )
+        self.last_media_local_sdp = (
+            stored.get("last_media_local_sdp")
+            if isinstance(stored.get("last_media_local_sdp"), str)
+            else None
+        )
+        self.last_media_sdp_diff = (
+            stored.get("last_media_sdp_diff")
+            if isinstance(stored.get("last_media_sdp_diff"), str)
+            else None
+        )
+        self.media_trace_counter = int(stored.get("media_trace_counter", 0) or 0)
+        self.media_trace_id = (
+            stored.get("media_trace_id") if isinstance(stored.get("media_trace_id"), str) else None
+        )
+        self.media_trace_state = str(stored.get("media_trace_state", "idle") or "idle")
+        self.media_trace_error = (
+            stored.get("media_trace_error")
+            if isinstance(stored.get("media_trace_error"), str)
+            else None
+        )
+        self.media_trace = deque(
+            (dict(x) for x in stored.get("media_trace", []) or [] if isinstance(x, dict)),
+            maxlen=100,
+        )
+        self.media_session_history = deque(
+            (dict(x) for x in stored.get("media_session_history", []) or [] if isinstance(x, dict)),
+            maxlen=10,
+        )
+        stored_completed = stored.get("last_completed_media_session")
+        self.last_completed_media_session = (
+            dict(stored_completed)
+            if isinstance(stored_completed, dict)
+            else (dict(self.media_session_history[-1]) if self.media_session_history else None)
+        )
+        self.sip_dispatcher_trace = deque(
+            (dict(x) for x in stored.get("sip_dispatcher_trace", []) or [] if isinstance(x, dict)),
+            maxlen=250,
+        )
+        self.sip_packet_count = int(stored.get("sip_packet_count", 0) or 0)
+        self.invite_received_count = int(stored.get("invite_received_count", 0) or 0)
+        self.invite_dispatched_count = int(stored.get("invite_dispatched_count", 0) or 0)
+        self.invite_with_sdp_count = int(stored.get("invite_with_sdp_count", 0) or 0)
+        self.invite_media_runtime_count = int(stored.get("invite_media_runtime_count", 0) or 0)
 
     @property
     def current_session_timeline(self) -> list[dict[str, object]]:
         """Return SIP timeline records generated by the current runtime session."""
         return [
-            dict(item) for item in self.sip_timeline
+            dict(item)
+            for item in self.sip_timeline
             if item.get("session_id") == self.runtime_session_id
         ]
 
@@ -697,18 +937,21 @@ class BticinoSipClient:
                             )
                             self.last_status = result.status
                             self.last_error = None
-                            self.last_command_duration = max(0.0, asyncio.get_running_loop().time() - started)
+                            self.last_command_duration = max(
+                                0.0, asyncio.get_running_loop().time() - started
+                            )
                             self._notify(
-                                "gate_opened", status=result.status, code=result.code,
-                                target=self.target_uri, duration_seconds=self.last_command_duration,
+                                "gate_opened",
+                                status=result.status,
+                                code=result.code,
+                                target=self.target_uri,
+                                duration_seconds=self.last_command_duration,
                             )
                             return result
                         except BticinoSipNotFoundError:
                             if target_attempt:
                                 raise
-                            _LOGGER.debug(
-                                "C300X target returned a transient 404; retrying once"
-                            )
+                            _LOGGER.debug("C300X target returned a transient 404; retrying once")
                             await asyncio.sleep(1.0)
                 except BticinoSipAuthenticationError as err:
                     # Some Flexisip nodes reject the first authenticated MESSAGE
@@ -763,9 +1006,7 @@ class BticinoSipClient:
             self.dialog_state = "terminated"
             self.call_ended_at = now
             if self.call_started_at is not None:
-                self.last_call_duration = max(
-                    0.0, (now - self.call_started_at).total_seconds()
-                )
+                self.last_call_duration = max(0.0, (now - self.call_started_at).total_seconds())
             self._notify(
                 "call_rejected",
                 caller=self.last_caller,
@@ -798,8 +1039,14 @@ class BticinoSipClient:
                 **self.media_runtime,
                 "closed_reason": closed_reason or self.call_state or "unknown",
                 "duration_seconds": (
-                    max(0.0, (self.media_runtime_closed_at - self.media_runtime_started_at).total_seconds())
-                    if self.media_runtime_started_at else None
+                    max(
+                        0.0,
+                        (
+                            self.media_runtime_closed_at - self.media_runtime_started_at
+                        ).total_seconds(),
+                    )
+                    if self.media_runtime_started_at
+                    else None
                 ),
                 "trace": list(self.media_trace),
                 "remote_sdp_available": bool(self.last_media_remote_sdp),
@@ -826,7 +1073,12 @@ class BticinoSipClient:
 
     async def _async_ensure_session(self) -> SipSession:
         session = self._session
-        if session is not None and not session.writer.is_closing() and not session.reader.at_eof() and self.registered:
+        if (
+            session is not None
+            and not session.writer.is_closing()
+            and not session.reader.at_eof()
+            and self.registered
+        ):
             return session
         await self._async_drop_session()
         session, _ = await self._async_register()
@@ -840,7 +1092,16 @@ class BticinoSipClient:
         if self._message_challenge is not None or self._session is None:
             return
         session = self._session
-        request = self._build_request(method="OPTIONS", request_uri=self.target_uri, identity_uri=session.identity_uri, contact_uri=session.contact_uri, cseq=1, call_id=self._call_id(), from_tag=self._tag(), route=session.proxy_uri)
+        request = self._build_request(
+            method="OPTIONS",
+            request_uri=self.target_uri,
+            identity_uri=session.identity_uri,
+            contact_uri=session.contact_uri,
+            cseq=1,
+            call_id=self._call_id(),
+            from_tag=self._tag(),
+            route=session.proxy_uri,
+        )
         try:
             await self._async_write(session.writer, request)
             _, status, headers = await self._read_final_response(session.reader, timeout=10)
@@ -882,9 +1143,7 @@ class BticinoSipClient:
         context.minimum_version = ssl.TLSVersion.TLSv1_3
         context.maximum_version = ssl.TLSVersion.TLSv1_3
         context.check_hostname = self.verify_server
-        context.verify_mode = (
-            ssl.CERT_REQUIRED if self.verify_server else ssl.CERT_NONE
-        )
+        context.verify_mode = ssl.CERT_REQUIRED if self.verify_server else ssl.CERT_NONE
         if self.verify_server:
             context.load_default_certs()
         context.load_cert_chain(certfile=str(cert), keyfile=str(key))
@@ -893,9 +1152,7 @@ class BticinoSipClient:
     async def _async_connect(self) -> tuple[asyncio.StreamReader, asyncio.StreamWriter]:
         cert = Path(self.client_cert_path)
         key = Path(self.client_key_path)
-        cert_exists, key_exists = await asyncio.to_thread(
-            lambda: (cert.is_file(), key.is_file())
-        )
+        cert_exists, key_exists = await asyncio.to_thread(lambda: (cert.is_file(), key.is_file()))
         if not cert_exists:
             raise BticinoSipConnectionError(f"Client certificate not found: {cert}")
         if not key_exists:
@@ -977,7 +1234,13 @@ class BticinoSipClient:
         self.last_status = status
         if reconnect:
             self.reconnect_count += 1
-            self._notify("connection_restored", status=status, server=self.server, port=self.port, reconnect_count=self.reconnect_count)
+            self._notify(
+                "connection_restored",
+                status=status,
+                server=self.server,
+                port=self.port,
+                reconnect_count=self.reconnect_count,
+            )
         else:
             self._notify("registered", status=status, server=self.server, port=self.port)
         self._ever_registered = True
@@ -1001,8 +1264,28 @@ class BticinoSipClient:
         auth = None
         if self._message_challenge is not None:
             self._message_nc += 1
-            auth = self._make_digest_auth(self._message_challenge, "MESSAGE", target_uri, session.username, self.sip_password, nc=self._message_nc)
-        request = self._build_request(method="MESSAGE", request_uri=target_uri, identity_uri=session.identity_uri, contact_uri=session.contact_uri, cseq=1, call_id=call_id, from_tag=from_tag, route=session.proxy_uri, auth_header=auth, auth_name=self._message_auth_name, body=body, content_type="text/plain;charset=UTF-8")
+            auth = self._make_digest_auth(
+                self._message_challenge,
+                "MESSAGE",
+                target_uri,
+                session.username,
+                self.sip_password,
+                nc=self._message_nc,
+            )
+        request = self._build_request(
+            method="MESSAGE",
+            request_uri=target_uri,
+            identity_uri=session.identity_uri,
+            contact_uri=session.contact_uri,
+            cseq=1,
+            call_id=call_id,
+            from_tag=from_tag,
+            route=session.proxy_uri,
+            auth_header=auth,
+            auth_name=self._message_auth_name,
+            body=body,
+            content_type="text/plain;charset=UTF-8",
+        )
         raw, status, headers = await self._async_exchange(
             session, request, call_id=call_id, cseq_method="MESSAGE", timeout=30
         )
@@ -1010,8 +1293,28 @@ class BticinoSipClient:
         if code in (401, 407):
             self._message_challenge, self._message_auth_name = self._challenge(headers)
             self._message_nc = 1
-            auth = self._make_digest_auth(self._message_challenge, "MESSAGE", target_uri, session.username, self.sip_password, nc=1)
-            request = self._build_request(method="MESSAGE", request_uri=target_uri, identity_uri=session.identity_uri, contact_uri=session.contact_uri, cseq=2, call_id=call_id, from_tag=from_tag, route=session.proxy_uri, auth_header=auth, auth_name=self._message_auth_name, body=body, content_type="text/plain;charset=UTF-8")
+            auth = self._make_digest_auth(
+                self._message_challenge,
+                "MESSAGE",
+                target_uri,
+                session.username,
+                self.sip_password,
+                nc=1,
+            )
+            request = self._build_request(
+                method="MESSAGE",
+                request_uri=target_uri,
+                identity_uri=session.identity_uri,
+                contact_uri=session.contact_uri,
+                cseq=2,
+                call_id=call_id,
+                from_tag=from_tag,
+                route=session.proxy_uri,
+                auth_header=auth,
+                auth_name=self._message_auth_name,
+                body=body,
+                content_type="text/plain;charset=UTF-8",
+            )
             raw, status, _ = await self._async_exchange(
                 session, request, call_id=call_id, cseq_method="MESSAGE", timeout=30
             )
@@ -1066,7 +1369,6 @@ class BticinoSipClient:
             writer.write(data)
             await writer.drain()
 
-
     async def _async_exchange(
         self,
         session: SipSession,
@@ -1074,7 +1376,7 @@ class BticinoSipClient:
         *,
         call_id: str,
         cseq_method: str,
-        timeout: int,
+        timeout: int,  # noqa: ASYNC109 - Preserve the SIP timeout contract (including test doubles).
     ) -> tuple[bytes, str, dict[str, list[str]]]:
         """Send a SIP request and wait for its final response."""
         key = (call_id, cseq_method.upper())
@@ -1085,9 +1387,7 @@ class BticinoSipClient:
             await self._async_write(session.writer, request)
             return await asyncio.wait_for(future, timeout)
         except TimeoutError as err:
-            raise BticinoSipConnectionError(
-                f"Timeout waiting for {cseq_method} response"
-            ) from err
+            raise BticinoSipConnectionError(f"Timeout waiting for {cseq_method} response") from err
         finally:
             self._pending.pop(key, None)
 
@@ -1280,7 +1580,10 @@ class BticinoSipClient:
                     call_id=call_id,
                     request_uri=parts[1],
                     content_type=self._first_header(headers, "content-type"),
-                    has_sdp=bool(body and "application/sdp" in self._first_header(headers, "content-type").lower()),
+                    has_sdp=bool(
+                        body
+                        and "application/sdp" in self._first_header(headers, "content-type").lower()
+                    ),
                     invite_received_count=self.invite_received_count,
                 )
             self._start_media_trace(call_id or None)
@@ -1361,7 +1664,9 @@ class BticinoSipClient:
             self.last_caller_uri = caller_identity.uri if caller_identity else None
             self.last_caller_domain = caller_identity.domain if caller_identity else None
             self.last_caller_tag = caller_identity.tag if caller_identity else None
-            self.last_caller_display_name = caller_identity.display_name if caller_identity else None
+            self.last_caller_display_name = (
+                caller_identity.display_name if caller_identity else None
+            )
             self.last_call_id = call_id or self.last_call_id
             if is_new_call:
                 self.call_started_at = now
@@ -1374,7 +1679,14 @@ class BticinoSipClient:
                     self._async_call_timeout(call_id or "")
                 )
             await self._async_send_response(session.writer, 100, "Trying", headers)
-            await self._async_send_response(session.writer, 180, "Ringing", headers, add_to_tag=True, to_tag=self._invite_local_tag)
+            await self._async_send_response(
+                session.writer,
+                180,
+                "Ringing",
+                headers,
+                add_to_tag=True,
+                to_tag=self._invite_local_tag,
+            )
             event_data = {
                 "caller": from_value,
                 "call_id": call_id,
@@ -1392,7 +1704,9 @@ class BticinoSipClient:
                 "video_port": self.sdp_video_port,
                 "video_direction": self.sdp_video_direction,
                 "video_codecs": list(self.sdp_video_codecs),
-                "media_preparation": self.media_preparation.public_dict() if self.media_preparation else None,
+                "media_preparation": self.media_preparation.public_dict()
+                if self.media_preparation
+                else None,
             }
             if is_new_call:
                 self._notify("incoming_call", **event_data)
@@ -1442,9 +1756,7 @@ class BticinoSipClient:
             self.ringing = False
             self.call_ended_at = now
             if self.call_started_at is not None:
-                self.last_call_duration = max(
-                    0.0, (now - self.call_started_at).total_seconds()
-                )
+                self.last_call_duration = max(0.0, (now - self.call_started_at).total_seconds())
             self.call_state = "missed" if method == "CANCEL" and was_ringing else "ended"
             self._notify(
                 "call_ended",
@@ -1524,7 +1836,9 @@ class BticinoSipClient:
             return
 
         if method == "REFER":
-            await self._async_send_response(session.writer, 202, "Accepted", headers, add_to_tag=True)
+            await self._async_send_response(
+                session.writer, 202, "Accepted", headers, add_to_tag=True
+            )
             self.last_refer_to = self._first_header(headers, "refer-to")
             self._notify(
                 "sip_refer_received",
@@ -1544,7 +1858,9 @@ class BticinoSipClient:
             )
             return
 
-        await self._async_send_response(session.writer, 501, "Not Implemented", headers, add_to_tag=True)
+        await self._async_send_response(
+            session.writer, 501, "Not Implemented", headers, add_to_tag=True
+        )
 
     @staticmethod
     def _parse_sdp(value: str) -> SdpDescription:
@@ -1552,8 +1868,8 @@ class BticinoSipClient:
         session_name: str | None = None
         session_address: str | None = None
         session_direction = "sendrecv"
-        current: dict[str, object] | None = None
-        media_sections: list[dict[str, object]] = []
+        current: _SdpSection | None = None
+        media_sections: list[_SdpSection] = []
 
         static_codecs = {
             0: "PCMU/8000",
@@ -1633,7 +1949,9 @@ class BticinoSipClient:
                             int_pt = int(mapping[0])
                         except ValueError:
                             int_pt = -1
-                        current["rtcp_fb"].setdefault(int_pt, []).append(mapping[1] if len(mapping) == 2 else "")
+                        current["rtcp_fb"].setdefault(int_pt, []).append(
+                            mapping[1] if len(mapping) == 2 else ""
+                        )
                 elif current is not None and data.startswith("fmtp:"):
                     mapping = data[5:].split(None, 1)
                     if mapping:
@@ -1644,23 +1962,25 @@ class BticinoSipClient:
                         current["fmtp"][int_pt] = mapping[1] if len(mapping) == 2 else ""
 
         parsed_media: list[SdpMediaDescription] = []
-        for item in media_sections:
+        for section in media_sections:
             codecs: list[str] = []
-            for payload in item["payloads"]:
-                codec = item["rtpmap"].get(payload) or static_codecs.get(payload) or f"PT{payload}"
+            for payload in section["payloads"]:
+                codec = (
+                    section["rtpmap"].get(payload) or static_codecs.get(payload) or f"PT{payload}"
+                )
                 codecs.append(f"{payload}:{codec}")
             parsed_media.append(
                 SdpMediaDescription(
-                    media=str(item["media"]),
-                    port=int(item["port"]),
-                    protocol=str(item["protocol"]),
-                    payload_types=tuple(item["payloads"]),
-                    connection_address=item["address"] or session_address,
-                    direction=str(item["direction"]),
+                    media=str(section["media"]),
+                    port=int(section["port"]),
+                    protocol=str(section["protocol"]),
+                    payload_types=tuple(section["payloads"]),
+                    connection_address=section["address"] or session_address,
+                    direction=str(section["direction"]),
                     codecs=tuple(codecs),
-                    fmtp=dict(item["fmtp"]),
-                    crypto=tuple(item["crypto"]),
-                    rtcp_feedback={int(k): tuple(v) for k, v in item["rtcp_fb"].items()},
+                    fmtp=dict(section["fmtp"]),
+                    crypto=tuple(section["crypto"]),
+                    rtcp_feedback={int(k): tuple(v) for k, v in section["rtcp_fb"].items()},
                 )
             )
         return SdpDescription(
@@ -1846,7 +2166,8 @@ class BticinoSipClient:
             self.call_ended_at = now
             self.last_call_duration = (
                 max(0.0, (now - self.call_started_at).total_seconds())
-                if self.call_started_at else None
+                if self.call_started_at
+                else None
             )
             self.missed_call_count += 1
             self.dialog_state = "terminated"
@@ -1902,9 +2223,7 @@ class BticinoSipClient:
         return values[0] if values else ""
 
     @classmethod
-    async def _read_sip_frame(
-        cls, reader: asyncio.StreamReader, timeout: float
-    ) -> bytes:
+    async def _read_sip_frame(cls, reader: asyncio.StreamReader, timeout: float) -> bytes:  # noqa: ASYNC109 - Preserve the SIP timeout contract (including test doubles).
         """Read one SIP response or request, including its body."""
         deadline = asyncio.get_running_loop().time() + timeout
         while True:
@@ -1912,9 +2231,7 @@ class BticinoSipClient:
             if remaining <= 0:
                 raise TimeoutError("Idle SIP stream timeout")
             try:
-                header_block = await asyncio.wait_for(
-                    reader.readuntil(b"\r\n\r\n"), remaining
-                )
+                header_block = await asyncio.wait_for(reader.readuntil(b"\r\n\r\n"), remaining)
             except asyncio.IncompleteReadError as err:
                 raise BticinoSipConnectionError("SIP connection closed") from err
             except TimeoutError:
@@ -1923,7 +2240,7 @@ class BticinoSipClient:
             if not header_block:
                 continue
             head = header_block[:-4]
-            match = re.search(br"(?im)^Content-Length:\s*(\d+)\s*$", head)
+            match = re.search(rb"(?im)^Content-Length:\s*(\d+)\s*$", head)
             length = int(match.group(1)) if match else 0
             body = b""
             if length:
@@ -1950,7 +2267,9 @@ class BticinoSipClient:
         return first_line, headers, body
 
     async def _read_final_response(
-        self, reader: asyncio.StreamReader, timeout: int = 30
+        self,
+        reader: asyncio.StreamReader,
+        timeout: int = 30,  # noqa: ASYNC109 - Preserve the SIP timeout contract (including test doubles).
     ) -> tuple[bytes, str, dict[str, list[str]]]:
         deadline = asyncio.get_running_loop().time() + timeout
         while True:
@@ -1967,7 +2286,7 @@ class BticinoSipClient:
             return raw, status, headers
 
     @staticmethod
-    async def _read_response(reader: asyncio.StreamReader, timeout: float) -> bytes:
+    async def _read_response(reader: asyncio.StreamReader, timeout: float) -> bytes:  # noqa: ASYNC109 - Preserve the SIP timeout contract (including test doubles).
         """Read exactly one SIP response while preserving queued responses.
 
         ``StreamReader.readuntil`` leaves bytes belonging to a following SIP
@@ -1978,25 +2297,17 @@ class BticinoSipClient:
         while True:
             remaining = deadline - asyncio.get_running_loop().time()
             if remaining <= 0:
-                raise BticinoSipConnectionError(
-                    "Timeout waiting for SIP response headers"
-                )
+                raise BticinoSipConnectionError("Timeout waiting for SIP response headers")
             try:
-                header_block = await asyncio.wait_for(
-                    reader.readuntil(b"\r\n\r\n"), remaining
-                )
+                header_block = await asyncio.wait_for(reader.readuntil(b"\r\n\r\n"), remaining)
             except asyncio.IncompleteReadError as err:
                 raise BticinoSipConnectionError(
                     "SIP server closed the connection before a complete response"
                 ) from err
             except asyncio.LimitOverrunError as err:
-                raise BticinoSipConnectionError(
-                    "SIP response headers exceed stream limit"
-                ) from err
+                raise BticinoSipConnectionError("SIP response headers exceed stream limit") from err
             except TimeoutError as err:
-                raise BticinoSipConnectionError(
-                    "Timeout waiting for SIP response headers"
-                ) from err
+                raise BticinoSipConnectionError("Timeout waiting for SIP response headers") from err
 
             # Flexisip may answer CRLF keepalives. Remove any number of leading
             # empty lines and continue if the frame contains no SIP status.
@@ -2011,23 +2322,17 @@ class BticinoSipClient:
                 continue
 
             head = header_block[:-4]
-            match = re.search(br"(?im)^Content-Length:\s*(\d+)\s*$", head)
+            match = re.search(rb"(?im)^Content-Length:\s*(\d+)\s*$", head)
             length = int(match.group(1)) if match else 0
             body = b""
             if length:
                 remaining = deadline - asyncio.get_running_loop().time()
                 if remaining <= 0:
-                    raise BticinoSipConnectionError(
-                        "Timeout waiting for SIP response body"
-                    )
+                    raise BticinoSipConnectionError("Timeout waiting for SIP response body")
                 try:
-                    body = await asyncio.wait_for(
-                        reader.readexactly(length), remaining
-                    )
+                    body = await asyncio.wait_for(reader.readexactly(length), remaining)
                 except (asyncio.IncompleteReadError, TimeoutError) as err:
-                    raise BticinoSipConnectionError(
-                        "Incomplete SIP response body"
-                    ) from err
+                    raise BticinoSipConnectionError("Incomplete SIP response body") from err
             return head + b"\r\n\r\n" + body
 
     @staticmethod
@@ -2048,9 +2353,7 @@ class BticinoSipClient:
     def _status_code(status: str) -> int:
         match = re.match(r"^SIP/2\.0\s+(\d{3})\b", status.strip())
         if not match:
-            raise BticinoSipConnectionError(
-                f"Invalid or stale SIP response status: {status!r}"
-            )
+            raise BticinoSipConnectionError(f"Invalid or stale SIP response status: {status!r}")
         return int(match.group(1))
 
     @staticmethod
@@ -2097,9 +2400,7 @@ class BticinoSipClient:
         if algorithm == "MD5-SESS":
             ha1 = md5(f"{ha1}:{nonce}:{cnonce}")
         elif algorithm != "MD5":
-            raise BticinoSipAuthenticationError(
-                f"Unsupported Digest algorithm: {algorithm}"
-            )
+            raise BticinoSipAuthenticationError(f"Unsupported Digest algorithm: {algorithm}")
         ha2 = md5(f"{method}:{uri}")
         response = (
             md5(f"{ha1}:{nonce}:{nc_text}:{cnonce}:{qop}:{ha2}")

@@ -14,6 +14,32 @@ def require(condition: bool, message: str) -> None:
         raise SystemExit(f"PUBLICATION PREFLIGHT: FAIL: {message}")
 
 
+def check_validation_contract(root: Path) -> None:
+    """Check the workflow delegation and the actual blocking Python gates."""
+    validate = (root / ".github/workflows/validate.yml").read_text(encoding="utf-8")
+    for token in (
+        "hacs/action@",
+        "home-assistant/actions/hassfest@",
+        "bash tools/validation/github_sandbox_validate.sh check",
+    ):
+        require(token in validate, f"validate workflow missing {token}")
+    runner = (root / "tools/validation/github_sandbox_validate.sh").read_text(encoding="utf-8")
+    require("set -euo pipefail" in runner, "validation runner must preserve gate failures")
+    for gate in ("ruff-format", "ruff-check", "mypy", "pytest"):
+        require(
+            re.search(rf"(?m)^run_logged {gate} \"\$PYTHON_BIN\" -m ", runner) is not None,
+            f"validation runner missing blocking {gate} gate",
+        )
+    require(
+        re.search(
+            r"(?m)^run_logged pytest .* -p no:cacheprovider -p pytest_asyncio\.plugin(?:\s|$)",
+            runner,
+        )
+        is not None,
+        "validation runner must explicitly configure pytest plugins",
+    )
+
+
 def main() -> None:
     require((ROOT / "README.md").is_file(), "README.md missing")
     require((ROOT / "LICENSE").is_file(), "LICENSE missing")
@@ -47,9 +73,7 @@ def main() -> None:
     require((INTEGRATION / "brand" / "icon.png").is_file(), "brand icon.png missing")
     require((INTEGRATION / "brand" / "icon@2x.png").is_file(), "brand icon@2x.png missing")
 
-    validate = (ROOT / ".github" / "workflows" / "validate.yml").read_text(encoding="utf-8")
-    for token in ("hacs/action@", "home-assistant/actions/hassfest@", "pytest -q", "no:cacheprovider", "mypy"):
-        require(token in validate, f"validate workflow missing {token}")
+    check_validation_contract(ROOT)
 
     release = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
     require("Verify tag and manifest versions" in release, "release tag/version guard missing")

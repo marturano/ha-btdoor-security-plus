@@ -1,27 +1,35 @@
 """Developer buttons for BTDoor Security+."""
+
 from __future__ import annotations
 
-import json
+from typing import TYPE_CHECKING, cast
 
-from homeassistant.components.button import ButtonEntity
 from homeassistant.components import persistent_notification
+from homeassistant.components.button import ButtonEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+from .const import (
+    ATTR_ENTRY_ID,
+    ATTR_REASON,
+    ATTR_SOURCE,
+    CONF_QUICK_VOICE_GATE,
+    DEFAULT_QUICK_VOICE_GATE,
+    DOMAIN,
+    SERVICE_OPEN_GATE,
+)
+from .device_model import DeviceKind
+from .entity import BticinoDoorEntryEntity
+from .visibility import visibility_for_entry
+
+if TYPE_CHECKING:
+    from .service_models import GateActionResult
 
 # Push-driven platform; entity updates do not perform parallel device I/O.
 PARALLEL_UPDATES = 0
-
-from .entity import BticinoDoorEntryEntity
-from .const import (
-    ATTR_ENTRY_ID, ATTR_REASON, ATTR_SOURCE, CONF_QUICK_VOICE_GATE,
-    DEFAULT_QUICK_VOICE_GATE, DOMAIN, SERVICE_OPEN_GATE,
-)
-from .device_model import DeviceKind
-from .visibility import visibility_for_entry
 
 
 async def async_setup_entry(
@@ -29,13 +37,15 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    entities = [BTDoorGateOpenButton(entry)]
+    entities: list[ButtonEntity] = [BTDoorGateOpenButton(entry)]
     if visibility_for_entry(entry).is_visible(DeviceKind.DIAGNOSTICS):
-        entities.extend([
-            BTDoorDeveloperTestButton(entry),
-            BTDoorSupportReportButton(entry),
-            BTDoorCleanDebugButton(entry),
-        ])
+        entities.extend(
+            [
+                BTDoorDeveloperTestButton(entry),
+                BTDoorSupportReportButton(entry),
+                BTDoorCleanDebugButton(entry),
+            ]
+        )
     async_add_entities(entities)
 
 
@@ -58,9 +68,7 @@ class BTDoorGateOpenButton(BticinoDoorEntryEntity, ButtonEntity):
     def extra_state_attributes(self) -> dict[str, bool]:
         return {
             "quick_voice_assistants_enabled": bool(
-                self._entry.options.get(
-                    CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE
-                )
+                self._entry.options.get(CONF_QUICK_VOICE_GATE, DEFAULT_QUICK_VOICE_GATE)
             )
         }
 
@@ -77,7 +85,7 @@ class BTDoorGateOpenButton(BticinoDoorEntryEntity, ButtonEntity):
             return_response=True,
             context=self._context,
         )
-        result = (response or {}).get(self._entry.entry_id, {})
+        result = cast("GateActionResult", (response or {}).get(self._entry.entry_id, {}))
         if not result.get("success"):
             raise HomeAssistantError(
                 translation_domain=DOMAIN,
@@ -94,7 +102,9 @@ class _DeveloperButton(BticinoDoorEntryEntity, ButtonEntity):
 
     @property
     def available(self) -> bool:
-        return bool(self._entry.runtime_data.developer and self._entry.runtime_data.developer.enabled)
+        return bool(
+            self._entry.runtime_data.developer and self._entry.runtime_data.developer.enabled
+        )
 
 
 class BTDoorDeveloperTestButton(_DeveloperButton):
@@ -109,8 +119,17 @@ class BTDoorDeveloperTestButton(_DeveloperButton):
         results = await self._entry.runtime_data.developer.async_run_tests("all")
         failed = [name for name, item in results.items() if not item.get("ok")]
         title = "BTDoor Security+ - Test sviluppatore"
-        message = "Tutti i test sono riusciti." if not failed else f"Test non riusciti: {', '.join(failed)}"
-        persistent_notification.async_create(self.hass, message, title=title, notification_id=f"btdoor_dev_test_{self._entry.entry_id}")
+        message = (
+            "Tutti i test sono riusciti."
+            if not failed
+            else f"Test non riusciti: {', '.join(failed)}"
+        )
+        persistent_notification.async_create(
+            self.hass,
+            message,
+            title=title,
+            notification_id=f"btdoor_dev_test_{self._entry.entry_id}",
+        )
         self.async_write_ha_state()
 
 

@@ -78,3 +78,13 @@
 - Release certification: BLOCKED pending imported target evidence
 
 | Phase 7B Home Assistant certification harness | PASS | Repository harness validated; live Home Assistant 2026.x execution remains pending |
+
+
+## Ruff residual remediation — 2026-10-27
+
+Latest local evidence: [Ruff residual remediation](RUFF_RESIDUAL_REMEDIATION_2026-10-27.md). Ruff: 77 to 0; format check passes. Windows/Python 3.12 pytest: 337 passed, 3 existing failures reproduced on the original ZIP. mypy executed and failed (160 diagnostics, including missing Home Assistant imports). Fresh coverage, Linux CI, remote checks and live HA/SIP/Cloud remain unverified. Final remains BLOCKED. Historical full-pass and coverage claims do not validate this edited package.
+
+
+## Linux validation completion — 2026-10-27
+
+Latest local evidence: [Linux validation completion](LINUX_VALIDATION_2026-10-27.md). The earlier Windows failures are superseded locally; remote commit checks and live target evidence remain separate.

@@ -1,6 +1,6 @@
 # Runtime Certification Report
 
-**Generated:** 2026-07-27
+**Generated:** 2026-10-27
 
 ## Result
 
@@ -10,9 +10,9 @@ Home Assistant target runtime: **PENDING**
 
 ## Measurements
 
-Command: `/opt/pyvenv/bin/python -m pytest -q -p no:cacheprovider tests/test_governance_automation.py tests/test_project_health_dashboard.py tests/test_quality_release_intelligence.py tests/test_repository_rationalization.py tests/test_rc15_repository_integrity.py`
+Command: `/tmp/btdoor-codex-validation-20261027/venv/bin/python -m pytest -q -p no:cacheprovider tests/test_governance_automation.py tests/test_project_health_dashboard.py tests/test_quality_release_intelligence.py tests/test_repository_rationalization.py tests/test_rc15_repository_integrity.py`
 
-Duration: 22.844 s
+Duration: 10.19 s
 
 Exit code: 0
 

@@ -1,8 +1,9 @@
 """SIP identity parsing helpers for runtime entities and diagnostics."""
+
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
 import re
+from dataclasses import asdict, dataclass
 
 _ANGLE_URI_RE = re.compile(r"<(?P<uri>sips?:[^>]+)>", re.I)
 _BARE_URI_RE = re.compile(r"(?P<uri>sips?:[^;\s,]+)", re.I)

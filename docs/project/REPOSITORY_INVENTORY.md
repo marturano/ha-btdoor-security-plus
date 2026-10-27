@@ -1,10 +1,10 @@
 # Repository Inventory
 
-**Generated:** 2026-07-27  
+**Generated:** 2026-10-27  
 **Package:** `1.1.0-rc.15-phase7c-github-publication-ready`  
 **Purpose:** canonical inventory of every active file in the exact package during Phase 7C assessment.
 
-**Active file count:** 810
+**Active file count:** 816
 
 ## Active files
 
@@ -114,6 +114,7 @@
 - `custom_components/btdoor_security_plus/runtime_state/provider.py`
 - `custom_components/btdoor_security_plus/sensor.py`
 - `custom_components/btdoor_security_plus/sentence_manager.py`
+- `custom_components/btdoor_security_plus/service_models.py`
 - `custom_components/btdoor_security_plus/services.py`
 - `custom_components/btdoor_security_plus/services.yaml`
 - `custom_components/btdoor_security_plus/sip_client.py`
@@ -153,7 +154,6 @@
 - `dashboards/templates/mobile-dashboard.yaml`
 - `dashboards/templates/runtime-dashboard.yaml`
 - `dashboards/templates/user-dashboard.yaml`
-- `dist/btdoor-security-plus-1.1.0-rc.15.release.json`
 - `docs/FOUNDATION.md`
 - `docs/adr/ADR-0025-active-roadmap-and-handoff.md`
 - `docs/adr/ADR-0026-canonical-product-history.md`
@@ -588,7 +588,9 @@
 - `docs/validation/GITHUB_SANDBOX_REMEDIATION_REPORT_2026-07-27.md`
 - `docs/validation/GITHUB_SANDBOX_VALIDATION.md`
 - `docs/validation/GITHUB_VALIDATION_ERROR_REMEDIATION_2026-07-27.md`
+- `docs/validation/LINUX_VALIDATION_2026-10-27.md`
 - `docs/validation/README.md`
+- `docs/validation/RUFF_RESIDUAL_REMEDIATION_2026-10-27.md`
 - `docs/validation/VALIDATION_MAINTENANCE_POLICY.md`
 - `docs/validation/VALIDATION_REGISTER.md`
 - `docs/validation/VALIDATION_REPORT_1.1.0-rc.15.md`
@@ -674,10 +676,13 @@
 - `handoff/77_PHASE_7C_RELEASE_CANDIDATE_DOSSIER.md`
 - `handoff/78_PHASE_7C_GITHUB_PUBLICATION_AUDIT.md`
 - `handoff/79_GITHUB_EFFECTIVE_VALIDATION_REMEDIATION.md`
+- `handoff/80_RUFF_RESIDUAL_REMEDIATION.md`
+- `handoff/81_LINUX_VALIDATION_COMPLETION.md`
 - `handoff/CONTINUITY_CHECKLIST.md`
 - `handoff/HANDOFF_INDEX.md`
 - `handoff/README.md`
 - `pyproject.toml`
+- `requirements-validation.txt`
 - `tests/test_alpha1a_regressions.py`
 - `tests/test_alpha3_documentation_qa.py`
 - `tests/test_alpha4_ux.py`
@@ -712,6 +717,7 @@
 - `tests/test_persistent_media_snapshot_alpha26.py`
 - `tests/test_platform_runtime.py`
 - `tests/test_project_health_dashboard.py`
+- `tests/test_publication_validation_contract.py`
 - `tests/test_quality_release_intelligence.py`
 - `tests/test_quality_scale_engine.py`
 - `tests/test_quality_scale_gold_policy.py`

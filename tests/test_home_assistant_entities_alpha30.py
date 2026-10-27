@@ -1,4 +1,5 @@
 """Tests for alpha.30 entity helper semantics."""
+
 from types import SimpleNamespace
 
 from custom_components.btdoor_security_plus.entity_metrics import (

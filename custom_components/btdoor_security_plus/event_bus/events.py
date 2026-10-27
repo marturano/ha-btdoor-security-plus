@@ -73,7 +73,7 @@ class RuntimeEvent:
         return value
 
     @classmethod
-    def from_dict(cls, value: dict[str, Any]) -> "RuntimeEvent":
+    def from_dict(cls, value: dict[str, Any]) -> RuntimeEvent:
         """Restore a persisted event, tolerating future extra fields."""
         return cls(
             event_type=RuntimeEventType(str(value.get("event_type", "runtime_event"))),

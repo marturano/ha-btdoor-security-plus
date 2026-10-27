@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import asyncio
-
 import base64
 import hashlib
 import io
@@ -12,8 +11,8 @@ import logging
 import re
 import secrets
 import shutil
-import zipfile
 import warnings
+import zipfile
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -75,9 +74,16 @@ def _looks_like_auth_rejection(status: int, raw: str, body: Any) -> bool:
     values: list[str] = [raw]
     if isinstance(body, dict):
         for key in (
-            "message", "Message", "error", "Error",
-            "description", "Description", "result", "Result",
-            "status", "Status",
+            "message",
+            "Message",
+            "error",
+            "Error",
+            "description",
+            "Description",
+            "result",
+            "Result",
+            "status",
+            "Status",
         ):
             value = body.get(key)
             if value is not None:
@@ -85,13 +91,20 @@ def _looks_like_auth_rejection(status: int, raw: str, body: Any) -> bool:
 
     normalized = " ".join(values).casefold()
     markers = (
-        "invalid credential", "invalid credentials",
-        "invalid username", "invalid password",
-        "wrong password", "authentication failed",
-        "authentication rejected", "unauthorized",
-        "access denied", "login failed",
-        "utente non valido", "password non valida",
-        "credenziali non valide", "autenticazione fallita",
+        "invalid credential",
+        "invalid credentials",
+        "invalid username",
+        "invalid password",
+        "wrong password",
+        "authentication failed",
+        "authentication rejected",
+        "unauthorized",
+        "access denied",
+        "login failed",
+        "utente non valido",
+        "password non valida",
+        "credenziali non valide",
+        "autenticazione fallita",
     )
     return any(marker in normalized for marker in markers)
 
@@ -189,9 +202,7 @@ class BticinoCloudClient:
             if not plant_id:
                 continue
             plant_name = _get(plant, "PlantName", "Name")
-            gateway_body, _ = await self._request(
-                "GET", f"/eliot/plants/{plant_id}/gateway/"
-            )
+            gateway_body, _ = await self._request("GET", f"/eliot/plants/{plant_id}/gateway/")
             for gateway in _items(gateway_body):
                 gateway_id = _get(gateway, "GatewayId", "id")
                 if not gateway_id:
@@ -201,9 +212,7 @@ class BticinoCloudClient:
                         plant_id=plant_id,
                         plant_name=plant_name,
                         gateway_id=gateway_id,
-                        gateway_name=_get(
-                            gateway, "Name", "GatewayName", "MacAddress"
-                        ),
+                        gateway_name=_get(gateway, "Name", "GatewayName", "MacAddress"),
                     )
                 )
         return result
@@ -235,9 +244,7 @@ class BticinoCloudClient:
             "/eliot/users/cert/signcert",
             {"CommonName": sip_account, "CSR": csr},
         )
-        encoded_md5 = headers.get("X-AttachmentMD5") or headers.get(
-            "x-attachmentmd5"
-        )
+        encoded_md5 = headers.get("X-AttachmentMD5") or headers.get("x-attachmentmd5")
         cert_blob = _decode_certificate_response(blob)
         if encoded_md5 and hashlib.md5(cert_blob).hexdigest().lower() != encoded_md5.lower():
             raise BticinoCloudError("Certificate attachment checksum mismatch")
@@ -250,8 +257,13 @@ class BticinoCloudClient:
 
         await asyncio.to_thread(
             _write_certificate_files,
-            key_path, cert_path, fullchain_path, chain_path,
-            key_pem, leaf_pem, chain_pem,
+            key_path,
+            cert_path,
+            fullchain_path,
+            chain_path,
+            key_pem,
+            leaf_pem,
+            chain_pem,
         )
 
         return ProvisionedCredentials(
@@ -276,16 +288,11 @@ class BticinoCloudClient:
         device_name: str,
         id_device: str,
     ) -> dict[str, Any]:
-        path = (
-            f"/eliot/sip/users/plants/{selection.plant_id}/gateway/"
-            f"{selection.gateway_id}"
-        )
+        path = f"/eliot/sip/users/plants/{selection.plant_id}/gateway/{selection.gateway_id}"
         users_body, _ = await self._request("GET", path)
         users = _items(users_body)
         local_part = self.email.replace("@", "-")
-        expected = (
-            f"{local_part}-{id_device}@{selection.gateway_id}.bs.iotleg.com"
-        )
+        expected = f"{local_part}-{id_device}@{selection.gateway_id}.bs.iotleg.com"
         for user in users:
             if _get(user, "SipAccount").lower() == expected.lower():
                 return user
@@ -341,16 +348,14 @@ class BticinoCloudClient:
                     body = {"_raw": raw}
                 is_login = not authenticated and path == "/eliot/users/sign_in"
                 if response.status in (401, 403, 498) or (
-                    is_login
-                    and _looks_like_auth_rejection(response.status, raw, body)
+                    is_login and _looks_like_auth_rejection(response.status, raw, body)
                 ):
                     _LOGGER.info(
                         "MyHomeWeb rejected the supplied login credentials (HTTP %s)",
                         response.status,
                     )
                     raise BticinoCloudAuthenticationError(
-                        "MyHomeWeb email or password rejected "
-                        f"(HTTP {response.status})"
+                        f"MyHomeWeb email or password rejected (HTTP {response.status})"
                     )
                 if response.status >= 400:
                     _LOGGER.warning(
@@ -359,9 +364,7 @@ class BticinoCloudClient:
                         path,
                         response.status,
                     )
-                    raise BticinoCloudError(
-                        f"{method} {path}: HTTP {response.status}: {raw[:300]}"
-                    )
+                    raise BticinoCloudError(f"{method} {path}: HTTP {response.status}: {raw[:300]}")
                 return body, dict(response.headers)
         except BticinoCloudError:
             raise
@@ -459,7 +462,16 @@ def _parse_payload(body: Any) -> Any:
 def _items(value: Any) -> list[dict[str, Any]]:
     value = _parse_payload(value)
     if isinstance(value, dict):
-        for key in ("plants", "Plants", "gateways", "Gateways", "users", "Users", "result", "Result"):
+        for key in (
+            "plants",
+            "Plants",
+            "gateways",
+            "Gateways",
+            "users",
+            "Users",
+            "result",
+            "Result",
+        ):
             if isinstance(value.get(key), list):
                 value = value[key]
                 break
@@ -479,10 +491,14 @@ def _items(value: Any) -> list[dict[str, Any]]:
     return output
 
 
-
 def _write_certificate_files(
-    key_path: Path, cert_path: Path, fullchain_path: Path, chain_path: Path,
-    key_pem: bytes, leaf_pem: bytes, chain_pem: bytes | None,
+    key_path: Path,
+    cert_path: Path,
+    fullchain_path: Path,
+    chain_path: Path,
+    key_pem: bytes,
+    leaf_pem: bytes,
+    chain_pem: bytes | None,
 ) -> None:
     """Back up and write certificate files outside the event loop."""
     existing = [path for path in (key_path, cert_path, fullchain_path, chain_path) if path.exists()]
@@ -502,6 +518,7 @@ def _write_certificate_files(
         chain_path.chmod(0o600)
     elif chain_path.exists():
         chain_path.unlink()
+
 
 def _get(data: dict[str, Any], *names: str) -> str:
     lowered = {str(key).lower(): value for key, value in data.items()}
@@ -540,9 +557,7 @@ def _generate_official_csr(common_name: str) -> tuple[bytes, str]:
     request = asn1_csr.CertificationRequest(
         {
             "certification_request_info": request_info,
-            "signature_algorithm": asn1_algos.SignedDigestAlgorithm(
-                {"algorithm": "sha256_rsa"}
-            ),
+            "signature_algorithm": asn1_algos.SignedDigestAlgorithm({"algorithm": "sha256_rsa"}),
             "signature": signature,
         }
     )
@@ -557,7 +572,11 @@ def _generate_official_csr(common_name: str) -> tuple[bytes, str]:
 
 def _decode_certificate_response(blob: bytes) -> bytes:
     stripped = blob.strip()
-    if stripped.startswith(b"PK\x03\x04") or stripped.startswith(b"0\x82") or b"BEGIN CERTIFICATE" in stripped:
+    if (
+        stripped.startswith(b"PK\x03\x04")
+        or stripped.startswith(b"0\x82")
+        or b"BEGIN CERTIFICATE" in stripped
+    ):
         return blob
     try:
         decoded = base64.b64decode(stripped, validate=True)
@@ -570,7 +589,7 @@ def _load_certificates(data: bytes) -> list[x509.Certificate]:
     certs: list[x509.Certificate] = []
     text_data = data.strip()
     for block in re.findall(
-        br"-----BEGIN CERTIFICATE-----\s+.*?-----END CERTIFICATE-----",
+        rb"-----BEGIN CERTIFICATE-----\s+.*?-----END CERTIFICATE-----",
         text_data,
         flags=re.S,
     ):
@@ -617,9 +636,7 @@ def _public_key_fingerprint_from_cert(cert: x509.Certificate) -> str:
     return hashlib.sha256(der).hexdigest()
 
 
-def _unpack_certificate(
-    blob: bytes, key_pem: bytes
-) -> tuple[bytes, bytes | None, datetime]:
+def _unpack_certificate(blob: bytes, key_pem: bytes) -> tuple[bytes, bytes | None, datetime]:
     certs: list[x509.Certificate] = []
     if blob.startswith(b"PK\x03\x04"):
         with zipfile.ZipFile(io.BytesIO(blob)) as archive:
@@ -670,7 +687,5 @@ def _unpack_certificate(
     if expiry is None:
         expiry = leaf.not_valid_after.replace(tzinfo=UTC)
     leaf_pem = leaf.public_bytes(serialization.Encoding.PEM)
-    chain_pem = b"".join(
-        cert.public_bytes(serialization.Encoding.PEM) for cert in chain
-    )
+    chain_pem = b"".join(cert.public_bytes(serialization.Encoding.PEM) for cert in chain)
     return leaf_pem, chain_pem or None, expiry

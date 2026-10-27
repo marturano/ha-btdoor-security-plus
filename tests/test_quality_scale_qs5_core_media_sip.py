@@ -1,8 +1,9 @@
 """QS-5 behavioural coverage for core helpers, media and SIP parsing."""
+
 from __future__ import annotations
 
-import asyncio
 import importlib.util
+import os
 import sys
 import types
 from pathlib import Path
@@ -57,11 +58,17 @@ def test_media_crypto_codec_sdp_and_snapshots(media_sip, monkeypatch):
     assert media._codec_name(None) is None
 
     plan = media.MediaPreparation(
-        state="ready", audio_payload_type=0, audio_codec="PCMU/8000",
-        audio_local_rtp_port=20000, audio_local_rtcp_port=20001,
-        video_payload_type=96, video_codec="H264/90000",
-        video_local_rtp_port=21000, video_local_rtcp_port=21001,
-        local_media_address="10.0.0.2", srtp_suite="AES_CM_128_HMAC_SHA1_80",
+        state="ready",
+        audio_payload_type=0,
+        audio_codec="PCMU/8000",
+        audio_local_rtp_port=20000,
+        audio_local_rtcp_port=20001,
+        video_payload_type=96,
+        video_codec="H264/90000",
+        video_local_rtp_port=21000,
+        video_local_rtcp_port=21001,
+        local_media_address="10.0.0.2",
+        srtp_suite="AES_CM_128_HMAC_SHA1_80",
         local_crypto_tag=1,
     )
     answer, redacted = media._build_answer_sdp(plan, b"1" * 30)
@@ -75,10 +82,13 @@ def test_media_crypto_codec_sdp_and_snapshots(media_sip, monkeypatch):
     class Probe:
         def connect(self, target):
             self.target = target
+
         def getsockname(self):
             return ("192.0.2.10", 1234)
+
         def close(self):
             self.closed = True
+
     monkeypatch.setattr(media.socket, "socket", lambda *args, **kwargs: Probe())
     assert media._discover_local_address("198.51.100.2") == "192.0.2.10"
     assert media._discover_local_address(None) == "0.0.0.0"
@@ -87,20 +97,41 @@ def test_media_crypto_codec_sdp_and_snapshots(media_sip, monkeypatch):
 def test_prepare_media_offer_success_and_issue_paths(media_sip, monkeypatch):
     media, sip = media_sip
     sockets = []
+
     class Sock:
-        def close(self): self.closed = True
+        def close(self):
+            self.closed = True
+
     def pair():
-        a, b = Sock(), Sock(); sockets.extend((a,b)); return a,b,20000+len(sockets),20001+len(sockets)
+        a, b = Sock(), Sock()
+        sockets.extend((a, b))
+        return a, b, 20000 + len(sockets), 20001 + len(sockets)
+
     monkeypatch.setattr(media, "_bind_udp_pair", pair)
     monkeypatch.setattr(media, "_discover_local_address", lambda value: "10.0.0.5")
     monkeypatch.setattr(media.secrets, "token_bytes", lambda n: b"k" * n)
 
     crypto = media.parse_crypto_attribute("1 AES_CM_128_HMAC_SHA1_80 inline:" + "YQ==")
     desc = sip.SdpDescription(
-        session_name="door", connection_address="10.0.0.8", direction="sendrecv",
+        session_name="door",
+        connection_address="10.0.0.8",
+        direction="sendrecv",
         media=(
-            sip.SdpMediaDescription("audio", 4000, "RTP/SAVP", (0,), "10.0.0.8", "sendrecv", ("0:PCMU",), {}, (crypto,), {}),
-            sip.SdpMediaDescription("video", 5000, "RTP/SAVP", (96,), "10.0.0.8", "recvonly", ("96:H264",), {}, (), {}),
+            sip.SdpMediaDescription(
+                "audio",
+                4000,
+                "RTP/SAVP",
+                (0,),
+                "10.0.0.8",
+                "sendrecv",
+                ("0:PCMU",),
+                {},
+                (crypto,),
+                {},
+            ),
+            sip.SdpMediaDescription(
+                "video", 5000, "RTP/SAVP", (96,), "10.0.0.8", "recvonly", ("96:H264",), {}, (), {}
+            ),
         ),
     )
     result = media.prepare_media_offer(desc)
@@ -118,9 +149,14 @@ def test_prepare_media_offer_success_and_issue_paths(media_sip, monkeypatch):
 def test_sip_constructor_state_parsers_and_digest(media_sip):
     _, sip = media_sip
     client = sip.BticinoSipClient(
-        sip_account="sip:user@example.com", sip_password="secret", gateway_id=" gw ",
-        client_cert_path="~/cert.pem", client_key_path="~/key.pem",
-        server=" server.example ", port=5061, verify_server=True,
+        sip_account="sip:user@example.com",
+        sip_password="secret",
+        gateway_id=" gw ",
+        client_cert_path="~/cert.pem",
+        client_key_path="~/key.pem",
+        server=" server.example ",
+        port=5061,
+        verify_server=True,
     )
     assert client.sip_account == "user@example.com"
     assert client.digest_username == "user"
@@ -142,12 +178,16 @@ def test_sip_constructor_state_parsers_and_digest(media_sip):
     assert parsed.session_name == "Door" and len(parsed.media) == 2
     assert parsed.media[0].codecs[0].startswith("0:PCMU")
 
-    status, headers = client._parse_headers(b"SIP/2.0 200 OK\r\nVia: one\r\nVia: two\r\nContent-Length: 4\r\n\r\nbody")
+    status, headers = client._parse_headers(
+        b"SIP/2.0 200 OK\r\nVia: one\r\nVia: two\r\nContent-Length: 4\r\n\r\nbody"
+    )
     assert status == "SIP/2.0 200 OK" and headers["via"] == ["one", "two"]
     assert client._status_code(status) == 200
     with pytest.raises(sip.BticinoSipConnectionError):
         client._status_code("bad")
-    challenge, header_name = client._challenge({"www-authenticate": ['Digest realm="r", nonce="n"']})
+    challenge, header_name = client._challenge(
+        {"www-authenticate": ['Digest realm="r", nonce="n"']}
+    )
     assert header_name == "Authorization" and "nonce" in challenge
     params = client._digest_params(challenge)
     assert params["realm"] == "r"
@@ -161,45 +201,79 @@ def _install_init_stubs(tmp_path):
         if name.startswith("homeassistant"):
             sys.modules.pop(name, None)
     ha = types.ModuleType("homeassistant")
-    ce = types.ModuleType("homeassistant.config_entries"); ce.ConfigEntry = object
-    core = types.ModuleType("homeassistant.core"); core.CoreState = SimpleNamespace(running="running"); core.HomeAssistant = object
+    ce = types.ModuleType("homeassistant.config_entries")
+    ce.ConfigEntry = object
+    core = types.ModuleType("homeassistant.core")
+    core.CoreState = SimpleNamespace(running="running")
+    core.HomeAssistant = object
     exc = types.ModuleType("homeassistant.exceptions")
     exc.ConfigEntryAuthFailed = type("ConfigEntryAuthFailed", (Exception,), {})
     exc.ConfigEntryNotReady = type("ConfigEntryNotReady", (Exception,), {})
     helpers = types.ModuleType("homeassistant.helpers")
-    typing_mod = types.ModuleType("homeassistant.helpers.typing"); typing_mod.ConfigType = dict
-    issue = types.ModuleType("homeassistant.helpers.issue_registry"); issue.IssueSeverity = SimpleNamespace(WARNING="warning"); issue.async_create_issue=lambda *a,**k:None; issue.async_delete_issue=lambda *a,**k:None
-    entity = types.ModuleType("homeassistant.helpers.entity_registry"); entity.async_get=lambda hass:hass.entity_registry
-    storage = types.ModuleType("homeassistant.helpers.storage"); storage.Store = object
-    aio = types.ModuleType("homeassistant.helpers.aiohttp_client"); aio.async_get_clientsession=lambda hass:None
-    event = types.ModuleType("homeassistant.helpers.event"); event.async_track_time_interval=lambda *a,**k:lambda:None
-    sys.modules.update({m.__name__:m for m in [ha,ce,core,exc,helpers,typing_mod,issue,entity,storage,aio,event]})
+    typing_mod = types.ModuleType("homeassistant.helpers.typing")
+    typing_mod.ConfigType = dict
+    issue = types.ModuleType("homeassistant.helpers.issue_registry")
+    issue.IssueSeverity = SimpleNamespace(WARNING="warning")
+    issue.async_create_issue = lambda *a, **k: None
+    issue.async_delete_issue = lambda *a, **k: None
+    entity = types.ModuleType("homeassistant.helpers.entity_registry")
+    entity.async_get = lambda hass: hass.entity_registry
+    storage = types.ModuleType("homeassistant.helpers.storage")
+    storage.Store = object
+    aio = types.ModuleType("homeassistant.helpers.aiohttp_client")
+    aio.async_get_clientsession = lambda hass: None
+    event = types.ModuleType("homeassistant.helpers.event")
+    event.async_track_time_interval = lambda *a, **k: lambda: None
+    sys.modules.update(
+        {
+            m.__name__: m
+            for m in [ha, ce, core, exc, helpers, typing_mod, issue, entity, storage, aio, event]
+        }
+    )
 
 
 def test_init_storage_helpers_and_legacy_entity_cleanup(tmp_path):
-    _reset_package(); _install_init_stubs(tmp_path); _load("const")
+    _reset_package()
+    _install_init_stubs(tmp_path)
+    _load("const")
     module = _load("__init__")
+
     class Config:
-        def path(self,*parts): return str(tmp_path.joinpath(*parts))
+        def path(self, *parts):
+            return str(tmp_path.joinpath(*parts))
+
     hass = SimpleNamespace(config=Config())
-    assert module._certificate_storage_dir(hass, "gw") == tmp_path/"custom_components"/module.DOMAIN/"certificate"/"gw"
+    assert (
+        module._certificate_storage_dir(hass, "gw")
+        == tmp_path / "custom_components" / module.DOMAIN / "certificate" / "gw"
+    )
 
-    source = tmp_path/"src"; source.mkdir()
-    (source/"client-cert.pem").write_text("cert")
-    (source/"client-key.pem").write_text("key")
-    (source/"ca-chain.pem").write_text("ca")
-    destination = tmp_path/"dst"
+    source = tmp_path / "src"
+    source.mkdir()
+    (source / "client-cert.pem").write_text("cert")
+    (source / "client-key.pem").write_text("key")
+    (source / "ca-chain.pem").write_text("ca")
+    destination = tmp_path / "dst"
     result = module._copy_certificate_material(source, destination)
-    assert set(result) == {module.CONF_CLIENT_CERT_PATH,module.CONF_CLIENT_KEY_PATH,module.CONF_CA_CHAIN_PATH}
-    assert oct((destination/"client-key.pem").stat().st_mode & 0o777) == "0o600"
+    assert set(result) == {
+        module.CONF_CLIENT_CERT_PATH,
+        module.CONF_CLIENT_KEY_PATH,
+        module.CONF_CA_CHAIN_PATH,
+    }
+    # Windows ACLs are not represented by POSIX mode bits. Linux must still
+    # enforce owner-only key permissions; Windows ACL validation is external.
+    if os.name == "posix":
+        assert oct((destination / "client-key.pem").stat().st_mode & 0o777) == "0o600"
 
-    removed=[]
+    removed = []
     registry = SimpleNamespace(
-        async_get_entity_id=lambda platform, domain, uid: f"{platform}.old" if platform=="switch" else None,
+        async_get_entity_id=lambda platform, domain, uid: (
+            f"{platform}.old" if platform == "switch" else None
+        ),
         async_remove=removed.append,
     )
-    hass.entity_registry=registry
-    entry=SimpleNamespace(unique_id="uid")
+    hass.entity_registry = registry
+    entry = SimpleNamespace(unique_id="uid")
     module._async_remove_legacy_gate_entities(hass, entry)
     assert removed == ["switch.old"]
     module._async_remove_legacy_gate_entities(hass, SimpleNamespace(unique_id=None))
@@ -209,7 +283,9 @@ def test_availability_transition_deduplicates(caplog):
     _reset_package()
     runtime = SimpleNamespace(availability_state=None)
     # Function semantics reproduced through direct module loading is covered in the prior test fixture.
-    _install_init_stubs(Path("/tmp")); _load("const"); module=_load("__init__")
+    _install_init_stubs(Path("/tmp"))
+    _load("const")
+    module = _load("__init__")
     module._log_availability_transition(runtime, False, "Door")
     module._log_availability_transition(runtime, False, "Door")
     module._log_availability_transition(runtime, True, "Door")

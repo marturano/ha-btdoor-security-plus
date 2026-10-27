@@ -1,4 +1,5 @@
 """Central DeviceInfo factory for BTDoor Security+."""
+
 from __future__ import annotations
 
 from enum import StrEnum
@@ -60,9 +61,7 @@ def device_info_for(entry: Any, kind: DeviceKind) -> DeviceInfo:
     """Build consistent DeviceInfo for one logical runtime device."""
     root = device_identifier(entry, DeviceKind.GATEWAY)
     gateway_name = str(
-        entry.data.get(CONF_GATEWAY_NAME)
-        or entry.data.get(CONF_DEVICE_NAME)
-        or "BTDoor Gateway"
+        entry.data.get(CONF_GATEWAY_NAME) or entry.data.get(CONF_DEVICE_NAME) or "BTDoor Gateway"
     )
     models: dict[DeviceKind, str] = {
         DeviceKind.GATEWAY: "DS+ Suite - Integration Hub",
@@ -82,7 +81,11 @@ def device_info_for(entry: Any, kind: DeviceKind) -> DeviceInfo:
 
         name = device_name(kind, _entry_language(entry)) or kind.value
     model = models[kind]
-    identifiers = gateway_identifiers(entry) if kind is DeviceKind.GATEWAY else {device_identifier(entry, kind)}
+    identifiers = (
+        gateway_identifiers(entry)
+        if kind is DeviceKind.GATEWAY
+        else {device_identifier(entry, kind)}
+    )
     info = DeviceInfo(
         identifiers=identifiers,
         name=name,

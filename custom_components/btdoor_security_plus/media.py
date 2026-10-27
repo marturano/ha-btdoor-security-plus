@@ -1,8 +1,9 @@
 """Non-invasive media negotiation preparation for BTDoor Security+."""
+
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 import base64
+import binascii
 import difflib
 import hashlib
 import json
@@ -10,6 +11,7 @@ import re
 import secrets
 import socket
 import time
+from dataclasses import dataclass, field
 from typing import Any
 
 SUPPORTED_SRTP_SUITES = (
@@ -19,9 +21,11 @@ SUPPORTED_SRTP_SUITES = (
 AUDIO_CODEC_PREFERENCE = ("SPEEX/8000", "G729/8000", "PCMA/8000", "PCMU/8000", "G722/8000")
 VIDEO_CODEC_PREFERENCE = ("H264/90000", "MP4V-ES/90000", "H263/90000")
 
+
 @dataclass(slots=True)
 class SrtpCryptoOffer:
     """One SDP SDES crypto attribute."""
+
     tag: int
     suite: str
     key_method: str
@@ -41,7 +45,7 @@ class SrtpCryptoOffer:
             return None
         try:
             return base64.b64decode(value, validate=True)
-        except (ValueError, base64.binascii.Error):
+        except (ValueError, binascii.Error):
             return None
 
     @property
@@ -72,9 +76,11 @@ class SrtpCryptoOffer:
             "mki_present": self.mki is not None,
         }
 
+
 @dataclass(slots=True)
 class MediaPreparation:
     """Prepared local media endpoints and selected offer parameters."""
+
     state: str
     audio_payload_type: int | None = None
     audio_codec: str | None = None
@@ -171,14 +177,16 @@ def parse_crypto_attribute(value: str) -> SrtpCryptoOffer | None:
     return SrtpCryptoOffer(tag=tag, suite=suite, key_method=key_method, key_params=key_params)
 
 
-def _select_codec(codecs: tuple[str, ...], preferences: tuple[str, ...]) -> tuple[int | None, str | None]:
+def _select_codec(
+    codecs: tuple[str, ...], preferences: tuple[str, ...]
+) -> tuple[int | None, str | None]:
     parsed: list[tuple[int, str]] = []
     for item in codecs:
         if ":" not in item:
             continue
-        payload, codec = item.split(":", 1)
+        payload_text, codec = item.split(":", 1)
         try:
-            parsed.append((int(payload), codec.upper()))
+            parsed.append((int(payload_text), codec.upper()))
         except ValueError:
             continue
     for preferred in preferences:
@@ -201,9 +209,9 @@ def _bind_udp_pair() -> tuple[socket.socket, socket.socket, int, int]:
             rtcp.setblocking(False)
             return rtp, rtcp, rtp_port, rtp_port + 1
         except OSError:
-            rtp.close(); rtcp.close()
+            rtp.close()
+            rtcp.close()
     raise OSError("Unable to reserve a local RTP/RTCP port pair")
-
 
 
 def _discover_local_address(remote_address: str | None) -> str:
@@ -244,27 +252,30 @@ def _build_answer_sdp(result: MediaPreparation, local_key: bytes) -> tuple[str, 
     ]
 
     if result.audio_payload_type is not None and result.audio_local_rtp_port:
-        lines.extend([
-            f"m=audio {result.audio_local_rtp_port} RTP/SAVP {result.audio_payload_type}",
-            f"a=rtcp:{result.audio_local_rtcp_port}",
-            f"a=rtpmap:{result.audio_payload_type} {result.audio_codec}",
-            f"a=crypto:{crypto_tag} {suite} inline:{inline_key}",
-            "a=sendrecv",
-        ])
+        lines.extend(
+            [
+                f"m=audio {result.audio_local_rtp_port} RTP/SAVP {result.audio_payload_type}",
+                f"a=rtcp:{result.audio_local_rtcp_port}",
+                f"a=rtpmap:{result.audio_payload_type} {result.audio_codec}",
+                f"a=crypto:{crypto_tag} {suite} inline:{inline_key}",
+                "a=sendrecv",
+            ]
+        )
 
     if result.video_payload_type is not None and result.video_local_rtp_port:
-        lines.extend([
-            f"m=video {result.video_local_rtp_port} RTP/SAVP {result.video_payload_type}",
-            f"a=rtcp:{result.video_local_rtcp_port}",
-            f"a=rtpmap:{result.video_payload_type} {result.video_codec}",
-            f"a=crypto:{crypto_tag} {suite} inline:{inline_key}",
-            "a=recvonly",
-        ])
+        lines.extend(
+            [
+                f"m=video {result.video_local_rtp_port} RTP/SAVP {result.video_payload_type}",
+                f"a=rtcp:{result.video_local_rtcp_port}",
+                f"a=rtpmap:{result.video_payload_type} {result.video_codec}",
+                f"a=crypto:{crypto_tag} {suite} inline:{inline_key}",
+                "a=recvonly",
+            ]
+        )
 
     answer = "\r\n".join(lines) + "\r\n"
     redacted = re.sub(r"(inline:)[A-Za-z0-9+/=]+", r"\1[REDACTED]", answer)
     return answer, redacted
-
 
 
 def build_sdp_diff(remote_sdp: str | None, local_sdp_redacted: str | None) -> str:
@@ -320,7 +331,12 @@ def prepare_media_offer(description: Any) -> MediaPreparation:
                 result.video_local_rtp_port, result.video_local_rtcp_port = rp, rcp
 
         selected_crypto = next(
-            (offer for suite in SUPPORTED_SRTP_SUITES for offer in crypto_offers if offer.suite == suite),
+            (
+                offer
+                for suite in SUPPORTED_SRTP_SUITES
+                for offer in crypto_offers
+                if offer.suite == suite
+            ),
             None,
         )
         secure_protocol = any("SAVP" in str(media.protocol).upper() for media in description.media)
@@ -336,9 +352,7 @@ def prepare_media_offer(description: Any) -> MediaPreparation:
             if remote_key is None:
                 issues.append("The remote SDES-SRTP inline key is not valid base64")
             elif len(remote_key) != 30:
-                issues.append(
-                    f"Unexpected remote SDES-SRTP master key length: {len(remote_key)}"
-                )
+                issues.append(f"Unexpected remote SDES-SRTP master key length: {len(remote_key)}")
 
             # RFC 4568 AES_CM_128 suites use 30 bytes (16-byte key + 14-byte salt).
             local_key = secrets.token_bytes(30)
@@ -349,9 +363,9 @@ def prepare_media_offer(description: Any) -> MediaPreparation:
                 result.audio_remote_address or result.video_remote_address
             )
             answer_sdp, redacted_sdp = _build_answer_sdp(result, local_key)
-            result.answer_sdp_fingerprint = hashlib.sha256(
-                answer_sdp.encode("utf-8")
-            ).hexdigest()[:16]
+            result.answer_sdp_fingerprint = hashlib.sha256(answer_sdp.encode("utf-8")).hexdigest()[
+                :16
+            ]
             result.answer_sdp_redacted = redacted_sdp
 
         if result.audio_codec is None:

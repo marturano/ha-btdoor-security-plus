@@ -1,10 +1,19 @@
 """Stable internal API consumed by entities, diagnostics and services."""
+
 from __future__ import annotations
 
 from pathlib import Path
 from typing import Any, Protocol
 
-from .models import DiagnosticsState, DialogState, GatewayState, MediaState, RuntimeSnapshot, SipState, CloudState
+from .models import (
+    CloudState,
+    DiagnosticsState,
+    DialogState,
+    GatewayState,
+    MediaState,
+    RuntimeSnapshot,
+    SipState,
+)
 from .provider import RuntimeStateProvider
 
 

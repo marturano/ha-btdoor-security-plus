@@ -1,4 +1,5 @@
 """Diagnostic and call sensors for BTDoor Security+."""
+
 from __future__ import annotations
 
 from datetime import UTC, datetime
@@ -8,16 +9,15 @@ from homeassistant.const import EntityCategory, UnitOfTime
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+from . import BticinoConfigEntry
+from .analysis import build_runtime_summary
+from .device_model import DeviceKind
+from .entity import BticinoDoorEntryEntity, BticinoSipClientEntity
+from .entity_metrics import last_call_summary, last_completed_session, runtime_health
+from .visibility import visibility_for_entry
 
 # Push-driven platform; entity updates do not perform parallel device I/O.
 PARALLEL_UPDATES = 0
-
-from . import BticinoConfigEntry
-from .entity import BticinoDoorEntryEntity, BticinoSipClientEntity
-from .device_model import DeviceKind
-from .entity_metrics import last_call_summary, last_completed_session, runtime_health
-from .analysis import build_runtime_summary
-from .visibility import visibility_for_entry
 
 
 async def async_setup_entry(
@@ -27,65 +27,66 @@ async def async_setup_entry(
 ) -> None:
     """Set up BTDoor Security+ sensors."""
     entities = [
-            BticinoLastSipStatusSensor(entry),
-            BticinoLastOpenSensor(entry),
-            BticinoLastEventSensor(entry),
-            BticinoLastCallerSensor(entry),
-            BticinoLastMessageSensor(entry),
-            BticinoCallStateSensor(entry),
-            BticinoLastCallDurationSensor(entry),
-            BticinoCallCountSensor(entry),
-            BticinoLastCallStartedSensor(entry),
-            BticinoLastCallEndedSensor(entry),
-            BticinoMissedCallCountSensor(entry),
-            BticinoMessageCountSensor(entry),
-            BticinoLastMessageTimeSensor(entry),
-            BticinoLastEventTimeSensor(entry),
-            BticinoReconnectCountSensor(entry),
-            BticinoLastErrorSensor(entry),
-            BticinoConnectionUptimeSensor(entry),
-            BticinoLastCommandDurationSensor(entry),
-            BticinoLastCommandTimeSensor(entry),
-            BticinoConnectionQualitySensor(entry),
-            BticinoDialogStateSensor(entry),
-            BticinoLastSipMethodSensor(entry),
-            BticinoLastSdpOfferSensor(entry),
-            BticinoSdpSummarySensor(entry),
-            BticinoAudioOfferSensor(entry),
-            BticinoVideoOfferSensor(entry),
-            BticinoMediaPreparationSensor(entry),
-            BticinoSelectedAudioCodecSensor(entry),
-            BticinoSelectedVideoCodecSensor(entry),
-            BticinoSrtpSuiteSensor(entry),
-            BTDoorLastCallSummarySensor(entry),
-            BTDoorLastMediaCloseReasonSensor(entry),
-            BTDoorRetainedMediaSessionsSensor(entry),
-            BTDoorCloudStateSensor(entry),
-            BTDoorCloudEndpointSensor(entry),
-            BTDoorCloudLastErrorSensor(entry),
-            BTDoorDialogCallIdSensor(entry),
-            BTDoorCallJournalLastCallSensor(entry),
-            BTDoorCallJournalCountSensor(entry),
-            BTDoorCallJournalMissedCountSensor(entry),
-            BTDoorCallJournalAverageDurationSensor(entry),
-            BTDoorCallJournalAnsweredTodaySensor(entry),
-            BTDoorCallJournalMissedTodaySensor(entry),
-            *(
-                [
-                    BticinoLastDeveloperTestSensor(entry),
-                    BticinoLastSupportReportSensor(entry),
-                    BTDoorRuntimeHealthSensor(entry),
-                    BTDoorRuntimeScoreSensor(entry),
-                    BTDoorOperationsSummarySensor(entry),
-                    BTDoorDeveloperRuntimeInspectorSensor(entry),
-                    BTDoorDeveloperEventMonitorSensor(entry),
-                    BTDoorDeveloperEventMetricsSensor(entry),
-                ]
-                if bool(entry.options.get("developer_mode", False))
-                else []
-            ),
+        BticinoLastSipStatusSensor(entry),
+        BticinoLastOpenSensor(entry),
+        BticinoLastEventSensor(entry),
+        BticinoLastCallerSensor(entry),
+        BticinoLastMessageSensor(entry),
+        BticinoCallStateSensor(entry),
+        BticinoLastCallDurationSensor(entry),
+        BticinoCallCountSensor(entry),
+        BticinoLastCallStartedSensor(entry),
+        BticinoLastCallEndedSensor(entry),
+        BticinoMissedCallCountSensor(entry),
+        BticinoMessageCountSensor(entry),
+        BticinoLastMessageTimeSensor(entry),
+        BticinoLastEventTimeSensor(entry),
+        BticinoReconnectCountSensor(entry),
+        BticinoLastErrorSensor(entry),
+        BticinoConnectionUptimeSensor(entry),
+        BticinoLastCommandDurationSensor(entry),
+        BticinoLastCommandTimeSensor(entry),
+        BticinoConnectionQualitySensor(entry),
+        BticinoDialogStateSensor(entry),
+        BticinoLastSipMethodSensor(entry),
+        BticinoLastSdpOfferSensor(entry),
+        BticinoSdpSummarySensor(entry),
+        BticinoAudioOfferSensor(entry),
+        BticinoVideoOfferSensor(entry),
+        BticinoMediaPreparationSensor(entry),
+        BticinoSelectedAudioCodecSensor(entry),
+        BticinoSelectedVideoCodecSensor(entry),
+        BticinoSrtpSuiteSensor(entry),
+        BTDoorLastCallSummarySensor(entry),
+        BTDoorLastMediaCloseReasonSensor(entry),
+        BTDoorRetainedMediaSessionsSensor(entry),
+        BTDoorCloudStateSensor(entry),
+        BTDoorCloudEndpointSensor(entry),
+        BTDoorCloudLastErrorSensor(entry),
+        BTDoorDialogCallIdSensor(entry),
+        BTDoorCallJournalLastCallSensor(entry),
+        BTDoorCallJournalCountSensor(entry),
+        BTDoorCallJournalMissedCountSensor(entry),
+        BTDoorCallJournalAverageDurationSensor(entry),
+        BTDoorCallJournalAnsweredTodaySensor(entry),
+        BTDoorCallJournalMissedTodaySensor(entry),
+        *(
+            [
+                BticinoLastDeveloperTestSensor(entry),
+                BticinoLastSupportReportSensor(entry),
+                BTDoorRuntimeHealthSensor(entry),
+                BTDoorRuntimeScoreSensor(entry),
+                BTDoorOperationsSummarySensor(entry),
+                BTDoorDeveloperRuntimeInspectorSensor(entry),
+                BTDoorDeveloperEventMonitorSensor(entry),
+                BTDoorDeveloperEventMetricsSensor(entry),
+            ]
+            if bool(entry.options.get("developer_mode", False))
+            else []
+        ),
     ]
     async_add_entities(visibility_for_entry(entry).filter_entities(entities))
+
 
 class _ListeningEntity(BticinoDoorEntryEntity):
     async def async_added_to_hass(self) -> None:
@@ -112,10 +113,14 @@ class BticinoLastSipStatusSensor(_SipListeningEntity, SensorEntity):
     _attr_translation_key = "last_sip_status"
     _attr_icon = "mdi:message-text-fast"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_sip_status"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_sip_status"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.last_status
+    def native_value(self):
+        return self._entry.runtime_data.client.last_status
 
 
 class BticinoLastOpenSensor(_ListeningEntity, SensorEntity):
@@ -123,10 +128,14 @@ class BticinoLastOpenSensor(_ListeningEntity, SensorEntity):
     _attr_translation_key = "last_gate_open"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_gate_open"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_gate_open"
+
     @property
-    def native_value(self): return self._entry.runtime_data.last_open
+    def native_value(self):
+        return self._entry.runtime_data.last_open
 
 
 class BticinoLastEventSensor(_ListeningEntity, SensorEntity):
@@ -134,10 +143,14 @@ class BticinoLastEventSensor(_ListeningEntity, SensorEntity):
     _attr_translation_key = "last_event"
     _attr_icon = "mdi:timeline-clock"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_event"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_event"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.last_event_type
+    def native_value(self):
+        return self._entry.runtime_data.client.last_event_type
 
 
 class BticinoLastCallerSensor(_ListeningEntity, SensorEntity):
@@ -145,8 +158,11 @@ class BticinoLastCallerSensor(_ListeningEntity, SensorEntity):
     _attr_translation_key = "last_caller"
     _attr_icon = "mdi:account-voice"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_caller"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_caller"
+
     @property
     def native_value(self):
         return self._entry.runtime_data.client.last_caller
@@ -175,20 +191,29 @@ class BticinoLastMessageSensor(_SipListeningEntity, SensorEntity):
     _attr_translation_key = "last_message"
     _attr_icon = "mdi:message-text"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_message"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_message"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.last_message
+    def native_value(self):
+        return self._entry.runtime_data.client.last_message
 
 
 class BticinoCallStateSensor(_ListeningEntity, SensorEntity):
     _device_kind = DeviceKind.DIALOG
     _attr_translation_key = "call_state"
     _attr_icon = "mdi:phone-in-talk"
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_call_state"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_call_state"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.call_state
+    def native_value(self):
+        return self._entry.runtime_data.client.call_state
+
     @property
     def extra_state_attributes(self):
         client = self._entry.runtime_data.client
@@ -201,8 +226,11 @@ class BticinoLastCallDurationSensor(_ListeningEntity, SensorEntity):
     _attr_native_unit_of_measurement = UnitOfTime.SECONDS
     _attr_icon = "mdi:timer-outline"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_call_duration"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_call_duration"
+
     @property
     def native_value(self):
         value = self._entry.runtime_data.client.last_call_duration
@@ -214,10 +242,14 @@ class BticinoCallCountSensor(_ListeningEntity, SensorEntity):
     _attr_translation_key = "call_count"
     _attr_icon = "mdi:counter"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_call_count"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_call_count"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.call_count
+    def native_value(self):
+        return self._entry.runtime_data.client.call_count
 
 
 class BticinoLastCallStartedSensor(_ListeningEntity, SensorEntity):
@@ -225,10 +257,14 @@ class BticinoLastCallStartedSensor(_ListeningEntity, SensorEntity):
     _attr_translation_key = "last_call_started"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_call_started"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_call_started"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.call_started_at
+    def native_value(self):
+        return self._entry.runtime_data.client.call_started_at
 
 
 class BticinoLastCallEndedSensor(_ListeningEntity, SensorEntity):
@@ -236,10 +272,14 @@ class BticinoLastCallEndedSensor(_ListeningEntity, SensorEntity):
     _attr_translation_key = "last_call_ended"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_call_ended"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_call_ended"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.call_ended_at
+    def native_value(self):
+        return self._entry.runtime_data.client.call_ended_at
 
 
 class BticinoMissedCallCountSensor(_ListeningEntity, SensorEntity):
@@ -247,10 +287,14 @@ class BticinoMissedCallCountSensor(_ListeningEntity, SensorEntity):
     _attr_translation_key = "missed_call_count"
     _attr_icon = "mdi:phone-missed"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_missed_call_count"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_missed_call_count"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.missed_call_count
+    def native_value(self):
+        return self._entry.runtime_data.client.missed_call_count
 
 
 class BticinoMessageCountSensor(_SipListeningEntity, SensorEntity):
@@ -258,10 +302,14 @@ class BticinoMessageCountSensor(_SipListeningEntity, SensorEntity):
     _attr_translation_key = "message_count"
     _attr_icon = "mdi:message-badge"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_message_count"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_message_count"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.message_count
+    def native_value(self):
+        return self._entry.runtime_data.client.message_count
 
 
 class BticinoLastMessageTimeSensor(_SipListeningEntity, SensorEntity):
@@ -269,10 +317,14 @@ class BticinoLastMessageTimeSensor(_SipListeningEntity, SensorEntity):
     _attr_translation_key = "last_message_time"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_message_time"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_message_time"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.last_message_at
+    def native_value(self):
+        return self._entry.runtime_data.client.last_message_at
 
 
 class BticinoLastEventTimeSensor(_ListeningEntity, SensorEntity):
@@ -280,10 +332,14 @@ class BticinoLastEventTimeSensor(_ListeningEntity, SensorEntity):
     _attr_translation_key = "last_event_time"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_event_time"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_event_time"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.last_event_at
+    def native_value(self):
+        return self._entry.runtime_data.client.last_event_at
 
 
 class BticinoReconnectCountSensor(_SipListeningEntity, SensorEntity):
@@ -291,10 +347,14 @@ class BticinoReconnectCountSensor(_SipListeningEntity, SensorEntity):
     _attr_translation_key = "reconnect_count"
     _attr_icon = "mdi:connection"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_reconnect_count"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_reconnect_count"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.reconnect_count
+    def native_value(self):
+        return self._entry.runtime_data.client.reconnect_count
 
 
 class BticinoLastErrorSensor(_SipListeningEntity, SensorEntity):
@@ -303,10 +363,14 @@ class BticinoLastErrorSensor(_SipListeningEntity, SensorEntity):
     _attr_icon = "mdi:alert-circle-outline"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_entity_registry_enabled_default = False
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_error"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_error"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.last_error
+    def native_value(self):
+        return self._entry.runtime_data.client.last_error
 
 
 class BticinoConnectionUptimeSensor(_SipListeningEntity, SensorEntity):
@@ -316,12 +380,15 @@ class BticinoConnectionUptimeSensor(_SipListeningEntity, SensorEntity):
     _attr_icon = "mdi:timer-sand"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_entity_registry_enabled_default = False
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_connection_uptime"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_connection_uptime"
+
     @property
     def native_value(self):
         value = self._entry.runtime_data.client.connected_at
-        return round((datetime.now(UTC)-value).total_seconds()) if value else None
+        return round((datetime.now(UTC) - value).total_seconds()) if value else None
 
 
 class BticinoLastCommandDurationSensor(_SipListeningEntity, SensorEntity):
@@ -330,11 +397,14 @@ class BticinoLastCommandDurationSensor(_SipListeningEntity, SensorEntity):
     _attr_native_unit_of_measurement = UnitOfTime.SECONDS
     _attr_icon = "mdi:speedometer"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_command_duration"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_command_duration"
+
     @property
     def native_value(self):
-        value=self._entry.runtime_data.client.last_command_duration
+        value = self._entry.runtime_data.client.last_command_duration
         return round(value, 3) if value is not None else None
 
 
@@ -343,10 +413,14 @@ class BticinoLastCommandTimeSensor(_SipListeningEntity, SensorEntity):
     _attr_translation_key = "last_command_time"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_last_command_time"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_last_command_time"
+
     @property
-    def native_value(self): return self._entry.runtime_data.client.last_command_at
+    def native_value(self):
+        return self._entry.runtime_data.client.last_command_at
 
 
 class BticinoConnectionQualitySensor(_SipListeningEntity, SensorEntity):
@@ -795,7 +869,11 @@ class BTDoorLastMediaCloseReasonSensor(_ListeningEntity, SensorEntity):
     @property
     def native_value(self):
         api = self._entry.runtime_data.api
-        return api.media().close_reason if api is not None else last_completed_session(self._entry.runtime_data.client).get("closed_reason")
+        return (
+            api.media().close_reason
+            if api is not None
+            else last_completed_session(self._entry.runtime_data.client).get("closed_reason")
+        )
 
 
 class BTDoorRuntimeHealthSensor(_SipListeningEntity, SensorEntity):
@@ -811,7 +889,11 @@ class BTDoorRuntimeHealthSensor(_SipListeningEntity, SensorEntity):
     @property
     def native_value(self):
         api = self._entry.runtime_data.api
-        return api.diagnostics().status if api is not None else runtime_health(self._entry.runtime_data.client)[0]
+        return (
+            api.diagnostics().status
+            if api is not None
+            else runtime_health(self._entry.runtime_data.client)[0]
+        )
 
     @property
     def extra_state_attributes(self):
@@ -844,7 +926,11 @@ class BTDoorRuntimeScoreSensor(_SipListeningEntity, SensorEntity):
     @property
     def native_value(self):
         api = self._entry.runtime_data.api
-        return api.diagnostics().score if api is not None else runtime_health(self._entry.runtime_data.client)[1]
+        return (
+            api.diagnostics().score
+            if api is not None
+            else runtime_health(self._entry.runtime_data.client)[1]
+        )
 
 
 class BTDoorRetainedMediaSessionsSensor(_ListeningEntity, SensorEntity):
@@ -860,7 +946,11 @@ class BTDoorRetainedMediaSessionsSensor(_ListeningEntity, SensorEntity):
     @property
     def native_value(self):
         api = self._entry.runtime_data.api
-        return api.media().retained_sessions if api is not None else self._entry.runtime_data.client.media_session_metrics.get("retained_sessions", 0)
+        return (
+            api.media().retained_sessions
+            if api is not None
+            else self._entry.runtime_data.client.media_session_metrics.get("retained_sessions", 0)
+        )
 
     @property
     def extra_state_attributes(self):
@@ -973,15 +1063,27 @@ class BTDoorCallJournalLastCallSensor(_EventBusListeningEntity, SensorEntity):
     _device_kind = DeviceKind.DIALOG
     _attr_translation_key = "call_journal_last_call"
     _attr_icon = "mdi:book-clock-outline"
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_call_journal_last_call"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_call_journal_last_call"
+
     @property
     def native_value(self):
-        record = self._entry.runtime_data.call_journal.last_record if self._entry.runtime_data.call_journal else None
+        record = (
+            self._entry.runtime_data.call_journal.last_record
+            if self._entry.runtime_data.call_journal
+            else None
+        )
         return record.get("result") if record else None
+
     @property
     def extra_state_attributes(self):
-        record = self._entry.runtime_data.call_journal.last_record if self._entry.runtime_data.call_journal else None
+        record = (
+            self._entry.runtime_data.call_journal.last_record
+            if self._entry.runtime_data.call_journal
+            else None
+        )
         return record or {}
 
 
@@ -990,8 +1092,11 @@ class BTDoorCallJournalCountSensor(_EventBusListeningEntity, SensorEntity):
     _attr_translation_key = "call_journal_count"
     _attr_icon = "mdi:book-open-page-variant-outline"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_call_journal_count"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_call_journal_count"
+
     @property
     def native_value(self):
         journal = self._entry.runtime_data.call_journal
@@ -1003,8 +1108,11 @@ class BTDoorCallJournalMissedCountSensor(_EventBusListeningEntity, SensorEntity)
     _attr_translation_key = "call_journal_missed_count"
     _attr_icon = "mdi:phone-missed-outline"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_call_journal_missed_count"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_call_journal_missed_count"
+
     @property
     def native_value(self):
         journal = self._entry.runtime_data.call_journal
@@ -1019,30 +1127,41 @@ class BTDoorCallJournalAverageDurationSensor(_EventBusListeningEntity, SensorEnt
     _attr_icon = "mdi:timer-outline"
     _attr_native_unit_of_measurement = UnitOfTime.SECONDS
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_call_journal_average_duration"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_call_journal_average_duration"
+
     @property
     def native_value(self):
         journal = self._entry.runtime_data.call_journal
         return journal.metrics.get("average_duration_seconds") if journal else None
 
+
 class BTDoorCallJournalAnsweredTodaySensor(_EventBusListeningEntity, SensorEntity):
     _device_kind = DeviceKind.DIALOG
     _attr_translation_key = "call_journal_answered_today"
     _attr_icon = "mdi:phone-check-outline"
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_call_journal_answered_today"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_call_journal_answered_today"
+
     @property
     def native_value(self):
         journal = self._entry.runtime_data.call_journal
         return int(journal.metrics.get("answered_today", 0)) if journal else 0
 
+
 class BTDoorCallJournalMissedTodaySensor(_EventBusListeningEntity, SensorEntity):
     _device_kind = DeviceKind.DIALOG
     _attr_translation_key = "call_journal_missed_today"
     _attr_icon = "mdi:phone-missed-outline"
+
     def __init__(self, entry):
-        super().__init__(entry); self._attr_unique_id=f"{entry.unique_id}_call_journal_missed_today"
+        super().__init__(entry)
+        self._attr_unique_id = f"{entry.unique_id}_call_journal_missed_today"
+
     @property
     def native_value(self):
         journal = self._entry.runtime_data.call_journal

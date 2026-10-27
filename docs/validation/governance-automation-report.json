@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated": "2026-07-27",
+  "generated": "2026-10-27",
   "results": [
     {
       "name": "project_impact",
@@ -210,15 +210,15 @@
         "status": "PASS",
         "metrics": {
           "schema_version": 1,
-          "generated": "2026-07-27",
-          "total_files": 806,
-          "text_files": 800,
-          "documentation_files": 437,
+          "generated": "2026-10-27",
+          "total_files": 816,
+          "text_files": 810,
+          "documentation_files": 440,
           "canonical_areas": 27,
           "canonical_documents": 27,
           "derived_documents": 75,
-          "dependency_edges": 3240,
-          "referenced_files": 798,
+          "dependency_edges": 3180,
+          "referenced_files": 808,
           "reference_coverage_percent": 99.0,
           "broken_links": 0,
           "exact_duplicate_groups": 0,
@@ -232,13 +232,13 @@
         "deprecated_alias_references": [],
         "unreferenced_candidates": [
           "PROJECT_MANIFEST.yaml",
-          "dist/btdoor-security-plus-1.1.0-rc.15.release.json",
           "docs/target-validation/evidence/20260727-runtime-support/SHA256SUMS",
           "hacs.json",
-          "pyproject.toml"
+          "pyproject.toml",
+          "requirements-validation.txt"
         ]
       },
-      "stdout": "{\n  \"status\": \"PASS\",\n  \"metrics\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-07-27\",\n    \"total_files\": 806,\n    \"text_files\": 800,\n    \"documentation_files\": 437,\n    \"canonical_areas\": 27,\n    \"canonical_documents\": 27,\n    \"derived_documents\": 75,\n    \"dependency_edges\": 3240,\n    \"referenced_files\": 798,\n    \"reference_coverage_percent\": 99.0,\n    \"broken_links\": 0,\n    \"exact_duplicate_groups\": 0,\n    \"unreferenced_candidates\": 5,\n    \"missing_registry_paths\": 0,\n    \"deprecated_alias_references\": 0\n  },\n  \"broken_links\": [],\n  \"duplicate_groups\": [],\n  \"missing_registry_paths\": [],\n  \"deprecated_alias_references\": [],\n  \"unreferenced_candidates\": [\n    \"PROJECT_MANIFEST.yaml\",\n    \"dist/btdoor-security-plus-1.1.0-rc.15.release.json\",\n    \"docs/target-validation/evidence/20260727-runtime-support/SHA256SUMS\",\n    \"hacs.json\",\n    \"pyproject.toml\"\n  ]\n}",
+      "stdout": "{\n  \"status\": \"PASS\",\n  \"metrics\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-10-27\",\n    \"total_files\": 816,\n    \"text_files\": 810,\n    \"documentation_files\": 440,\n    \"canonical_areas\": 27,\n    \"canonical_documents\": 27,\n    \"derived_documents\": 75,\n    \"dependency_edges\": 3180,\n    \"referenced_files\": 808,\n    \"reference_coverage_percent\": 99.0,\n    \"broken_links\": 0,\n    \"exact_duplicate_groups\": 0,\n    \"unreferenced_candidates\": 5,\n    \"missing_registry_paths\": 0,\n    \"deprecated_alias_references\": 0\n  },\n  \"broken_links\": [],\n  \"duplicate_groups\": [],\n  \"missing_registry_paths\": [],\n  \"deprecated_alias_references\": [],\n  \"unreferenced_candidates\": [\n    \"PROJECT_MANIFEST.yaml\",\n    \"docs/target-validation/evidence/20260727-runtime-support/SHA256SUMS\",\n    \"hacs.json\",\n    \"pyproject.toml\",\n    \"requirements-validation.txt\"\n  ]\n}",
       "stderr": ""
     },
     {
@@ -248,7 +248,7 @@
       "command": "python tools/evidence/quality_intelligence.py --check --json",
       "result": {
         "schema_version": 1,
-        "generated": "2026-07-27",
+        "generated": "2026-10-27",
         "evidence_total": 22,
         "evidence_validated": 16,
         "evidence_coverage_percent": 72.7,
@@ -274,7 +274,7 @@
         "traceability_missing_paths": [],
         "status": "PASS"
       },
-      "stdout": "{\n  \"schema_version\": 1,\n  \"generated\": \"2026-07-27\",\n  \"evidence_total\": 22,\n  \"evidence_validated\": 16,\n  \"evidence_coverage_percent\": 72.7,\n  \"blocking_evidence_open\": [\n    \"EV-SEC-002\",\n    \"EV-PERF-002\",\n    \"EV-UX-001\",\n    \"EV-COMP-001\",\n    \"EV-PUB-001\",\n    \"EV-HAQS-001\"\n  ],\n  \"open_risks\": 5,\n  \"critical_high_risks\": [\n    \"RISK-001\",\n    \"RISK-002\",\n    \"RISK-003\",\n    \"RISK-004\"\n  ],\n  \"technical_debt_open\": 3,\n  \"duplicate_evidence_ids\": [],\n  \"inconsistent_evidence\": [],\n  \"invalid_risk_references\": [],\n  \"traceability_missing_paths\": [],\n  \"status\": \"PASS\"\n}",
+      "stdout": "{\n  \"schema_version\": 1,\n  \"generated\": \"2026-10-27\",\n  \"evidence_total\": 22,\n  \"evidence_validated\": 16,\n  \"evidence_coverage_percent\": 72.7,\n  \"blocking_evidence_open\": [\n    \"EV-SEC-002\",\n    \"EV-PERF-002\",\n    \"EV-UX-001\",\n    \"EV-COMP-001\",\n    \"EV-PUB-001\",\n    \"EV-HAQS-001\"\n  ],\n  \"open_risks\": 5,\n  \"critical_high_risks\": [\n    \"RISK-001\",\n    \"RISK-002\",\n    \"RISK-003\",\n    \"RISK-004\"\n  ],\n  \"technical_debt_open\": 3,\n  \"duplicate_evidence_ids\": [],\n  \"inconsistent_evidence\": [],\n  \"invalid_risk_references\": [],\n  \"traceability_missing_paths\": [],\n  \"status\": \"PASS\"\n}",
       "stderr": ""
     },
     {
@@ -292,7 +292,7 @@
       "returncode": 0,
       "command": "python tools/distribution/release_pipeline.py check",
       "result": null,
-      "stdout": "{\n  \"schema_version\": 1,\n  \"generated_at\": \"2026-07-27T10:58:29.055662+00:00\",\n  \"domain\": \"btdoor_security_plus\",\n  \"version\": \"1.1.0-rc.15\",\n  \"errors\": [],\n  \"warnings\": [],\n  \"gates\": {\n    \"release_decision\": \"BLOCKED\",\n    \"certification\": \"BLOCKED\"\n  },\n  \"structural_status\": \"PASS\",\n  \"publication_status\": \"BLOCKED\",\n  \"blocking_reasons\": [\n    \"release decision is BLOCKED\",\n    \"release certification is BLOCKED\"\n  ]\n}",
+      "stdout": "{\n  \"schema_version\": 1,\n  \"generated_at\": \"2026-10-27T19:33:22.650996+00:00\",\n  \"domain\": \"btdoor_security_plus\",\n  \"version\": \"1.1.0-rc.15\",\n  \"errors\": [],\n  \"warnings\": [],\n  \"gates\": {\n    \"release_decision\": \"BLOCKED\",\n    \"certification\": \"BLOCKED\"\n  },\n  \"structural_status\": \"PASS\",\n  \"publication_status\": \"BLOCKED\",\n  \"blocking_reasons\": [\n    \"release decision is BLOCKED\",\n    \"release certification is BLOCKED\"\n  ]\n}",
       "stderr": ""
     },
     {
@@ -302,9 +302,9 @@
       "command": "python tools/audit/production_audit.py --check --json",
       "result": {
         "schema_version": 1,
-        "generated": "2026-07-27",
+        "generated": "2026-10-27",
         "phase": "7A",
-        "repository_file_count": 806,
+        "repository_file_count": 816,
         "status": "PASS",
         "checks": {
           "required_files": true,
@@ -340,7 +340,7 @@
           "note": "Phase 7A audits repository production readiness but does not override target certification or release gates."
         }
       },
-      "stdout": "{\n  \"schema_version\": 1,\n  \"generated\": \"2026-07-27\",\n  \"phase\": \"7A\",\n  \"repository_file_count\": 806,\n  \"status\": \"PASS\",\n  \"checks\": {\n    \"required_files\": true,\n    \"forbidden_artifacts\": true,\n    \"secret_scan\": true,\n    \"manifest_version\": true,\n    \"requirements_pinned\": true,\n    \"codeowners\": true,\n    \"https_metadata_urls\": true,\n    \"hacs_2026_floor\": true,\n    \"production_duplicate_scan\": true\n  },\n  \"findings\": {\n    \"missing_required_files\": [],\n    \"forbidden_artifacts\": [],\n    \"potential_secret_files\": [],\n    \"duplicate_groups_outside_docs_and_dist\": [],\n    \"allowed_duplicate_groups\": [\n      [\n        \"custom_components/btdoor_security_plus/strings.json\",\n        \"custom_components/btdoor_security_plus/translations/en.json\"\n      ],\n      [\n        \"custom_components/btdoor_security_plus/translations/da.json\",\n        \"custom_components/btdoor_security_plus/translations/nb.json\"\n      ]\n    ]\n  },\n  \"release_context\": {\n    \"integration_version\": \"1.1.0-rc.15\",\n    \"homeassistant_minimum\": \"2026.1.0\",\n    \"publication_approval\": \"NOT_GRANTED\",\n    \"note\": \"Phase 7A audits repository production readiness but does not override target certification or release gates.\"\n  }\n}",
+      "stdout": "{\n  \"schema_version\": 1,\n  \"generated\": \"2026-10-27\",\n  \"phase\": \"7A\",\n  \"repository_file_count\": 816,\n  \"status\": \"PASS\",\n  \"checks\": {\n    \"required_files\": true,\n    \"forbidden_artifacts\": true,\n    \"secret_scan\": true,\n    \"manifest_version\": true,\n    \"requirements_pinned\": true,\n    \"codeowners\": true,\n    \"https_metadata_urls\": true,\n    \"hacs_2026_floor\": true,\n    \"production_duplicate_scan\": true\n  },\n  \"findings\": {\n    \"missing_required_files\": [],\n    \"forbidden_artifacts\": [],\n    \"potential_secret_files\": [],\n    \"duplicate_groups_outside_docs_and_dist\": [],\n    \"allowed_duplicate_groups\": [\n      [\n        \"custom_components/btdoor_security_plus/strings.json\",\n        \"custom_components/btdoor_security_plus/translations/en.json\"\n      ],\n      [\n        \"custom_components/btdoor_security_plus/translations/da.json\",\n        \"custom_components/btdoor_security_plus/translations/nb.json\"\n      ]\n    ]\n  },\n  \"release_context\": {\n    \"integration_version\": \"1.1.0-rc.15\",\n    \"homeassistant_minimum\": \"2026.1.0\",\n    \"publication_approval\": \"NOT_GRANTED\",\n    \"note\": \"Phase 7A audits repository production readiness but does not override target certification or release gates.\"\n  }\n}",
       "stderr": ""
     },
     {
@@ -369,26 +369,26 @@
       "result": {
         "environment": {
           "schema_version": 1,
-          "generated": "2026-07-27T10:58:33.020113+00:00",
-          "platform": "Linux-6.12.13-x86_64-with-glibc2.41",
+          "generated": "2026-10-27T19:33:26.323088+00:00",
+          "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
           "system": "Linux",
-          "release": "6.12.13",
+          "release": "6.18.33.2-microsoft-standard-WSL2",
           "machine": "x86_64",
-          "python": "3.13.5",
-          "processor_count": 5,
+          "python": "3.14.2",
+          "processor_count": 22,
           "home_assistant_runtime": false,
           "scope": "repository-local"
         },
         "runtime": {
           "schema_version": 1,
-          "generated": "2026-07-27",
+          "generated": "2026-10-27",
           "scope": "repository-local test runtime",
           "status": "VALIDATED",
           "home_assistant_target_status": "PENDING",
           "measurements": {
-            "command": "/opt/pyvenv/bin/python -m pytest -q -p no:cacheprovider tests/test_governance_automation.py tests/test_project_health_dashboard.py tests/test_quality_release_intelligence.py tests/test_repository_rationalization.py tests/test_rc15_repository_integrity.py",
+            "command": "/tmp/btdoor-codex-validation-20261027/venv/bin/python -m pytest -q -p no:cacheprovider tests/test_governance_automation.py tests/test_project_health_dashboard.py tests/test_quality_release_intelligence.py tests/test_repository_rationalization.py tests/test_rc15_repository_integrity.py",
             "exit_code": 0,
-            "duration_seconds": 8.93,
+            "duration_seconds": 10.186,
             "stdout_tail": "..............                                                           [100%]",
             "stderr_tail": ""
           },
@@ -399,7 +399,7 @@
         },
         "compatibility": {
           "schema_version": 1,
-          "generated": "2026-07-27",
+          "generated": "2026-10-27",
           "repository_status": "VALIDATED",
           "home_assistant_2026x_status": "PENDING",
           "hacs_lifecycle_status": "PENDING",
@@ -459,7 +459,7 @@
         },
         "security": {
           "schema_version": 1,
-          "generated": "2026-07-27",
+          "generated": "2026-10-27",
           "repository_status": "VALIDATED",
           "target_runtime_status": "PENDING",
           "possible_findings": [],
@@ -470,7 +470,7 @@
         },
         "ux_accessibility": {
           "schema_version": 1,
-          "generated": "2026-07-27",
+          "generated": "2026-10-27",
           "structural_status": "VALIDATED",
           "interactive_review_status": "PENDING",
           "checks": [
@@ -501,7 +501,7 @@
         },
         "release": {
           "schema_version": 1,
-          "generated": "2026-07-27",
+          "generated": "2026-10-27",
           "target": "1.1.0 Final",
           "framework_status": "PASS",
           "decision": "BLOCKED",
@@ -521,7 +521,7 @@
           ]
         }
       },
-      "stdout": "{\n  \"environment\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-07-27T10:58:33.020113+00:00\",\n    \"platform\": \"Linux-6.12.13-x86_64-with-glibc2.41\",\n    \"system\": \"Linux\",\n    \"release\": \"6.12.13\",\n    \"machine\": \"x86_64\",\n    \"python\": \"3.13.5\",\n    \"processor_count\": 5,\n    \"home_assistant_runtime\": false,\n    \"scope\": \"repository-local\"\n  },\n  \"runtime\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-07-27\",\n    \"scope\": \"repository-local test runtime\",\n    \"status\": \"VALIDATED\",\n    \"home_assistant_target_status\": \"PENDING\",\n    \"measurements\": {\n      \"command\": \"/opt/pyvenv/bin/python -m pytest -q -p no:cacheprovider tests/test_governance_automation.py tests/test_project_health_dashboard.py tests/test_quality_release_intelligence.py tests/test_repository_rationalization.py tests/test_rc15_repository_integrity.py\",\n      \"exit_code\": 0,\n      \"duration_seconds\": 8.93,\n      \"stdout_tail\": \"..............                                                           [100%]\",\n      \"stderr_tail\": \"\"\n    },\n    \"limitations\": [\n      \"No Home Assistant 2026.x instance was available.\",\n      \"CPU and memory deltas for integration setup, reload and sustained operation were not measured.\"\n    ]\n  },\n  \"compatibility\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-07-27\",\n    \"repository_status\": \"VALIDATED\",\n    \"home_assistant_2026x_status\": \"PENDING\",\n    \"hacs_lifecycle_status\": \"PENDING\",\n    \"checks\": [\n      {\n        \"check\": \"manifest:domain\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"manifest:name\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"manifest:version\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"manifest:config_flow\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"manifest:iot_class\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"manifest:requirements\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"domain_directory_match\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"version_is_rc15\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"requirements_pinned\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"config_flow_present\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"translations_present\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"hacs_name_present\",\n        \"pass\": true\n      }\n    ],\n    \"limitations\": [\n      \"Clean install, upgrade, rollback and device/entity continuity require a real Home Assistant/HACS environment.\"\n    ]\n  },\n  \"security\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-07-27\",\n    \"repository_status\": \"VALIDATED\",\n    \"target_runtime_status\": \"PENDING\",\n    \"possible_findings\": [],\n    \"unpinned_requirements\": [],\n    \"limitations\": [\n      \"Pattern scanning is not a substitute for dependency vulnerability scanning or target-runtime security review.\"\n    ]\n  },\n  \"ux_accessibility\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-07-27\",\n    \"structural_status\": \"VALIDATED\",\n    \"interactive_review_status\": \"PENDING\",\n    \"checks\": [\n      {\n        \"check\": \"dashboard_assets\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"translations\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"translation_review\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"lovelace_guide\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"accessibility_policy\",\n        \"pass\": true\n      }\n    ],\n    \"limitations\": [\n      \"Contrast, keyboard navigation and screen-reader behavior were not exercised in a browser or Home Assistant frontend.\"\n    ]\n  },\n  \"release\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-07-27\",\n    \"target\": \"1.1.0 Final\",\n    \"framework_status\": \"PASS\",\n    \"decision\": \"BLOCKED\",\n    \"blockers\": [\n      \"Home Assistant target runtime benchmark\",\n      \"Home Assistant 2026.x compatibility lifecycle\",\n      \"HACS install/update/rollback lifecycle\",\n      \"Target runtime security review\",\n      \"Interactive UX/accessibility review\"\n    ],\n    \"target_evidence\": null,\n    \"artifacts\": [\n      \"docs/certification/runtime_certification.json\",\n      \"docs/certification/compatibility_certification.json\",\n      \"docs/certification/security_certification.json\",\n      \"docs/certification/ux_accessibility_certification.json\"\n    ]\n  }\n}",
+      "stdout": "{\n  \"environment\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-10-27T19:33:26.323088+00:00\",\n    \"platform\": \"Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39\",\n    \"system\": \"Linux\",\n    \"release\": \"6.18.33.2-microsoft-standard-WSL2\",\n    \"machine\": \"x86_64\",\n    \"python\": \"3.14.2\",\n    \"processor_count\": 22,\n    \"home_assistant_runtime\": false,\n    \"scope\": \"repository-local\"\n  },\n  \"runtime\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-10-27\",\n    \"scope\": \"repository-local test runtime\",\n    \"status\": \"VALIDATED\",\n    \"home_assistant_target_status\": \"PENDING\",\n    \"measurements\": {\n      \"command\": \"/tmp/btdoor-codex-validation-20261027/venv/bin/python -m pytest -q -p no:cacheprovider tests/test_governance_automation.py tests/test_project_health_dashboard.py tests/test_quality_release_intelligence.py tests/test_repository_rationalization.py tests/test_rc15_repository_integrity.py\",\n      \"exit_code\": 0,\n      \"duration_seconds\": 10.186,\n      \"stdout_tail\": \"..............                                                           [100%]\",\n      \"stderr_tail\": \"\"\n    },\n    \"limitations\": [\n      \"No Home Assistant 2026.x instance was available.\",\n      \"CPU and memory deltas for integration setup, reload and sustained operation were not measured.\"\n    ]\n  },\n  \"compatibility\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-10-27\",\n    \"repository_status\": \"VALIDATED\",\n    \"home_assistant_2026x_status\": \"PENDING\",\n    \"hacs_lifecycle_status\": \"PENDING\",\n    \"checks\": [\n      {\n        \"check\": \"manifest:domain\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"manifest:name\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"manifest:version\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"manifest:config_flow\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"manifest:iot_class\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"manifest:requirements\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"domain_directory_match\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"version_is_rc15\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"requirements_pinned\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"config_flow_present\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"translations_present\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"hacs_name_present\",\n        \"pass\": true\n      }\n    ],\n    \"limitations\": [\n      \"Clean install, upgrade, rollback and device/entity continuity require a real Home Assistant/HACS environment.\"\n    ]\n  },\n  \"security\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-10-27\",\n    \"repository_status\": \"VALIDATED\",\n    \"target_runtime_status\": \"PENDING\",\n    \"possible_findings\": [],\n    \"unpinned_requirements\": [],\n    \"limitations\": [\n      \"Pattern scanning is not a substitute for dependency vulnerability scanning or target-runtime security review.\"\n    ]\n  },\n  \"ux_accessibility\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-10-27\",\n    \"structural_status\": \"VALIDATED\",\n    \"interactive_review_status\": \"PENDING\",\n    \"checks\": [\n      {\n        \"check\": \"dashboard_assets\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"translations\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"translation_review\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"lovelace_guide\",\n        \"pass\": true\n      },\n      {\n        \"check\": \"accessibility_policy\",\n        \"pass\": true\n      }\n    ],\n    \"limitations\": [\n      \"Contrast, keyboard navigation and screen-reader behavior were not exercised in a browser or Home Assistant frontend.\"\n    ]\n  },\n  \"release\": {\n    \"schema_version\": 1,\n    \"generated\": \"2026-10-27\",\n    \"target\": \"1.1.0 Final\",\n    \"framework_status\": \"PASS\",\n    \"decision\": \"BLOCKED\",\n    \"blockers\": [\n      \"Home Assistant target runtime benchmark\",\n      \"Home Assistant 2026.x compatibility lifecycle\",\n      \"HACS install/update/rollback lifecycle\",\n      \"Target runtime security review\",\n      \"Interactive UX/accessibility review\"\n    ],\n    \"target_evidence\": null,\n    \"artifacts\": [\n      \"docs/certification/runtime_certification.json\",\n      \"docs/certification/compatibility_certification.json\",\n      \"docs/certification/security_certification.json\",\n      \"docs/certification/ux_accessibility_certification.json\"\n    ]\n  }\n}",
       "stderr": ""
     },
     {
@@ -540,7 +540,7 @@
       "command": "python tools/release/release_decision.py --json",
       "result": {
         "schema_version": 1,
-        "generated": "2026-07-27",
+        "generated": "2026-10-27",
         "target": "1.1.0 Final",
         "decision": "BLOCKED",
         "gate_results": [
@@ -634,7 +634,7 @@
           "RG-004"
         ]
       },
-      "stdout": "{\n  \"schema_version\": 1,\n  \"generated\": \"2026-07-27\",\n  \"target\": \"1.1.0 Final\",\n  \"decision\": \"BLOCKED\",\n  \"gate_results\": [\n    {\n      \"gate\": \"Definition of Ready Gate\",\n      \"status\": \"PASS\",\n      \"blocking_evidence\": []\n    },\n    {\n      \"gate\": \"Architecture Gate\",\n      \"status\": \"PASS\",\n      \"blocking_evidence\": []\n    },\n    {\n      \"gate\": \"Quality Gate\",\n      \"status\": \"PASS\",\n      \"blocking_evidence\": []\n    },\n    {\n      \"gate\": \"Security Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-SEC-002\"\n      ]\n    },\n    {\n      \"gate\": \"Performance Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-PERF-002\"\n      ]\n    },\n    {\n      \"gate\": \"Documentation Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-UX-001\"\n      ]\n    },\n    {\n      \"gate\": \"Validation Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-COMP-001\"\n      ]\n    },\n    {\n      \"gate\": \"Release Readiness Gate\",\n      \"status\": \"PASS\",\n      \"blocking_evidence\": []\n    },\n    {\n      \"gate\": \"Publication Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-PUB-001\"\n      ]\n    },\n    {\n      \"gate\": \"Home Assistant Quality Scale Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-HAQS-001\"\n      ]\n    }\n  ],\n  \"blocking_evidence\": [\n    \"EV-SEC-002\",\n    \"EV-PERF-002\",\n    \"EV-UX-001\",\n    \"EV-COMP-001\",\n    \"EV-PUB-001\",\n    \"EV-HAQS-001\"\n  ],\n  \"critical_high_open_risks\": [\n    \"RISK-001\",\n    \"RISK-002\",\n    \"RISK-003\",\n    \"RISK-004\"\n  ],\n  \"home_assistant_quality_scale\": {\n    \"achieved_tier\": \"gold\",\n    \"gate_status\": \"PASS\"\n  },\n  \"localization_completeness\": \"PASS\",\n  \"documentation_completeness\": \"PASS\",\n  \"governance_rules\": [\n    \"RG-001\",\n    \"RG-002\",\n    \"RG-003\",\n    \"RG-004\"\n  ]\n}",
+      "stdout": "{\n  \"schema_version\": 1,\n  \"generated\": \"2026-10-27\",\n  \"target\": \"1.1.0 Final\",\n  \"decision\": \"BLOCKED\",\n  \"gate_results\": [\n    {\n      \"gate\": \"Definition of Ready Gate\",\n      \"status\": \"PASS\",\n      \"blocking_evidence\": []\n    },\n    {\n      \"gate\": \"Architecture Gate\",\n      \"status\": \"PASS\",\n      \"blocking_evidence\": []\n    },\n    {\n      \"gate\": \"Quality Gate\",\n      \"status\": \"PASS\",\n      \"blocking_evidence\": []\n    },\n    {\n      \"gate\": \"Security Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-SEC-002\"\n      ]\n    },\n    {\n      \"gate\": \"Performance Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-PERF-002\"\n      ]\n    },\n    {\n      \"gate\": \"Documentation Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-UX-001\"\n      ]\n    },\n    {\n      \"gate\": \"Validation Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-COMP-001\"\n      ]\n    },\n    {\n      \"gate\": \"Release Readiness Gate\",\n      \"status\": \"PASS\",\n      \"blocking_evidence\": []\n    },\n    {\n      \"gate\": \"Publication Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-PUB-001\"\n      ]\n    },\n    {\n      \"gate\": \"Home Assistant Quality Scale Gate\",\n      \"status\": \"BLOCKED\",\n      \"blocking_evidence\": [\n        \"EV-HAQS-001\"\n      ]\n    }\n  ],\n  \"blocking_evidence\": [\n    \"EV-SEC-002\",\n    \"EV-PERF-002\",\n    \"EV-UX-001\",\n    \"EV-COMP-001\",\n    \"EV-PUB-001\",\n    \"EV-HAQS-001\"\n  ],\n  \"critical_high_open_risks\": [\n    \"RISK-001\",\n    \"RISK-002\",\n    \"RISK-003\",\n    \"RISK-004\"\n  ],\n  \"home_assistant_quality_scale\": {\n    \"achieved_tier\": \"gold\",\n    \"gate_status\": \"PASS\"\n  },\n  \"localization_completeness\": \"PASS\",\n  \"documentation_completeness\": \"PASS\",\n  \"governance_rules\": [\n    \"RG-001\",\n    \"RG-002\",\n    \"RG-003\",\n    \"RG-004\"\n  ]\n}",
       "stderr": ""
     },
     {
